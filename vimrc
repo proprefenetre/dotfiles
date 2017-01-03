@@ -193,7 +193,7 @@ command! -nargs=0 Prose call Prose()
 " -----------
 function! MapR()
 	if (&ft=='markdown')
-		nnoremap <leader>r :w<cr>:!make pdf<cr>
+		nnoremap <leader>r :w<cr>:!make<cr>
 	elseif (&ft=='python')
 		nnoremap <leader>r :w<cr>:!python %<cr>
 	elseif (&ft=='c')
