@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# starts 
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
+[ -f "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
+
+xset +fp /usr/share/fonts/local
+xset fp rehash
+xset m 1 0
+
+urxvtd -q -f -o
+unclutter &
+hsetroot -fill $(shuf -e "$HOME/files/pics/wallpaper/* -n 1")
+xautolock -locker "systemctl suspend -i" -time 5 -detectsleep &
+redshift &
+libinput-gestures &
+archupdates &
+
+mount ~/drijf &
+remind_sync.sh &
+remind -z -k'notify-send -a reminder %s' .reminders &
+
+exec i3
+# 2bwm &
+# exec urxvt

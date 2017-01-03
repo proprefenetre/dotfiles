@@ -1,0 +1,104 @@
+! fonts
+#define normal_font     xft:Hack-Regular:pixelsize=13
+#define bold            xft:Hack-Bold:pixelsize=13
+#define italic          xft:Hack-Italic:pixelsize=13
+#define bold_italic     xft:Hack-BoldItalic:pixelsize=13
+#define rofi_font       Hack Regular 10
+
+! xft
+Xft*antialias: true
+Xft*dpi: 96
+Xft*hinting: true
+Xft*hintstyle: hintslight
+
+! urxvt
+URxvt*LoginShell: true
+
+URxvt*cursorUnderline: true
+URxvt*cursorBlink: true
+URxvt*scrollBar: false
+
+URxvt*font: normal_font
+URxvt*boldFont: bold
+URxvt*italic: italic
+URxvt*boldItalicFont: bold_italic
+
+!URxvt*foreground: white
+!URxvt*background: dark_grey
+
+! colors
+#define white                #f0f0f0
+#define dark_grey            #1b1d1e
+#define Molokai_black        #1B1D1E
+#define Molokai_red          #B60050
+#define Molokai_red2         #FF0000
+#define Molokai_green        #88BB22
+#define Molokai_brown        #C47F2C
+#define Molokai_blue         #30309B
+#define Molokai_purple       #7E40A5
+#define Molokai_cyan         #f0f0f0
+#define Molokai_light_grey   #9999AA
+#define Molokai_dark_grey    #303030
+#define Molokai_light_red    #F92672
+#define Molokai_light_green  #80FF00
+#define Molokai_yellow       #FFBA68
+#define Molokai_light_blue   #7070F0
+#define Molokai_light_purple #BB88DD
+#define Molokai_light_cyan   #66D9EF
+#define Molokai_white        #F8F8E8
+
+!URxvt Molokai
+URxvt*background: Molokai_black
+URxvt*foreground: Molokai_white
+URxvt*cursorColor: Molokai_green
+URxvt*color0: Molokai_black
+URxvt*color1: Molokai_red
+URxvt*color2: Molokai_green
+URxvt*color3: Molokai_brown
+URxvt*color4: Molokai_blue
+URxvt*color5: Molokai_purple
+URxvt*color6: Molokai_cyan
+URxvt*color7: Molokai_light_grey
+URxvt*color8: Molokai_dark_grey
+URxvt*color9: Molokai_light_red
+URxvt*color10: Molokai_light_green
+URxvt*color11: Molokai_yellow
+URxvt*color12: Molokai_light_blue
+URxvt*color13: Molokai_light_purple
+URxvt*color14: Molokai_light_cyan
+URxvt*color15: Molokai_white
+
+! rofi
+rofi.font: rofi_font
+rofi.lines: 7
+rofi.width: 19
+
+! XTERM
+! =====
+XTerm*termName: xterm-256color
+XTerm*locale: true
+
+XTerm*faceName: normal_font
+XTerm*boldFont: bold
+XTerm*italic: italic
+XTerm*boldItalicFont: bold_italic
+
+XTerm*background: Molokai_black
+XTerm*foreground: Molokai_white
+XTerm*cursorColor: Molokai_green
+XTerm*color0: Molokai_black
+XTerm*color1: Molokai_red
+XTerm*color2: Molokai_green
+XTerm*color3: Molokai_brown
+XTerm*color4: Molokai_blue
+XTerm*color5: Molokai_purple
+XTerm*color6: Molokai_cyan
+XTerm*color7: Molokai_light_grey
+XTerm*color8: Molokai_dark_grey
+XTerm*color9: Molokai_light_red
+XTerm*color10: Molokai_light_green
+XTerm*color11: Molokai_yellow
+XTerm*color12: Molokai_light_blue
+XTerm*color13: Molokai_light_purple
+XTerm*color14: Molokai_light_cyan
+XTerm*color15: Molokai_white

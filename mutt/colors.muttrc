@@ -1,0 +1,61 @@
+# general-doesn't-fit stuff
+color normal color252 default
+color error color193 color124
+color markers color142 default
+color tilde color142 default
+color status brightcyan default
+color tree yellow default
+color indicator black brightcyan 
+
+# index stuff
+color index white default ~R
+color index brightwhite default ~N
+color index brightblack default ~D
+color index brightyellow default ~F         # flagged
+
+# header stuff
+# color hdrdefault color248 default
+color header brightgreen default "^from:"
+color header brightgreen default "^to:"
+color header brightgreen default "^cc:"
+color header brightgreen default "^date:"
+color header yellow default "^reply-to:"
+color header brightyellow default "^subject:"
+color header red default "^x-spam-rule:"
+color header green default "^x-mailer:"
+color header yellow default "^message-id:"
+color header yellow default "^Organization:"
+color header yellow default "^Organisation:"
+color header yellow default "^User-Agent:"
+color header yellow default "^message-id: .*pine"
+color header yellow default "^X-Fnord:"
+color header yellow default "^X-WebTV-Stationery:"
+color header yellow default "^X-Message-Flag:"
+color header yellow default "^X-Spam-Status:"
+color header yellow default "^X-SpamProbe:"
+color header red default "^X-SpamProbe: SPAM"
+
+# url, email and web stuff
+color body color68 default "(finger|ftp|http|https|news|telnet)://[^ >]*"
+color body color111 default "<URL:[^ ]*>"
+color body color111 default "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
+color body color111 default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color body brightred default "^-.*"
+color body green default "^[+].*"
+color body brightwhite default "^diff .*"
+color body brightyellow default "^@@.*"
+
+# misc body stuff
+color attachment color111 default
+color signature color244 default
+
+# quote levels
+color quoted cyan default
+color quoted1 yellow default
+color quoted2 brightred default
+color quoted3 green default
+color quoted4 cyan default
+color quoted5 yellow default
+color quoted6 brightred default
+color quoted7 green default
+

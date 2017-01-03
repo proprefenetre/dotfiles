@@ -1,0 +1,18 @@
+# text
+text/html; w3m -I utf-8 -T text/html; copiousoutput;
+
+# Images
+image/*; feh %s
+
+# PDFs
+application/pdf; zathura %s
+
+# HTML
+text/html; chromium %s
+
+# Unidentified files
+application/octet-stream; xdg-open %s
+
+# office
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; libreoffice %s
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; libreoffice %s

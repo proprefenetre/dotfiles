@@ -1,0 +1,6 @@
+@define-color molokai_original #272822;
+
+window#vim-main-window {
+    background-color: @molokai_original;
+}
+
