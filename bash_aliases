@@ -33,39 +33,41 @@ alias feh='feh -g 640x480 -d'
 alias gg='g++ -Wall -Wextra -std=gnu++11 -g'
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 
-## R/vimcom
-alias Rv='vim --servername VIM'
-
 ## vim
 alias g='gvim'
 alias v='vim'
+alias vt-vim='urxvt -e vim'
+# R/vimcom
+alias Rv='vim --servername VIM'
 
 ## configs
 alias bashrc='gvim ~/.bashrc'
 alias i3conf='gvim ~/.config/i3/config'
+alias src='source ~/.bashrc && echo "sourced bashrc"'
 
-## misc
+## commands
+alias cal='cal -3w --color=always'
+alias cignore='curl https://www.gitignore.io/api/c -o .gitignore'
 alias cp='cp -v'
+alias df='df -h'
+alias grep='grep --color=auto'
 alias ls='ls --color=always'
+alias mkdir='mkdir -p -v'
+alias nw='urxvtc -cd $PWD'
+alias pdf-tif='gs -dNOPAUSE -r300 -sDEVICE=tiffg4 -sOutputFile=vdmast.tif'
+alias pignore='curl https://www.gitignore.io/api/python -o .gitignore' 
+alias ping3='ping -c3 www.google.com'
+alias powertop='sudo powertop'
+alias rmlinks='find -L . -name . -o -type d -prune -o -type l -exec rm {} + '
+alias setxkb='setxkbmap -print -v 10'
+alias starwars='telnet towel.blinkenlights.nl'
+alias tr='transmission-remote'
 alias trea='tree -apugCL 1'
 alias tree='tree -C'
-alias grep='grep --color=auto'
-alias ping3='ping -c3 www.google.com'
-alias mkdir='mkdir -p -v'
-alias cal='cal -3w --color=always'
-alias pdf-tif='gs -dNOPAUSE -r300 -sDEVICE=tiffg4 -sOutputFile=vdmast.tif'
-alias starwars='telnet towel.blinkenlights.nl'
-alias src='source ~/.bashrc && echo "sourced bashrc"'
+alias yup='git -c help.autocorrect=-1 $(history -p !*)'
+
+## mistakes
 alias cd..='cd ..'
 alias ch='cd'
-alias setxkb='setxkbmap -print -v 10'
-alias vt-vim='urxvt -e vim'
 alias pgp='gpg'
-alias df='df -h'
-alias powertop='sudo powertop'
-alias nw='urxvtc -cd $PWD'
-alias yup='git -c help.autocorrect=-1 $(history -p !*)'
-alias pignore='curl https://www.gitignore.io/api/python -o .gitignore' 
-alias cignore='curl https://www.gitignore.io/api/c -o .gitignore'
-alias tr='transmission-remote'
-alias rmlinks='find -L . -name . -o -type d -prune -o -type l -exec rm {} + '
+alias amke='make'
