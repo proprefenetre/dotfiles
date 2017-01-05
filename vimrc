@@ -32,9 +32,9 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-commentary'
+Plug 'tomtom/tcomment_vim'
 
-Plug 'jez/vim-superman'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'godlygeek/tabular'
 
