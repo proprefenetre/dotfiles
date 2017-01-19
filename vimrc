@@ -32,17 +32,18 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-commentary'
 Plug 'tomtom/tcomment_vim'
 
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'godlygeek/tabular'
 
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/rainbow_parentheses.vim'
+
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 call plug#end()
 
@@ -116,8 +117,9 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
+set formatprg=par\ -w80q
 
-" File type specific
+" File-type specific
 " ==================
 
 " *unspecific
@@ -136,8 +138,7 @@ autocmd BufNewFile,BufRead *.c,*.h set cindent
 
 " markdown
 " --------
-autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
-	    \| call Prose()
+autocmd BufNewFile,BufFilePre,BufRead *.md,*.mdpp set filetype=markdown
 	    \| call MapR()
 
 " mail
@@ -167,27 +168,6 @@ endfunction
 function! CommandAlias(key, value)
 	exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
 endfu
-
-" a writing mode/environment
-" --------------------------
-function! Prose()
-	" keep everything as local as possible
-	setlocal spell
-	if has ('gui_running')
-		colorscheme solarized
-		setlocal bg=light
-	endif
-	" use the first spelling correction
-	nnoremap <buffer> <leader>s 1z=
-	inoremap <buffer> <c-s> <c-g>u<Esc>1z=<c-g>u
-
-	" formatting shortcuts
-	nnoremap <buffer> <silent> Q vapgq
-	xnoremap <buffer> <silent> Q gq
-	nnoremap <buffer> <silent> <leader>Q vapjgqap
-endfunction
-
-command! -nargs=0 Prose call Prose()
 
 " run mapping
 " -----------
@@ -290,16 +270,10 @@ let g:easytags_suppress_ctags_warning = 1
 nmap <leader>b :TagbarToggle<CR>
 
 
-" vim-delimitMate
-" ---------------
-let delimitMate_expand_cr = 1
-augroup mydelimitMate
-	au!
-	au FileType markdown let b:delimitMate_nesting_quotes = ["`"]
-	au FileType tex let b:delimitMate_quotes = ""
-	au FileType tex let b:delimitMate_matchpairs = "(:),[:],{:},`:'"
-	au FileType python let b:delimitMate_nesting_quotes = ['"', "'"]
-augroup END
+" vim-AutoPairs
+" -------------
+let g:AutoPairsFlyMode = 1
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 
 " Mappings
@@ -340,6 +314,9 @@ nnoremap Q gq
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
+
+" escape brackets, braces and parens
+inoremap <C-f> <ESC>A
 
 " :W = :w
 call CommandAlias("W","w")
