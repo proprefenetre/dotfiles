@@ -232,7 +232,7 @@ let g:limelight_priority = -1
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["snipperts"]
 let g:UltiSnipsEditSplit="vertical"
 
 

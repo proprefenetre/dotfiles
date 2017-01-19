@@ -10,6 +10,7 @@ fi
 
 [ -f "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 
+[ "$HOSTNAME" == 'arch' ] && mhead -e
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
