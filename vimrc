@@ -169,18 +169,24 @@ function! CommandAlias(key, value)
 	exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
 endfu
 
-" run mapping
+" 'run' mapping
 " -----------
 function! MapR()
-	if (&ft=='markdown')
-		nnoremap <leader>r :w<cr>:!make<cr>
+	if (&ft=='pandoc')
+		write
+                !make
 	elseif (&ft=='python')
-		nnoremap <leader>r :w<cr>:!python %<cr>
+		write
+                !python %
 	elseif (&ft=='c')
-		nnoremap <leader>r :w<cr>:!make<cr>
+		write
+                !make
+        else
+                write
 	endif
 endfunction
 
+" command C -nargs=* call F ( <f-args> )
 
 " Goyo callbacks
 " --------------
@@ -317,6 +323,8 @@ nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
 
 " escape brackets, braces and parens
 inoremap <C-f> <ESC>A
+
+nnoremap <leader>r :call MapR()<cr>
 
 " :W = :w
 call CommandAlias("W","w")
