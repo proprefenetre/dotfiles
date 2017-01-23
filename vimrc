@@ -53,6 +53,7 @@ call plug#end()
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
+highlight! link Conceal Operator
 
 if has ("gui_running")
 	set guifont=Hack\ 10
@@ -61,6 +62,7 @@ if has ("gui_running")
 	set go-=r
 	set go-=L
 	set go-=T
+        set go+=a
 	set guiheadroom=0
 endif
 
@@ -75,13 +77,14 @@ set number
 set showcmd
 set wildmenu
 set wildmode=longest:list,full
-set conceallevel=2
+" set conceallevel=2
 set concealcursor=c
 set showmatch
 set scrolloff=999
 set textwidth=79
 set cc=+1               
 set fo+=j
+set nofoldenable
 
 " statusline
 " ----------
@@ -276,6 +279,13 @@ let g:AutoPairsFlyMode = 1
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
 
+" vim-pandoc
+" ----------
+let g:pandoc#folding#level = 0
+let g:pandoc#folding#fdc = 0
+
+let g:pandoc#formatting#mode = "h"
+
 " Mappings
 " ========
 
@@ -310,7 +320,7 @@ nnoremap <leader>eu :source $MYVIMRC<cr>
 nnoremap <leader>tn :tabedit<cr>
 
 " formatting
-nnoremap Q gq
+nnoremap Q gq<cr>
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
