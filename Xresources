@@ -5,27 +5,6 @@
 #define bold_italic     xft:Hack-BoldItalic:pixelsize=13
 #define rofi_font       Hack Regular 10
 
-! xft
-Xft*antialias: true
-Xft*dpi: 96
-Xft*hinting: true
-Xft*hintstyle: hintslight
-
-! urxvt
-URxvt*LoginShell: true
-
-URxvt*cursorUnderline: true
-URxvt*cursorBlink: true
-URxvt*scrollBar: false
-
-URxvt*font: normal_font
-URxvt*boldFont: bold
-URxvt*italic: italic
-URxvt*boldItalicFont: bold_italic
-
-!URxvt*foreground: white
-!URxvt*background: dark_grey
-
 ! colors
 #define white                #f0f0f0
 #define dark_grey            #1b1d1e
@@ -46,8 +25,24 @@ URxvt*boldItalicFont: bold_italic
 #define Molokai_light_purple #BB88DD
 #define Molokai_light_cyan   #66D9EF
 #define Molokai_white        #F8F8E8
+! xft
+Xft*antialias: true
+Xft*dpi: 96
+Xft*hinting: true
+Xft*hintstyle: hintslight
 
-!URxvt Molokai
+! urxvt
+URxvt*LoginShell: true
+
+URxvt*cursorUnderline: true
+URxvt*cursorBlink: true
+URxvt*scrollBar: false
+
+URxvt*font: normal_font
+URxvt*boldFont: bold
+URxvt*italic: italic
+URxvt*boldItalicFont: bold_italic
+
 URxvt*background: Molokai_black
 URxvt*foreground: Molokai_white
 URxvt*cursorColor: Molokai_green

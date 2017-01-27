@@ -42,8 +42,10 @@ floating_modifier $alt
 
 # launchers
 bindsym $alt+Return exec --no-startup-id urxvtc
+
 bindsym $alt+Shift+Return exec --no-startup-id urxvt
-bindsym $win+Return exec xterm -fa hack:size=10
+bindsym $win+Return exec --no-startup-id xterm
+
 bindsym $alt+Shift+u exec --no-startup-id urxvtc -name scratch
 bindsym $win+apostrophe exec --no-startup-id snippy
 bindsym $win+comma exec --no-startup-id ~/bin/passmenu
