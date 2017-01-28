@@ -25,6 +25,7 @@
 #define Molokai_light_purple #BB88DD
 #define Molokai_light_cyan   #66D9EF
 #define Molokai_white        #F8F8E8
+
 ! xft
 Xft*antialias: true
 Xft*dpi: 96
@@ -77,6 +78,10 @@ XTerm*faceName: normal_font
 XTerm*boldFont: bold
 XTerm*italic: italic
 XTerm*boldItalicFont: bold_italic
+
+XTerm*cursorBlink: true
+XTerm*cursorOffTime: 700
+XTerm*cursorOnTime: 900
 
 XTerm*background: Molokai_black
 XTerm*foreground: Molokai_white

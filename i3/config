@@ -41,17 +41,22 @@ set $browser chromium
 floating_modifier $alt
 
 # launchers
-bindsym $alt+Return exec --no-startup-id urxvtc
+bindsym $alt+Return exec --no-startup-id xterm
 
-bindsym $alt+Shift+Return exec --no-startup-id urxvt
-bindsym $win+Return exec --no-startup-id xterm
+bindsym $alt+Shift+Return exec --no-startup-id urxvtc
+bindsym $win+Return exec --no-startup-id gvim
 
-bindsym $alt+Shift+u exec --no-startup-id urxvtc -name scratch
+bindsym $alt+Shift+u exec --no-startup-id xterm -name scratch
 bindsym $win+apostrophe exec --no-startup-id snippy
 bindsym $win+comma exec --no-startup-id ~/bin/passmenu
 bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
+
 bindsym $win+u border toggle
 
+# set grey wallpaper
+bindsym $win+g exec hsetroot -fill /home/niels/files/pics/grey.png
+# set random wallpaper
+bindsym $win+shift+g exec hsetroot -fill $(shuf -e "$HOME/files/pics/wallpaper/* -n 1") 
 # take a screenshot
 bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
 
@@ -95,16 +100,16 @@ bindsym $alt+Shift+p focus child
 bindsym $alt+w focus output left
 
 # switch to workspace
+bindsym $alt+0 $ws0
 bindsym $alt+1 $ws1
 bindsym $alt+2 $ws2
 bindsym $alt+3 $ws3
 bindsym $alt+4 $ws4
 bindsym $alt+5 $ws5
-bindsym $win+1 $ws6
-bindsym $win+2 $ws7
-bindsym $win+3 $ws8
-bindsym $win+4 $ws9
-bindsym $win+5 $ws0
+bindsym $alt+6 $ws6
+bindsym $alt+7 $ws7
+bindsym $alt+8 $ws8
+bindsym $alt+9 $ws9
 
 # gesture: pinch out	xdotool key super+s
 # move focused container to workspace
@@ -227,6 +232,6 @@ client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 # Autostart
-exec --no-startup-id urxvtc -name scratch
+exec --no-startup-id xterm -name scratch
 exec --no-startup-id $browser
 

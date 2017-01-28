@@ -11,23 +11,20 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'sirver/ultisnips'
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
+Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'tomasr/molokai'
 Plug 'altercation/vim-colors-solarized'
 
-Plug 'scrooloose/nerdtree'
+Plug 'vim-syntastic/syntastic', { 'for': ['python', 'c', 'cpp', 'sh'] }
 
-Plug 'vim-syntastic/syntastic'
-
+" Plug 'xolox/vim-misc', { 'for': ['python', 'c', 'cpp', 'sh'] }
+" Plug 'xolox/vim-easytags', { 'for': ['python', 'c', 'cpp'] }"
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
-Plug 'majutsushi/tagbar'
 
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vim-scripts/a.vim'
 
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-surround'
@@ -36,14 +33,14 @@ Plug 'tomtom/tcomment_vim'
 
 Plug 'godlygeek/tabular'
 
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'pandoc'] }
 
-Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'vim-pandoc/vim-pandoc-after'
 
 call plug#end()
 
@@ -128,29 +125,42 @@ set formatprg=par\ -w80q
 " *unspecific
 " -----------
 autocmd BufNewFile,BufRead * :RainbowParentheses
-autocmd BufNewFile,BufRead * call UlSpell()
-
-" python
-" ------
-autocmd BufNewFile,BufRead *.py call MapR()
+" autocmd BufNewFile,BufRead * call UlSpell()
 
 " C
 " -
 autocmd BufNewFile,BufRead *.c,*.h set cindent
-	    \| call MapR()
 
 " markdown
 " --------
-autocmd BufNewFile,BufFilePre,BufRead *.md,*.mdpp set filetype=markdown
-	    \| call MapR()
+" not necessary thanks to vim-pandoc
+" autocmd BufNewFile,BufFilePre,BufRead *.md,*.mdpp set filetype=markdown
 
-" mail
-" ----
-autocmd FileType mail call Prose()
 
 
 " Functions
 " =========
+
+let s:hide_all = 0
+function! ToggleHideAll()
+    if s:hide_all  == 0
+        let s:hide_all = 1
+        set nonumber
+        set cc=0
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hide_all = 0
+        set number
+        set cc+=1
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
 
 " show underlines instead of highlighting
 " ---------------------------------------
@@ -194,13 +204,15 @@ endfunction
 " Goyo callbacks
 " --------------
 function! s:goyo_enter()
-	Limelight
-	syntax on
+	" Limelight
+        colorscheme solarized
+        set bg=light
 endfunction
 
 function! s:goyo_leave()
-	Limelight!
-	syntax on
+	" Limelight!
+        colorscheme molokai
+        set bg=dark
 endfunction
 
  
@@ -281,16 +293,17 @@ nmap <leader>b :TagbarToggle<CR>
 
 " vim-AutoPairs
 " -------------
-let g:AutoPairsFlyMode = 1
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+let g:AutoPairsGentleUseInsertedCount = 1
 
 
 " vim-pandoc
 " ----------
+let g:pandoc#filetyes#handled = ["markdown", "mail"]
 let g:pandoc#folding#level = 0
 let g:pandoc#folding#fdc = 0
-
 let g:pandoc#formatting#mode = "h"
+
+let g:pandoc#after#modules#enabled = ["ultisnips"]
 
 " Mappings
 " ========
@@ -326,7 +339,8 @@ nnoremap <leader>eu :source $MYVIMRC<cr>
 nnoremap <leader>tn :tabedit<cr>
 
 " formatting
-nnoremap Q gq<cr>
+nnoremap Q vapgq''
+vnoremap Q gq<cr>
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
@@ -334,7 +348,11 @@ nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
 " escape brackets, braces and parens
 inoremap <C-f> <ESC>A
 
+" 'run' mapping
 nnoremap <leader>r :call MapR()<cr>
+
+" hide statusline, linenumbers etc.
+nnoremap <silent> <S-h> :call ToggleHideAll()<CR>
 
 " :W = :w
 call CommandAlias("W","w")
