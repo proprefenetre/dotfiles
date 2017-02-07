@@ -1,0 +1,41 @@
+// vim:ts=4:sw=4:et
+{
+    // floating_con with 1 children
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splith",
+    "percent": null,
+    "rect": {
+       "height": 650,
+       "width": 644,
+       "x": 350,
+       "y": 65
+    },
+    "type": "floating_con",
+    "nodes": [
+        {
+            "border": "none",
+            "current_border_width": 1,
+            "floating": "user_on",
+            "geometry": {
+               "height": 605,
+               "width": 644,
+               "x": 380,
+               "y": 140
+            },
+            "name": "05_construal.md (~/projects/ellipsis/files) - GVIM",
+            "percent": 1,
+            "swallows": [
+               {
+               // "class": "^Gvim$",
+               // "instance": "^gvim$",
+               // "title": "^05_construal\\.md\\ \\(\\~\\/projects\\/ellipsis\\/files\\)\\ \\-\\ GVIM$",
+               // "transient_for": "^$",
+               // "window_role": "^vim\\-19470\\-2944481259\\-1486456862$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
