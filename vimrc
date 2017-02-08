@@ -60,6 +60,7 @@ if has ("gui_running")
     set go-=L
     set go-=T
     set go+=a
+    set go+=c
     set guiheadroom=0
 endif
 
