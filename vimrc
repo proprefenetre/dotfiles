@@ -146,7 +146,7 @@ function! FillLine(str)
     endif
 endfunction
 
-command -nargs=1 Fill call FillLine(<args>) 
+command! -nargs=1 Fill call FillLine(<args>) 
 
 " hide ui elements 
 " ----------------
@@ -184,6 +184,7 @@ function! UlSpell()
     highlight SpellLocal term=underline cterm=underline
 endfunction
 
+command! -nargs=0 Splln call UlSpell()
 
 " create command aliases
 " ----------------------
@@ -280,11 +281,6 @@ let g:NERDTreeWinPos = "right"
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
-" vim-gitgutter
-" -------------
-let g:airline#extensions#hunks#non_zero_only = 1
-
-
 " vim-easytags
 " ------------
 set tags=./tags;,~/.vimtags
@@ -295,16 +291,6 @@ let g:easytags_resolve_links = 1
 let g:easytags_suppress_ctags_warning = 1
 
 
-" vim-tagbar
-" ----------
-nmap <leader>b :TagbarToggle<CR>
-
-
-" vim-AutoPairs
-" -------------
-let g:AutoPairsGentleUseInsertedCount = 1
-
-
 " vim-pandoc
 " ----------
 let g:pandoc#filetyes#handled = ["markdown", "mail"]
@@ -313,6 +299,7 @@ let g:pandoc#folding#fdc = 0
 let g:pandoc#formatting#mode = "h"
 
 let g:pandoc#after#modules#enabled = ["ultisnips"]
+
 
 " Mappings
 " ========
@@ -349,7 +336,6 @@ nnoremap <leader>tn :tabedit<cr>
 
 " formatting
 nnoremap Q vapgq
-vnoremap Q gq<cr>
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
@@ -360,12 +346,10 @@ nnoremap <leader>r :call MapR()<cr>
 " hide statusline, linenumbers etc.
 nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
 
-" fill line with '*'
-map <leader>8 :call FillLine('*')<cr>
-
 " aliases
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
+" vim-fugitive
 call CommandAlias("W", "Gwrite")
 
 " write as root
