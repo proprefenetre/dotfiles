@@ -54,8 +54,12 @@ highlight! link Conceal Operator
 
 if has ("gui_running")
     set guifont=Hack\ 10
-    set go-=emrLT
-    set go+=ac
+    set go-=e
+    set go-=m
+    set go-=r
+    set go-=L
+    set go-=T
+    set go+=a
     set guiheadroom=0
 endif
 
