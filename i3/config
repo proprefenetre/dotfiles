@@ -44,7 +44,7 @@ set $term urxvtc
 bindsym $alt+Return exec --no-startup-id $term
 bindsym $alt+Shift+Return exec --no-startup-id xterm
 bindsym $win+Return exec --no-startup-id gvim
-bindsym $alt+Shift+u exec --no-startup-id xterm -name scratch
+bindsym $alt+Shift+u exec --no-startup-id $term -name scratch
 bindsym $win+apostrophe exec --no-startup-id ~/bin/snippy
 bindsym $win+comma exec --no-startup-id ~/bin/passmenu
 bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
