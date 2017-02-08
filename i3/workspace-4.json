@@ -19,19 +19,16 @@
             "floating": "user_on",
             "geometry": {
                "height": 605,
-               "width": 644,
-               "x": 380,
+               "width": 682,
+               "x": 342,
                "y": 140
             },
-            "name": "05_construal.md (~/projects/ellipsis/files) - GVIM",
+            "name": "Vim",
             "percent": 1,
             "swallows": [
                {
-               // "class": "^Gvim$",
-               // "instance": "^gvim$",
-               // "title": "^05_construal\\.md\\ \\(\\~\\/projects\\/ellipsis\\/files\\)\\ \\-\\ GVIM$",
-               // "transient_for": "^$",
-               // "window_role": "^vim\\-19470\\-2944481259\\-1486456862$"
+                "class": "^Gvim$",
+                "instance": "^gvim$"
                }
             ],
             "type": "con"

@@ -53,14 +53,14 @@ colorscheme molokai
 highlight! link Conceal Operator
 
 if has ("gui_running")
-	set guifont=Hack\ 10
-	set go-=e
-	set go-=m
-	set go-=r
-	set go-=L
-	set go-=T
-        set go+=a
-	set guiheadroom=0
+    set guifont=Hack\ 10
+    set go-=e
+    set go-=m
+    set go-=r
+    set go-=L
+    set go-=T
+    set go+=a
+    set guiheadroom=0
 endif
 
 set backspace=indent,eol,start
@@ -119,28 +119,36 @@ set expandtab
 
 set formatprg=par\ -w80q
 
+
 " File-type specific
 " ==================
 
 " *unspecific
 " -----------
 autocmd BufNewFile,BufRead * :RainbowParentheses
-" autocmd BufNewFile,BufRead * call UlSpell()
 
 " C
 " -
 autocmd BufNewFile,BufRead *.c,*.h set cindent
 
-" markdown
-" --------
-" not necessary thanks to vim-pandoc
-" autocmd BufNewFile,BufFilePre,BufRead *.md,*.mdpp set filetype=markdown
-
-
-
 " Functions
 " =========
 
+" fill line with character(s)
+" ---------------------------
+function! FillLine(str)
+    let tw = 79
+    .s/[[:space:]]*$//
+    let reps = (tw - col("$")) / len(a:str)
+    if reps > 0
+        .s/$/\=(' '.repeat(a:str, reps))/
+    endif
+endfunction
+
+command -nargs=1 Fill call FillLine(<args>) 
+
+" hide ui elements 
+" ----------------
 let s:hide_all = 0
 function! ToggleHideAll()
     if s:hide_all  == 0
@@ -165,38 +173,38 @@ endfunction
 " show underlines instead of highlighting
 " ---------------------------------------
 function! UlSpell()
-	" highlight clear SpellBad
-	highlight SpellBad term=standout ctermfg=9 ctermbg=None term=underline cterm=underline
-	" highlight clear SpellCap
-	highlight SpellCap term=underline cterm=underline
-	" highlight clear SpellRare
-	highlight SpellRare term=underline cterm=underline
-	" highlight clear SpellLocal
-	highlight SpellLocal term=underline cterm=underline
+    " highlight clear SpellBad
+    highlight SpellBad term=standout ctermfg=9 ctermbg=None term=underline cterm=underline
+    " highlight clear SpellCap
+    highlight SpellCap term=underline cterm=underline
+    " highlight clear SpellRare
+    highlight SpellRare term=underline cterm=underline
+    " highlight clear SpellLocal
+    highlight SpellLocal term=underline cterm=underline
 endfunction
 
 
 " create command aliases
 " ----------------------
 function! CommandAlias(key, value)
-	exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
+    exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
 endfu
 
 " 'run' mapping
 " -----------
 function! MapR()
-	if (&ft=='pandoc')
-		write
-                !make
-	elseif (&ft=='python')
-		write
-                !python %
-	elseif (&ft=='c')
-		write
-                !make
-        else
-                write
-	endif
+    if (&ft=='pandoc')
+        write
+        !make
+    elseif (&ft=='python')
+        write
+        !python %
+    elseif (&ft=='c')
+        write
+        !make
+    else
+        write
+    endif
 endfunction
 
 " command C -nargs=* call F ( <f-args> )
@@ -204,18 +212,18 @@ endfunction
 " Goyo callbacks
 " --------------
 function! s:goyo_enter()
-	" Limelight
-        colorscheme solarized
-        set bg=light
+    " Limelight
+    colorscheme solarized
+    set bg=light
 endfunction
 
 function! s:goyo_leave()
-	" Limelight!
-        colorscheme molokai
-        set bg=dark
+    " Limelight!
+    colorscheme molokai
+    set bg=dark
 endfunction
 
- 
+
 " Plugins
 " =======
 
@@ -339,24 +347,25 @@ nnoremap <leader>eu :source $MYVIMRC<cr>
 nnoremap <leader>tn :tabedit<cr>
 
 " formatting
-nnoremap Q vapgq''
+nnoremap Q vapgq
 vnoremap Q gq<cr>
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
 
-" escape brackets, braces and parens
-inoremap <C-f> <ESC>A
-
 " 'run' mapping
 nnoremap <leader>r :call MapR()<cr>
 
 " hide statusline, linenumbers etc.
-nnoremap <silent> <S-h> :call ToggleHideAll()<CR>
+nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
 
-" :W = :w
-call CommandAlias("W","w")
+" fill line with '*'
+map <leader>8 :call FillLine('*')<cr>
+
+" aliases
 call CommandAlias("Q","q")
+call CommandAlias("Wq","wq")
+call CommandAlias("W", "Gwrite")
 
 " write as root
 command! Sw :execute ':silent w !sudo tee % > /dev/null' | :edit! 
