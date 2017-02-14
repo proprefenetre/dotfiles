@@ -34,7 +34,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'godlygeek/tabular'
 
 " Plug 'junegunn/limelight.vim'
-Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'pandoc'] }
+" Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'pandoc'] }
 
 Plug 'junegunn/rainbow_parentheses.vim'
 
@@ -83,6 +83,7 @@ set textwidth=79
 set cc=+1               
 set fo+=j
 set nofoldenable
+set splitright
 
 " statusline
 " ----------
@@ -306,13 +307,14 @@ let g:pandoc#after#modules#enabled = ["ultisnips"]
 
 let mapleader = ","
 
-" general 
-nnoremap <leader>g :Goyo<cr>
 " navigation
 map j gj
 map k gk
 
 inoremap jj <esc>
+
+" vnew
+nnoremap <c-w><c-v> :vne<cr>
 
 nmap <C-d> <C-w><C-h>
 nmap <C-h> <C-w><C-j>
