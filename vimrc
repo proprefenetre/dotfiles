@@ -58,6 +58,7 @@ highlight! link Conceal Operator
 " markdown headers: orange -> lime
 " highlight! link Directory Title
 
+
 if has ("gui_running")
     set guifont=Hack\ 10
     set go-=e
