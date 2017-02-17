@@ -13,7 +13,7 @@ Plug 'sirver/ultisnips'
 
 Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
-" Plug 'tomasr/molokai'
+
 Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
 
@@ -49,7 +49,6 @@ call plug#end()
 
 " General
 " =======
-
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
@@ -57,7 +56,8 @@ colorscheme molokai
 highlight! link Conceal Operator
 " markdown headers: orange -> lime
 highlight! link Directory Title
-
+" voor Syntastic/gitgutter
+hi clear SignColumn	
 
 if has ("gui_running")
     set guifont=Hack\ 10
@@ -69,8 +69,6 @@ if has ("gui_running")
     set go+=a
     set go+=c
     set guiheadroom=0
-    " line number background:
-    highlight LineNr guibg=#272822
 endif
 
 set backspace=indent,eol,start
@@ -84,7 +82,6 @@ set number
 set showcmd
 set wildmenu
 set wildmode=longest:list,full
-" set conceallevel=2
 set concealcursor=c
 set showmatch
 set scrolloff=999
@@ -119,8 +116,6 @@ set gdefault
 " spelling 
 " --------
 set spelllang=en,nl
-
-hi clear SignColumn	" voor Syntastic/gitgutter
 
 " general style
 " -------------
@@ -168,16 +163,6 @@ function! ToggleHideAll()
     if g:hide_all
         let g:toggle_tabline=0
         let g:hide_all=0
-        set nonumber
-        set cc=
-        set noshowmode
-        set noruler
-        set laststatus=0
-        set noshowcmd
-        set showtabline=0
-    else
-        let g:toggle_tabline=1
-        let g:hide_all=1
         set number
         set cc=80
         set showmode
@@ -185,16 +170,26 @@ function! ToggleHideAll()
         set laststatus=2
         set showcmd
         set showtabline=1
+    else
+        let g:toggle_tabline=1
+        let g:hide_all=1
+        set nonumber
+        set cc=
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+        set showtabline=0
     endif
 endfunction
 
 function! ToggleTabline()
     if g:toggle_tabline
-        set showtabline=0
         let g:toggle_tabline=0
-    else
         set showtabline=1
+    else
         let g:toggle_tabline=1
+        set showtabline=0
     endif
 endfunction
 
@@ -282,10 +277,6 @@ let g:UltiSnipsEditSplit="vertical"
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
-" vim-vinegar
-" -----------
-
-
 " vim-easytags
 " ------------
 set tags=./tags;,~/.vimtags
@@ -294,7 +285,6 @@ let g:easytags_async = 1
 let g:easytags_dynamic_files = 2
 let g:easytags_resolve_links = 1
 let g:easytags_suppress_ctags_warning = 1
-
 
 " vim-pandoc
 " ----------
