@@ -15,9 +15,9 @@ set $win Mod4
 set $ctrl Control
 
 # Font for window titles. Will also be used by the bar
-# unelseigenraam@gmail.comuless a different font
-# is used in the bar {} block below.
-font pango: Hack Regular 8
+# unless a different font is used in the bar {} block below.
+# font pango: Hack Regular 6
+font pango: Dejavu Sans 7
 
 hide_edge_borders both
 new_window pixel 1
@@ -51,7 +51,7 @@ bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
 
 # stuff
 bindsym $win+u border toggle
-bindsym $win+g $ws4; exec --no-startup-id hsetroot -fill /home/niels/files/pics/grey.png
+bindsym $win+g exec --no-startup-id hsetroot -fill /home/niels/files/pics/grey.png
 
 # take a screenshot
 bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
