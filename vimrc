@@ -13,10 +13,12 @@ Plug 'sirver/ultisnips'
 
 Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
-Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
+Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
 
 Plug 'vim-syntastic/syntastic', { 'for': ['python', 'c', 'cpp', 'sh'] }
+Plug 'airblade/vim-gitgutter'
 
 " Plug 'xolox/vim-misc', { 'for': ['python', 'c', 'cpp', 'sh'] }
 " Plug 'xolox/vim-easytags', { 'for': ['python', 'c', 'cpp'] }"
@@ -26,21 +28,22 @@ Plug 'xolox/vim-easytags'
 Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'tpope/vim-fugitive'
-
+Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+
 Plug 'tomtom/tcomment_vim'
 
 Plug 'godlygeek/tabular'
-
-" Plug 'junegunn/limelight.vim'
-" Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'pandoc'] }
 
 Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc-after'
+
+Plug 'ron89/thesaurus_query.vim'
+Plug 'reedes/vim-wordy'
 
 call plug#end()
 
@@ -50,7 +53,11 @@ call plug#end()
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
+" personal prefs:
 highlight! link Conceal Operator
+" markdown headers: orange -> lime
+highlight! link Directory Title
+
 
 if has ("gui_running")
     set guifont=Hack\ 10
@@ -62,6 +69,8 @@ if has ("gui_running")
     set go+=a
     set go+=c
     set guiheadroom=0
+    " line number background:
+    highlight LineNr guibg=#272822
 endif
 
 set backspace=indent,eol,start
@@ -82,7 +91,8 @@ set scrolloff=999
 set textwidth=79
 set cc=+1               
 set fo+=j
-set nofoldenable
+set foldenable
+set foldmethod=marker
 set splitright
 
 " statusline
@@ -149,26 +159,42 @@ endfunction
 
 command! -nargs=1 Fill call FillLine(<args>) 
 
-" hide ui elements 
+" toggle ui elements 
 " ----------------
-let s:hide_all = 0
+let g:toggle_tabline=0
+let g:hide_all=0
+
 function! ToggleHideAll()
-    if s:hide_all  == 0
-        let s:hide_all = 1
+    if g:hide_all
+        let g:toggle_tabline=0
+        let g:hide_all=0
         set nonumber
-        set cc=0
+        set cc=
         set noshowmode
         set noruler
         set laststatus=0
         set noshowcmd
+        set showtabline=0
     else
-        let s:hide_all = 0
+        let g:toggle_tabline=1
+        let g:hide_all=1
         set number
-        set cc+=1
+        set cc=80
         set showmode
         set ruler
         set laststatus=2
         set showcmd
+        set showtabline=1
+    endif
+endfunction
+
+function! ToggleTabline()
+    if g:toggle_tabline
+        set showtabline=0
+        let g:toggle_tabline=0
+    else
+        set showtabline=1
+        let g:toggle_tabline=1
     endif
 endfunction
 
@@ -243,22 +269,6 @@ let g:airline_powerline_fonts=1
 " let g:ctrlp_switch_buffer='et'
 " let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
-
-" Goyo
-" ----
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
-
-
-" Limelight
-" ---------
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-let g:limelight_default_coefficient = 0.4
-let g:limelight_paragraph_span = 1
-let g:limelight_priority = -1
-
-
 " UltiSnips
 " ---------
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -267,19 +277,13 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsSnippetDirectories=["snipperts"]
 let g:UltiSnipsEditSplit="vertical"
 
-
 " Rainbow parentheses
 " -------------------
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
-
-" NERDTree
-" --------
-map <F1> :NERDTreeToggle<cr>
-let g:NERDTreeWinPos = "right"
-" close vim if last window left is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" vim-vinegar
+" -----------
 
 
 " vim-easytags
@@ -295,11 +299,18 @@ let g:easytags_suppress_ctags_warning = 1
 " vim-pandoc
 " ----------
 let g:pandoc#filetyes#handled = ["markdown", "mail"]
-let g:pandoc#folding#level = 0
+let g:pandoc#folding#level = 1
 let g:pandoc#folding#fdc = 0
 let g:pandoc#formatting#mode = "h"
 
 let g:pandoc#after#modules#enabled = ["ultisnips"]
+
+" thesaurus_query
+" ---------------
+let g:tq_enabled_backends=["thesaurus_com","mthesaur_txt"]
+
+" vim-wordy
+" ---------
 
 
 " Mappings
@@ -338,6 +349,7 @@ nnoremap <leader>tn :tabedit<cr>
 
 " formatting
 nnoremap Q vapgq
+vnoremap Q gq
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
@@ -347,6 +359,7 @@ nnoremap <leader>r :call MapR()<cr>
 
 " hide statusline, linenumbers etc.
 nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
+nnoremap <silent> <s-t> :call ToggleTabline()<cr>
 
 " aliases
 call CommandAlias("Q","q")
