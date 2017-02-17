@@ -195,18 +195,18 @@ endfunction
 
 " show underlines instead of highlighting
 " ---------------------------------------
-function! UlSpell()
-    " highlight clear SpellBad
-    highlight SpellBad term=standout ctermfg=9 ctermbg=None term=underline cterm=underline
-    " highlight clear SpellCap
-    highlight SpellCap term=underline cterm=underline
-    " highlight clear SpellRare
-    highlight SpellRare term=underline cterm=underline
-    " highlight clear SpellLocal
-    highlight SpellLocal term=underline cterm=underline
-endfunction
+" function! UlSpell()
+"     " highlight clear SpellBad
+"     highlight SpellBad term=standout ctermfg=9 ctermbg=None term=underline cterm=underline
+"     " highlight clear SpellCap
+"     highlight SpellCap term=underline cterm=underline
+"     " highlight clear SpellRare
+"     highlight SpellRare term=underline cterm=underline
+"     " highlight clear SpellLocal
+"     highlight SpellLocal term=underline cterm=underline
+" endfunction
 
-command! -nargs=0 Splln call UlSpell()
+" command! -nargs=0 Splln call UlSpell()
 
 " create command aliases
 " ----------------------
