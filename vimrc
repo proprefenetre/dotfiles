@@ -56,7 +56,7 @@ colorscheme molokai
 " personal prefs:
 highlight! link Conceal Operator
 " markdown headers: orange -> lime
-" highlight! link Directory Title
+highlight! link Directory Title
 
 
 if has ("gui_running")
@@ -70,7 +70,7 @@ if has ("gui_running")
     set go+=c
     set guiheadroom=0
     " line number background:
-    " highlight LineNr guibg=#272822
+    highlight LineNr guibg=#272822
 endif
 
 set backspace=indent,eol,start
@@ -161,23 +161,13 @@ command! -nargs=1 Fill call FillLine(<args>)
 
 " toggle ui elements 
 " ----------------
-let g:toggle_tabline=0 
+let g:toggle_tabline=0
 let g:hide_all=0
 
 function! ToggleHideAll()
-    if g:hide_all 
+    if g:hide_all
         let g:toggle_tabline=0
         let g:hide_all=0
-        set number
-        set cc=80
-        set showmode
-        set ruler
-        set laststatus=2
-        set showcmd
-        set showtabline=1
-    else
-        let g:toggle_tabline=1
-        let g:hide_all=1
         set nonumber
         set cc=
         set noshowmode
@@ -185,16 +175,26 @@ function! ToggleHideAll()
         set laststatus=0
         set noshowcmd
         set showtabline=0
+    else
+        let g:toggle_tabline=1
+        let g:hide_all=1
+        set number
+        set cc=80
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+        set showtabline=1
     endif
 endfunction
 
 function! ToggleTabline()
     if g:toggle_tabline
-        let g:toggle_tabline=0
-        set showtabline=1
-    else
-        let g:toggle_tabline=1
         set showtabline=0
+        let g:toggle_tabline=0
+    else
+        set showtabline=1
+        let g:toggle_tabline=1
     endif
 endfunction
 
