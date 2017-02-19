@@ -51,7 +51,7 @@ bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
 
 # stuff
 bindsym $win+u border toggle
-bindsym $win+g exec --no-startup-id hsetroot -fill /home/niels/files/pics/grey.png
+bindsym $win+g exec --no-startup-id /home/niels/bin/space
 
 # take a screenshot
 bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'

@@ -1,0 +1,38 @@
+// vim:ts=4:sw=4:et
+{
+    // floating_con with 1 children
+    "border": "pixel",
+    "floating": "auto_off",
+    "layout": "splith",
+    "percent": null,
+    "rect": {
+       "height": 650,
+       "width": 644,
+       "x": 380,
+       "y": 125
+    },
+    "type": "floating_con",
+    "nodes": [
+        {
+            "border": "none",
+            "current_border_width": 1,
+            "floating": "user_on",
+            "geometry": {
+               "height": 605,
+               "width": 682,
+               "x": 342,
+               "y": 140
+            },
+            "name": "Vim",
+            "percent": 1,
+            "swallows": [
+               {
+               "class": "^Gvim$",
+               "instance": "^gvim$"
+               }
+            ],
+            "type": "con"
+        }
+    ]
+}
+
