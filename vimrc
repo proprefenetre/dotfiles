@@ -52,11 +52,6 @@ call plug#end()
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
-" personal prefs:
-highlight! link Conceal Operator
-" markdown headers: orange -> lime
-highlight! link Directory Title
-" voor Syntastic/gitgutter
 hi clear SignColumn	
 
 if has ("gui_running")
@@ -340,6 +335,12 @@ nnoremap <leader>tn :tabedit<cr>
 " formatting
 nnoremap Q vapgq
 vnoremap Q gq
+
+" highlight information
+map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '>
+            \ trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" .
+            \ synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" .
+            \ " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<cr>
 
 " word count
 nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
