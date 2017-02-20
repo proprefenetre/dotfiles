@@ -133,6 +133,12 @@ autocmd BufNewFile,BufRead * :RainbowParentheses
 " -
 autocmd BufNewFile,BufRead *.c,*.h set cindent
 
+
+" MDPP
+" ----
+autocmd BufNewFile, BufRead *.mdpp set filetype=pandoc
+
+
 " Functions
 " =========
 
@@ -188,21 +194,6 @@ function! ToggleTabline()
     endif
 endfunction
 
-" show underlines instead of highlighting
-" ---------------------------------------
-" function! UlSpell()
-"     " highlight clear SpellBad
-"     highlight SpellBad term=standout ctermfg=9 ctermbg=None term=underline cterm=underline
-"     " highlight clear SpellCap
-"     highlight SpellCap term=underline cterm=underline
-"     " highlight clear SpellRare
-"     highlight SpellRare term=underline cterm=underline
-"     " highlight clear SpellLocal
-"     highlight SpellLocal term=underline cterm=underline
-" endfunction
-
-" command! -nargs=0 Splln call UlSpell()
-
 " create command aliases
 " ----------------------
 function! CommandAlias(key, value)
@@ -224,22 +215,6 @@ function! MapR()
     else
         write
     endif
-endfunction
-
-" command C -nargs=* call F ( <f-args> )
-
-" Goyo callbacks
-" --------------
-function! s:goyo_enter()
-    " Limelight
-    colorscheme solarized
-    set bg=light
-endfunction
-
-function! s:goyo_leave()
-    " Limelight!
-    colorscheme molokai
-    set bg=dark
 endfunction
 
 
