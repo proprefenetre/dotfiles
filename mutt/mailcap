@@ -16,3 +16,4 @@ application/octet-stream; xdg-open %s
 # office
 application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; libreoffice %s
 application/vnd.openxmlformats-officedocument.wordprocessingml.document; libreoffice %s
+application/msword; libreoffice %s

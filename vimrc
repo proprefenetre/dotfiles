@@ -136,7 +136,7 @@ autocmd BufNewFile,BufRead *.c,*.h set cindent
 
 " MDPP
 " ----
-autocmd BufNewFile, BufRead *.mdpp set filetype=pandoc
+autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
 
 
 " Functions
@@ -155,7 +155,8 @@ endfunction
 
 command! -nargs=1 Fill call FillLine(<args>) 
 
-" toggle ui elements 
+" toggle functions {{{1 "
+" " toggle ui elements 
 " ----------------
 let g:toggle_tabline=0
 let g:hide_all=0
@@ -193,6 +194,7 @@ function! ToggleTabline()
         set showtabline=0
     endif
 endfunction
+" }}} "
 
 " create command aliases
 " ----------------------
@@ -205,13 +207,13 @@ endfu
 function! MapR()
     if (&ft=='pandoc')
         write
-        !make
+        make
     elseif (&ft=='python')
         write
         !python %
     elseif (&ft=='c')
         write
-        !make
+        make
     else
         write
     endif
@@ -294,7 +296,6 @@ nmap <C-n> <C-w><C-l>
 
 " replace
 noremap <leader>gr :%s/\<<C-r><C-w>\>/
-vnoremap <leader>gc y:%s/<C-r>"/
 nnoremap <leader>lr :s/<C-r><C-w>/
 vnoremap <leader>lr y:s/<C-r>"/
 
@@ -327,11 +328,17 @@ nnoremap <leader>r :call MapR()<cr>
 nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
 nnoremap <silent> <s-t> :call ToggleTabline()<cr>
 
+" command line
+cnoremap <c-a> <Home>
+
+" vim-fugitive
+call CommandAlias("W", "Gwrite")
+nnoremap <leader>gc :Gcommit<cr>
+nnoremap <leader>gs :Gstatus<cr>
+
 " aliases
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
-" vim-fugitive
-call CommandAlias("W", "Gwrite")
 
 " write as root
 command! Sw :execute ':silent w !sudo tee % > /dev/null' | :edit! 
