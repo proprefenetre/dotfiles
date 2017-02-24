@@ -40,7 +40,7 @@ set $browser chromium
 floating_modifier $alt
 
 # launching
-set $term urxvtc
+set $term urxvtc -tr -sh 40
 bindsym $alt+Return exec --no-startup-id $term
 bindsym $alt+Shift+Return exec --no-startup-id xterm
 bindsym $win+Return exec --no-startup-id gvim
