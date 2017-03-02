@@ -1,3 +1,6 @@
+gtk-enable-event-sounds=false
+gtk-enable-input-feedback-sounds=false
+
 style "no-resize-handle"
 {
     GtkWindow::resize-grip-height = 0
