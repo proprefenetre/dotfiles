@@ -50,8 +50,8 @@ bindsym $win+comma exec --no-startup-id ~/bin/passmenu
 bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
 
 # stuff
-bindsym $win+u border toggle
-bindsym $win+g exec --no-startup-id /home/niels/bin/space
+# bindsym $alt+u border toggle
+bindsym $alt+g exec --no-startup-id /home/niels/bin/space
 
 # take a screenshot
 bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
@@ -69,13 +69,13 @@ bindsym $alt+h focus down
 bindsym $alt+t focus up
 bindsym $alt+n focus right
 
-bindsym $alt+g focus mode_toggle
+bindsym $alt+b focus mode_toggle
 
 bindsym $alt+p focus parent
 bindsym $alt+Shift+p focus child
 
 bindsym $alt+w focus output left
-bindsym $win+m move workspace to output right
+# bindsym $win+m move workspace to output right
 
 # split in horizontal orientation
 bindsym $alt+Shift+h split h
@@ -123,6 +123,9 @@ workspace_auto_back_and_forth yes
 bindsym $alt+semicolon workspace prev
 bindsym $alt+q workspace next
 bindsym $alt+j workspace back_and_forth
+
+bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
+bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
 
 # scratchpad
 bindsym $alt+grave move scratchpad

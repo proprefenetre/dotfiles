@@ -229,7 +229,6 @@ let g:airline_detect_paste=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline_powerline_fonts=1
 
-
 " ctlp
 " ----
 " let g:ctrlp_working_path_mode='car'
@@ -274,6 +273,9 @@ let g:tq_enabled_backends=["thesaurus_com","mthesaur_txt"]
 " vim-wordy
 " ---------
 
+" vim-vinegar
+" -----------
+let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 
 " Mappings
 " ========
