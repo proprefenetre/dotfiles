@@ -31,5 +31,3 @@ remind_sync.sh &
 remind -z -k'notify-send -a reminder %s' .reminders &
 
 exec i3
-# 2bwm &
-# exec urxvt
