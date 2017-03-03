@@ -13,7 +13,7 @@ wcw ()
 alias dropbox='dropbox-cli'
 
 # sudo
-alias pacman='sudo pacaur'
+alias pacman='pacaur'
 # alias systemctl='sudo systemctl'
 alias netctl-auto='sudo netctl-auto'
 

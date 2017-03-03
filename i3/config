@@ -124,8 +124,9 @@ bindsym $alt+semicolon workspace prev
 bindsym $alt+q workspace next
 bindsym $alt+j workspace back_and_forth
 
-bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
-bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
+bindsym $alt+Tab exec ~/bin/focus-last.py --switch
+# bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
+# bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
 
 # scratchpad
 bindsym $alt+grave move scratchpad

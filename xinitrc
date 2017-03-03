@@ -25,6 +25,7 @@ xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
 redshift &
 libinput-gestures &
 archupdates &
+~/bin/focus-last.py &
 
 mount ~/drijf &
 remind_sync.sh &
