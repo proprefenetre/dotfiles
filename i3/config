@@ -75,7 +75,11 @@ bindsym $alt+p focus parent
 bindsym $alt+Shift+p focus child
 
 bindsym $alt+w focus output left
-# bindsym $win+m move workspace to output right
+
+bindsym $alt+Tab exec ~/bin/focus-last.py --switch
+# bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
+# bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
+
 
 # split in horizontal orientation
 bindsym $alt+Shift+h split h
@@ -123,10 +127,6 @@ workspace_auto_back_and_forth yes
 bindsym $alt+semicolon workspace prev
 bindsym $alt+q workspace next
 bindsym $alt+j workspace back_and_forth
-
-bindsym $alt+Tab exec ~/bin/focus-last.py --switch
-# bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
-# bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
 
 # scratchpad
 bindsym $alt+grave move scratchpad
