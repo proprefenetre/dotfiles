@@ -66,8 +66,10 @@ URxvt*color15: Molokai_white
 
 ! rofi
 rofi.font: rofi_font
-rofi.lines: 7
-rofi.width: 19
+rofi.lines: 4
+rofi.width: 30
+rofi.location: 6
+rofi.yoffset: -100 
 
 ! XTERM
 ! =====
