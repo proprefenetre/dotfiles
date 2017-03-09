@@ -165,7 +165,9 @@ function! ToggleHideAll()
     if g:hide_all
         let g:toggle_tabline=0
         let g:hide_all=0
-        set number
+        " set number
+        hi LineNr guifg=#BCBCBC
+        set numberwidth=4
         set cc=80
         set showmode
         set ruler
@@ -175,7 +177,9 @@ function! ToggleHideAll()
     else
         let g:toggle_tabline=1
         let g:hide_all=1
-        set nonumber
+        " set nonumber
+        hi LineNr guifg=bg
+        set numberwidth=4
         set cc=
         set noshowmode
         set noruler
