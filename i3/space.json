@@ -6,7 +6,7 @@
     "percent": null,
     "rect": {
        "height": 650,
-       "width": 682,
+       "width": 700,
        "x": 380,
        "y": 125
     },
@@ -18,7 +18,7 @@
             "floating": "user_on",
             "geometry": {
                "height": 605,
-               "width": 682,
+               "width": 700,
                "x": 342,
                "y": 140
             },
