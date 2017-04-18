@@ -14,14 +14,15 @@ Plug 'sirver/ultisnips'
 Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
 
+" Plug 'itchyny/lightline.vim'
+
 Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
+Plug 'arcticicestudio/nord-vim'
 
 Plug 'vim-syntastic/syntastic', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'airblade/vim-gitgutter'
 
-" Plug 'xolox/vim-misc', { 'for': ['python', 'c', 'cpp', 'sh'] }
-" Plug 'xolox/vim-easytags', { 'for': ['python', 'c', 'cpp'] }"
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
@@ -51,7 +52,9 @@ call plug#end()
 " =======
 let g:molokai_original = 1
 let g:rehash256 = 1
+" let g:nord_italic_comments = 1
 colorscheme molokai
+" hi! link Conceal Operator
 hi clear SignColumn	
 
 if has ("gui_running")
@@ -229,9 +232,62 @@ endfunction
 
 " vim-airline
 " -----------
-let g:airline_detect_paste=1
-let g:airline#extensions#tabline#enabled=1
-let g:airline_powerline_fonts=1
+let g:airline_detect_paste = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+" lightline
+" ---------
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'fugitive', 'filename' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'fugitive': 'LightlineFugitive',
+"       \   'readonly': 'LightlineReadonly',
+"       \   'modified': 'LightlineModified',
+"       \   'filename': 'LightlineFilename'
+"       \ },
+"       \ 'separator': { 'left': '', 'right': '' },
+"       \ 'subseparator': { 'left': '', 'right': '' }
+"       \ }
+"
+
+" lightline functions {{{1 "
+" function! LightlineModified()
+"   if &filetype == "help"
+"     return ""
+"   elseif &modified
+"     return "+"
+"   elseif &modifiable
+"     return ""
+"   else
+"     return ""
+"   endif
+" endfunction
+"
+" function! LightlineReadonly()
+"   if &filetype == "help"
+"     return ""
+"   elseif &readonly
+"     return ""
+"   else
+"     return ""
+"   endif
+" endfunction
+"
+" function! LightlineFugitive()
+"   return exists('*fugitive#head') ? fugitive#head() : ''
+" endfunction
+"
+" function! LightlineFilename()
+"   return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+"        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+"        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+" endfunction
+" 1}}} "
 
 " ctlp
 " ----
