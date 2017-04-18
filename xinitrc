@@ -21,7 +21,7 @@ urxvtd -q -f -o
 unclutter &
 # hsetroot -fill $(shuf -n 1 -e "$HOME/files/pics/wallpaper/*") &
 /home/niels/bin/setbg &
-xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
+# xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
 redshift &
 libinput-gestures &
 archupdates &
