@@ -1,6 +1,6 @@
 # vim: set ft=muttrc
 
-set my_pw="`(pass gmail/mutt-pfn)`"
+set my_pw="`(pass gmail/pfn-mutt)`"
 
 set imap_user="proprefenetre@gmail.com"
 set imap_pass=$my_pw
