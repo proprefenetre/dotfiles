@@ -128,6 +128,8 @@ bindsym $alt+semicolon workspace prev
 bindsym $alt+q workspace next
 bindsym $alt+j workspace back_and_forth
 
+bindsym $alt+Shift+W move workspace to output left
+
 # scratchpad
 bindsym $alt+grave move scratchpad
 bindsym $win+grave scratchpad show
