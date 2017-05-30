@@ -34,7 +34,7 @@ set $ws8 workspace 8
 set $ws9 workspace 9
 set $ws0 workspace 0
 
-set $browser chromium
+set $browser vivaldi-stable
 
 # Use Mouse+$alt to drag floating windows to their wanted position
 floating_modifier $alt
@@ -139,6 +139,7 @@ for_window [instance="scratch"] move scratchpad
 # assignments
 assign [class="^[Cc]hromium$"] 1
 assign [class="^google-chrome$"] 1
+assign [class="*Vivaldi-stable$"] 1
 assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
 
