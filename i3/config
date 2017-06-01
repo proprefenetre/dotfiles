@@ -34,7 +34,7 @@ set $ws8 workspace 8
 set $ws9 workspace 9
 set $ws0 workspace 0
 
-set $browser chromium
+set $browser vivaldi-stable
 
 # Use Mouse+$alt to drag floating windows to their wanted position
 floating_modifier $alt
