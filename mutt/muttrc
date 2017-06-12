@@ -1,33 +1,27 @@
-# vim: set ft=muttrc
-set my_pw="`(pass gmail/ne-mutt)`"
+# vim: ft=muttrc
 
-set imap_user="nielseigenraam@gmail.com"
-set imap_pass=$my_pw
+# Folder hooks
+folder-hook 'nielseigenraam' 'source ~/.mutt/default.muttrc'
+folder-hook 'proprefenetre' 'source ~/.mutt/pfn.muttrc'
 
-set folder="imaps://imap.gmail.com:993"
-set spoolfile= +INBOX
+# Default account
+source ~/.mutt/default.muttrc
 
-set smtp_url="smtp://nielseigenraam@smtp.gmail.com:587/"
-set smtp_pass=$my_pw
-set record=""
+# Macros for switching accounts
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/default.muttrc<enter><change-folder>!<enter>'
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/pfn.muttrc<enter><change-folder>!<enter>'
 
-set postponed="+[Gmail]/Concepten"
-mailboxes =INBOX 
-mailboxes "+[Gmail]/Alle berichten" +[Gmail]/Concepten "+[Gmail]/Met ster" +[Gmail]/Prullenbak +[Gmail]/Spam "+[Gmail]/Verzonden berichten" 
-
-# mailboxes =[Gmail]/Concepten ="[Gmail]/Met ster" =[Gmail]/Prullenbak =[Gmail]/Spam ="[Gmail]/Verzonden berichten" 
-
-unset imap_passive
-set imap_keepalive=300
-set mail_check=1600
 set header_cache="~/.mutt/cache/headers"
 set message_cachedir="~/.mutt/cache/bodies"
 set certificate_file="~/.mutt/certificates"
 set alias_file="~/.mutt/alias"
 set tmpdir="/run/user/1000/"
-
 set mailcap_path=~/.mutt/mailcap
 auto_view text/html
+
+unset imap_passive
+set imap_keepalive=300
+set mail_check=1600
 
 # interaction
 set quit
@@ -73,10 +67,11 @@ set sidebar_width=30
 # color sidebar_new color221 default
 
 # composing
-set query_command="goobook query '%s'"
-set editor="vim +/^$"		# jump to first \n
-set send_charset="utf-8"
+set from=nielseigenraam@gmail.com
 set realname="Niels Eigenraam"           
+set query_command="goobook query '%s'"
+set editor="vim +/^$"
+set send_charset="utf-8"
 set envelope_from                        
 set sig_dashes                           
 set edit_headers                         
@@ -113,8 +108,9 @@ bind attach,index G last-entry
 bind attach,index,pager \CD next-page
 bind attach,index,pager \CU previous-page
 
-## index
-# Ctrl-R to mark all as read
+# index
+
+## Ctrl-R to mark all as read
 macro index \Cr "T~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all messages as read"
 
 bind index gg       first-entry
@@ -124,14 +120,15 @@ bind index R        group-reply
 bind index <tab>    sync-mailbox
 bind index <space>  collapse-thread
 
-## pager
+# pager
 macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlview'
 bind pager j next-line
 bind pager k previous-line
 bind pager gg top
 bind pager G bottom
 
-## editor
+# editor
 bind editor <Tab> complete-query
+
 # colors
 source ~/.mutt/colors.muttrc

@@ -1,0 +1,18 @@
+# vim: ft=muttrc
+
+# accounts
+set my_password="`(pass gmail/ne-mutt)`"
+
+## default
+set imap_user="nielseigenraam@gmail.com"
+set imap_pass=$my_password
+set smtp_url="smtp://nielseigenraam@smtp.gmail.com:587/"
+set smtp_pass=$my_password
+
+set folder="imaps://imap.gmail.com:993"
+mailboxes =INBOX 
+mailboxes "+[Gmail]/Alle berichten" +[Gmail]/Concepten "+[Gmail]/Met ster" +[Gmail]/Prullenbak +[Gmail]/Spam "+[Gmail]/Verzonden berichten"
+
+set spoolfile= +INBOX
+set postponed="+[Gmail]/Concepten"
+set record="+[Gmail]/Verzonden Berichten"
