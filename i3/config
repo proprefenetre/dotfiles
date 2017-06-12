@@ -139,6 +139,7 @@ for_window [instance="scratch"] move scratchpad
 # assignments
 assign [class="^[Cc]hromium$"] 1
 assign [class="^google-chrome$"] 1
+assign [class="*Vivaldi-stable$"] 1
 assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
 
