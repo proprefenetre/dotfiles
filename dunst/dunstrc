@@ -1,3 +1,4 @@
+#vim: ft=cfg
 
 [global]
     font = "Hack Regular 10"
@@ -12,9 +13,8 @@
     ignore_newline = no
     geometry = "330x8-5-320"
     transparency = 0
-    idle_threshold = 120
+    idle_threshold = 0
     monitor = 0
-    follow = mouse
     sticky_history = yes
     line_height = 0
     separator_height = 2
