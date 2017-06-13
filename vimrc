@@ -14,8 +14,6 @@ Plug 'sirver/ultisnips'
 Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
 Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
 
-" Plug 'itchyny/lightline.vim'
-
 Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'arcticicestudio/nord-vim'
@@ -32,8 +30,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
 
-Plug 'tomtom/tcomment_vim'
+" Plug 'tomtom/tcomment_vim'
 
 Plug 'godlygeek/tabular'
 
@@ -134,8 +133,11 @@ autocmd BufNewFile,BufRead * :RainbowParentheses
 
 " C
 " -
-autocmd BufNewFile,BufRead *.c,*.h set cindent
-
+augroup c
+    autocmd!
+    autocmd FileType c set cms=//\ %s
+    autocmd FileType cpp set cms=//\ %s
+augroup END
 
 " MDPP
 " ----
