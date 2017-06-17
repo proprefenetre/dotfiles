@@ -30,6 +30,5 @@ archupdates &
 mount ~/drijf &
 remind_sync.sh &
 remind -z -k'notify-send -a reminder %s' .reminders &
-sc_server.py &
 
 exec i3
