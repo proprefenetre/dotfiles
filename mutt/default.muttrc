@@ -15,4 +15,4 @@ mailboxes "+[Gmail]/Alle berichten" +[Gmail]/Concepten "+[Gmail]/Met ster" +[Gma
 
 set spoolfile= +INBOX
 set postponed="+[Gmail]/Concepten"
-set record="+[Gmail]/Verzonden Berichten"
+set record="+[Gmail]/Verzonden berichten"
