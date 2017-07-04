@@ -19,15 +19,17 @@ xset m 1 0
 setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl &
 urxvtd -q -f -o
 unclutter &
+xbindkeys &
+
 # hsetroot -fill $(shuf -n 1 -e "$HOME/files/pics/wallpaper/*") &
 /home/niels/bin/setbg &
 # xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
+
 redshift &
 libinput-gestures &
 archupdates &
 ~/bin/focus-last.py &
 
-mount ~/drijf &
 remind_sync.sh &
 remind -z -k'notify-send -a reminder %s' .reminders &
 

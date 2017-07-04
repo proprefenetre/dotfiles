@@ -3,12 +3,15 @@
 # dunst
 alias dunstr='killall dunst && dunst &'
 
-wcw () 
-{
-    wc -w "$1" | cut -d\  -f1
+# mount
+mmount() {
+    mount "/dev/$1"
 }
 
-# wc
+mumount() {
+    umount "/dev/$1"
+}
+
 #dropbox
 alias dropbox='dropbox-cli'
 
@@ -55,7 +58,6 @@ alias ducks='du -cksh * | sort -hr | head -n 15'
 alias grep='grep --color=auto'
 alias ls='ls --color=always'
 alias mkdir='mkdir -p -v'
-alias mpvpls='mpv --playlist='
 alias nw='urxvtc -cd $PWD'
 alias detwist='pacman -Rns $(pacman -Qtdq)'
 alias pdf-tif='gs -dNOPAUSE -r300 -sDEVICE=tiffg4 -sOutputFile=vdmast.tif'
@@ -66,7 +68,9 @@ alias rmlinks='find -L . -name . -o -type d -prune -o -type l -exec rm {} + '
 alias setxkb='setxkbmap -print -v 10'
 alias scummvm='SDL_AUDIODRIVER=dummy scummvm'
 alias starwars='telnet towel.blinkenlights.nl'
+alias steam32='WINEARCH=win32 WINEPREFIX=~/win32'
 alias tr='transmission-remote'
+alias tree='tree -C'
 alias trea='tree -apugCL 1'
 alias trtunnel='ssh -L 9091:localhost:9091 laptop'
 alias vignore='curl https://www.gitignore.io/api/vim -o .gitignore' 
