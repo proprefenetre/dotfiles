@@ -10,8 +10,9 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # modifiers
+set $mod Mod4
 set $alt Mod1
-set $win Mod4
+
 set $ctrl Control
 
 # Font for window titles. Will also be used by the bar
@@ -21,7 +22,7 @@ font pango: Dejavu Sans 7
 
 hide_edge_borders both
 new_window pixel 1
-default_orientation horizontal
+default_orientation vertical
 
 set $ws1 workspace 1
 set $ws2 workspace 2
@@ -34,112 +35,103 @@ set $ws8 workspace 8
 set $ws9 workspace 9
 set $ws0 workspace 0
 
-set $browser vivaldi-stable
-
-# Use Mouse+$alt to drag floating windows to their wanted position
-floating_modifier $alt
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
 
 # launching
+set $browser vivaldi-stable
 set $term urxvtc -tr -sh 40
-bindsym $alt+Return exec --no-startup-id $term
-bindsym $alt+Shift+Return exec --no-startup-id xterm
-bindsym $win+Return exec --no-startup-id gvim
-bindsym $alt+Shift+u exec --no-startup-id $term -name scratch
-bindsym $win+apostrophe exec --no-startup-id ~/bin/snippy
-bindsym $win+comma exec --no-startup-id ~/bin/passmenu
-bindsym $alt+Shift+greater exec --no-startup-id rofi -show run
+
+bindsym $mod+Return exec --no-startup-id $term
+bindsym $mod+Shift+Return exec --no-startup-id gvim
+# bindsym $win+Return exec --no-startup-id gvim
+bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
+# bindsym $win+apostrophe exec --no-startup-id ~/bin/snippy
+bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
+bindsym $mod+Shift+greater exec --no-startup-id rofi -show run
 
 # stuff
-# bindsym $alt+u border toggle
-bindsym $alt+g exec --no-startup-id /home/niels/bin/space
 
 # take a screenshot
-bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
-
-# adjust brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 && kill -s RTMIN+2 $(pgrep i3blocks)
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 && kill -s RTMIN+2 $(pgrep i3blocks)
+bindsym $mod+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
 
 # kill focused window
-bindsym $alt+Shift+c kill
+bindsym $mod+Shift+c kill
 
 # change focus
-bindsym $alt+d focus left
-bindsym $alt+h focus down
-bindsym $alt+t focus up
-bindsym $alt+n focus right
+bindsym $mod+d focus left
+bindsym $mod+h focus down
+bindsym $mod+t focus up
+bindsym $mod+n focus right
 
-bindsym $alt+b focus mode_toggle
+bindsym $mod+b focus mode_toggle
 
-bindsym $alt+p focus parent
-bindsym $alt+Shift+p focus child
+bindsym $mod+p focus parent
+bindsym $mod+Shift+p focus child
 
-bindsym $alt+w focus output left
+bindsym $mod+w focus output left
 
 bindsym $alt+Tab exec ~/bin/focus-last.py --switch
-# bindsym $alt+Tab exec ~/bin/i3-cycle.py -f
-# bindsym $alt+Shift+Tab exec ~/bin/i3-cycle.py -b
-
 
 # split in horizontal orientation
-bindsym $alt+Shift+h split h
+bindsym $mod+Shift+h split h
 
 # split in vertical orientation
-bindsym $alt+Shift+v split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $alt+y fullscreen toggle
+bindsym $mod+y fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $alt+apostrophe layout stacking
-bindsym $alt+comma layout tabbed
-bindsym $alt+period layout toggle split
+bindsym $mod+apostrophe layout stacking
+bindsym $mod+comma layout tabbed
+bindsym $mod+period layout toggle split
 
 # change between tiling / floating windows
-bindsym $alt+Shift+space floating toggle
+bindsym $mod+Shift+space floating toggle
 
 # switch to workspace
-bindsym $alt+0 $ws0
-bindsym $alt+1 $ws1
-bindsym $alt+2 $ws2
-bindsym $alt+3 $ws3
-bindsym $alt+4 $ws4
-bindsym $alt+5 $ws5
-bindsym $alt+6 $ws6
-bindsym $alt+7 $ws7
-bindsym $alt+8 $ws8
-bindsym $alt+9 $ws9
+bindsym $mod+0 $ws0
+bindsym $mod+1 $ws1
+bindsym $mod+2 $ws2
+bindsym $mod+3 $ws3
+bindsym $mod+4 $ws4
+bindsym $mod+5 $ws5
+bindsym $mod+6 $ws6
+bindsym $mod+7 $ws7
+bindsym $mod+8 $ws8
+bindsym $mod+9 $ws9
 
 # gesture: pinch out	xdotool key super+s
 # move focused container to workspace
-bindsym $alt+Shift+1 move $ws1; $ws1
-bindsym $alt+Shift+2 move $ws2; $ws2
-bindsym $alt+Shift+3 move $ws3; $ws3
-bindsym $alt+Shift+4 move $ws4; $ws4
-bindsym $alt+Shift+5 move $ws5; $ws5
-bindsym $alt+Shift+6 move $ws6; $ws6
-bindsym $alt+Shift+7 move $ws7; $ws7
-bindsym $alt+Shift+8 move $ws8; $ws8
-bindsym $alt+Shift+9 move $ws9; $ws9
-bindsym $alt+Shift+0 move $ws0; $ws0
+bindsym $mod+Shift+1 move $ws1; $ws1
+bindsym $mod+Shift+2 move $ws2; $ws2
+bindsym $mod+Shift+3 move $ws3; $ws3
+bindsym $mod+Shift+4 move $ws4; $ws4
+bindsym $mod+Shift+5 move $ws5; $ws5
+bindsym $mod+Shift+6 move $ws6; $ws6
+bindsym $mod+Shift+7 move $ws7; $ws7
+bindsym $mod+Shift+8 move $ws8; $ws8
+bindsym $mod+Shift+9 move $ws9; $ws9
+bindsym $mod+Shift+0 move $ws0; $ws0
 
 workspace_auto_back_and_forth yes
-bindsym $alt+semicolon workspace prev
-bindsym $alt+q workspace next
-bindsym $alt+j workspace back_and_forth
+bindsym $mod+semicolon workspace prev
+bindsym $mod+q workspace next
+bindsym $mod+j workspace back_and_forth
 
-bindsym $alt+Shift+W move workspace to output left
+bindsym $mod+Shift+W move workspace to output left
 
 # scratchpad
-bindsym $alt+grave move scratchpad
-bindsym $win+grave scratchpad show
-bindsym $alt+u [instance="scratch$"] scratchpad show
+bindsym $mod+grave move scratchpad
+bindsym $alt+grave scratchpad show
+bindsym $mod+u [instance="scratch$"] scratchpad show
 for_window [instance="scratch"] move scratchpad
 
 # assignments
 assign [class="^[Cc]hromium$"] 1
 assign [class="^google-chrome$"] 1
-assign [class="*Vivaldi-stable$"] 1
+assign [class="^Vivaldi-stable$"] 1
 assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
 
@@ -166,7 +158,7 @@ mode $resize {
         bindsym Escape mode "default"
         bindsym Return mode "default"
 }
-bindsym $alt+r mode $resize
+bindsym $mod+r mode $resize
 
 set $move "move window"
 mode $move {
@@ -183,7 +175,7 @@ mode $move {
     bindsym Return mode "default"
 }
 
-bindsym $alt+m mode $move
+bindsym $mod+m mode $move
 
 set $locker /home/niels/bin/lock && sleep 1
 
@@ -198,13 +190,13 @@ mode $meta {
     bindsym e exec gvim ~/.config/i3/config; mode "default"
     bindsym r exec --no-startup-id i3-msg reload; mode "default"
 
-    bindsym $alt+Shift+greater mode $launch
+    bindsym $mod+Shift+greater mode $launch
 
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
 
-bindsym $alt+Shift+less mode $meta
+bindsym $mod+Shift+less mode $meta
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status

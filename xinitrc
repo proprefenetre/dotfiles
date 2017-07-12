@@ -10,24 +10,32 @@ fi
 
 [ -f "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 
-[ "$HOSTNAME" == 'arch' ] && mhead -e
+if [ $HOSTNAME == 'archbook' ]; then
+    setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl
+else
+    $HOME/bin/mhead -e
+    setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+fi
+    
+
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
 # for xdotool:
-setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl &
 urxvtd -q -f -o
 unclutter &
+xbindkeys &
+
 # hsetroot -fill $(shuf -n 1 -e "$HOME/files/pics/wallpaper/*") &
 /home/niels/bin/setbg &
 # xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
+
 redshift &
 libinput-gestures &
 archupdates &
 ~/bin/focus-last.py &
 
-mount ~/drijf &
 remind_sync.sh &
 remind -z -k'notify-send -a reminder %s' .reminders &
 
