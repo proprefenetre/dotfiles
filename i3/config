@@ -56,10 +56,6 @@ bindsym $alt+g exec --no-startup-id /home/niels/bin/space
 # take a screenshot
 bindsym $alt+shift+d exec --no-startup-id scrot -e 'mv $f ~/files/'
 
-# adjust brightness
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5 && kill -s RTMIN+2 $(pgrep i3blocks)
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5 && kill -s RTMIN+2 $(pgrep i3blocks)
-
 # kill focused window
 bindsym $alt+Shift+c kill
 
