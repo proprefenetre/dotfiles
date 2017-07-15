@@ -2,7 +2,6 @@
 
 " Preamble
 " ========
-
 set nocompatible
 filetype plugin indent on
 syntax enable
@@ -18,7 +17,7 @@ Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
 Plug 'arcticicestudio/nord-vim'
 
-Plug 'vim-syntastic/syntastic', { 'for': ['python', 'c', 'cpp', 'sh'] }
+Plug 'vim-syntastic/syntastic'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'xolox/vim-misc'
@@ -51,7 +50,7 @@ call plug#end()
 let g:molokai_original = 1
 let g:rehash256 = 1
 colorscheme molokai
-" hi! link Conceal Operator
+
 hi clear SignColumn	
 
 if has ("gui_running")
@@ -71,8 +70,6 @@ set mouse=a
 
 set encoding=utf-8
 
-" appearance
-" ----------
 set number
 set showcmd
 set wildmenu
@@ -87,7 +84,7 @@ set foldenable
 set foldmethod=marker
 set splitright
 
-" statusline {{{
+" statusline
 " ----------
 set laststatus=2
 set ruler
