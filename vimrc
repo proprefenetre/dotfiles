@@ -11,8 +11,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'sirver/ultisnips'
 
-Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
-Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
+" Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
+" Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
 
 Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
@@ -31,8 +31,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
-
-" Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-unimpaired'
 
 Plug 'godlygeek/tabular'
 
@@ -51,7 +50,6 @@ call plug#end()
 " =======
 let g:molokai_original = 1
 let g:rehash256 = 1
-" let g:nord_italic_comments = 1
 colorscheme molokai
 " hi! link Conceal Operator
 hi clear SignColumn	
@@ -89,10 +87,15 @@ set foldenable
 set foldmethod=marker
 set splitright
 
-" statusline
+" statusline {{{
 " ----------
 set laststatus=2
 set ruler
+set statusline=%f\ %h%w%m%r\ 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set statusline+=%=%(%l,%c%V\ %=\ %P%) 
 
 " auto-anything
 " -------------
@@ -147,7 +150,7 @@ autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
 " Functions
 " =========
 
-" fill line with character(s)
+" fill line with character(s) {{{
 " ---------------------------
 function! FillLine(str)
     let tw = 79
@@ -159,10 +162,10 @@ function! FillLine(str)
 endfunction
 
 command! -nargs=1 Fill call FillLine(<args>) 
+" }}} "
 
-" toggle functions {{{1 "
-" " toggle ui elements 
-" ----------------
+" toggle ui elements {{{
+" ------------------
 let g:toggle_tabline=0
 let g:hide_all=0
 
@@ -205,14 +208,15 @@ function! ToggleTabline()
 endfunction
 " }}} "
 
-" create command aliases
+" create command aliases {{{
 " ----------------------
 function! CommandAlias(key, value)
     exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
 endfu
+" }}} "
 
-" 'run' mapping
-" -----------
+" 'run' mapping {{{
+" -------------
 function! MapR()
     if (&ft=='pandoc')
         write
@@ -227,69 +231,16 @@ function! MapR()
         write
     endif
 endfunction
-
+" }}} "
 
 " Plugins
 " =======
 
 " vim-airline
 " -----------
-let g:airline_detect_paste = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-" lightline
-" ---------
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'fugitive', 'filename' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \   'fugitive': 'LightlineFugitive',
-"       \   'readonly': 'LightlineReadonly',
-"       \   'modified': 'LightlineModified',
-"       \   'filename': 'LightlineFilename'
-"       \ },
-"       \ 'separator': { 'left': '', 'right': '' },
-"       \ 'subseparator': { 'left': '', 'right': '' }
-"       \ }
-"
-
-" lightline functions {{{1 "
-" function! LightlineModified()
-"   if &filetype == "help"
-"     return ""
-"   elseif &modified
-"     return "+"
-"   elseif &modifiable
-"     return ""
-"   else
-"     return ""
-"   endif
-" endfunction
-"
-" function! LightlineReadonly()
-"   if &filetype == "help"
-"     return ""
-"   elseif &readonly
-"     return ""
-"   else
-"     return ""
-"   endif
-" endfunction
-"
-" function! LightlineFugitive()
-"   return exists('*fugitive#head') ? fugitive#head() : ''
-" endfunction
-"
-" function! LightlineFilename()
-"   return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-"        \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-"        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-" endfunction
-" 1}}} "
+" let g:airline_detect_paste = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts = 1
 
 " ctlp
 " ----
@@ -339,6 +290,18 @@ let g:tq_enabled_backends=["thesaurus_com","mthesaur_txt"]
 " -----------
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 
+" syntastic
+" ---------
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_python_checkers = ["flake8"]
+let g:syntastic_python_flake8_args = "--ignore=E501"
+
+let g:syntastic_bash_checkers = ["ShellCheck"]
+
 " Mappings
 " ========
 
@@ -350,8 +313,9 @@ map k gk
 
 inoremap jj <esc>
 
-" vnew
+" windows 
 nnoremap <c-w><c-v> :vne<cr>
+nnoremap <c-w><c-t> :tabedit<cr>
 
 nmap <C-d> <C-w><C-h>
 nmap <C-h> <C-w><C-j>
@@ -367,10 +331,9 @@ vnoremap <leader>lr y:s/<C-r>"/
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
-" editing
-nnoremap <leader>.p :tabedit $MYVIMRC<cr>
+" editing vimrc
+nnoremap <leader>.p :vs $MYVIMRC<cr>
 nnoremap <leader>eu :source $MYVIMRC<cr>
-nnoremap <leader>tn :tabedit<cr>
 
 " formatting
 nnoremap Q vapgq
@@ -396,11 +359,12 @@ nnoremap <silent> <s-t> :call ToggleTabline()<cr>
 cnoremap <c-a> <Home>
 
 " vim-fugitive
-call CommandAlias("W", "Gwrite")
+nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gs :Gstatus<cr>
 
 " aliases
+call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
 
