@@ -1,0 +1,21 @@
+! swap ctrl & super
+!
+clear Control
+clear Mod1
+clear Mod4
+
+! ctrl key
+keycode 37 = Alt_L Meta_L Alt_L Meta_L
+! add Control = Alt_L Meta_L Alt_L Meta_L
+
+! alt key
+keycode 64 = Super_L Super_L Super_L Super_L Caps_Lock Super_L Caps_Lock
+
+! add Mod1 = Super_L Super_L Super_L Super_L Caps_Lock Super_L Caps_Lock
+
+! search key
+keycode 133 = Control_L NoSymbol Control_L
+! add Mod4 = Control_L NoSymbol Control_L
+
+
+
