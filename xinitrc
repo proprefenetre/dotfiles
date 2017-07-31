@@ -9,9 +9,7 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
 fi
 
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
-[ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
-
-
+# [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ $HOSTNAME == 'archbook' ]; then
     setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl
