@@ -12,7 +12,6 @@
 # modifiers
 set $mod Mod4
 set $alt Mod1
-
 set $ctrl Control
 
 # Font for window titles. Will also be used by the bar
@@ -44,9 +43,7 @@ set $term urxvtc -tr -sh 40
 
 bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+Shift+Return exec --no-startup-id gvim
-# bindsym $win+Return exec --no-startup-id gvim
 bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
-# bindsym $win+apostrophe exec --no-startup-id ~/bin/snippy
 bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
 bindsym $mod+Shift+greater exec --no-startup-id rofi -show run
 
@@ -183,7 +180,6 @@ set $meta "[s]uspend, [h]ibernate, [l]ock, [k]ill X, res[t]art i3, [e]dit config
 mode $meta {
 
     bindsym s exec --no-startup-id xautolock -locknow, mode "default"
-    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
     bindsym l exec --no-startup-id $locker, mode "default"
     bindsym k exec --no-startup-id i3-msg exit, mode "default"
     bindsym t exec --no-startup-id i3-msg restart; mode "default"
