@@ -10,12 +10,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'sirver/ultisnips'
 
-" Plug 'vim-airline/vim-airline', { 'for': ['python', 'c', 'cpp', 'sh'] }
-" Plug 'vim-airline/vim-airline-themes', { 'for': ['python', 'c', 'cpp', 'sh'] }
-
 Plug 'proprefenetre/molokai'
 Plug 'altercation/vim-colors-solarized'
-Plug 'arcticicestudio/nord-vim'
 
 Plug 'vim-syntastic/syntastic'
 Plug 'airblade/vim-gitgutter'
@@ -31,6 +27,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-eunuch'
 
 Plug 'godlygeek/tabular'
 
@@ -235,9 +232,8 @@ endfunction
 
 " ctlp
 " ----
-" let g:ctrlp_working_path_mode='car'
 " let g:ctrlp_switch_buffer='et'
-" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_cmd = 'CtrlPMRU'
 
 " UltiSnips
 " ---------
@@ -301,7 +297,7 @@ map k gk
 
 inoremap jj <esc>
 
-" windows 
+" windows 'n splits
 nnoremap <c-w><c-v> :vne<cr>
 nnoremap <c-w><c-t> :tabedit<cr>
 
@@ -343,7 +339,7 @@ nnoremap <leader>r :call MapR()<cr>
 nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
 nnoremap <silent> <s-t> :call ToggleTabline()<cr>
 
-" command line
+" command line keys
 cnoremap <c-a> <Home>
 
 " vim-fugitive
@@ -357,4 +353,4 @@ call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
 
 " write as root
-command! Sw :execute ':silent w !sudo tee % > /dev/null' | :edit! 
+command! Sw :SudoWrite
