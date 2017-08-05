@@ -23,12 +23,6 @@ alias netctl-auto='sudo netctl-auto'
 # python
 alias py='python'
 
-## activate pyvenv
-activate ()
-{
-    source "$1/bin/activate"
-}
-
 ## feh
 alias feh='feh -g 640x480 -d'
 
