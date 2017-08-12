@@ -120,8 +120,6 @@ bindsym $mod+j workspace back_and_forth
 bindsym $mod+Shift+W move workspace to output left
 
 # scratchpad
-bindsym $mod+grave move scratchpad
-bindsym $alt+grave scratchpad show
 bindsym $mod+u [instance="scratch$"] scratchpad show
 for_window [instance="scratch"] move scratchpad
 
