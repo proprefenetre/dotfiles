@@ -3,15 +3,6 @@
 # dunst
 alias dunstr='killall dunst && dunst &'
 
-# mount
-mmount() {
-    mount "/dev/$1"
-}
-
-mumount() {
-    umount "/dev/$1"
-}
-
 #dropbox
 alias dropbox='dropbox-cli'
 
@@ -46,6 +37,7 @@ alias src='source ~/.bashrc && echo "sourced bashrc"'
 alias cal='cal -3w --color=always'
 alias cignore='curl https://www.gitignore.io/api/c%2Cvim -o .gitignore'
 alias cp='cp -v'
+alias dd='dd status=progress'
 alias detwist='pacman -Rns $(pacman -Qtdq)'
 alias df='df -h'
 alias drijf='cadaver https://proprefenetre.stackstorage.com/remote.php/webdav/'
