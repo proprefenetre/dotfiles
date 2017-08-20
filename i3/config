@@ -120,8 +120,9 @@ bindsym $mod+j workspace back_and_forth
 bindsym $mod+Shift+W move workspace to output left
 
 # scratchpad
-bindsym $mod+u [instance="scratch$"] scratchpad show
-for_window [instance="scratch"] move scratchpad
+bindsym $mod+u [instance="^scratch$"] scratchpad show
+for_window [instance="^scratch$"] move scratchpad
+for_window [instance="^scratch$"] floating enable
 
 # assignments
 assign [class="^[Cc]hromium$"] 1
@@ -131,11 +132,12 @@ assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
 
 # window rules
-for_window [instance="scratch"] floating enable
 for_window [class="^Dialog"] floating enable
 for_window [instance=".*Properties"] floating enable
-for_window [title="World"] floating enable
-for_window [title="World"] move position center
+# waar zijn deze voor?
+# for_window [title="World"] floating enable
+# for_window [title="World"] move position center
+for_window [class="^Pinentry$"] floating enable
 
 # resize window (you can also use the mouse for that)
 set $resize "resize"
