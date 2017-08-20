@@ -120,6 +120,10 @@ set expandtab
 
 set formatprg=par\ -w80q
 
+" swp/backup files
+" ================
+set backupdir=./.backup,.,/tmp
+set directory=./.swap,.,/tmp
 
 " File-type specific
 " ==================
