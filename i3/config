@@ -134,10 +134,7 @@ assign [class="^Steam"] 2
 # window rules
 for_window [class="^Dialog"] floating enable
 for_window [instance=".*Properties"] floating enable
-# waar zijn deze voor?
-# for_window [title="World"] floating enable
-# for_window [title="World"] move position center
-for_window [class="^Pinentry$"] floating enable
+for_window [class="^Pinentry"] floating enable
 
 # resize window (you can also use the mouse for that)
 set $resize "resize"
