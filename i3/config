@@ -199,7 +199,7 @@ bindsym $mod+Shift+apostrophe mode $meta
 bar {
     status_command i3blocks
     position top
-    font pango:Hack Regular, icons 8
+    font pango:Hack Regular, awesome 8
     colors {
         background #1c1c1c
         focused_workspace #0c8346 #0d5d56 #ffffff
