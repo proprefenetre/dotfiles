@@ -352,6 +352,7 @@ nnoremap <leader>gc :Gcommit<cr>
 nnoremap <leader>gs :Gstatus<cr>
 
 " aliases
+call CommandAlias("reindent", ":!indent -kr %")
 call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
