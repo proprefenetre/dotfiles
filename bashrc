@@ -31,6 +31,6 @@ export PROMPT_COMMAND='history -a'
 
 export EDITOR='gvim'
 export PATH="${PATH}:$HOME/bin"
-export BROWSER='vivaldi-stable'
+export BROWSER='chromium'
 export LESS='-R'
 export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
