@@ -39,7 +39,8 @@ floating_modifier $mod
 
 # launching
 set $browser vivaldi-stable
-set $term urxvtc -tr -sh 40
+# set $term urxvtc -tr -sh 40
+set $term urxvtc 
 
 bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+Shift+Return exec --no-startup-id gvim
