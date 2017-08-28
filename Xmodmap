@@ -1,22 +1,16 @@
 ! swap ctrl & super
 !
-clear Control
 clear Mod1
 clear Mod4
 
-! ctrl key
-! keycode 37 = Control
-keysym Control_L = Alt_L Alt_L Meta_L 
-add Control = Alt_L Alt_L Meta_L
-
 ! alt key
 keysym Alt_L = Super_L Super_L Super_L Super_L Caps_Lock Super_L Caps_Lock
-add Mod1 = Super_L Super_L Super_L Super_L Caps_Lock Super_L Caps_Lock
+add Mod4 = Alt_L
 
 
 ! search key
-keysym Super_L = Control_L Control_L
-add Mod4 = Control_L Control_L
+keysym Super_L = Alt_L Alt_L Meta_L 
+add Mod1 = Super_L
 
 
 

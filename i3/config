@@ -39,7 +39,6 @@ floating_modifier $mod
 
 # launching
 set $browser vivaldi-stable
-# set $term urxvtc -tr -sh 40
 set $term urxvtc 
 
 bindsym $mod+Return exec --no-startup-id $term
@@ -150,8 +149,8 @@ mode $resize {
     bindsym Shift+h resize shrink up 10 px
     bindsym Shift+d resize shrink right 10 px
 
-        bindsym Escape mode "default"
-        bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
 }
 bindsym $mod+r mode $resize
 
@@ -197,7 +196,7 @@ bindsym $mod+Shift+apostrophe mode $meta
 bar {
     status_command i3blocks
     position top
-    font pango:Hack Regular, icons 8
+    font pango:Hack Regular, awesome 8
     colors {
         background #1c1c1c
         focused_workspace #0c8346 #0d5d56 #ffffff

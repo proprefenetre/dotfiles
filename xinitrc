@@ -11,7 +11,7 @@ fi
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 
 if [ "$HOSTNAME" = 'archbook' ]; then
-    setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl
+    setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
     [ -L "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
 else
     "$HOME"/bin/mhead -e
@@ -27,7 +27,6 @@ xset m 1 0
 urxvtd -q -f -o
 unclutter &
 
-# hsetroot -fill $(shuf -n 1 -e "$HOME/files/pics/wallpaper/*") &
 /home/niels/bin/setbg &
 # xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
 
