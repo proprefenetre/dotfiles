@@ -77,9 +77,12 @@ set scrolloff=999
 set textwidth=79
 set cc=+1               
 set fo+=j
-set foldenable
-set foldmethod=marker
 set splitright
+
+" folds
+" -----
+set foldmethod=indent
+set foldnestmax=10
 
 " statusline
 " ----------
@@ -132,8 +135,8 @@ set directory=./.swap,.,/tmp
 " -----------
 autocmd BufNewFile,BufRead * :RainbowParentheses
 
-" C
-" -
+" C(++)
+" -----
 augroup c
     autocmd!
     autocmd FileType c set cms=//\ %s
