@@ -240,7 +240,7 @@ endfunction
 " ctlp
 " ----
 " let g:ctrlp_switch_buffer='et'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_cmd = 'CtrlP'
 
 " UltiSnips
 " ---------
@@ -292,6 +292,7 @@ let g:syntastic_python_checkers = ["flake8"]
 let g:syntastic_python_flake8_args = "--ignore=E501"
 
 let g:syntastic_bash_checkers = ["ShellCheck"]
+let g:syntastic_sh_ShellCheck_args = "-x"
 
 " Mappings
 " ========
@@ -359,6 +360,7 @@ call CommandAlias("reindent", ":!indent -kr %")
 call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
+call CommandAlias("Sx", ":SudoWrite<cr> :q<cr>")
 
 " write as root
 command! Sw :SudoWrite
