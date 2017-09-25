@@ -1,23 +1,25 @@
 #!/bin/sh
-#
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
-  for f in /etc/X11/xinit/xinitrc.d/*; do
-    [ -x "$f" ] && . "$f"
-  done
-  unset f
+    for f in /etc/X11/xinit/xinitrc.d/*; do
+        # shellcheck disable=SC1090
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
 fi
 
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 
-if [ "$HOSTNAME" = 'archbook' ]; then
+if [ "$(hostname)" = 'archbook' ]; then
     setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
     [ -L "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
-else
-    "$HOME"/bin/mhead -e
+fi
+if [ "$(hostname)" = 'arch' ]; then
+    "$HOME"/bin/mhead
     setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
     xbindkeys &
     lfl &
+    mount drijf &
 fi
     
 xset +fp /usr/share/fonts/local
@@ -32,7 +34,6 @@ unclutter &
 
 redshift &
 libinput-gestures &
-archupdates &
 ~/bin/focus-last.py &
 
 remind_sync.sh &
