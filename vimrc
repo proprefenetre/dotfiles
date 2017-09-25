@@ -240,7 +240,7 @@ endfunction
 " ctlp
 " ----
 " let g:ctrlp_switch_buffer='et'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_cmd = 'CtrlP'
 
 " UltiSnips
 " ---------
@@ -362,3 +362,4 @@ call CommandAlias("Wq","wq")
 
 " write as root
 command! Sw :SudoWrite
+command! Se :SudoEdit
