@@ -6,6 +6,11 @@ connect() {
     connmanctl connect $wifi_id
 }
 
+gvim () { command gvim --remote-tab-silent "$@" || command gvim "$@"; }
+
+# dnf
+alias dnf='sudo dnf'
+
 # dunst
 alias dunstr='killall dunst && dunst &'
 
@@ -40,6 +45,7 @@ alias i3conf='gvim ~/.config/i3/config'
 alias src='source ~/.bashrc && echo "sourced bashrc"'
 
 ## commands
+alias battlenet='wine .wine/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net.exe'
 alias cal='cal -3w --color=always'
 alias cignore='curl https://www.gitignore.io/api/c%2Cvim -o .gitignore'
 alias cp='cp -v'

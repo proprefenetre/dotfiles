@@ -9,7 +9,7 @@
 
 
 # shellcheck disable=SC2046
-eval $(keychain --eval --agents gpg,ssh id_rsa)
+eval $(keychain --eval --agents ssh id_rsa)
 
 # shopt
 shopt -s checkwinsize
@@ -30,7 +30,9 @@ export HISTFILESIZE=20000
 export PROMPT_COMMAND='history -a'
 
 export EDITOR='gvim'
-export PATH="${PATH}:$HOME/bin"
-export BROWSER='vivaldi-stable'
+export PATH="${PATH}:$HOME/bin:/mnt/modbox/tools"
+export BROWSER='chromium-browser'
 export LESS='-R'
 export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
+export NLTK_DATA='~/Projects/corpus_analysis/nltk_data'
+export WINEPREFIX='/home/niels/.wine'

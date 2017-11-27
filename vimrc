@@ -60,6 +60,8 @@ if has ("gui_running")
     set go+=a
     set go+=c
     set guiheadroom=0
+    set lines=30
+    set columns=100
 endif
 
 set backspace=indent,eol,start
@@ -81,7 +83,7 @@ set splitright
 
 " folds
 " -----
-set foldmethod=indent
+set foldmethod=manual
 set foldnestmax=10
 
 " statusline
@@ -186,7 +188,7 @@ function! ToggleHideAll()
     else
         let g:toggle_tabline=1
         let g:hide_all=1
-        " set nonumber
+        set nonumber
         hi LineNr guifg=bg
         set numberwidth=4
         set cc=
@@ -224,12 +226,12 @@ function! MapR()
         make
     elseif (&ft=='python')
         write
-        !python %
+        !python3 %
     elseif (&ft=='c')
         write
         make
-    else
-        write
+    elseif (&ft=='yaml')
+        !yamllint %
     endif
 endfunction
 " }}} "
