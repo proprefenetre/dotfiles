@@ -326,7 +326,7 @@ nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
 " editing vimrc
-nnoremap <leader>.p :vs $MYVIMRC<cr>
+nnoremap <leader>.p :e $MYVIMRC<cr>
 nnoremap <leader>eu :source $MYVIMRC<cr>
 
 " formatting

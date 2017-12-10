@@ -14,19 +14,19 @@ if [ "$(hostname)" = 'archbook' ]; then
     setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
     [ -L "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
 fi
-if [ "$(hostname)" = 'arch' ]; then
+if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/mhead
     setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
     xbindkeys &
     lfl &
-    mount drijf &
+    mount drijf
 fi
     
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-urxvtd -q -f -o
+urxvtd --quiet --fork --opendisplay
 unclutter &
 
 /home/niels/bin/setbg &
@@ -36,7 +36,7 @@ redshift &
 libinput-gestures &
 ~/bin/focus-last.py &
 
-remind_sync.sh &
-remind -z -k'notify-send -a reminder %s' .reminders &
+# remind_sync.sh &
+# remind -z -k'notify-send -a reminder %s' .reminders &
 
 exec i3

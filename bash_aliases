@@ -1,12 +1,19 @@
 #!/bin/bash
 
-connect() {
+# functions
+connect () {
     ssid="$1"
     wifi_id=$(connmanctl services | grep $ssid | awk '{print $4}')
     connmanctl connect $wifi_id
 }
 
-gvim () { command gvim --remote-tab-silent "$@" || command gvim "$@"; }
+gvim () { 
+    command gvim --remote-tab-silent "$@" >/dev/null 2>&1 || command gvim "$@" ; 
+}
+
+clean_path () {
+    PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
+}
 
 # dnf
 alias dnf='sudo dnf'
@@ -24,9 +31,6 @@ alias netctl-auto='sudo netctl-auto'
 
 # python
 alias py='python'
-
-## feh
-alias feh='feh -g 640x480 -d'
 
 ## gcc
 alias gg='g++ -Wall -Wextra -std=gnu++11 -g'
@@ -51,7 +55,7 @@ alias cignore='curl https://www.gitignore.io/api/c%2Cvim -o .gitignore'
 alias cp='cp -v'
 
 alias dd='dd status=progress'
-alias detwist='pacman -Rns $(pacman -Qtdq)'
+alias detwist='pacman -Rns $(pacman -Qtdq)' # remove orphans
 alias df='df -h'
 alias drijf='cadaver https://proprefenetre.stackstorage.com/remote.php/webdav/'
 alias ducks='du -cksh * | sort -hr | head -n 15'

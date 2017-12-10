@@ -3,6 +3,7 @@
 #define bold            xft:Hack-Bold:pixelsize=13
 #define italic          xft:Hack-Italic:pixelsize=13
 #define bold_italic     xft:Hack-BoldItalic:pixelsize=13
+
 #define rofi_font       Hack Regular 10
 
 ! colors
@@ -27,10 +28,13 @@
 #define Molokai_white        #F8F8E8
 
 ! xft
-Xft*antialias: true
 Xft*dpi: 96
+Xft*antialias: true
+Xft*rgba: rgb
 Xft*hinting: true
 Xft*hintstyle: hintslight
+Xft*autohint: false
+Xft*lcdfilter: lcddefault
 
 ! urxvt
 URxvt*LoginShell: true

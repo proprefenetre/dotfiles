@@ -9,7 +9,7 @@
 
 
 # shellcheck disable=SC2046
-eval $(keychain --eval --agents ssh id_rsa)
+eval $(keychain --quiet --noask --eval --agents ssh id_rsa)
 
 # shopt
 shopt -s checkwinsize
@@ -25,14 +25,4 @@ shopt -s histappend
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 
 # environment
-export HISTSIZE=10000
-export HISTFILESIZE=20000
-export PROMPT_COMMAND='history -a'
-
-export EDITOR='gvim'
-export PATH="${PATH}:$HOME/bin:/mnt/modbox/tools"
-export BROWSER='chromium-browser'
-export LESS='-R'
-export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
-export NLTK_DATA='~/Projects/corpus_analysis/nltk_data'
-export WINEPREFIX='/home/niels/.wine'
+# see .bash_profile
