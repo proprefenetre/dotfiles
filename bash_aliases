@@ -7,9 +7,17 @@ connect () {
     connmanctl connect $wifi_id
 }
 
-gvim () { 
-    command gvim --remote-tab-silent "$@" >/dev/null 2>&1 || command gvim "$@" ; 
-}
+# gvim () { 
+#     if [[ $(vim --serverlist) ]]; then
+#         if [[ $# -eq 0 ]]; then
+#             command gvim --remote-send ":tabnew<cr>"
+#         else
+#             command gvim --remote-tab-silent "$@"
+#         fi
+#     else
+#         command gvim "$@"
+#     fi
+# }
 
 clean_path () {
     PATH=$(echo "$PATH" | awk -v RS=':' -v ORS=":" '!a[$1]++{if (NR > 1) printf ORS; printf $a[$1]}')
@@ -37,7 +45,7 @@ alias gg='g++ -Wall -Wextra -std=gnu++11 -g'
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 
 ## vim
-alias g='gvim'
+alias g='gvims'
 alias v='vim'
 alias vt-vim='urxvt -e vim'
 # R/vimcom

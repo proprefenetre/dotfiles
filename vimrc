@@ -40,6 +40,8 @@ Plug 'vim-pandoc/vim-pandoc-after'
 Plug 'ron89/thesaurus_query.vim'
 Plug 'reedes/vim-wordy'
 
+Plug 'fs111/pydoc.vim'
+
 call plug#end()
 
 " General
@@ -149,6 +151,11 @@ augroup END
 " ----
 autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
 
+" Python
+" ------
+autocmd FileType python set breakindentopt=shift:4
+
+let g:pydoc_open_cmd = 'tabnew'
 
 " Functions
 " =========
@@ -320,7 +327,6 @@ nmap <C-n> <C-w><C-l>
 noremap <leader>gr :%s/\<<C-r><C-w>\>/
 nnoremap <leader>lr :s/<C-r><C-w>/
 vnoremap <leader>lr y:s/<C-r>"/
-
 " copy pasta
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
