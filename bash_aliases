@@ -83,6 +83,7 @@ alias octoperms='stat -c "%a %n"'
 alias pdf-tif='gs -dNOPAUSE -r300 -sDEVICE=tiffg4 -sOutputFile=vdmast.tif'
 alias pignore='curl https://www.gitignore.io/api/python%2Cvim -o .gitignore' 
 alias ping3='ping -c3 www.google.com'
+alias pkglist='pacman -Qqe >pkglist'
 alias powertop='sudo powertop'
 
 alias rmlinks='find -L . -name . -o -type d -prune -o -type l -exec rm {} + '
