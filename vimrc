@@ -21,6 +21,7 @@ Plug 'xolox/vim-easytags'
 
 Plug 'ctrlpvim/ctrlp.vim'
 
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
@@ -62,7 +63,6 @@ if has ("gui_running")
     set go+=a
     set go+=c
     set guiheadroom=0
-    set lines=30
     set columns=100
 endif
 
@@ -276,8 +276,7 @@ let g:easytags_suppress_ctags_warning = 1
 " vim-pandoc
 " ----------
 let g:pandoc#filetyes#handled = ["markdown", "mail"]
-let g:pandoc#folding#level = 1
-let g:pandoc#folding#fdc = 0
+let g:pandoc#modules#disabled = ["folding"]
 let g:pandoc#formatting#mode = "h"
 
 let g:pandoc#after#modules#enabled = ["ultisnips"]
