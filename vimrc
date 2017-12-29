@@ -62,8 +62,6 @@ if has ("gui_running")
     set go+=a
     set go+=c
     set guiheadroom=0
-    set lines=30
-    set columns=100
 endif
 
 set backspace=indent,eol,start
@@ -129,8 +127,9 @@ set formatprg=par\ -w80q
 
 " swp/backup files
 " ================
-set backupdir=./.backup,.,/tmp
-set directory=./.swap,.,/tmp
+set backupdir=./.backup//,~/.vim/backup//,/tmp//
+set directory=./.swap//,~/.vim/swap//,/tmp//
+set undodir=./.vim/undo//,/tmp//
 
 " File-type specific
 " ==================
