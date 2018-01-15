@@ -12,17 +12,20 @@ fi
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = 'archbook' ]; then
-    setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
+    # setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
+    "$HOME"/bin/keeb -dv
     libinput-gestures &
 fi
 if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/mhead
-    setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+    # setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+    "$HOME"/bin/keeb -dv
     xbindkeys &
-    lfl &
-    mount drijf
 fi
     
+
+mount drijf
+
 # xset +fp /usr/share/fonts/local
 # xset fp rehash
 xset m 1 0
