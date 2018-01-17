@@ -33,7 +33,7 @@ alias dunstr='killall dunst && dunst &'
 alias dropbox='dropbox-cli'
 
 # sudo
-alias pacman='pacaur'
+alias pacman='pacaur --color=always'
 # alias systemctl='sudo systemctl'
 alias netctl-auto='sudo netctl-auto'
 
