@@ -9,7 +9,7 @@
 
 
 # shellcheck disable=SC2046
-eval $(keychain --quiet --noask --eval --agents ssh,gpg id_rsa)
+eval $(keychain --quiet --timeout 60 --eval id_rsa)
 
 # shopt
 shopt -s checkwinsize
