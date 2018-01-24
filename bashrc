@@ -3,6 +3,7 @@
 #
 
 # If not running interactively, don't do anything
+
 [[ $- != *i* ]] && return
 
 [[ -n "$SSH_TTY" ]] && PS1="\[\e[1;35m\](SSH) \h \[\e[0m\]\w \$ " || PS1="\h \[\e[1;32m\]\w \$\[\e[0m\] "
