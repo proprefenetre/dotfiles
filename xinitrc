@@ -9,21 +9,25 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
 fi
 
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
+[ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = 'archbook' ]; then
-    setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
-    [ -L "$HOME"/.Xmodmap ] && xmodmap "$HOME"/.Xmodmap
+    # setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
+    "$HOME"/bin/keeb -dv
+    libinput-gestures &
 fi
 if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/mhead
-    setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+    # setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+    "$HOME"/bin/keeb -dv
     xbindkeys &
-    lfl &
-    mount drijf
 fi
     
-xset +fp /usr/share/fonts/local
-xset fp rehash
+
+mount drijf
+
+# xset +fp /usr/share/fonts/local
+# xset fp rehash
 xset m 1 0
 
 urxvtd --quiet --fork --opendisplay
@@ -33,7 +37,6 @@ unclutter &
 # xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
 
 redshift &
-libinput-gestures &
 ~/bin/focus-last.py &
 
 # remind_sync.sh &

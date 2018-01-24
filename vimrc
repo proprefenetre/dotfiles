@@ -10,7 +10,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'sirver/ultisnips'
 
 Plug 'proprefenetre/molokai'
-Plug 'altercation/vim-colors-solarized'
+Plug 'romainl/flattened'
+Plug 'morhetz/gruvbox'
 
 Plug 'vim-syntastic/syntastic'
 Plug 'airblade/vim-gitgutter'
@@ -46,8 +47,8 @@ call plug#end()
 
 " General
 " =======
-let g:molokai_original = 1
-let g:rehash256 = 1
+let g:molokai_original=1
+let g:rehash256=1
 colorscheme molokai
 
 hi clear SignColumn	
