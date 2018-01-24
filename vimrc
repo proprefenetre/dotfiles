@@ -154,8 +154,11 @@ autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
 " Python
 " ------
 autocmd FileType python set breakindentopt=shift:4
-
 let g:pydoc_open_cmd = 'tabnew'
+
+" Yaml
+" ----
+autocmd FileType yaml setlocal ts=4 sts=4 sw=4 indentkeys-=<:>
 
 " Functions
 " =========
