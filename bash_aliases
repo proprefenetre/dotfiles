@@ -41,7 +41,7 @@ alias netctl-auto='sudo netctl-auto'
 alias py='python'
 
 ## gcc
-alias gg='g++ -Wall -Wextra -std=gnu++11 -g'
+alias gg='g++ -Wall -Wextra -pedantic -g -std=gnu++11' 
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 
 ## vim

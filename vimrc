@@ -89,12 +89,14 @@ set foldnestmax=10
 " statusline
 " ----------
 set laststatus=2
-set ruler
-set statusline=%f\ %h%w%m%r\ 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set statusline+=%=%(%l,%c%V\ %=\ %P%) 
+set statusline=
+set statusline+=%t\ 
+set statusline+=%m\ 
+set statusline+=%y[%{(&fenc!=''?&fenc:&enc)}][%{&ff}]
+set statusline+=%r 
+set statusline+=%w
+set statusline+=%=%*
+set statusline+=(%l,\ %c)\ %P
 
 " auto-anything
 " -------------
@@ -296,7 +298,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = "--ignore=E501"
+let g:syntastic_python_flake8_args = "--ignore=E501,W291,W293,W391,F401"
 
 let g:syntastic_bash_checkers = ["ShellCheck"]
 let g:syntastic_sh_ShellCheck_args = "-x"
@@ -325,6 +327,10 @@ nmap <C-n> <C-w><C-l>
 noremap <leader>gr :%s/\<<C-r><C-w>\>/
 nnoremap <leader>lr :s/<C-r><C-w>/
 vnoremap <leader>lr y:s/<C-r>"/
+"
+"Remove all trailing whitespace
+nnoremap <leader>1 :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
 " copy pasta
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
@@ -350,8 +356,8 @@ nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
 nnoremap <leader>r :call MapR()<cr>
 
 " hide statusline, linenumbers etc.
-nnoremap <silent> <s-h> :call ToggleHideAll()<cr>
-nnoremap <silent> <s-t> :call ToggleTabline()<cr>
+nnoremap <silent> <leader><s-h> :call ToggleHideAll()<cr>
+nnoremap <silent> <leader><s-t> :call ToggleTabline()<cr>
 
 " command line keys
 cnoremap <c-a> <Home>
