@@ -335,6 +335,13 @@ vnoremap <leader>lr y:s/<C-r>"/
 "Remove all trailing whitespace
 nnoremap <leader>1 :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
+" word count
+nnoremap <leader>2 :!wc -w % <bar> cut -d\  -f1<cr>
+
+" formatting
+nnoremap <leader>3 vapgq
+vnoremap <leader>3 gq
+
 " copy pasta
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
@@ -343,18 +350,11 @@ vnoremap <leader>y "+y
 nnoremap <leader>.p :e $MYVIMRC<cr>
 nnoremap <leader>eu :source $MYVIMRC<cr>
 
-" formatting
-nnoremap Q vapgq
-vnoremap Q gq
-
 " highlight information
 map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '>
             \ trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" .
             \ synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" .
             \ " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<cr>
-
-" word count
-nnoremap <leader>wc :!wc -w % <bar> cut -d\  -f1<cr>
 
 " 'run' mapping
 nnoremap <leader>r :call MapR()<cr>
