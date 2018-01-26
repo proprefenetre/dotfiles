@@ -5,7 +5,7 @@
 [push]
     default = simple
 [core]
-    excludesfile = ~/.cvsignore
+    excludesfile = ~/.gitignore-global
     editor = vim
 [alias]
     lola = log --graph --decorate --oneline --abbrev-commit --all
