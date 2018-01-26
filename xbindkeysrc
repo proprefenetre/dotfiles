@@ -20,13 +20,13 @@
     m:0x0 + c:121
     XF86AudioMute
 
-"xbacklight -dec 5 && kill -s RTMIN+2 $(pgrep i3blocks)"
-    m:0x0 + c:72
-    XF86MonBrightnessDown 
+# "xbacklight -dec 5 && kill -s RTMIN+2 $(pgrep i3blocks)"
+#     m:0x0 + c:72
+#     XF86MonBrightnessDown 
 
-"xbacklight -inc 5 && kill -s RTMIN+2 $(pgrep i3blocks)"
-    m:0x0 + c:73
-    XF86MonBrightnessUp 
+# "xbacklight -inc 5 && kill -s RTMIN+2 $(pgrep i3blocks)"
+#     m:0x0 + c:73
+#     XF86MonBrightnessUp 
 
 ##################################
 # End of xbindkeys configuration #
