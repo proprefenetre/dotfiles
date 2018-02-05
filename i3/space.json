@@ -1,37 +1,35 @@
-// vim:ts=4:sw=4:et
 {
-    "border": "pixel",
-    "floating": "auto_off",
-    "layout": "splith",
-    "percent": null,
-    "rect": {
-       "height": 650,
-       "width": 700,
-       "x": 380,
-       "y": 125
-    },
-    "type": "floating_con",
-    "nodes": [
+  "border": "pixel",
+  "floating": "auto_off",
+  "layout": "splith",
+  "percent": null,
+  "rect": {
+    "height": 500,
+    "width": 700,
+    "x": 342,
+    "y": 148
+  },
+  "type": "floating_con",
+  "nodes": [
+    {
+      "border": "none",
+      "current_border_width": 1,
+      "floating": "user_on",
+      "geometry": {
+        "height": 200,
+        "width": 683,
+        "x": 170,
+        "y": 96
+      },
+      "name": "Vim",
+      "percent": 1,
+      "swallows": [
         {
-            "border": "none",
-            "current_border_width": 1,
-            "floating": "user_on",
-            "geometry": {
-               "height": 605,
-               "width": 700,
-               "x": 342,
-               "y": 140
-            },
-            "name": "Vim",
-            "percent": 1,
-            "swallows": [
-               {
-               "class": "^Gvim$",
-               "instance": "^gvim$"
-               }
-            ],
-            "type": "con"
+          "class": "^Gvim$",
+          "instance": "^gvim$"
         }
-    ]
+      ],
+      "type": "con"
+    }
+  ]
 }
-

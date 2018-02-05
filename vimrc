@@ -10,7 +10,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'sirver/ultisnips'
 
 Plug 'proprefenetre/molokai'
-Plug 'romainl/flattened'
+Plug 'proprefenetre/flattened'
 Plug 'morhetz/gruvbox'
 
 Plug 'vim-syntastic/syntastic'
@@ -190,7 +190,7 @@ function! ToggleHideAll()
     if g:hide_all
         let g:toggle_tabline=0
         let g:hide_all=0
-        " set number
+        set number
         hi LineNr guifg=#BCBCBC
         set numberwidth=4
         set cc=80
@@ -235,7 +235,10 @@ endfu
 " 'run' mapping {{{
 " -------------
 function! MapR()
-    if (&ft=='pandoc')
+    if (&ft=='rust')
+        write
+        !cargo run
+    elseif (&ft=='pandoc')
         write
         make
     elseif (&ft=='python')
@@ -261,8 +264,8 @@ let g:ctrlp_cmd = 'CtrlP'
 " UltiSnips
 " ---------
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetDirectories=["snipperts"]
 let g:UltiSnipsEditSplit="vertical"
 
@@ -304,7 +307,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = "--ignore=E501,W291,W293,W391,F401"
+let g:syntastic_python_flake8_args = "--ignore=E301,E303,E501,W291,W293,W391,F401"
 
 let g:syntastic_bash_checkers = ["ShellCheck"]
 let g:syntastic_sh_ShellCheck_args = "-x"
