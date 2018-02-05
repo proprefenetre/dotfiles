@@ -41,7 +41,6 @@ bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
 bindsym $mod+g exec gvims
 bindsym $ctrl+Return exec --no-startup-id gmrun
 
-
 # stuff
 
 # take a screenshot
@@ -136,15 +135,16 @@ for_window [class="^Pinentry"] floating enable
 # resize window (you can also use the mouse for that)
 set $resize "resize"
 mode $resize {
-    bindsym d resize grow left 10 px
-    bindsym h resize grow down 10 px
-    bindsym t resize grow up 10 px
-    bindsym n resize grow right 10 px
 
-    bindsym Shift+n resize shrink left 10 px
-    bindsym Shift+t resize shrink down 10 px
-    bindsym Shift+h resize shrink up 10 px
-    bindsym Shift+d resize shrink right 10 px
+    bindsym d resize grow left 10 px
+    bindsym Shift+d resize shrink left 10 px
+    bindsym h resize grow down 10 px
+    bindsym Shift+h resize shrink down 10 px
+    bindsym t resize grow up 10 px
+    bindsym Shift+t resize shrink up 10 px
+    bindsym n resize grow right 10 px
+    bindsym Shift+n resize shrink right 10 px
+
 
     bindsym Escape mode "default"
     bindsym Return mode "default"
