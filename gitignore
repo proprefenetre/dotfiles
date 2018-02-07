@@ -174,3 +174,4 @@ Mkfile.old
 dkms.conf
 
 # End of https://www.gitignore.io/api/c,vim
+.tags
