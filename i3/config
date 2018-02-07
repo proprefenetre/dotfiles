@@ -2,8 +2,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # modifiers
-set $mod Mod4
-set $alt Mod1
+set $mod Mod1
+set $alt Mod4
 set $ctrl Control
 
 # Font for window titles. Will also be used by the bar
@@ -35,11 +35,11 @@ set $term urxvtc
 set $backup_term xterm
 
 bindsym $mod+Return exec --no-startup-id $term
+bindsym $ctrl+Return exec --no-startup-id gmrun
 bindsym $mod+Shift+Return exec --no-startup-id $backup_term
 bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
 bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
 bindsym $mod+g exec gvims
-bindsym $ctrl+Return exec --no-startup-id gmrun
 
 # stuff
 

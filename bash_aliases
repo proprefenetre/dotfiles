@@ -7,7 +7,7 @@ alias cal='cal -3w --color=always'
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 alias cd..='cd ..'
 alias ch='cd'
-alias cignore='curl https://www.gitignore.io/api/c%2Cvim -o .gitignore'
+alias cignore='curl https://www.gitignore.io/api/vim -o .gitignore'
 alias cp='cp -v'
 alias dd='dd status=progress'
 alias detwist='pacman -Rns $(pacman -Qtdq)' # remove orphans
