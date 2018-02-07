@@ -10,7 +10,7 @@
 
 
 # shellcheck disable=SC2046
-eval $(keychain --eval --noask --timeout 60 --agents ssh,gpg id_rsa)
+eval $(keychain --eval id_rsa)
 
 # shopt
 shopt -s checkwinsize
@@ -19,11 +19,10 @@ shopt -s histappend
 
 # aliases
 # shellcheck disable=SC1090
-[[ -f "$HOME"/.bash_aliases ]] && source "$HOME"/.bash_aliases
+[[ -f "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
 
 # bash completion
 # shellcheck disable=SC1091
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
+[[ $PS1 && -f "/usr/share/bash-completion/bash_completion" ]] && .  "/usr/share/bash-completion/bash_completion"
 
-# environment
-# see .bash_profile
+# see .bash_profile for environment variables
