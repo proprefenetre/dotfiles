@@ -79,7 +79,7 @@ set wildmode=longest:list,full
 set concealcursor=c
 set showmatch
 set scrolloff=999
-set textwidth=79
+set textwidth=80
 set cc=+1               
 set fo+=j
 set splitright
