@@ -43,6 +43,8 @@ Plug 'reedes/vim-wordy'
 
 Plug 'fs111/pydoc.vim'
 
+Plug 'rust-lang/rust.vim'
+
 call plug#end()
 
 " General
@@ -309,6 +311,8 @@ let g:syntastic_python_flake8_args = "--ignore=E301,E303,E501,W291,W293,W391,F40
 
 let g:syntastic_bash_checkers = ["ShellCheck"]
 let g:syntastic_sh_ShellCheck_args = "-x"
+
+let g:syntastic_rust_checkers = ['rustc']
 
 " Mappings
 " ========
