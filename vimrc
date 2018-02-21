@@ -93,13 +93,11 @@ set foldnestmax=10
 " ----------
 set laststatus=2
 set statusline=
-set statusline+=%t\ 
-set statusline+=%m\ 
-set statusline+=%y[%{(&fenc!=''?&fenc:&enc)}][%{&ff}]
-set statusline+=%r 
-set statusline+=%w
-set statusline+=%=%*
-set statusline+=(%l,\ %c)\ %P
+set statusline+=\ %{fugitive#statusline()}\ 
+set statusline+=%M\ 
+set statusline+=%<%f\ 
+set statusline+=[%(%R\,\ %)%Y\,\ %{(&fenc!=''?&fenc:&enc)}]
+set statusline+=\ %=%-14.(%l,%c%V%)\ %P
 
 " auto-anything
 " -------------
@@ -115,6 +113,7 @@ set incsearch
 set smartcase
 set nohlsearch
 set incsearch
+
 set gdefault
 
 " spelling 
