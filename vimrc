@@ -159,6 +159,18 @@ autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
 autocmd FileType python set breakindentopt=shift:4
 let g:pydoc_open_cmd = 'tabnew'
 
+" Rust
+" ----
+augroup rust
+    autocmd!
+    autocmd FileType * call RustHighlights()
+augroup END
+
+function! RustHighlights()
+    hi clear rustSigil
+    highlight! link rustSigil Question
+endfunction
+
 " Yaml
 " ----
 autocmd FileType yaml setlocal ts=4 sts=4 sw=4 indentkeys-=<:>
@@ -300,8 +312,8 @@ let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 
 " syntastic
 " ---------
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
@@ -311,7 +323,7 @@ let g:syntastic_python_flake8_args = "--ignore=E301,E303,E501,W291,W293,W391,F40
 let g:syntastic_bash_checkers = ["ShellCheck"]
 let g:syntastic_sh_ShellCheck_args = "-x"
 
-let g:syntastic_rust_checkers = ['rustc']
+let g:syntastic_rust_checkers = ['clippy']
 
 " Mappings
 " ========
