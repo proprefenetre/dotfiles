@@ -120,8 +120,6 @@ ENV/
 # mkdocs documentation
 /site
 ### C ###
-# Prerequisites
-*.d
 
 # Object files
 *.o

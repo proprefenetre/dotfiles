@@ -16,4 +16,10 @@ tags
 
 mutt/cache
 
+emacs.d/auto-save-list
+emacs.d/backups
+emacs.d/elpa
+emacs.d/network-security.data
+
 # End of https://www.gitignore.io/api/vim
+.tags
