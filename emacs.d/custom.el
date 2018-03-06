@@ -28,7 +28,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (evil-commentary gruvbox-theme org rainbow-delimiters markdown-mode evil-collection monokai-theme evil-surround evil-leader better-defaults color-theme-sanityinc-tomorrow emojify evil helm use-package)))
+    (smart-mode-line diminish evil-commentary gruvbox-theme org rainbow-delimiters markdown-mode evil-collection monokai-theme evil-surround evil-leader better-defaults color-theme-sanityinc-tomorrow emojify evil helm use-package)))
  '(pos-tip-background-color "#FFFACE")
  '(pos-tip-foreground-color "#272822")
  '(show-paren-mode t)

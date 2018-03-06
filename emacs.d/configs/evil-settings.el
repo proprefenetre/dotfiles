@@ -31,8 +31,6 @@
   (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
 
-  ;; Make TAB work 
-  (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
   (defun minibuffer-keyboard-quit ()
     "Abort recursive edit.
     In Delete Selection mode, if the mark is active, just deactivate it;

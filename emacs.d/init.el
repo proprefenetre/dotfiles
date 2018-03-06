@@ -21,15 +21,27 @@
   (require 'use-package))
 
 ;; packages
-(use-package diminish :ensure t)
+
+; helm
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :config 
+  (setq helm-split-window-in-side-p t)
+  (helm-mode 1))
+
+(use-package smart-mode-line :ensure t)
 
 (use-package markdown-mode
   :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
+  :commands
+  (markdown-mode)
+  :mode
+  (("README\\.md\\'" . markdown-mode)
+   ("\\.md\\'" . markdown-mode)
+   ("\\.markdown\\'" . markdown-mode))
+  :init
+  (setq markdown-command "pandoc"))
 
 ; evil mode
 (require 'evil-settings)
@@ -42,37 +54,28 @@
   (add-hook 'evil-mode-hook 'pfn--config-evil)
   (evil-mode 1)
 
-  (use-package evil-leader
+    (use-package evil-leader
     :ensure t
     :config
     (global-evil-leader-mode)
     (pfn--config-evil-leader))
 
-  (use-package evil-surround
+    (use-package evil-surround
     :ensure t
     :config
     (global-evil-surround-mode))
 
-  (use-package evil-commentary
+    (use-package evil-commentary
     :ensure t
     :config
-    (evil-commentary-mode)))
+    (evil-commentary-mode))
+)
   
-; evil keybindings everywhere
-(use-package evil-collection
-  :after evil
-  :ensure t
-  :config
-  (evil-collection-init))
+(use-package gruvbox-theme
+  :ensure t)
 
-; helm
-(use-package helm
-  :ensure t
-  :diminish helm-mode
-  :config 
-  (helm-mode 1))
-
-(setq helm-split-window-in-side-p t)
+(use-package org
+  :ensure t)
 
 ;; settings
 (load-theme 'gruvbox-dark-hard t)
@@ -92,6 +95,13 @@
   (scroll-bar-mode -1))
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+
+; smart-mode-line
+(setq sml/mode-width 10)
+(setq sml/name-width 20)
+(rich-minority-mode 1)
+(setf rm-blacklist "")
+(sml/setup)
 
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq-default left-fringe-width nil)
