@@ -22,3 +22,4 @@ emacs.d/elpa
 emacs.d/network-security.data
 
 # End of https://www.gitignore.io/api/vim
+.tags
