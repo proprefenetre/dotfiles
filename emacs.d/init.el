@@ -46,25 +46,28 @@
   :config
   (eyebrowse-mode t))
 
+(use-package olivetti
+  :ensure t
+  :config
+  (setq-default
+   olivetti-hide-mode-line t
+   olivetti-body-width line-width-characters))
+
 (use-package markdown-mode
   :ensure t
   :commands
   (markdown-mode)
   :mode
-  (("README\\.md\\'" . markdown-mode)
    ("\\.md\\'" . markdown-mode)
-   ("\\.markdown\\'" . markdown-mode))
   :init
-  (setq markdown-command "pandoc"))
+  (setq markdown-command "pandoc -f markdown -t latex")
+  (add-hook 'markdown-mode-hook (lambda ()
+                                  (flyspell-mode 1)
+                                  (rainbow-delimiters-mode t))))
+
 
 ; evil mode
 (require 'evil-settings)
-
-(use-package key-chord
-  :ensure t
-  :config
-  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-  (key-chord-mode 1))
 
 (use-package gruvbox-theme
   :ensure t)
@@ -73,17 +76,19 @@
   :ensure t)
 
 (use-package rainbow-delimiters
-  :ensure t
-  :config
-  (rainbow-delimiters-mode t))
+  :ensure t)
 
-;; settings
+; settings
+;; editor settings
 (require 'looks)
+(add-hook 'text-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook #'turn-on-flyspell)
+(add-hook 'text-mode-hook 'turn-on-olivetti-mode)
 
 (setq vc-follow-symlinks t) 
 (setq large-file-warning-threshold nil)
 (setq split-width-threshold nil)
-
 
 (defvar backup-dir "~/.emacs.d/backups/")
 (setq backup-directory-alist (list (cons "." backup-dir)))
