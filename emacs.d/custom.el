@@ -8,7 +8,7 @@
  '(beacon-color "#f2777a")
  '(column-number-mode t)
  '(compilation-message-face (quote default))
- '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
+ '(custom-enabled-themes (quote (gruvbox-light-medium)))
  '(custom-safe-themes
    (quote
     ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" . t)))
@@ -28,10 +28,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (smart-mode-line diminish evil-commentary gruvbox-theme org rainbow-delimiters markdown-mode evil-collection monokai-theme evil-surround evil-leader better-defaults color-theme-sanityinc-tomorrow emojify evil helm use-package)))
- '(pos-tip-background-color "#FFFACE")
- '(pos-tip-foreground-color "#272822")
- '(show-paren-mode t)
+    (magit key-chord eyebrowse smart-mode-line diminish evil-commentary gruvbox-theme org rainbow-delimiters markdown-mode evil-collection monokai-theme evil-surround evil-leader color-theme-sanityinc-tomorrow emojify evil helm use-package)))
  '(weechat-color-list
    (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 (custom-set-faces
