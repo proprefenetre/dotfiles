@@ -36,29 +36,30 @@
   :ensure t
   :config
   (progn
-    (setq sml/theme 'dark)
+    ;; (setq sml/theme 'dark)
+    (setq sml/override-theme nil)
     (rich-minority-mode 1)
     (setf rm-blacklist "")
     (add-hook 'after-init-hook #'sml/setup)))
 
 (use-package eyebrowse
   :ensure t
+  :defer t
   :config
   (eyebrowse-mode t))
 
 (use-package olivetti
   :ensure t
+  :defer t
   :config
-  (setq-default
-   olivetti-hide-mode-line t
-   olivetti-body-width line-width-characters))
+  (setq-default olivetti-hide-mode-line t
+                olivetti-body-width line-width-characters))
 
 (use-package markdown-mode
   :ensure t
-  :commands
-  (markdown-mode)
-  :mode
-   ("\\.md\\'" . markdown-mode)
+  :defer t
+  :commands (markdown-mode)
+  :mode ("\\.md\\'" . markdown-mode)
   :init
   (setq markdown-command "pandoc -f markdown -t latex")
   (add-hook 'markdown-mode-hook (lambda ()
@@ -73,18 +74,24 @@
   :ensure t)
 
 (use-package org
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package rainbow-delimiters
   :ensure t)
 
 ; settings
+
 ;; editor settings
 (require 'looks)
+
+;; text-mode hooks
 (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook #'turn-on-flyspell)
-(add-hook 'text-mode-hook 'turn-on-olivetti-mode)
+(add-hook 'text-mode-hook #'turn-on-olivetti-mode)
+
+;; prog-mode hooks
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (setq vc-follow-symlinks t) 
 (setq large-file-warning-threshold nil)
