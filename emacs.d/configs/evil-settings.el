@@ -1,8 +1,20 @@
 ;;; evil-settings.el -- evil config
-(defun pfn--config-evil-leader ()
+
+(require 'thingatpt)
+
+(defun pfn/show-documentation ()
+  "return function documentation"
+  (interactive)
+  (setq sym (symbol-at-point))
+  (if (or (functionp sym) (macrop sym))
+      (print (documentation sym))
+    (print (describe-symbol sym))))
+
+(defun pfn/config-evil-leader ()
   "Configure evil leader mode."
   (evil-leader/set-leader ",")
   (evil-leader/set-key
+    "o"  'pfn/show-documentation
     ","  'other-window
     "."  'mode-line-other-buffer
     ":"  'eval-expression
@@ -13,7 +25,7 @@
     "x"	 'helm-M-x
     "y"  'yank-to-x-clipboard))
 
-(defun pfn--config-evil ()
+(defun pfn/config-evil ()
   "Configure evil mode."
 
   (setq evil-search-wrap t
@@ -25,8 +37,8 @@
                   term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
 
-  (delete 'term-mode evil-insert-state-modes)
-  (delete 'eshell-mode evil-insert-state-modes)
+  (delete 'term-mode evil-insert-state-modes) ; why?
+  (delete 'eshell-mode evil-insert-state-modes) ; why?
 
   (evil-add-hjkl-bindings occur-mode-map 'emacs
     (kbd "/")       'evil-search-forward
@@ -67,7 +79,7 @@
   :init
   (setq evil-want-integration nil)
   :config
-  (add-hook 'evil-mode-hook 'pfn--config-evil)
+  (add-hook 'evil-mode-hook 'pfn/config-evil)
   (evil-mode))
 
 (use-package evil-collection
@@ -80,7 +92,7 @@
   :ensure t
   :config
   (global-evil-leader-mode)
-  (pfn--config-evil-leader))
+  (pfn/config-evil-leader))
 
 (use-package evil-surround
   :ensure t

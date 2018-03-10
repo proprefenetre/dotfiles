@@ -3,15 +3,10 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
-;; directories in .emacs.d
-(add-to-list 'load-path (expand-file-name "configs" user-emacs-directory))
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(add-to-list 'exec-path "/home/niels/bin")
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'noerror)
-
-(require 'load-repos) 
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -22,9 +17,16 @@
 
 (setq use-package-verbose t)
 
-;; packages
+;; directories in .emacs.d
+(add-to-list 'load-path (expand-file-name "configs" user-emacs-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+(add-to-list 'exec-path "/home/niels/bin")
 
-; helm
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
+
+; packages
+;; helm
 (use-package helm
   :ensure t
   :diminish helm-mode
@@ -32,70 +34,85 @@
   (setq helm-split-window-in-side-p t)
   (helm-mode 1))
 
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (progn
-    ;; (setq sml/theme 'dark)
-    (setq sml/override-theme nil)
-    (rich-minority-mode 1)
-    (setf rm-blacklist "")
-    (add-hook 'after-init-hook #'sml/setup)))
+;; evil
+(require 'evil-settings)
 
+;; org 
+(require 'org-settings)
+
+;; look and feel
 (use-package eyebrowse
   :ensure t
-  :defer t
+  :init
+  (setq eyebrowse-new-workspace t)
   :config
+  (eyebrowse-setup-opinionated-keys)
   (eyebrowse-mode t))
 
 (use-package olivetti
   :ensure t
   :defer t
   :config
-  (setq-default olivetti-hide-mode-line t
-                olivetti-body-width line-width-characters))
+  (setq-default olivetti-hide-mode-line t))
 
 (use-package markdown-mode
   :ensure t
   :defer t
-  :commands (markdown-mode)
-  :mode ("\\.md\\'" . markdown-mode)
-  :init
-  (setq markdown-command "pandoc -f markdown -t latex")
-  (add-hook 'markdown-mode-hook (lambda ()
-                                  (flyspell-mode 1)
-                                  (rainbow-delimiters-mode t))))
-
-
-; evil mode
-(require 'evil-settings)
+  :mode ("\\.md\\'" . markdown-mode))
 
 (use-package gruvbox-theme
-  :ensure t)
-
-(use-package org
   :ensure t
-  :defer t)
+  :config (load-theme 'gruvbox-dark-hard t))
 
 (use-package rainbow-delimiters
   :ensure t)
 
-; settings
+(show-paren-mode t)
 
-;; editor settings
-(require 'looks)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(setq visible-bell nil
+      inhibit-splash-screen t
+      inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(setq-default left-fringe-width nil)
+(setq-default indicate-empty-lines nil)
+
+(setq fill-column 80)
+(setq sentence-end-double-space nil)
+
+;; (setq-default indent-tabs-mode nil)
+;; (setq-default tab-width 4)
+;; (setq indent-line-function 'insert-tab)
+
+;; mode-line
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (progn
+    (setq sml/override-theme nil)
+    (rich-minority-mode 1)
+    (setf rm-blacklist "")
+    (add-hook 'after-init-hook #'sml/setup)))
+
+(line-number-mode t)
+(column-number-mode t)
 
 ;; text-mode hooks
+(add-hook 'text-mode-hook #'turn-on-auto-fill) 
 (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook #'turn-on-flyspell)
-(add-hook 'text-mode-hook #'turn-on-olivetti-mode)
 
 ;; prog-mode hooks
+(add-hook 'prog-mode-hook #'turn-on-auto-fill) 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'linum-mode t)
 
 (setq vc-follow-symlinks t) 
 (setq large-file-warning-threshold nil)
-(setq split-width-threshold nil)
 
 (defvar backup-dir "~/.emacs.d/backups/")
 (setq backup-directory-alist (list (cons "." backup-dir)))
