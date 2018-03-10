@@ -1,25 +1,15 @@
 ;;; evil-settings.el -- evil config
 
-(require 'thingatpt)
-
-(defun pfn/show-documentation ()
-  "return function documentation"
-  (interactive)
-  (setq sym (symbol-at-point))
-  (if (or (functionp sym) (macrop sym))
-      (print (documentation sym))
-    (print (describe-symbol sym))))
-
 (defun pfn/config-evil-leader ()
   "Configure evil leader mode."
   (evil-leader/set-leader ",")
   (evil-leader/set-key
-    "o"  'pfn/show-documentation
+    "i"  'pfn/open-init-file
     ","  'other-window
     "."  'mode-line-other-buffer
     ":"  'eval-expression
     "b"  'helm-mini
-    "d"  'kill-this-buffer
+    "q"  'kill-this-buffer
     "p"  'helm-show-kill-ring
     "w"  'save-buffer
     "x"	 'helm-M-x
@@ -49,11 +39,17 @@
     (kbd "C-w C-w") 'other-window)
 
   ;; Global bindings.
+  ;;; normal
   (evil-define-key 'normal global-map (kbd "<down>")  'evil-next-visual-line)
   (evil-define-key 'normal global-map (kbd "<up>")    'evil-previous-visual-line)
   (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
+  (evil-define-key 'normal global-map (kbd "C-`")     (lambda ()
+                                                        (interactive)
+                                                        (dired (expand-file-name "~"))))
+  ;;; insert
   (evil-define-key 'insert global-map (kbd "s-d")     'eval-last-sexp)
+  (evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
 
   ;; Make escape quit everything, whenever possible.
   (defun minibuffer-keyboard-quit ()
@@ -66,13 +62,29 @@
       (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
       (abort-recursive-edit)))
 
+
   (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+  ; stop killing emacs with :q
+  (defun pfn/ex-kill-buffer-and-close ()
+    (interactive)
+    (unless (char-equal (elt (buffer-name) 0) ?*)
+      (kill-this-buffer)))
+
+  (defun pfn/ex-save-kill-buffer-and-close ()
+    (interactive)
+    (save-buffer)
+    (kill-this-buffer))
+
+  (evil-ex-define-cmd "q[uit]" 'pfn/ex-kill-buffer-and-close )
+  (evil-ex-define-cmd "wq" 'pfn/ex-save-kill-buffer-and-close))
+
 
 (use-package evil
   :ensure t

@@ -4,7 +4,7 @@
 (setq package-enable-at-startup nil)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("melpa" . ;; "http://melpa.org/packages/")) ; use melpa-stable instead
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
@@ -25,7 +25,18 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
+(require 'utils)
+
+; keys
+(global-set-key (kbd "C-c o") 'pfn/open-config-file)
+
 ; packages
+;; evil
+(require 'evil-settings)
+
+;; org 
+(require 'org-settings)
+
 ;; helm
 (use-package helm
   :ensure t
@@ -33,12 +44,6 @@
   :config 
   (setq helm-split-window-in-side-p t)
   (helm-mode 1))
-
-;; evil
-(require 'evil-settings)
-
-;; org 
-(require 'org-settings)
 
 ;; look and feel
 (use-package eyebrowse
@@ -53,16 +58,22 @@
   :ensure t
   :defer t
   :config
-  (setq-default olivetti-hide-mode-line t))
+  (linum-mode -1))
 
 (use-package markdown-mode
   :ensure t
   :defer t
   :mode ("\\.md\\'" . markdown-mode))
 
-(use-package gruvbox-theme
+(use-package monokai-theme
   :ensure t
-  :config (load-theme 'gruvbox-dark-hard t))
+  :config
+  (load-theme 'monokai t))
+
+;; (use-package gruvbox-theme
+  ;; :ensure t
+  ;; :config
+  ;; (load-theme 'gruvbox-dark-medium t))
 
 (use-package rainbow-delimiters
   :ensure t)
@@ -83,9 +94,8 @@
 
 (setq fill-column 80)
 (setq sentence-end-double-space nil)
-
-;; (setq-default indent-tabs-mode nil)
-;; (setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 ;; (setq indent-line-function 'insert-tab)
 
 ;; mode-line
@@ -111,7 +121,7 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'linum-mode t)
 
-(setq vc-follow-symlinks t) 
+(setq vc-follow-symlinks t)
 (setq large-file-warning-threshold nil)
 
 (defvar backup-dir "~/.emacs.d/backups/")
