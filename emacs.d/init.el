@@ -4,9 +4,9 @@
 (setq package-enable-at-startup nil)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-;; (add-to-list 'package-archives '("melpa" . ;; "http://melpa.org/packages/")) ; use melpa-stable instead
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")) 
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -31,16 +31,14 @@
 (global-set-key (kbd "C-c o") 'pfn/open-config-file)
 
 ; packages
-;; evil
-(require 'evil-settings)
 
 ;; org 
 (require 'org-settings)
+(require 'evil-settings)
 
 ;; helm
 (use-package helm
   :ensure t
-  :diminish helm-mode
   :config 
   (setq helm-split-window-in-side-p t)
   (helm-mode 1))
@@ -49,9 +47,10 @@
 (use-package eyebrowse
   :ensure t
   :init
-  (setq eyebrowse-new-workspace t)
   :config
-  (eyebrowse-setup-opinionated-keys)
+  (setq eyebrowse-new-workspace t)
+  (define-key evil-motion-state-map "gc" nil)
+  (define-key evil-motion-state-map "gC" 'eyebrowse-close-window-config)
   (eyebrowse-mode t))
 
 (use-package olivetti
@@ -65,18 +64,18 @@
   :defer t
   :mode ("\\.md\\'" . markdown-mode))
 
-(use-package monokai-theme
+(setq custom-safe-themes t)
+(use-package base16-theme
   :ensure t
+  :init (setq base16-distinct-fringe-backgeround nil)
+  :demand t
   :config
-  (load-theme 'monokai t))
-
-;; (use-package gruvbox-theme
-  ;; :ensure t
-  ;; :config
-  ;; (load-theme 'gruvbox-dark-medium t))
+  (load-theme 'base16-gruvbox-dark-soft))
 
 (use-package rainbow-delimiters
   :ensure t)
+
+(set-face-attribute 'default nil :font "Hack-10" )
 
 (show-paren-mode t)
 
@@ -105,13 +104,24 @@
   (progn
     (setq sml/override-theme nil)
     (rich-minority-mode 1)
-    (setf rm-blacklist "")
+    (setq rm-whitelist "eyebrowse")
     (add-hook 'after-init-hook #'sml/setup)))
 
 (line-number-mode t)
 (column-number-mode t)
 
-;; text-mode hooks
+;; text-mode
+; Automatically detect language for Flyspell
+(use-package guess-language
+  :ensure t
+  :defer t
+  :init (add-hook 'text-mode-hook #'guess-language-mode)
+  :config
+  (setq guess-language-langcodes '((en . ("en_GB" "English"))
+                                   (nl . ("nl_NL" "Dutch")))
+        guess-language-languages '(en nl)
+        guess-language-min-paragraph-length 45))
+
 (add-hook 'text-mode-hook #'turn-on-auto-fill) 
 (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook #'turn-on-flyspell)
@@ -121,9 +131,20 @@
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'linum-mode t)
 
+;; files
 (setq vc-follow-symlinks t)
 (setq large-file-warning-threshold nil)
 
 (defvar backup-dir "~/.emacs.d/backups/")
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
+
+;; code
+(use-package flycheck
+  :ensure t)
+
+(use-package rust-mode
+  :ensure t)
+
+(use-package python-mode
+  :ensure t)

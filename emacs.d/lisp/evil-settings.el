@@ -94,9 +94,10 @@
   (add-hook 'evil-mode-hook 'pfn/config-evil)
   (evil-mode))
 
+
 (use-package evil-collection
-  :after evil
   :ensure t
+  :after evil
   :config
   (evil-collection-init))
 

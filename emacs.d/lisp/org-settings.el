@@ -9,8 +9,9 @@
   :config
   (setq org-todo-keywords
         '((sequence "TODO" "WAITING" "|" "DONE" "CANCELED")
-          (sequence "READ" "|" "DONE")))
-  (setq org-capture-templates
+          (sequence "READ" "|" "DONE")
+          ("NB"))
+        org-capture-templates
         '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")
            "* TODO %?\n  %i") 
           ("s" "scriptie" entry (file+headline "~/org/todo.org" "Scriptie")
@@ -22,11 +23,14 @@
            :empty-lines 1)
           ("e" "Emacs Facts and Functions" entry (file "~/org/emacs.org")
            "** %? (%a)"
-           :empty-lines 1))))
-  
-(setq org-default-notes-file "~/org/todo.org")
-(setq org-directory "~/org")
-(setf org-blank-before-new-entry '((heading . auto) (plain-list-item . auto)))
+           :empty-lines 1))
+        org-default-notes-file "~/org/todo.org"
+        org-directory "~/org"
+        org-blank-before-new-entry '((heading . auto) (plain-list-item . auto))
+
+        org-level-color-stars-only t
+        org-clock-persist 'history)
+  (org-clock-persistence-insinuate))
 
 (defun pfn/org-mode-hook ()
   "Stop the org-level headers from increasing in height relative
