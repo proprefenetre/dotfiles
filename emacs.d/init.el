@@ -18,7 +18,7 @@
 (setq use-package-verbose t)
 
 ;; directories in .emacs.d
-(add-to-list 'load-path (expand-file-name "configs" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (add-to-list 'exec-path "/home/niels/bin")
 
@@ -26,24 +26,18 @@
 (load custom-file 'noerror)
 
 (require 'utils)
-
-; keys
-(global-set-key (kbd "C-c o") 'pfn/open-config-file)
-
-; packages
-
-;; org 
+(require 'keys)
+(require 'modeline-settings)
+(require 'prog-settings)
 (require 'org-settings)
 (require 'evil-settings)
 
-;; helm
 (use-package helm
   :ensure t
   :config 
   (setq helm-split-window-in-side-p t)
   (helm-mode 1))
 
-;; look and feel
 (use-package eyebrowse
   :ensure t
   :init
@@ -55,9 +49,7 @@
 
 (use-package olivetti
   :ensure t
-  :defer t
-  :config
-  (linum-mode -1))
+  :defer t)
 
 (use-package markdown-mode
   :ensure t
@@ -67,7 +59,7 @@
 (setq custom-safe-themes t)
 (use-package base16-theme
   :ensure t
-  :init (setq base16-distinct-fringe-backgeround nil)
+  :init (setq base16-distinct-fringe-background nil)
   :demand t
   :config
   (load-theme 'base16-gruvbox-dark-soft))
@@ -90,46 +82,29 @@
 (tool-bar-mode -1)
 (setq-default left-fringe-width nil)
 (setq-default indicate-empty-lines nil)
-
-(setq fill-column 80)
+(setq fill-column 120)
 (setq sentence-end-double-space nil)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 ;; (setq indent-line-function 'insert-tab)
 
-;; mode-line
-(use-package smart-mode-line
-  :ensure t
-  :config
-  (progn
-    (setq sml/override-theme nil)
-    (rich-minority-mode 1)
-    (setq rm-whitelist "eyebrowse")
-    (add-hook 'after-init-hook #'sml/setup)))
-
-(line-number-mode t)
-(column-number-mode t)
 
 ;; text-mode
+
 ; Automatically detect language for Flyspell
 (use-package guess-language
   :ensure t
   :defer t
   :init (add-hook 'text-mode-hook #'guess-language-mode)
   :config
-  (setq guess-language-langcodes '((en . ("en_GB" "English"))
-                                   (nl . ("nl_NL" "Dutch")))
+  (setq guess-language-langcodes '((en . ("english" "English"))
+                                   (nl . ("dutch" "Dutch")))
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
 
-(add-hook 'text-mode-hook #'turn-on-auto-fill) 
+(add-hook 'text-mode-hook #'visual-line-mode)
 (add-hook 'text-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook #'turn-on-flyspell)
-
-;; prog-mode hooks
-(add-hook 'prog-mode-hook #'turn-on-auto-fill) 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'linum-mode t)
 
 ;; files
 (setq vc-follow-symlinks t)
@@ -139,12 +114,3 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
 
-;; code
-(use-package flycheck
-  :ensure t)
-
-(use-package rust-mode
-  :ensure t)
-
-(use-package python-mode
-  :ensure t)

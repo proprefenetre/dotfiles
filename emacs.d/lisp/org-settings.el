@@ -8,12 +8,18 @@
          ("C-c t A" . org-agenda))
   :config
   (setq org-todo-keywords
-        '((sequence "TODO" "WAITING" "|" "DONE" "CANCELED")
-          (sequence "READ" "|" "DONE")
-          ("NB"))
+        '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d!)" "CANCELED(c!)")
+          (sequence "READ(r)" "|" "DONE(d)")
+          ("NB(n)"))
         org-capture-templates
         '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")
-           "* TODO %?\n  %i") 
+           "* TODO %?\n") 
+          ("to" "ordered task" entry (file+headline "~/org/todo.org" "Tasks")
+           "* TODO %?\n
+              :PROPERTIES:\n
+              :ORDERED: t\n
+              :END:\n"
+              :empty-lines 1)
           ("s" "scriptie" entry (file+headline "~/org/todo.org" "Scriptie")
            "* TODO %?\n %^t")
           ("w" "scriptie" entry (file+headline "~/org/todo.org" "Werk")
@@ -26,7 +32,7 @@
            :empty-lines 1))
         org-default-notes-file "~/org/todo.org"
         org-directory "~/org"
-        org-blank-before-new-entry '((heading . auto) (plain-list-item . auto))
+        ; org-blank-before-new-entry '((heading . auto) (plain-list-item . auto))
 
         org-level-color-stars-only t
         org-clock-persist 'history)

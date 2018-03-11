@@ -5,6 +5,7 @@
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     "i"  'pfn/open-init-file
+    "o"  'olivetti-mode
     ","  'other-window
     "."  'mode-line-other-buffer
     ":"  'eval-expression
