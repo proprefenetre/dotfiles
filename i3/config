@@ -35,11 +35,11 @@ set $term urxvtc
 set $backup_term xterm
 
 bindsym $mod+Return exec --no-startup-id $term
-bindsym $ctrl+Return exec --no-startup-id gmrun
+bindsym $ctrl+Shift+Return exec --no-startup-id gmrun
 bindsym $mod+Shift+Return exec --no-startup-id $backup_term
 bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
 bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
-bindsym $mod+g exec gvims
+bindsym $mod+g exec emacs
 
 # stuff
 
@@ -176,7 +176,7 @@ mode $meta {
     bindsym l exec --no-startup-id ~/bin/lock, mode "default"
     bindsym k exec --no-startup-id i3-msg exit, mode "default"
     bindsym t exec --no-startup-id i3-msg restart; mode "default"
-    bindsym e exec gvim ~/.config/i3/config; mode "default"
+    bindsym e exec emacs ~/.config/i3/config; mode "default"
     bindsym r exec --no-startup-id i3-msg reload; mode "default"
 
     bindsym m mode $launch
@@ -221,5 +221,4 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 # Autostart
 exec --no-startup-id $term -name scratch
 exec --no-startup-id $browser
-exec --no-startup-id ~/bin/i3focus
-
+exec --no-startup-id emacs
