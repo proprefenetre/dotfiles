@@ -121,3 +121,4 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
 
+(add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
