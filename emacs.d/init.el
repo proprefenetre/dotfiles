@@ -25,8 +25,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-(require 'utils)
-(require 'keys)
+(require 'utils) ; functions and keybindings
 (require 'modeline-settings)
 (require 'prog-settings)
 (require 'org-settings)
@@ -43,6 +42,7 @@
   :init
   :config
   (setq eyebrowse-new-workspace t)
+  (eyebrowse-setup-opinionated-keys)
   (define-key evil-motion-state-map "gc" nil)
   (define-key evil-motion-state-map "gC" 'eyebrowse-close-window-config)
   (eyebrowse-mode t))
