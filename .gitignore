@@ -20,6 +20,7 @@ emacs.d/auto-save-list
 emacs.d/backups
 emacs.d/elpa
 emacs.d/network-security.data
+emacs.d/recentf
 
 # End of https://www.gitignore.io/api/vim
 .tags
