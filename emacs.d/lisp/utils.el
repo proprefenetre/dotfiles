@@ -3,7 +3,7 @@
 (defun pfn/open-config-file ()
   "Open the config file at point"
   (interactive)
-  (setq config-dir (expand-file-name (file-name-as-directory "configs") user-emacs-directory))
+  (setq config-dir (expand-file-name (file-name-as-directory "lisp") user-emacs-directory))
   (setq fname (concat (thing-at-point 'symbol) ".el"))
   (find-file (expand-file-name fname config-dir)))
 
@@ -29,5 +29,6 @@
 
 (global-set-key (kbd "C-c o") 'pfn/open-config-file)
 (global-set-key (kbd "C-c s") 'pfn/ispell-dictionary-dutch)
+(global-set-key (kbd "C-c g") 'magit-status)
 
 (provide 'utils)

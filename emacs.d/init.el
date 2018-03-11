@@ -31,6 +31,13 @@
 (require 'org-settings)
 (require 'evil-settings)
 
+(use-package magit
+  :ensure t
+  :defer t
+  :config
+  (setq magit-branch-arguments nil)
+  (setq magit-push-always-verify nil))
+
 (use-package helm
   :ensure t
   :config 
