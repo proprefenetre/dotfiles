@@ -18,13 +18,13 @@
 
 
 (defun pfn/config-evil-surround ()
-  (add-hook 'org-mode-hook (lambda ()
+  (add-hook 'markdown-mode-hook (lambda ()
                              (push '(?* . ("*" . "*"))
                                    evil-surround-pairs-alist)))
-  (add-hook 'org-mode-hook (lambda ()
+  (add-hook 'markdown-mode-hook (lambda ()
                              (push '(?/ . ("/" . "/"))
                                    evil-surround-pairs-alist)))
-  (add-hook 'org-mode-hook (lambda ()
+  (add-hook 'markdown-mode-hook (lambda ()
                              (push '(?_ . ("_" . "_"))
                                    evil-surround-pairs-alist))))
 
@@ -55,13 +55,9 @@
   ;;; normal
   (evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
   (evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
-  (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
-  (evil-define-key 'normal global-map (kbd "C-~")     (lambda ()
-                                                        (interactive)
-                                                        (dired (expand-file-name "~"))))
+  (evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
   ;;; insert
-  (evil-define-key 'insert global-map (kbd "s-d")     'eval-last-sexp)
   (evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
 
   ;; Make escape quit everything, whenever possible.
