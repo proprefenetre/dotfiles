@@ -7,43 +7,43 @@ syntax enable
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'sirver/ultisnips'
+" Plug 'sirver/ultisnips'
 
 Plug 'proprefenetre/molokai'
-Plug 'proprefenetre/flattened'
-Plug 'morhetz/gruvbox'
+" Plug 'proprefenetre/flattened'
+" Plug 'morhetz/gruvbox'
 
-Plug 'vim-syntastic/syntastic'
-Plug 'airblade/vim-gitgutter'
+" Plug 'vim-syntastic/syntastic'
+" Plug 'airblade/vim-gitgutter'
 
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-easytags'
 
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-eunuch'
+" Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-eunuch'
 
-Plug 'godlygeek/tabular'
+" Plug 'godlygeek/tabular'
 
 Plug 'junegunn/rainbow_parentheses.vim'
 
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'vim-pandoc/vim-pandoc-after'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc-after'
 
-Plug 'ron89/thesaurus_query.vim'
-Plug 'reedes/vim-wordy'
+" Plug 'ron89/thesaurus_query.vim'
+" Plug 'reedes/vim-wordy'
 
-Plug 'fs111/pydoc.vim'
+" Plug 'fs111/pydoc.vim'
 
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
 
 call plug#end()
 
@@ -93,7 +93,7 @@ set foldnestmax=10
 " ----------
 set laststatus=2
 set statusline=
-set statusline+=\ %{fugitive#statusline()}\ 
+" set statusline+=\ %{fugitive#statusline()}\ 
 set statusline+=%M\ 
 set statusline+=%<%f\ 
 set statusline+=[%(%R\,\ %)%Y\,\ %{(&fenc!=''?&fenc:&enc)}]
