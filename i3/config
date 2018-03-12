@@ -35,7 +35,7 @@ set $term urxvtc
 set $backup_term xterm
 
 bindsym $mod+Return exec --no-startup-id $term
-bindsym $ctrl+Shift+Return exec --no-startup-id gmrun
+bindsym $mod+ exec --no-startup-id gmrun
 bindsym $mod+Shift+Return exec --no-startup-id $backup_term
 bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
 bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
@@ -74,7 +74,6 @@ bindsym $mod+Shift+v split v
 bindsym $mod+y fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+apostrophe layout stacking
 bindsym $mod+comma layout tabbed
 bindsym $mod+period layout toggle split
 
