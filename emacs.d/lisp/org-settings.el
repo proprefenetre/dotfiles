@@ -5,7 +5,7 @@
   :defer t
   :commands (org-capture)
   :bind (("C-c c" . org-capture)
-         ("C-c t A" . org-agenda))
+         ("C-c t A" . org-agenda-list))
   :config
   (setq org-default-notes-file "~/org/todo.org"
         org-directory "~/org"
@@ -13,26 +13,24 @@
         org-cycle-separator-lines 1
         org-level-color-stars-only t
         org-clock-persist 'history)
-  (setq org-agenda-files (list "~/org/todo.org"))
   (org-clock-persistence-insinuate))
+
+(setq org-agenda-files
+      '("~/org/todo.org"
+        "~/org/thesis.org"
+        "~/org/werk.org"))
 
 (setq org-todo-keywords
 '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELED(c!)")
   (sequence "READ(r)" "|" "DONE(d)")
-  (sequence "NB(n)")))
+  (sequence "AFSPRAAK(a) | AFSPRAAK(@)")))
 
 (setq org-capture-templates
       '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")
          "* TODO %?\n") 
-        ("to" "ordered task" entry (file+headline "~/org/todo.org" "Tasks")
-         "* TODO %?\n
-              :PROPERTIES:\n
-              :ORDERED: t\n
-              :END:\n"
-         :empty-lines 1)
-        ("s" "scriptie" entry (file+headline "~/org/todo.org" "Scriptie")
-         "* TODO %?\n %^t")
-        ("w" "scriptie" entry (file+headline "~/org/todo.org" "Werk")
+        ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Scriptie")
+         "* TODO %?\n")
+        ("w" "werk" entry (file+headline "~/org/werk.org" "Werk")
          "* TODO %?\n %^t")
         ("l" "Link" entry (file+headline "~/org/links.org" "To Read")
          "* READ %? %U"
@@ -41,7 +39,7 @@
          "** %? (%a)"
          :empty-lines 1)))
 
-(defun pfn/org-mode-hook ()
+(defun pfn/org-header-settings ()
   "Stop the org-level headers from increasing in height relative
 to the other text."
   (dolist (face '(org-level-1
@@ -51,6 +49,6 @@ to the other text."
                   org-level-5))
     (set-face-attribute face nil :height 1.0)))
 
-(add-hook 'org-mode-hook 'pfn/org-mode-hook)
+(add-hook 'org-mode-hook 'pfn/org-header-settings)
 
 (provide 'org-settings)
