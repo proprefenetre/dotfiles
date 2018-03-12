@@ -61,7 +61,11 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :mode ("\\.md\\'" . markdown-mode))
+  :mode
+  ("\\.md\\'" . markdown-mode)
+  :init
+  (setq markdown-command "pandoc")
+  (add-hook 'markdown-mode-hook 'turn-on-orgtbl))
 
 (setq custom-safe-themes t)
 (use-package base16-theme
@@ -122,3 +126,5 @@
 (setq make-backup-files nil)
 
 (add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
+; load agenda on startup
+(add-hook 'after-init-hook 'org-agenda-list)
