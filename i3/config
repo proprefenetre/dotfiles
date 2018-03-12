@@ -35,7 +35,7 @@ set $term urxvtc
 set $backup_term xterm
 
 bindsym $mod+Return exec --no-startup-id $term
-bindsym $mod+ exec --no-startup-id gmrun
+bindsym $mod+apostrophe exec --no-startup-id gmrun
 bindsym $mod+Shift+Return exec --no-startup-id $backup_term
 bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
 bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
