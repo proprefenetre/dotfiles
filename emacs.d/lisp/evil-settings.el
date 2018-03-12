@@ -45,7 +45,7 @@
   (evil-define-key 'normal global-map (kbd "<up>")    'evil-previous-visual-line)
   (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
-  (evil-define-key 'normal global-map (kbd "C-`")     (lambda ()
+  (evil-define-key 'normal global-map (kbd "C-~")     (lambda ()
                                                         (interactive)
                                                         (dired (expand-file-name "~"))))
   ;;; insert
