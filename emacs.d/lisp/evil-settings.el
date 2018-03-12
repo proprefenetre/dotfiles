@@ -16,6 +16,18 @@
     "x"	 'helm-M-x
     "y"  'yank-to-x-clipboard))
 
+
+(defun pfn/config-evil-surround ()
+  (add-hook 'org-mode-hook (lambda ()
+                             (push '(?* . ("*" . "*"))
+                                   evil-surround-pairs-alist)))
+  (add-hook 'org-mode-hook (lambda ()
+                             (push '(?/ . ("/" . "/"))
+                                   evil-surround-pairs-alist)))
+  (add-hook 'org-mode-hook (lambda ()
+                             (push '(?_ . ("_" . "_"))
+                                   evil-surround-pairs-alist))))
+
 (defun pfn/config-evil ()
   "Configure evil mode."
 
@@ -41,8 +53,8 @@
 
   ;; Global bindings.
   ;;; normal
-  (evil-define-key 'normal global-map (kbd "<down>")  'evil-next-visual-line)
-  (evil-define-key 'normal global-map (kbd "<up>")    'evil-previous-visual-line)
+  (evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
+  (evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
   (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
   (evil-define-key 'normal global-map (kbd "C-~")     (lambda ()
@@ -111,7 +123,8 @@
 (use-package evil-surround
   :ensure t
   :config
-  (global-evil-surround-mode))
+  (global-evil-surround-mode)
+  (pfn/config-evil-surround))
 
 (use-package evil-commentary
   :ensure t
