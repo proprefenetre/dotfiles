@@ -5,11 +5,12 @@
   :defer t
   :commands (org-capture)
   :bind (("C-c c" . org-capture)
-         ("C-c t A" . org-agenda-list))
+         ("C-c a" . org-agenda-list))
   :config
   (setq org-default-notes-file "~/org/todo.org"
         org-directory "~/org"
         org-log-done t
+        org-log-into-drawer t
         org-cycle-separator-lines 1
         org-level-color-stars-only t
         org-clock-persist 'history)
@@ -23,7 +24,7 @@
 (setq org-todo-keywords
 '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELED(c!)")
   (sequence "READ(r)" "|" "DONE(d)")
-  (sequence "AFSPRAAK(a) | AFSPRAAK(@)")))
+  (sequence "AFSPRAAK(a!)" "|" "DONE(d@)")))
 
 (setq org-capture-templates
       '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")

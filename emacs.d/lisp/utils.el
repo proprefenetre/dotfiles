@@ -12,6 +12,16 @@
   (interactive)
   (find-file user-init-file))
 
+(defun pfn/reload-init ()
+  "reload init.el"
+  (interactive)
+  (load-file user-init-file))
+
+(defun pfn/reload-current-file ()
+  "reload the file in this buffer"
+  (interactive)
+  (load-file buffer-file-name))
+
 (defun pfn/ispell-toggle-dictionary ()
   "toggle between the dutch and the english dictionaries"
   (interactive)
@@ -52,5 +62,7 @@
 (global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-x 2") 'pfn/vsplit-new-buffer)
 (global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
+(global-set-key (kbd "C-c R") 'pfn/reload-init)
+(global-set-key (kbd "C-c r") 'pfn/reload-current-file)
 
 (provide 'utils)

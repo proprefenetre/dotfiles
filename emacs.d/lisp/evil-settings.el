@@ -36,6 +36,7 @@
 
   ;; Use Emacs state in these additional modes.
   (dolist (mode '(dired-mode
+                  docview-mode
                   eshell-mode
                   term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
