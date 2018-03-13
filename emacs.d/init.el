@@ -32,11 +32,7 @@
 (require 'evil-settings)
 
 (use-package magit
-  :ensure t
-  :defer t
-  :config
-  (setq magit-branch-arguments nil)
-  (setq magit-push-always-verify nil))
+  :ensure t)
 
 (use-package helm
   :ensure t
@@ -93,7 +89,7 @@
 (tool-bar-mode -1)
 (setq-default left-fringe-width nil)
 (setq-default indicate-empty-lines nil)
-(setq fill-column 120)
+(setq fill-column 80)
 (setq sentence-end-double-space nil)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -106,7 +102,8 @@
 (use-package guess-language
   :ensure t
   :defer t
-  :init (add-hook 'text-mode-hook #'guess-language-mode)
+  :init
+  (add-hook 'text-mode-hook #'guess-language-mode)
   :config
   (setq guess-language-langcodes '((en . ("english" "English"))
                                    (nl . ("dutch" "Dutch")))
@@ -125,6 +122,7 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
 
+; lisp
 (add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
 ; load agenda on startup
 (add-hook 'after-init-hook 'org-agenda-list)

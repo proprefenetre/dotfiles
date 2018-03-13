@@ -5,11 +5,12 @@
   :defer t
   :commands (org-capture)
   :bind (("C-c c" . org-capture)
-         ("C-c a" . org-agenda-list))
+         ("C-c a" . org-agenda-list)
+         ("C-c l" . org-store-link))
   :config
   (setq org-default-notes-file "~/org/todo.org"
         org-directory "~/org"
-        org-log-done t
+        org-log-done nil
         org-log-into-drawer t
         org-cycle-separator-lines 1
         org-level-color-stars-only t
@@ -24,15 +25,17 @@
 (setq org-todo-keywords
 '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELED(c!)")
   (sequence "READ(r)" "|" "DONE(d)")
-  (sequence "AFSPRAAK(a!)" "|" "DONE(d@)")))
+  (sequence "AFSPRAAK(a)" "|" "DONE(d)" "AFGEZEGD(c!)")))
 
 (setq org-capture-templates
       '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")
          "* TODO %?\n") 
         ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Scriptie")
          "* TODO %?\n")
-        ("w" "werk" entry (file+headline "~/org/werk.org" "Werk")
+        ("w" "werk" entry (file+headline "~/org/werk.org" "TAKEN")
          "* TODO %?\n %^t")
+        ("a" "afspraak" entry (file+headline "~/org/werk.org" "AFSPRAKEN")
+         "* AFSPRAAK %?\n\t%^T")
         ("l" "Link" entry (file+headline "~/org/links.org" "To Read")
          "* READ %? %U"
          :empty-lines 1)
