@@ -17,16 +17,16 @@
     "y"  'yank-to-x-clipboard))
 
 
-(defun pfn/config-evil-surround ()
-  (add-hook 'markdown-mode-hook (lambda ()
-                             (push '(?* . ("*" . "*"))
-                                   evil-surround-pairs-alist)))
-  (add-hook 'markdown-mode-hook (lambda ()
-                             (push '(?/ . ("/" . "/"))
-                                   evil-surround-pairs-alist)))
-  (add-hook 'markdown-mode-hook (lambda ()
-                             (push '(?_ . ("_" . "_"))
-                                   evil-surround-pairs-alist))))
+;; (defun pfn/config-evil-surround ()
+;;   (add-hook 'markdown-mode-hook (lambda ()
+;;                              (push '(?* . ("*" . "*"))
+;;                                    evil-surround-pairs-alist)))
+;;   (add-hook 'markdown-mode-hook (lambda ()
+;;                              (push '(?/ . ("/" . "/"))
+;;                                    evil-surround-pairs-alist)))
+;;   (add-hook 'markdown-mode-hook (lambda ()
+;;                              (push '(?_ . ("_" . "_"))
+;;                                    evil-surround-pairs-alist))))
 
 (defun pfn/config-evil ()
   "Configure evil mode."
@@ -73,7 +73,7 @@
       (abort-recursive-edit)))
 
 
-  (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
@@ -120,8 +120,7 @@
 (use-package evil-surround
   :ensure t
   :config
-  (global-evil-surround-mode)
-  (pfn/config-evil-surround))
+  (global-evil-surround-mode))
 
 (use-package evil-commentary
   :ensure t
