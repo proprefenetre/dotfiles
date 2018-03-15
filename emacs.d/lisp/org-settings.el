@@ -6,7 +6,8 @@
   :commands (org-capture)
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda-list)
-         ("C-c l" . org-store-link))
+         ("C-c l" . org-store-link)
+         ("C-c w" . org-refile))
   :config
   (setq org-default-notes-file "~/org/todo.org"
         org-directory "~/org"
@@ -22,26 +23,21 @@
         "~/org/thesis.org"
         "~/org/werk.org"))
 
-(setq org-todo-keywords
-'((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELED(c!)")
-  (sequence "READ(r)" "|" "DONE(d)")
-  (sequence "AFSPRAAK(a)" "|" "DONE(d)" "AFGEZEGD(c!)")))
-
 (setq org-capture-templates
-      '(("t" "taak" entry (file+headline "~/org/todo.org" "Tasks")
+      '(("t" "taak" entry (file+headline "~/org/todo.org" "Taken")
          "* TODO %?\n") 
-        ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Scriptie")
+        ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Algemeen")
          "* TODO %?\n")
-        ("w" "werk" entry (file+headline "~/org/werk.org" "TAKEN")
+        ("w" "werk" entry (file+headline "~/org/werk.org" "Todo")
          "* TODO %?\n %^t")
-        ("a" "afspraak" entry (file+headline "~/org/werk.org" "AFSPRAKEN")
+        ("a" "afspraak" entry (file+headline "~/org/werk.org" "Afspraken")
          "* AFSPRAAK %?\n\t%^T")
-        ("l" "Link" entry (file+headline "~/org/links.org" "To Read")
-         "* READ %? %U"
-         :empty-lines 1)
+        ("l" "Link" entry (file+headline "~/org/notes.org" "To Read")
+         "* READ %? %U" :empty-lines 1)
+        ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
+         "* %?" :empty-lines 1)
         ("e" "Emacs Facts and Functions" entry (file "~/org/emacs.org")
-         "** %? (%a)"
-         :empty-lines 1)))
+         "** %? (%a)" :empty-lines 1)))
 
 (defun pfn/org-header-settings ()
   "Stop the org-level headers from increasing in height relative

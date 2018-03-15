@@ -17,17 +17,6 @@
     "y"  'yank-to-x-clipboard))
 
 
-;; (defun pfn/config-evil-surround ()
-;;   (add-hook 'markdown-mode-hook (lambda ()
-;;                              (push '(?* . ("*" . "*"))
-;;                                    evil-surround-pairs-alist)))
-;;   (add-hook 'markdown-mode-hook (lambda ()
-;;                              (push '(?/ . ("/" . "/"))
-;;                                    evil-surround-pairs-alist)))
-;;   (add-hook 'markdown-mode-hook (lambda ()
-;;                              (push '(?_ . ("_" . "_"))
-;;                                    evil-surround-pairs-alist))))
-
 (defun pfn/config-evil ()
   "Configure evil mode."
 
@@ -60,6 +49,7 @@
   (evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
   ;;; insert
   (evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
+  (evil-define-key 'visual global-map (kbd "C-e")     'end-of-line)
 
   ;; Make escape quit everything, whenever possible.
   (defun minibuffer-keyboard-quit ()

@@ -7,7 +7,7 @@
    '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))
  '(org-agenda-files '("~/org/werk.org" "~/org/todo.org" "~/org/thesis.org"))
  '(package-selected-packages
-   '(guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil helm use-package)))
+   '(paredit racket-mode yaml-mode guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil helm use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

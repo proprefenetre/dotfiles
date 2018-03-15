@@ -31,6 +31,11 @@
 (require 'org-settings)
 (require 'evil-settings)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
 (use-package magit
   :ensure t)
 
@@ -61,7 +66,19 @@
   ("\\.md\\'" . markdown-mode)
   :init
   (setq markdown-command "pandoc")
-  (add-hook 'markdown-mode-hook 'turn-on-orgtbl))
+  (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
+  (add-hook 'markdown-mode-hook 'turn-on-olivetti-mode))
+
+; highlight pandoc references
+(font-lock-add-keywords 'markdown-mode
+                        '(("@[[:alnum:]]+" . font-lock-keyword-face)))
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode))
 
 (setq custom-safe-themes t)
 (use-package base16-theme
@@ -102,17 +119,20 @@
 (use-package guess-language
   :ensure t
   :defer t
-  :init
-  (add-hook 'text-mode-hook #'guess-language-mode)
   :config
   (setq guess-language-langcodes '((en . ("english" "English"))
                                    (nl . ("dutch" "Dutch")))
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
 
-(add-hook 'text-mode-hook #'visual-line-mode)
-(add-hook 'text-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'text-mode-hook #'turn-on-flyspell)
+(setq ispell-silently-savep t)
+
+(add-hook 'text-mode-hook
+          (lambda () (add-to-list #'olivetti-mode
+                                  #'turn-on-flyspell
+                                  #'guess-language-mode
+                                  #'turn-on-auto-fill
+                                  #'rainbow-delimiters-mode)))
 
 ;; files
 (setq vc-follow-symlinks t)
@@ -122,7 +142,9 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
 
-; lisp
-(add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
+; enable confusing commands
+(put 'narrow-to-region 'disabled nil)
+
 ; load agenda on startup
+(setq initial-buffer-choice "~/org/todo.org") 
 (add-hook 'after-init-hook 'org-agenda-list)

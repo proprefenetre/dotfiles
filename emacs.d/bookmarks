@@ -2,7 +2,27 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-settings.el"
+(("prog-settings.el"
+ (filename . "~/dotfiles/emacs.d/lisp/prog-settings.el")
+ (front-context-string . "; modes etc\n\n;; ")
+ (rear-context-string)
+ (position . 1))
+("org-refile-last-stored"
+ (filename . "~/org/werk.org")
+ (front-context-string . "** DONE Matthijs")
+ (rear-context-string . "03-13 di 11:30>\n")
+ (position . 1660))
+("utils.el"
+ (filename . "~/dotfiles/emacs.d/lisp/utils.el")
+ (front-context-string . "; custom functio")
+ (rear-context-string)
+ (position . 1))
+("modeline-settings.el"
+ (filename . "~/dotfiles/emacs.d/lisp/modeline-settings.el")
+ (front-context-string . "; The mode-line ")
+ (rear-context-string)
+ (position . 1))
+("org-settings.el"
  (filename . "~/dotfiles/emacs.d/lisp/org-settings.el")
  (front-context-string . ";; orgmode setti")
  (rear-context-string)
@@ -28,8 +48,8 @@
  (rear-context-string)
  (position . 1))
 ("org-capture-last-stored"
- (filename . "~/org/todo.org")
- (front-context-string . "** TODO Afspraak")
- (rear-context-string . "2018-03-13 Tue>\n")
- (position . 258))
+ (filename . "~/org/notes.org")
+ (front-context-string . "** READ  https:/")
+ (rear-context-string . "r)\n\n\n* To Read\n\n")
+ (position . 773))
 )
