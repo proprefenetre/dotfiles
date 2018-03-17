@@ -1,13 +1,12 @@
-; modes etc
-
-;; prog-mode hooks
-(add-hook 'prog-mode-hook 'turn-on-auto-fill)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'linum-mode t)
-(add-hook 'prog-mode-hook 'delete-trailing-whitespace)
-
 (use-package flycheck
   :ensure t)
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode))
 
 (use-package rust-mode
   :ensure t)
@@ -38,7 +37,11 @@
   (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
   (add-hook 'racket-mode-hook #'paredit-mode))
 
-; lisp
 (add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
+
+(add-hook 'prog-mode-hook 'turn-on-auto-fill)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'linum-mode t)
+(add-hook 'prog-mode-hook 'delete-trailing-whitespace)
 
 (provide 'prog-settings)

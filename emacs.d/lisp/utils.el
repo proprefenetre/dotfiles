@@ -1,4 +1,3 @@
-; custom functions
 
 (defun pfn/open-config-file ()
   "Open the config file at point"
@@ -40,20 +39,14 @@
   (interactive)
   (split-window-vertically)
   (other-window 1 nil)
-  (let ((buffer (generate-new-buffer "untitled")))
-    (switch-to-buffer buffer)
-    (funcall initial-major-mode)
-    buffer))
+  (switch-to-buffer "*scratch*"))
 
 (defun pfn/hsplit-new-buffer ()
   "open and move to a new horizontally split buffer"
   (interactive)
   (split-window-horizontally)
   (other-window 1 nil)
-  (let ((buffer (generate-new-buffer "untitled")))
-    (switch-to-buffer buffer)
-    (funcall initial-major-mode)
-    buffer))
+  (switch-to-buffer "*scratch*"))
 
 (defun pfn/cycle-themes ()
   "Cycle through available themes."
@@ -67,14 +60,13 @@
     (load-theme next)))
 
 (defun revert-buffer-no-confirm ()
-    "Revert buffer without confirmation. 
+    "Revert buffer without confirmation.
 Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
     (interactive)
     (revert-buffer :ignore-auto :noconfirm)
     (message "buffer reloaded"))
 
 ; custom keys
-
 (global-set-key (kbd "C-c o") 'pfn/open-config-file)
 (global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
 (global-set-key (kbd "C-c g") 'magit-status)

@@ -1,5 +1,3 @@
-;; orgmode settings
-
 (use-package org
   :ensure org-plus-contrib
   :pin org
@@ -16,8 +14,13 @@
         org-log-into-drawer t
         org-cycle-separator-lines 1
         org-level-color-stars-only t
-        org-clock-persist 'history)
+        org-clock-persist 'history
+        org-return-follows-link 1)
   (org-clock-persistence-insinuate))
+
+;; Ensure ELPA org is prioritized above built-in org.
+(require 'cl)
+(setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 
 (setq org-agenda-files
       '("~/org/todo.org"
@@ -51,5 +54,9 @@ to the other text."
     (set-face-attribute face nil :height 1.0)))
 
 (add-hook 'org-mode-hook 'pfn/org-header-settings)
+
+(use-package toc-org
+  :after org
+  :init (add-hook 'org-mode-hook #'toc-org-enable))
 
 (provide 'org-settings)
