@@ -25,9 +25,10 @@ fi
     
 
 mount drijf
+unison org >/dev/null 2>&1 &
 
-# xset +fp /usr/share/fonts/local
-# xset fp rehash
+xset +fp /usr/share/fonts/local
+xset fp rehash
 xset m 1 0
 
 urxvtd --quiet --fork --opendisplay

@@ -1,7 +1,8 @@
 ;; orgmode settings
 
 (use-package org
-  :ensure t
+  :ensure org-plus-contrib
+  :pin org
   :defer t
   :commands (org-capture)
   :bind (("C-c c" . org-capture)
@@ -25,7 +26,7 @@
 
 (setq org-capture-templates
       '(("t" "taak" entry (file+headline "~/org/todo.org" "Taken")
-         "* TODO %?\n") 
+         "* TODO %?\n")
         ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Algemeen")
          "* TODO %?\n")
         ("w" "werk" entry (file+headline "~/org/werk.org" "Todo")

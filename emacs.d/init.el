@@ -4,7 +4,7 @@
 (setq package-enable-at-startup nil)
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/")) 
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 ;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
@@ -41,7 +41,7 @@
 
 (use-package helm
   :ensure t
-  :config 
+  :config
   (setq helm-split-window-in-side-p t)
   (helm-mode 1))
 
@@ -146,5 +146,5 @@
 (put 'narrow-to-region 'disabled nil)
 
 ; load agenda on startup
-(setq initial-buffer-choice "~/org/todo.org") 
+(setq initial-buffer-choice "~/org/todo.org")
 (add-hook 'after-init-hook 'org-agenda-list)
