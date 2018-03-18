@@ -22,12 +22,13 @@ if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/keeb -dv
     xbindkeys &
 fi
-    
+
 
 mount drijf
 unison org >/dev/null 2>&1 &
 
 xset +fp /usr/share/fonts/local
+xset +fp ~/.fonts
 xset fp rehash
 xset m 1 0
 

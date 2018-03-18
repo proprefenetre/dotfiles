@@ -1,3 +1,4 @@
+;;; custom functions / keys
 
 (defun pfn/open-config-file ()
   "Open the config file at point"
@@ -59,14 +60,14 @@
     (put 'pfn/cycle-themes 'state idx-after)
     (load-theme next)))
 
-(defun revert-buffer-no-confirm ()
-    "Revert buffer without confirmation.
-Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
-    (interactive)
-    (revert-buffer :ignore-auto :noconfirm)
-    (message "buffer reloaded"))
+(defun pfn/revert-buffer-no-confirm ()
+  "Revert buffer without confirmation.
+ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
+  (interactive)
+  (revert-buffer :ignore-auto :noconfirm)
+  (message "buffer reloaded"))
 
-; custom keys
+;; custom keys
 (global-set-key (kbd "C-c o") 'pfn/open-config-file)
 (global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -74,6 +75,7 @@ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
 (global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
 (global-set-key (kbd "C-c R") 'pfn/reload-init)
 (global-set-key (kbd "C-c t") 'pfn/cycle-themes)
-(global-set-key (kbd "C-c r") 'revert-buffer-no-confirm)
+(global-set-key (kbd "C-c r") 'pfn/revert-buffer-no-confirm)
+(global-set-key (kbd "C-c b") 'mode-line-other-buffer)
 
 (provide 'utils)

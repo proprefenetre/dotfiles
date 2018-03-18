@@ -1,5 +1,4 @@
 ;;; evil-settings.el -- evil config
-
 (use-package evil
   :ensure t
   :demand t
@@ -118,6 +117,5 @@
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (key-chord-define evil-normal-state-map "gs" 'magit-status)
   (key-chord-mode 1))
-
 
 (provide 'evil-settings)

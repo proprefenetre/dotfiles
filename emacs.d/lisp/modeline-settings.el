@@ -4,6 +4,42 @@
   (let* ((available-width (- (window-width) (length left) 2)))
     (format (format "%%s %%%ds" available-width) left right)))
 
+;; ("%e"
+;;  mode-line-front-space
+;;  mode-line-mule-info
+;;  mode-line-client
+;;  mode-line-modified
+;;  mode-line-remote
+;;  mode-line-frame-identification
+;;  mode-line-buffer-identification
+;;  sml/pos-id-separator
+;;  mode-line-position
+;;  evil-mode-line-tag
+;;  (vc-mode vc-mode)
+;;  sml/pre-modes-separator
+;;  mode-line-modes
+;;  mode-line-misc-info
+;;  mode-line-end-spaces)
+
+;; Original value was
+
+;; ("%e"
+;;  mode-line-front-space
+;;  mode-line-mule-info
+;;  mode-line-client
+;;  mode-line-modified
+;;  mode-line-remote
+;;  mode-line-frame-identification
+;;  mode-line-buffer-identification
+;;  " "
+;;  mode-line-position
+;;  evil-mode-line-tag
+;;  (vc-mode vc-mode)
+;;  " "
+;;  mode-line-modes
+;;  mode-line-misc-info
+;;  mode-line-end-spaces)
+
 ;; (setq-default mode-line-format
 ;;               '((:eval
 ;;                  (simple-mode-line-render
@@ -30,6 +66,7 @@
 
 (use-package smart-mode-line
   :ensure t
+  :demand t
   :config
   (progn
     (setq sml/theme 'respectful

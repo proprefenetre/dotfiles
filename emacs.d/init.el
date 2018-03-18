@@ -30,20 +30,6 @@
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all))
 
-(use-package smart-mode-line
-  :ensure t
-  :demand t
-  :config
-  (progn
-    (setq sml/theme 'respectful
-          sml/shorten-directory t
-          sml/name-width 40
-          sml/mode-width 'right)
-    (add-hook 'after-init-hook #'sml/setup)))
-
-(line-number-mode t)
-(column-number-mode t)
-
 (use-package base16-theme
   :ensure t
   :init
@@ -104,42 +90,59 @@
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
 
-(set-face-attribute 'default nil :font "Hack-10" )
+(setq-default
+ auto-window-vscroll nil                          ; Lighten vertical scroll
+ confirm-kill-emacs 'yes-or-no-p                  ; Confirm before exiting Emacs
+ cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+ help-window-select t                             ; Focus new help windows when opened
+ indent-tabs-mode nil                             ; Stop using tabs to indent
+ tab-width 4                                      ; Set width for tabs
+ fill-column 80                                   ; Set width for automatic line breaks
+ inhibit-splash-screen t                         ; Disable start-up screen
+ inhibit-startup-message t
+ visual-bell nil
+ mouse-yank-at-point t                            ; Yank at point rather than pointer
+ recenter-positions '(5 top bottom)               ; Set re-centering positions
+ scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+ scroll-margin 10                                 ; Add a margin when scrolling vertically
+ indicate-empty-lines nil
+ x-select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+ save-interprogram-paste-before-kill t
+ sentence-end-double-space nil                    ; End a sentence after a dot and a space
+ show-trailing-whitespace nil                       ; Display trailing whitespaces
+ window-combination-resize t                      ; Resize windows proportionally
+ x-stretch-cursor t                              ; Stretch cursor to the glyph width
+ vc-follow-symlinks t
+ large-file-warning-threshold nil
+ make-backup-files nil
+ ispell-silently-savep t)
 
+(fringe-mode 0)                                   ; Disable fringes
 (show-paren-mode t)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq confirm-kill-emacs 'y-or-n-p)
-(setq ispell-silently-savep t)
-
-(setq visible-bell nil
-      inhibit-splash-screen t
-      inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
-(scroll-bar-mode -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-
-(setq-default left-fringe-width nil)
-(setq-default indicate-empty-lines nil)
-(setq sentence-end-double-space nil)
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq fill-column 80)
-
-(setq vc-follow-symlinks t)
-(setq large-file-warning-threshold nil)
-(defvar backup-dir "~/.emacs.d/backups/")
-(setq backup-directory-alist (list (cons "." backup-dir)))
-(setq make-backup-files nil)
-(setq initial-buffer-choice "~/org/todo.org")
-
+(fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+(global-subword-mode 1)                           ; Iterate through CamelCase words
+(mouse-avoidance-mode 'banish)                    ; Avoid collision of mouse with point
+(put 'downcase-region 'disabled nil)              ; Enable downcase-region
+(put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)
 
+(when window-system
+  (scroll-bar-mode 0)                             ; Disable the scroll bar
+  (tool-bar-mode 0)                               ; Disable the tool bar
+  (tooltip-mode 0)                               ; Disable the tooltips
+  (menu-bar-mode 0))                                 ; Disable the menu bar
+
+(set-face-attribute 'default nil :font "Hack-10" )
+(setq initial-buffer-choice "~/org/todo.org")
+
+;; (setq-default left-fringe-width nil)
 (add-hook 'text-mode-hook 'turn-on-flyspell)
 (add-hook 'text-mode-hook 'guess-language-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
+
+;; garbage collect on focus-out
+(add-hook 'focus-out-hook #'garbage-collect)
 
 ; lower garbace collection threshold
 (setq gc-cons-threshold 16777216
