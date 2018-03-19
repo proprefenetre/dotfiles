@@ -25,6 +25,8 @@
 
 (define-abbrev-table 'diff-mode-abbrev-table '())
 
+(define-abbrev-table 'edebug-eval-mode-abbrev-table '())
+
 (define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
 
 (define-abbrev-table 'elisp-byte-code-mode-abbrev-table '())
@@ -51,7 +53,10 @@
 
 (define-abbrev-table 'gfm-view-mode-abbrev-table '())
 
-(define-abbrev-table 'global-abbrev-table '())
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("frik" "Frikandel B.V." nil :count 1)
+   ))
 
 (define-abbrev-table 'gnus-group-mode-abbrev-table '())
 
@@ -62,6 +67,8 @@
 (define-abbrev-table 'helm-moccur-mode-abbrev-table '())
 
 (define-abbrev-table 'help-mode-abbrev-table '())
+
+(define-abbrev-table 'html-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
@@ -108,9 +115,13 @@
 
 (define-abbrev-table 'messages-buffer-mode-abbrev-table '())
 
+(define-abbrev-table 'nxml-mode-abbrev-table '())
+
 (define-abbrev-table 'occur-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'occur-mode-abbrev-table '())
+
+(define-abbrev-table 'org-export-stack-mode-abbrev-table '())
 
 (define-abbrev-table 'org-mode-abbrev-table '())
 
@@ -131,6 +142,8 @@
 (define-abbrev-table 'python-mode-abbrev-table '())
 
 (define-abbrev-table 'rust-mode-abbrev-table '())
+
+(define-abbrev-table 'sgml-mode-abbrev-table '())
 
 (define-abbrev-table 'shell-mode-abbrev-table '())
 

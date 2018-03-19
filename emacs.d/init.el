@@ -67,7 +67,9 @@
   (helm-mode 1))
 
 (use-package olivetti
-  :ensure t)
+  :ensure t
+  :config
+  (setq-default olivetti-body-width 90))
 
 (use-package markdown-mode
   :ensure t
@@ -133,7 +135,7 @@
   (menu-bar-mode 0))                                 ; Disable the menu bar
 
 (set-face-attribute 'default nil :font "Hack-10" )
-(setq initial-buffer-choice "~/org/todo.org")
+(setq initial-buffer-choice "~/org/algemeen.org")
 
 ;; (setq-default left-fringe-width nil)
 (add-hook 'text-mode-hook 'turn-on-flyspell)

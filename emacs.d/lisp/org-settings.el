@@ -8,7 +8,7 @@
          ("C-c l" . org-store-link)
          ("C-c w" . org-refile))
   :config
-  (setq org-default-notes-file "~/org/todo.org"
+  (setq org-default-notes-file "~/org/algemeen.org"
         org-directory "~/org"
         org-log-done nil
         org-log-into-drawer t
@@ -22,13 +22,20 @@
 (require 'cl)
 (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 
+(setq org-todo-keyword-faces
+      '(("bezig" . "orange")))
+
 (setq org-agenda-files
-      '("~/org/todo.org"
+      '("~/org/algemeen.org"
         "~/org/thesis.org"
         "~/org/werk.org"))
 
+(setq org-refile-targets
+      '((nil :maxlevel . 1)
+        (org-agenda-files :maxlevel . 1)))
+
 (setq org-capture-templates
-      '(("t" "taak" entry (file+headline "~/org/todo.org" "Taken")
+      '(("t" "taak" entry (file+headline "~/org/algemeen.org" "To do")
          "* TODO %?\n")
         ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Algemeen")
          "* TODO %?\n")
