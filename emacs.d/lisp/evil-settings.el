@@ -7,7 +7,7 @@
   :config
 
   (setq evil-search-wrap t
-      evil-regexp-search t)
+        evil-regexp-search t)
 
   ;; Use Emacs state in these additional modes.
   (dolist (mode '(dired-mode
@@ -56,7 +56,7 @@
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
-  ; stop killing emacs with :q
+                                        ; stop killing emacs with :q
   ;; (defun pfn/ex-kill-buffer-and-close ()
   ;;   (interactive)
   ;;   (unless (char-equal (elt (buffer-name) 0) ?*)
@@ -85,6 +85,7 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader ",")
   (evil-leader/set-key
+    "e"  'eval-defun
     "a"  'org-agenda-list
     "i"  'pfn/open-init-file
     "o"  'olivetti-mode

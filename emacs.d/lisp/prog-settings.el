@@ -16,26 +16,26 @@
   :config
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --simple-prompt"))
+(use-package racket-mode)
 
-(use-package elpy
-  :ensure t
-  :init
-  (with-eval-after-load 'python (elpy-enable))
-  :config
-  (delete 'elpy-module-highlight-indentation elpy-modules))
 
-(use-package racket-mode
-  :ensure t)
+;; :config
+;; (font-lock-add-keywords 'racket-mode
+;; '(("define-\\w+" . font-lock-keyword-face))))
 
 (use-package paredit
   :ensure t)
 
 (add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
 
-(add-hook 'prog-mode-hook 'turn-on-auto-fill)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'linum-mode t)
-(add-hook 'prog-mode-hook 'delete-trailing-whitespace)
-(add-hook 'prog-mode-hook 'paredit-mode)
+(defun pfn/prog-mode-hooks ()
+  (auto-fill-mode)
+  (rainbow-delimiters-mode)
+  (paredit-mode)
+  (linum-mode t)
+  (delete-trailing-whitespace)
+  (aggressive-indent-mode))
+
+(add-hook 'prog-mode-hook 'pfn/prog-mode-hooks)
 
 (provide 'prog-settings)

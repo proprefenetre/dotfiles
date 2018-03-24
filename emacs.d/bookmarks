@@ -3,15 +3,15 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-refile-last-stored"
- (filename . "~/org/werk.org")
- (front-context-string . "** todo Nieuwe c")
- (rear-context-string . " responsegroep\n\n")
- (position . 540))
-("org-capture-last-stored"
  (filename . "~/org/algemeen.org")
- (front-context-string . "** todo bel de a")
- (rear-context-string . "o boodschappen \n")
- (position . 662))
+ (front-context-string . "** done stemmen\n")
+ (rear-context-string . "done kieswijzer\n")
+ (position . 1764))
+("org-capture-last-stored"
+ (filename . "~/org/notes.org")
+ (front-context-string . "** Kees van der ")
+ (rear-context-string . "IDEE \n\n* Notes\n\n")
+ (position . 178))
 ("org-settings.el"
  (filename . "~/dotfiles/emacs.d/lisp/org-settings.el")
  (front-context-string . "(use-package org")

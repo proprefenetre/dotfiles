@@ -3,13 +3,17 @@
   :pin org
   :defer t
   :commands (org-capture)
-  :bind (("C-c c" . org-capture)
-         ("C-c a" . org-agenda-list)
-         ("C-c l" . org-store-link)
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
          ("C-c w" . org-refile))
   :config
-  (setq org-default-notes-file "~/org/algemeen.org"
-        org-directory "~/org"
+  (setq org-directory "~/org"
+        org-default-notes-file "~/org/algemeen.org"
+        org-agenda-files '("~/org/algemeen.org"
+                           "~/org/thesis.org"
+                           "~/org/werk.org")
+        org-archive-location "~/org/archief.org::"
         org-log-done nil
         org-log-into-drawer t
         org-cycle-separator-lines 1
@@ -25,11 +29,6 @@
 (setq org-todo-keyword-faces
       '(("bezig" . "orange")))
 
-(setq org-agenda-files
-      '("~/org/algemeen.org"
-        "~/org/thesis.org"
-        "~/org/werk.org"))
-
 (setq org-refile-targets
       '((nil :maxlevel . 1)
         (org-agenda-files :maxlevel . 1)))
@@ -41,18 +40,17 @@
          "* TODO %?\n")
         ("w" "werk" entry (file+headline "~/org/werk.org" "Todo")
          "* TODO %?\n %^t")
-        ("a" "afspraak" entry (file+headline "~/org/werk.org" "Afspraken")
-         "* AFSPRAAK %?\n\t%^T")
-        ("l" "Link" entry (file+headline "~/org/notes.org" "To Read")
-         "* READ %? %U" :empty-lines 1)
+        ("l" "Link" entry (file+headline "~/org/algemeen.org" "To Read")
+         "* READ %?")
         ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
-         "* %?" :empty-lines 1)
+         "* %?")
         ("e" "Emacs Facts and Functions" entry (file "~/org/emacs.org")
-         "** %? (%a)" :empty-lines 1)))
+         "** %? (%a)")))
 
 (defun pfn/org-header-settings ()
   "Stop the org-level headers from increasing in height relative
 to the other text."
+  (interactive)
   (dolist (face '(org-level-1
                   org-level-2
                   org-level-3
