@@ -24,3 +24,4 @@ emacs.d/recentf
 
 # End of https://www.gitignore.io/api/vim
 .tags
+emacs.d/bookmarks
