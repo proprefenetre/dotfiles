@@ -2,6 +2,7 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
+<<<<<<< HEAD
 (("modeline-settings.el"
  (filename . "~/.dotfiles/emacs.d/lisp/modeline-settings.el")
  (front-context-string . "; The mode-line ")
@@ -12,29 +13,29 @@
  (front-context-string . ";; orgmode setti")
  (rear-context-string)
  (position . 1))
+("prog-settings.el"
+ (filename . "~/dotfiles/emacs.d/lisp/prog-settings.el")
+ (front-context-string . "(use-package fly")
+ (rear-context-string)
+ (position . 1))
+("modeline-settings.el"
+ (filename . "~/dotfiles/emacs.d/lisp/modeline-settings.el")
+ (front-context-string . "; The mode-line ")
+ (rear-context-string)
+ (position . 1))
+("utils.el"
+ (filename . "~/dotfiles/emacs.d/lisp/utils.el")
+ (front-context-string . ")\n\n; custom keys")
+ (rear-context-string . "rent-buffer) 1))")
+ (position . 2366))
 ("evil-settings.el"
- (filename . "~/dotfiles/emacs.d/configs/evil-settings.el")
+ (filename . "~/dotfiles/emacs.d/lisp/evil-settings.el")
  (front-context-string . ";;; evil-setting")
  (rear-context-string)
  (position . 1))
-("init.el"
- (filename . "~/dotfiles/emacs.d/init.el")
- (front-context-string . "(package-initial")
+("package-settings.el"
+ (filename . "~/dotfiles/emacs.d/lisp/package-settings.el")
+ (front-context-string . "; use-package se")
  (rear-context-string)
  (position . 1))
-("emacs.org"
- (filename . "~/org/emacs.org")
- (front-context-string . "# Emacs function")
- (rear-context-string)
- (position . 1))
-("todo.org"
- (filename . "~/org/todo.org")
- (front-context-string . "* Tasks\n** DONE ")
- (rear-context-string)
- (position . 1))
-("org-capture-last-stored"
- (filename . "~/org/todo.org")
- (front-context-string . "** TODO Afspraak")
- (rear-context-string . "2018-03-13 Tue>\n")
- (position . 258))
 )

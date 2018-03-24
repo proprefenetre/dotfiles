@@ -25,3 +25,6 @@ emacs.d/recentf
 # End of https://www.gitignore.io/api/vim
 .tags
 emacs.d/bookmarks
+emacs.d/eshell/
+emacs.d/recentf
+emacs.d/org-clock-save.el

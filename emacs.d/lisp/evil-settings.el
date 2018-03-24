@@ -1,41 +1,17 @@
 ;;; evil-settings.el -- evil config
-
-(defun pfn/config-evil-leader ()
-  "Configure evil leader mode."
-  (evil-leader/set-leader ",")
-  (evil-leader/set-key
-    "i"  'pfn/open-init-file
-    "o"  'olivetti-mode
-    ","  'other-window
-    "."  'mode-line-other-buffer
-    ":"  'eval-expression
-    "b"  'helm-mini
-    "q"  'kill-this-buffer
-    "p"  'helm-show-kill-ring
-    "w"  'save-buffer
-    "x"	 'helm-M-x
-    "y"  'yank-to-x-clipboard))
-
-
-(defun pfn/config-evil-surround ()
-  (add-hook 'org-mode-hook (lambda ()
-                             (push '(?* . ("*" . "*"))
-                                   evil-surround-pairs-alist)))
-  (add-hook 'org-mode-hook (lambda ()
-                             (push '(?/ . ("/" . "/"))
-                                   evil-surround-pairs-alist)))
-  (add-hook 'org-mode-hook (lambda ()
-                             (push '(?_ . ("_" . "_"))
-                                   evil-surround-pairs-alist))))
-
-(defun pfn/config-evil ()
-  "Configure evil mode."
+(use-package evil
+  :ensure t
+  :demand t
+  :init
+  (setq evil-want-integration nil)
+  :config
 
   (setq evil-search-wrap t
-      evil-regexp-search t)
+        evil-regexp-search t)
 
   ;; Use Emacs state in these additional modes.
   (dolist (mode '(dired-mode
+                  docview-mode
                   eshell-mode
                   term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
@@ -55,14 +31,11 @@
   ;;; normal
   (evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
   (evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
-  (evil-define-key 'normal global-map (kbd "s-d")     'eval-defun)
   (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
-  (evil-define-key 'normal global-map (kbd "C-`")     (lambda ()
-                                                        (interactive)
-                                                        (dired (expand-file-name "~"))))
+  (evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
   ;;; insert
-  (evil-define-key 'insert global-map (kbd "s-d")     'eval-last-sexp)
   (evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
+  (evil-define-key 'visual global-map (kbd "C-e")     'end-of-line)
 
   ;; Make escape quit everything, whenever possible.
   (defun minibuffer-keyboard-quit ()
@@ -75,8 +48,7 @@
       (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
       (abort-recursive-edit)))
 
-
-  (define-key evil-normal-state-map [escape] 'keyboard-escape-quit)
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
   (define-key evil-visual-state-map [escape] 'keyboard-quit)
   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
@@ -84,55 +56,64 @@
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
-  ; stop killing emacs with :q
-  (defun pfn/ex-kill-buffer-and-close ()
-    (interactive)
-    (unless (char-equal (elt (buffer-name) 0) ?*)
-      (kill-this-buffer)))
+                                        ; stop killing emacs with :q
+  ;; (defun pfn/ex-kill-buffer-and-close ()
+  ;;   (interactive)
+  ;;   (unless (char-equal (elt (buffer-name) 0) ?*)
+  ;;     (kill-this-buffer)))
 
-  (defun pfn/ex-save-kill-buffer-and-close ()
-    (interactive)
-    (save-buffer)
-    (kill-this-buffer))
+  ;; (defun pfn/ex-save-kill-buffer-and-close ()
+  ;;   (interactive)
+  ;;   (save-buffer)
+  ;;   (kill-this-buffer))
 
-  (evil-ex-define-cmd "q[uit]" 'pfn/ex-kill-buffer-and-close )
-  (evil-ex-define-cmd "wq" 'pfn/ex-save-kill-buffer-and-close))
-
-
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-want-integration nil)
-  :config
-  (add-hook 'evil-mode-hook 'pfn/config-evil)
+  ;; (evil-ex-define-cmd "q[uit]" 'pfn/ex-kill-buffer-and-close )
+  ;; (evil-ex-define-cmd "wq" 'pfn/ex-save-kill-buffer-and-close)
   (evil-mode))
-
 
 (use-package evil-collection
   :ensure t
+  :demand t
   :after evil
   :config
   (evil-collection-init))
 
 (use-package evil-leader
   :ensure t
+  :demand t
   :config
   (global-evil-leader-mode)
-  (pfn/config-evil-leader))
+  (evil-leader/set-leader ",")
+  (evil-leader/set-key
+    "e"  'eval-defun
+    "a"  'org-agenda-list
+    "i"  'pfn/open-init-file
+    "o"  'olivetti-mode
+    ","  'other-window
+    "."  'mode-line-other-buffer
+    ":"  'eval-expression
+    "b"  'helm-mini
+    "q"  'kill-this-buffer
+    "p"  'helm-show-kill-ring
+    "w"  'save-buffer
+    "x"	 'helm-M-x
+    "y"  'yank-to-x-clipboard))
 
 (use-package evil-surround
   :ensure t
+  :demand t
   :config
-  (global-evil-surround-mode)
-  (pfn/config-evil-surround))
+  (global-evil-surround-mode))
 
 (use-package evil-commentary
   :ensure t
+  :demand t
   :config
   (evil-commentary-mode))
 
 (use-package key-chord
   :ensure t
+  :demand t
   :config
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
   (key-chord-define evil-normal-state-map "gs" 'magit-status)

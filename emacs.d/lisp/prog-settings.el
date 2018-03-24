@@ -1,17 +1,41 @@
-; modes etc
-
-;; prog-mode hooks
-(add-hook 'prog-mode-hook #'turn-on-auto-fill) 
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'linum-mode t)
-
 (use-package flycheck
   :ensure t)
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode))
 
 (use-package rust-mode
   :ensure t)
 
 (use-package python-mode
+  :ensure t
+  :config
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i --simple-prompt"))
+(use-package racket-mode)
+
+
+;; :config
+;; (font-lock-add-keywords 'racket-mode
+;; '(("define-\\w+" . font-lock-keyword-face))))
+
+(use-package paredit
   :ensure t)
+
+(add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
+
+(defun pfn/prog-mode-hooks ()
+  (auto-fill-mode)
+  (rainbow-delimiters-mode)
+  (paredit-mode)
+  (linum-mode t)
+  (delete-trailing-whitespace)
+  (aggressive-indent-mode))
+
+(add-hook 'prog-mode-hook 'pfn/prog-mode-hooks)
 
 (provide 'prog-settings)

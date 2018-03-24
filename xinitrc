@@ -18,16 +18,18 @@ if [ "$(hostname)" = 'archbook' ]; then
 fi
 if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/mhead
-    # setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl
+    # setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl -option altwin:swap_alt_win
+
     "$HOME"/bin/keeb -dv
     xbindkeys &
 fi
-    
+
 
 mount drijf
+unison org >/dev/null 2>&1 &
 
-# xset +fp /usr/share/fonts/local
-# xset fp rehash
+xset +fp /usr/share/fonts/local
+xset fp rehash
 xset m 1 0
 
 urxvtd --quiet --fork --opendisplay
