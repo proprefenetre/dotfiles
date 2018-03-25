@@ -31,7 +31,7 @@
   ;;; normal
   (evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
   (evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
-  (evil-define-key 'normal global-map (kbd "-")       'helm-find-files)
+  (evil-define-key 'normal global-map (kbd "-")       'counsel-find-file)
   (evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
   ;;; insert
   (evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
@@ -92,12 +92,11 @@
     ","  'other-window
     "."  'mode-line-other-buffer
     ":"  'eval-expression
-    "b"  'helm-mini
+    "b"  'ivy-switch-buffer
     "q"  'kill-this-buffer
-    "p"  'helm-show-kill-ring
     "w"  'save-buffer
-    "x"	 'helm-M-x
-    "y"  'yank-to-x-clipboard))
+    "x"	 'counsel-M-x
+    "y"  'counsel-yank-pop))
 
 (use-package evil-surround
   :ensure t

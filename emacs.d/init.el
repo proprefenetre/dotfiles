@@ -24,9 +24,10 @@
 
 (use-package magit
   :ensure t
-  :demand t
   :commands
-  (magit-status magit-blame magit-log-buffer-file magit-log-all))
+  (magit-status magit-blame magit-log-buffer-file magit-log-all)
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -48,13 +49,25 @@
   :config
   (which-key-mode))
 
-(use-package helm
+;; (use-package helm
+;;   :ensure t
+;;   :demand t
+;;   :config
+;;   (setq helm-split-window-inside-p t)
+;;   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;;   (helm-mode 1))
+
+(use-package ivy
   :ensure t
   :demand t
   :config
-  (setq helm-split-window-inside-p t)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-  (helm-mode 1))
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  (ivy-mode 1))
+
+(use-package counsel
+  :ensure t
+  :demand t)
 
 (use-package olivetti
   :ensure t
@@ -78,8 +91,10 @@
   :demand t
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+  (with-eval-after-load 'warnings
+    (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
+
 
 (use-package guess-language
   :ensure t
