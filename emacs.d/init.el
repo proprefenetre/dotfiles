@@ -1,5 +1,4 @@
-; Emacs configuration
-
+;; Emacs configuration
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
@@ -7,18 +6,17 @@
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6))
 
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(require 'package-settings)
+
 (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-(require 'package-settings)
 (require 'evil-settings)
 (require 'org-settings)
 (require 'prog-settings)
-(require 'modeline-settings)
 (require 'utils) ; functions and keybindings
 
 (use-package aggressive-indent
@@ -55,6 +53,7 @@
   :demand t
   :config
   (setq helm-split-window-inside-p t)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
   (helm-mode 1))
 
 (use-package olivetti
@@ -120,25 +119,73 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
-(when window-system
-  (scroll-bar-mode 0)                   ; Disable the scroll bar
-  (tool-bar-mode 0)                     ; Disable the tool bar
-  (tooltip-mode 0)                      ; Disable the tooltips
-  (menu-bar-mode 0))                    ; Disable the menu bar
+(scroll-bar-mode -1)                   ; Disable the scroll bar
+(tool-bar-mode -1)                     ; Disable the tool bar
+(tooltip-mode -1)                      ; Disable the tooltips
+(menu-bar-mode -1)                    ; Disable the menu bar
 
 (use-package monokai-theme)
 (use-package gruvbox-theme)
 (use-package solarized-theme)
 
 (setq custom-safe-themes t)
-(load-theme 'monokai t)
+(load-theme 'solarized-light t)
 
 (setq solarized-use-variable-pitch nil)
 (setq monokai-use-variable-pitch nil)
 
 (set-face-attribute 'default nil :font "Hack-10" )
+
 (fringe-mode '(8 . 8))
-(set-face-attribute 'fringe nil :background nil)
+(set-face-attribute 'fringe nil :inherit 'line-number)
+
+;; native line numbers
+(setq display-line-numbers-width 3
+      display-line-numbers-widen t)
+(set-face-attribute 'line-number nil :background 'unspecified)
+
+;; modeline
+(line-number-mode t)
+(column-number-mode t)
+
+(use-package minions
+  :ensure t
+  :demand t
+  :config
+  (minions-mode 1))
+
+(setq mode-line-format '("%e"
+                         mode-line-front-space
+                         mode-line-mule-info
+                         mode-line-client
+                         mode-line-modified
+                         mode-line-remote
+                         mode-line-frame-identification
+                         mode-line-buffer-identification
+                         sml/pos-id-separator
+                         mode-line-position
+                         evil-mode-line-tag
+                         (vc-mode vc-mode)
+                         sml/pre-modes-separator
+                         minions-mode-line-modes
+                         mode-line-misc-info
+                         mode-line-end-spaces))
+
+(use-package smart-mode-line
+  :ensure t
+  :demand t
+  :config
+  ;; (setq rm-whitelist
+  ;;       (format "^ \\(%s\\)$"
+  ;;               (mapconcat #'identity
+  ;;                          '("=>" "Paredit")
+  ;;                          "\\|")))
+  ;; (dolist (prop '(("\\` Paredit\\'" 'display " ()" 'face 'font-lock-comment-face)))
+  ;;   (add-to-list 'rm-text-properties prop))
+  (setq sml/theme 'respectful)
+  (setq sml/modified-char "+")
+  (setq sml/mode-width 'right)
+  (sml/setup))
 
 (setq initial-buffer-choice "~/org/algemeen.org")
 
