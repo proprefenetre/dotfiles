@@ -73,6 +73,13 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 
+(use-package yasnippet
+  :ensure t
+  :demand t
+  :config
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+  (yas-global-mode 1))
 
 (use-package guess-language
   :ensure t

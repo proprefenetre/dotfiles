@@ -34,18 +34,16 @@
         (org-agenda-files :maxlevel . 1)))
 
 (setq org-capture-templates
-      '(("t" "taak" entry (file+headline "~/org/algemeen.org" "To do")
-         "* TODO %?\n")
+      '(("t" "todo" entry (file+headline "~/org/algemeen.org" "To do")
+         "* todo %?")
+        ("e" "emacs-todo" entry (file+headline "~/org/algemeen.org" "Emacs")
+         "* todo %?")
         ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Algemeen")
-         "* TODO %?\n")
-        ("w" "werk" entry (file+headline "~/org/werk.org" "Todo")
-         "* TODO %?\n %^t")
+         "* todo %?")
         ("l" "link" entry (file+headline "~/org/algemeen.org" "To Read")
          "* read [[%?][]]")
-        ("n" "Note" entry (file+headline "~/org/notes.org" "Notes")
-         "* %?")
-        ("e" "Emacs Facts and Functions" entry (file "~/org/emacs.org")
-         "** %? (%a)")))
+        ("n" "Note" entry (file+headline "~/org/algemeen.org" "NB")
+         "* %?")))
 
 (defun pfn/org-header-settings ()
   "Stop the org-level headers from increasing in height relative

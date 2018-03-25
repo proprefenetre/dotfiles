@@ -7,7 +7,7 @@
    '("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" default))
  '(org-agenda-files '("~/org/algemeen.org" "~/org/werk.org" "~/org/thesis.org"))
  '(package-selected-packages
-   '(minions aggressive-indent color-theme-sanityinc-tomorrow company dash feebleline gruvbox-theme magit monokai-theme org-plus-contrib rich-minority s solarized-theme toc-org which-key writeroom-mode yasnippet paredit racket-mode yaml-mode guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil helm use-package)))
+   '(edit-indirect minions aggressive-indent color-theme-sanityinc-tomorrow company dash feebleline gruvbox-theme magit monokai-theme org-plus-contrib rich-minority s solarized-theme toc-org which-key writeroom-mode yasnippet paredit racket-mode yaml-mode guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil helm use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

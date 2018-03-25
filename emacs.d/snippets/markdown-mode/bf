@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: bold
+# key: bf
+# --
+\textbf{`(yank)`}$0

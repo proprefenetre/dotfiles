@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ex
+# key: ex
+# --
+\ex \label{${1:label}}
+\gll $2\\\\
+$3\\\\
+\glt $4
