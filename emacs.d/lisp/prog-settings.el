@@ -32,10 +32,11 @@
   (auto-fill-mode)
   (rainbow-delimiters-mode)
   (paredit-mode)
-  (linum-mode t)
+  (display-line-numbers-mode)
   (delete-trailing-whitespace)
   (aggressive-indent-mode))
 
 (add-hook 'prog-mode-hook 'pfn/prog-mode-hooks)
+;; (set-face-attribute 'line-number nil :background 'unspecified)
 
 (provide 'prog-settings)
