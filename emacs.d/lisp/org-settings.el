@@ -4,7 +4,7 @@
   :defer t
   :commands (org-capture)
   :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
+         ;; ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          ("C-c w" . org-refile))
   :config
@@ -34,7 +34,11 @@
         (org-agenda-files :maxlevel . 1)))
 
 (setq org-capture-templates
-      '(("t" "todo" entry (file+headline "~/org/algemeen.org" "To do")
+      '(("w" "word" entry (file+headline "~/org/dict.org" "Words")
+         "* %? :: ")
+        ("w" "usage" entry (file+headline "~/org/dict.org" "Usage")
+         "* %? :: ")
+        ("t" "todo" entry (file+headline "~/org/algemeen.org" "To do")
          "* todo %?")
         ("e" "emacs-todo" entry (file+headline "~/org/algemeen.org" "Emacs")
          "* todo %?")
@@ -60,6 +64,17 @@ to the other text."
 
 (use-package toc-org
   :after org
-  :init (add-hook 'org-mode-hook #'toc-org-enable))
+  :config
+  (add-hook 'org-mode-hook 'toc-org-enable))
+
+;; (use-package org-ref
+;;   :config
+;;   ;; see org-ref for use of these variables
+;;   (setq org-ref-default-bibliography '("~/projects/thesis/bibliography/refs.bib")
+;;         org-ref-pdf-directory "~/projects/thesis/bibliography/"
+;;         bibtex-completion-bibliography "~/projects/thesis/bibliography/refs.bib"
+;;         bibtex-completion-notes-path "~/projects/thesis/bibliography/refs.org"
+;;         org-ref-completion-library 'org-ref-ivy-cite))
+;; (add-hook 'org-mode-hook 'org-ref)
 
 (provide 'org-settings)

@@ -14,6 +14,8 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
+(server-start)
+
 (require 'evil-settings)
 (require 'org-settings)
 (require 'prog-settings)
@@ -58,16 +60,19 @@
 ;;   (helm-mode 1))
 
 (use-package ivy
-  :ensure t
   :demand t
   :config
   (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
-  (ivy-mode 1))
+  (setq ivy-count-format "(%d/%d) "))
 
 (use-package counsel
   :ensure t
-  :demand t)
+  :demand t
+  :config
+  (counsel-mode 1))
+
+(use-package hydra
+  :ensure t)
 
 (use-package olivetti
   :ensure t
@@ -222,6 +227,6 @@
 ;; garbage collect on focus-out
 (add-hook 'focus-out-hook #'garbage-collect)
 
-; lower garbace collection threshold
+;; lower garbace collection threshold
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)

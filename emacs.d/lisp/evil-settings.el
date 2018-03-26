@@ -10,14 +10,11 @@
         evil-regexp-search t)
 
   ;; Use Emacs state in these additional modes.
-  (dolist (mode '(dired-mode
-                  docview-mode
-                  eshell-mode
-                  term-mode))
-    (add-to-list 'evil-emacs-state-modes mode))
-
-  (delete 'term-mode evil-insert-state-modes) ; why?
-  (delete 'eshell-mode evil-insert-state-modes) ; why?
+  ;; (dolist (mode '(dired-mode
+  ;;                 docview-mode
+  ;;                 eshell-mode
+  ;;                 term-mode))
+  ;;   (add-to-list 'evil-emacs-state-modes mode))
 
   (evil-add-hjkl-bindings occur-mode-map 'emacs
     (kbd "/")       'evil-search-forward
@@ -29,6 +26,7 @@
 
   ;; Global bindings.
   ;;; normal
+  (evil-define-key 'normal global-map (kbd "/")       'swiper)
   (evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
   (evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
   (evil-define-key 'normal global-map (kbd "-")       'counsel-find-file)
@@ -56,19 +54,6 @@
   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
-                                        ; stop killing emacs with :q
-  ;; (defun pfn/ex-kill-buffer-and-close ()
-  ;;   (interactive)
-  ;;   (unless (char-equal (elt (buffer-name) 0) ?*)
-  ;;     (kill-this-buffer)))
-
-  ;; (defun pfn/ex-save-kill-buffer-and-close ()
-  ;;   (interactive)
-  ;;   (save-buffer)
-  ;;   (kill-this-buffer))
-
-  ;; (evil-ex-define-cmd "q[uit]" 'pfn/ex-kill-buffer-and-close )
-  ;; (evil-ex-define-cmd "wq" 'pfn/ex-save-kill-buffer-and-close)
   (evil-mode))
 
 (use-package evil-collection

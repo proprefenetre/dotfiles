@@ -70,11 +70,49 @@
 
 ;; custom keys
 (global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
-(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-x 2") 'pfn/vsplit-new-buffer)
 (global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
+(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c R") 'pfn/reload-init)
 (global-set-key (kbd "C-c r") 'pfn/revert-buffer-no-confirm)
 (global-set-key (kbd "C-c b") 'mode-line-other-buffer)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+
+(key-chord-define evil-insert-state-map "hh"
+                  (defhydra hydra-yasnippet (:color blue :hint nil)
+                    "
+              ^YASnippets^
+--------------------------------------------
+  Modes:    Load/Visit:    Actions:
+
+ _g_lobal  _d_irectory    _i_nsert
+ _m_inor   _f_ile         _t_ryout
+ _e_xtra   _l_ist         _n_ew
+         _a_ll
+"
+                    ("d" yas-load-directory)
+                    ("e" yas-activate-extra-mode)
+                    ("i" yas-insert-snippet)
+                    ("f" yas-visit-snippet-file :color blue)
+                    ("n" yas-new-snippet)
+                    ("t" yas-tryout-snippet)
+                    ("l" yas-describe-tables)
+                    ("g" yas/global-mode)
+                    ("m" yas/minor-mode)
+                    ("a" yas-reload-all)))
+
+(global-set-key (kbd "C-c a")
+                (defhydra hydra-org-agenda (:color blue :hint nil)
+                  "
+ ^Agenda^
+----------
+  Modes:
+
+ _a_genda
+ _t_odo
+"
+                  ("a" org-agenda-list)
+                  ("t" org-todo-list)))
+
 
 (provide 'utils)
