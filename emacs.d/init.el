@@ -18,8 +18,43 @@
 
 (require 'evil-settings)
 (require 'org-settings)
-(require 'prog-settings)
 (require 'utils) ; functions and keybindings
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode)
+  :config
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
+
+(use-package rust-mode
+  :ensure t)
+
+(use-package python-mode
+  :ensure t
+  :config
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i --simple-prompt"))
+
+(use-package racket-mode)
+
+(use-package paredit
+  :ensure t)
+
+(add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
+
+(defun pfn/prog-mode-hooks ()
+  (auto-fill-mode)
+  (rainbow-delimiters-mode)
+  (paredit-mode)
+  (display-line-numbers-mode)
+  (delete-trailing-whitespace)
+  (aggressive-indent-mode))
+
+(add-hook 'prog-mode-hook 'pfn/prog-mode-hooks)
 
 (use-package aggressive-indent
   :ensure t)
@@ -141,7 +176,7 @@
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
 (global-subword-mode 1)                           ; Iterate through CamelCase words
-(mouse-avoidance-mode 'banish)                    ; Avoid collision of mouse with point
+(mouse-avoidance-mode 'exile)                    ; Avoid collision of mouse with point
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
