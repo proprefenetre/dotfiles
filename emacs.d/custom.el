@@ -26,7 +26,7 @@
       (file+headline "~/org/algemeen.org" "NB")
       "* %?")) t)
  '(package-selected-packages
-   '(emacs-lisp-mode general org-ref swiper hydra counsel ivy edit-indirect minions aggressive-indent color-theme-sanityinc-tomorrow company dash feebleline gruvbox-theme magit monokai-theme org-plus-contrib rich-minority s solarized-theme toc-org which-key yasnippet paredit racket-mode yaml-mode guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil use-package)))
+   '(material-theme elpy emacs-lisp-mode general swiper hydra counsel ivy edit-indirect minions aggressive-indent color-theme-sanityinc-tomorrow company dash gruvbox-theme magit monokai-theme org-plus-contrib rich-minority s solarized-theme toc-org which-key yasnippet paredit racket-mode yaml-mode guess-language python-mode rust-mode flycheck-rust flycheck smart-mode-line rainbow-delimiters base16-theme markdown-mode olivetti eyebrowse key-chord evil-commentary evil-surround evil-leader evil-collection evil use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

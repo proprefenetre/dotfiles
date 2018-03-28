@@ -1,6 +1,7 @@
 ;;; init.el --- Emacs Configuration
 ;;; Commentary:
 ;;; Code:
+
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
@@ -9,7 +10,6 @@
         gc-cons-percentage 0.6))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
 (require 'package-settings)
 
 (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
@@ -46,7 +46,8 @@
   (rainbow-delimiters-mode)
   (display-line-numbers-mode)
   (delete-trailing-whitespace)
-  (flycheck-mode 1))
+  (flycheck-mode 1)
+  (company-mode 1))
 (add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
 
 (use-package rust-mode
@@ -58,7 +59,15 @@
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --simple-prompt"))
 
+(use-package elpy
+  :ensure t
+  :init
+  (with-eval-after-load 'python (elpy-enable))
+  :config
+  (delete 'elpy-module-highlight-indentation elpy-modules))
+
 (defun pfn/setup-lisp-mode ()
+  "Setup lisp-modes such as racket and emacs-lisp."
   (interactive)
   (eldoc-mode 1)
   (paredit-mode)
@@ -69,6 +78,10 @@
 (use-package racket-mode
   :config
   (add-hook 'racket-mode-hook 'pfn/setup-lisp-mode))
+
+(use-package company
+  :config
+  (define-key company-active-map [escape] 'company-abort))
 
 (use-package magit
   :ensure t
@@ -163,7 +176,7 @@
  x-select-enable-clipboard t ; Merge system's and Emacs' clipboard
  save-interprogram-paste-before-kill t ; ?
  sentence-end-double-space nil ; End a sentence after a dot and a space
- show-trailing-whitespace nil  ; Display trailing whitespaces
+ show-trailing-whitespace t  ; Display trailing whitespaces
  window-combination-resize t   ; Resize windows proportionally
  x-stretch-cursor t            ; Stretch cursor to the glyph width
  vc-follow-symlinks t     ; so you end up at the file itself rather than editing
@@ -255,7 +268,10 @@ active, just deactivate it; then it takes a second
  "k"   'evil-previous-visual-line
  "-"   'counsel-find-file
  "_"   'counsel-recentf
- [escape] 'keyboard-quit)
+ [escape] 'keyboard-quit
+ "C-e" 'end-of-line
+ "C-w v" 'pfn/vsplit-new-buffer
+ "C-w h" 'pfn/hsplit-new-buffer)
 
 (general-define-key
  :states '(insert visual)
@@ -264,8 +280,6 @@ active, just deactivate it; then it takes a second
 
 (general-define-key
  "C-c s" 'pfn/ispell-toggle-dictionary
- "C-x 2" 'pfn/vsplit-new-buffer
- "C-x 3" 'pfn/hsplit-new-buffer
  "C-c g" 'magit-status
  "C-c R" 'pfn/reload-init
  "C-c r" 'pfn/revert-buffer-no-confirm
@@ -278,7 +292,7 @@ active, just deactivate it; then it takes a second
 (use-package solarized-theme)
 
 (setq custom-safe-themes t)
-(load-theme 'solarized-light t)
+(load-theme 'material t)
 
 (setq solarized-use-variable-pitch nil)
 (setq monokai-use-variable-pitch nil)
@@ -289,7 +303,8 @@ active, just deactivate it; then it takes a second
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
 ;;; native line numbers
-(setq display-line-numbers-width 3
+(setq display-line-numbers-width 4
+      display-line-numbers-width-start 3
       display-line-numbers-widen t)
 (set-face-attribute 'line-number nil :background 'unspecified)
 
