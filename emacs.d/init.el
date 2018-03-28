@@ -20,6 +20,12 @@
 (require 'org-settings)
 (require 'utils) ; functions and keybindings
 
+(use-package paredit
+  :ensure t)
+
+(use-package aggressive-indent
+  :ensure t)
+
 (use-package yaml-mode
   :ensure t
   :defer t
@@ -30,6 +36,15 @@
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
+(defun pfn/setup-prog-mode ()
+  (auto-fill-mode)
+  (rainbow-delimiters-mode)
+  (display-line-numbers-mode)
+  (delete-trailing-whitespace)
+  (flycheck-mode 1))
+
+(add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
+
 (use-package rust-mode
   :ensure t)
 
@@ -39,25 +54,18 @@
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --simple-prompt"))
 
-(use-package racket-mode)
-
-(use-package paredit
-  :ensure t)
-
-(add-hook 'ielm-mode-hook (lambda () (eldoc-mode 1)))
-
-(defun pfn/prog-mode-hooks ()
-  (auto-fill-mode)
-  (rainbow-delimiters-mode)
+(defun pfn/setup-lisp-mode ()
+  (interactive)
+  (eldoc-mode 1)
   (paredit-mode)
-  (display-line-numbers-mode)
-  (delete-trailing-whitespace)
   (aggressive-indent-mode))
 
-(add-hook 'prog-mode-hook 'pfn/prog-mode-hooks)
+(add-hook 'emacs-lisp-mode 'pfn/setup-lisp-mode)
 
-(use-package aggressive-indent
-  :ensure t)
+(use-package racket-mode
+  :config
+  (add-hook 'racket-mode-hook 'pfn/setup-lisp-mode))
+
 
 (use-package magit
   :ensure t
@@ -72,7 +80,7 @@
 
 (use-package eyebrowse
   :ensure t
-  :demand t
+  :demand
   :config
   (setq eyebrowse-new-workspace t)
   (eyebrowse-setup-opinionated-keys)
@@ -82,20 +90,10 @@
 
 (use-package which-key
   :ensure t
-  :demand t
   :config
   (which-key-mode))
 
-;; (use-package helm
-;;   :ensure t
-;;   :demand t
-;;   :config
-;;   (setq helm-split-window-inside-p t)
-;;   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-;;   (helm-mode 1))
-
 (use-package ivy
-  :demand t
   :config
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) "))
@@ -128,13 +126,11 @@
 
 (use-package yasnippet
   :ensure t
-  :demand t
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
-
 
 (use-package guess-language
   :ensure t
@@ -169,9 +165,13 @@
               vc-follow-symlinks t     ; so you end up at the file itself rather
                                         ; than editing the link
               large-file-warning-threshold nil ; this
-              make-backup-files nil            ; no thanks
               ispell-silently-savep t)  ; don't ask for confirmation when adding
                                         ; a word to personal dictionary
+
+(setq backup-directory-alist
+      `((".*" . ,(concat user-emacs-directory "backups"))))
+(setq auto-save-file-name-transforms
+      `((".*" ,(concat user-emacs-directory "auto-saves") t)))
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
@@ -186,6 +186,93 @@
 (tooltip-mode -1)                      ; Disable the tooltips
 (menu-bar-mode -1)                    ; Disable the menu bar
 
+;; keys
+(use-package general
+  :ensure t
+  :demand t)
+
+(general-define-key
+ :states '(normal visual insert emacs)
+ :prefix ","
+ :non-normal-prefix "M-,"
+ "e"  'eval-defun
+ "a"  'org-agenda-list
+ "i"  'pfn/open-init-file
+ "o"  'olivetti-mode
+ ","  'other-window
+ "."  'mode-line-other-buffer
+ ":"  'eval-expression
+ "b"  'ivy-switch-buffer
+ "q"  'kill-this-buffer
+ "w"  'save-buffer
+ "x"	 'counsel-M-x
+ "y"  'counsel-yank-pop)
+
+(use-package key-chord
+  :ensure t
+  :demand t
+  :config
+  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-define evil-normal-state-map "gs" 'magit-status)
+  (key-chord-mode 1))
+
+(evil-add-hjkl-bindings occur-mode-map 'emacs
+  (kbd "/")       'evil-search-forward
+  (kbd "n")       'evil-search-next
+  (kbd "N")       'evil-search-previous
+  (kbd "C-d")     'evil-scroll-down
+  (kbd "C-u")     'evil-scroll-up
+  (kbd "C-w C-w") 'other-window)
+(evil-define-key 'normal global-map (kbd "/")       'swiper)
+(evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
+(evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
+(evil-define-key 'normal global-map (kbd "-")       'counsel-find-file)
+(evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
+  ;;; insert
+(evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
+(evil-define-key 'visual global-map (kbd "C-e")     'end-of-line)
+
+;; Make escape quit everything, whenever possible.
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+    In Delete Selection mode, if the mark is active, just deactivate it;
+    then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+(global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
+(global-set-key (kbd "C-x 2") 'pfn/vsplit-new-buffer)
+(global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
+(global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-c R") 'pfn/reload-init)
+(global-set-key (kbd "C-c r") 'pfn/revert-buffer-no-confirm)
+(global-set-key (kbd "C-c b") 'mode-line-other-buffer)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+
+(global-set-key (kbd "C-c a")
+                (defhydra hydra-org-agenda (:color blue :hint nil)
+                  "
+ ^Agenda^
+----------
+  Modes:
+
+ _a_genda
+ _t_odo
+"
+                  ("a" org-agenda-list)
+                  ("t" org-todo-list)))
+
+;; theme
 (use-package monokai-theme)
 (use-package gruvbox-theme)
 (use-package solarized-theme)
@@ -201,53 +288,28 @@
 (fringe-mode '(8 . 8))
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
-;; native line numbers
+;;; native line numbers
 (setq display-line-numbers-width 3
       display-line-numbers-widen t)
 (set-face-attribute 'line-number nil :background 'unspecified)
 
 ;; modeline
-(line-number-mode t)
-(column-number-mode t)
+(use-package smart-mode-line
+  :ensure t
+  :demand t
+  :config
+  (line-number-mode t)
+  (column-number-mode t)
+  (setq sml/theme 'respectful)
+  (setq sml/modified-char "+")
+  (setq sml/mode-width 'right)
+  (sml/setup))
 
 (use-package minions
   :ensure t
   :demand t
   :config
   (minions-mode 1))
-
-(setq mode-line-format '("%e"
-                         mode-line-front-space
-                         mode-line-mule-info
-                         mode-line-client
-                         mode-line-modified
-                         mode-line-remote
-                         mode-line-frame-identification
-                         mode-line-buffer-identification
-                         sml/pos-id-separator
-                         mode-line-position
-                         evil-mode-line-tag
-                         (vc-mode vc-mode)
-                         sml/pre-modes-separator
-                         minions-mode-line-modes
-                         mode-line-misc-info
-                         mode-line-end-spaces))
-
-(use-package smart-mode-line
-  :ensure t
-  :demand t
-  :config
-  ;; (setq rm-whitelist
-  ;;       (format "^ \\(%s\\)$"
-  ;;               (mapconcat #'identity
-  ;;                          '("=>" "Paredit")
-  ;;                          "\\|")))
-  ;; (dolist (prop '(("\\` Paredit\\'" 'display " ()" 'face 'font-lock-comment-face)))
-  ;;   (add-to-list 'rm-text-properties prop))
-  (setq sml/theme 'respectful)
-  (setq sml/modified-char "+")
-  (setq sml/mode-width 'right)
-  (sml/setup))
 
 (setq initial-buffer-choice "~/org/algemeen.org")
 
