@@ -343,4 +343,4 @@ active, just deactivate it; then it takes a second
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
 
-;;; init.el ends here
+;;; INIT.el ends here
