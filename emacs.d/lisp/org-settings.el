@@ -1,18 +1,19 @@
+(require 'hydras)
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
   :defer t
   :commands (org-capture)
   :bind (("C-c l" . org-store-link)
-         ;; ("C-c a" . org-agenda)
+         ("C-c a" . hydra-org-agenda/body)
          ("C-c c" . org-capture)
          ("C-c w" . org-refile))
   :config
   (setq org-directory "~/org"
         org-default-notes-file "~/org/algemeen.org"
         org-agenda-files '("~/org/algemeen.org"
-                           "~/org/thesis.org"
-                           "~/org/werk.org")
+                           "~/org/thesis.org")
         org-archive-location "~/org/archief.org::"
         org-log-done nil
         org-log-into-drawer t

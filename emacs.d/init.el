@@ -93,6 +93,7 @@
 
 (use-package which-key
   :ensure t
+  :demand t
   :config
   (which-key-mode 1))
 
@@ -137,7 +138,6 @@
 
 (use-package guess-language
   :ensure t
-  :defer t
   :config
   (setq guess-language-langcodes '((en . ("english" "English"))
                                    (nl . ("dutch" "Dutch")))
@@ -188,7 +188,7 @@
 (scroll-bar-mode -1)                   ; Disable the scroll bar
 (tool-bar-mode -1)                     ; Disable the tool bar
 (tooltip-mode -1)                      ; Disable the tooltips
-(menu-bar-mode -1)                    ; Disable the menu bar
+(menu-bar-mode -1)                     ; Disable the menu bar
 
 ;; keys
 (use-package general
@@ -200,7 +200,7 @@
   :demand t
   :config
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-  (key-chord-define evil-normal-state-map "gs" 'magit-status)
+  (key-chord-define evil-motion-state-map "gs" 'magit-status)
   (key-chord-mode 1))
 
 (evil-add-hjkl-bindings occur-mode-map 'emacs
@@ -229,10 +229,10 @@ active, just deactivate it; then it takes a second
             minibuffer-local-completion-map
             minibuffer-local-must-match-map
             minibuffer-local-isearch-map)
- "ESC" 'minibuffer-keyboard-quit)
+ [escape] 'minibuffer-keyboard-quit)
 
 (general-define-key
- :states '(normal visual insert emacs)
+ :keymaps '(normal visual insert emacs)
  :prefix ","
  :non-normal-prefix "M-,"
  "/"  'swiper
@@ -250,17 +250,17 @@ active, just deactivate it; then it takes a second
  "m"  'counsel-bookmark)
 
 (general-define-key
- :states 'normal
- "/"   'evil-search-forward
- "?"   'evil-search-backward
+ :states 'motion
  "j"   'evil-next-visual-line
  "k"   'evil-previous-visual-line
- "-"   'counsel-find-file)
+ "-"   'counsel-find-file
+ "_"   'counsel-recentf
+ [escape] 'keyboard-quit)
 
 (general-define-key
- :states '(normal visual insert)
+ :states '(insert visual)
  "C-e" 'end-of-line
- "ESC" 'keyboard-quit)
+ "C-a" 'beginning-of-line)
 
 (general-define-key
  "C-c s" 'pfn/ispell-toggle-dictionary
