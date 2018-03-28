@@ -1,4 +1,6 @@
-;; Emacs configuration
+;;; init.el --- Emacs Configuration
+;;; Commentary:
+;;; Code:
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
@@ -7,6 +9,7 @@
         gc-cons-percentage 0.6))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+
 (require 'package-settings)
 
 (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
@@ -18,7 +21,8 @@
 
 (require 'evil-settings)
 (require 'org-settings)
-(require 'utils) ; functions and keybindings
+(require 'utils)                        ;functions
+(require 'hydras)                       ;hydras
 
 (use-package paredit
   :ensure t)
@@ -37,12 +41,12 @@
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
 (defun pfn/setup-prog-mode ()
+  "Load 'prog-mode' minor modes."
   (auto-fill-mode)
   (rainbow-delimiters-mode)
   (display-line-numbers-mode)
   (delete-trailing-whitespace)
   (flycheck-mode 1))
-
 (add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
 
 (use-package rust-mode
@@ -65,7 +69,6 @@
 (use-package racket-mode
   :config
   (add-hook 'racket-mode-hook 'pfn/setup-lisp-mode))
-
 
 (use-package magit
   :ensure t
@@ -91,7 +94,7 @@
 (use-package which-key
   :ensure t
   :config
-  (which-key-mode))
+  (which-key-mode 1))
 
 (use-package ivy
   :config
@@ -141,32 +144,33 @@
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
 
-(setq-default auto-window-vscroll nil         ; Lighten vertical scroll
-              confirm-kill-emacs 'yes-or-no-p ; Confirm before exiting Emacs
-              cursor-in-non-selected-windows t ; Hide the cursor in inactive windows
-              help-window-select t      ; Focus new help windows when opened
-              indent-tabs-mode nil      ; Stop using tabs to indent
-              tab-width 4               ; Set width for tabs
-              fill-column 80            ; Set width for automatic line breaks
-              inhibit-splash-screen t   ; Disable start-up screen
-              inhibit-startup-message t ; No startup-message
-              visual-bell nil           ; plz no visual bell
-              mouse-yank-at-point t     ; Yank at point rather than pointer
-              recenter-positions '(5 top bottom) ; Set re-centering positions
-              scroll-conservatively most-positive-fixnum ; Always scroll by one line
-              scroll-margin 10          ; Add a margin when scrolling vertically
-              indicate-empty-lines nil  ; no fuzz at the end of a file
-              x-select-enable-clipboard t ; Merge system's and Emacs' clipboard
-              save-interprogram-paste-before-kill t ; ?
-              sentence-end-double-space nil ; End a sentence after a dot and a space
-              show-trailing-whitespace nil  ; Display trailing whitespaces
-              window-combination-resize t   ; Resize windows proportionally
-              x-stretch-cursor t            ; Stretch cursor to the glyph width
-              vc-follow-symlinks t     ; so you end up at the file itself rather
-                                        ; than editing the link
-              large-file-warning-threshold nil ; this
-              ispell-silently-savep t)  ; don't ask for confirmation when adding
-                                        ; a word to personal dictionary
+(setq-default
+ auto-window-vscroll nil         ; Lighten vertical scroll
+ confirm-kill-emacs 'yes-or-no-p ; Confirm before exiting Emacs
+ cursor-in-non-selected-windows t ; Hide the cursor in inactive windows
+ help-window-select t             ; Focus new help windows when opened
+ indent-tabs-mode nil      ; Stop using tabs to indent
+ tab-width 4               ; Set width for tabs
+ fill-column 80            ; Set width for automatic line breaks
+ inhibit-splash-screen t   ; Disable start-up screen
+ inhibit-startup-message t ; No startup-message
+ visual-bell nil           ; plz no visual bell
+ mouse-yank-at-point t     ; Yank at point rather than pointer
+ recenter-positions '(5 top bottom) ; Set re-centering positions
+ scroll-conservatively most-positive-fixnum ; Always scroll by one line
+ scroll-margin 10          ; Add a margin when scrolling vertically
+ indicate-empty-lines nil  ; no fuzz at the end of a file
+ x-select-enable-clipboard t ; Merge system's and Emacs' clipboard
+ save-interprogram-paste-before-kill t ; ?
+ sentence-end-double-space nil ; End a sentence after a dot and a space
+ show-trailing-whitespace nil  ; Display trailing whitespaces
+ window-combination-resize t   ; Resize windows proportionally
+ x-stretch-cursor t            ; Stretch cursor to the glyph width
+ vc-follow-symlinks t     ; so you end up at the file itself rather than editing
+                          ; the link
+ large-file-warning-threshold nil ; this
+ ispell-silently-savep t)  ; don't ask for confirmation when adding a word to
+                           ; personal dictionary
 
 (setq backup-directory-alist
       `((".*" . ,(concat user-emacs-directory "backups"))))
@@ -175,7 +179,7 @@
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
-(global-subword-mode 1)                           ; Iterate through CamelCase words
+(global-subword-mode 1)                 ; Iterate through CamelCase words
 (mouse-avoidance-mode 'exile)                    ; Avoid collision of mouse with point
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
@@ -190,23 +194,6 @@
 (use-package general
   :ensure t
   :demand t)
-
-(general-define-key
- :states '(normal visual insert emacs)
- :prefix ","
- :non-normal-prefix "M-,"
- "e"  'eval-defun
- "a"  'org-agenda-list
- "i"  'pfn/open-init-file
- "o"  'olivetti-mode
- ","  'other-window
- "."  'mode-line-other-buffer
- ":"  'eval-expression
- "b"  'ivy-switch-buffer
- "q"  'kill-this-buffer
- "w"  'save-buffer
- "x"	 'counsel-M-x
- "y"  'counsel-yank-pop)
 
 (use-package key-chord
   :ensure t
@@ -223,54 +210,67 @@
   (kbd "C-d")     'evil-scroll-down
   (kbd "C-u")     'evil-scroll-up
   (kbd "C-w C-w") 'other-window)
-(evil-define-key 'normal global-map (kbd "/")       'swiper)
-(evil-define-key 'normal global-map (kbd "j")       'evil-next-visual-line)
-(evil-define-key 'normal global-map (kbd "k")       'evil-previous-visual-line)
-(evil-define-key 'normal global-map (kbd "-")       'counsel-find-file)
-(evil-define-key 'normal global-map (kbd "C-e")     'end-of-line)
-  ;;; insert
-(evil-define-key 'insert global-map (kbd "C-e")     'end-of-line)
-(evil-define-key 'visual global-map (kbd "C-e")     'end-of-line)
 
 ;; Make escape quit everything, whenever possible.
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
-    In Delete Selection mode, if the mark is active, just deactivate it;
-    then it takes a second \\[keyboard-quit] to abort the minibuffer."
+In Delete Selection mode, if the mark is
+active, just deactivate it; then it takes a second
+\\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (if (and delete-selection-mode transient-mark-mode mark-active)
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-(global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
-(global-set-key (kbd "C-x 2") 'pfn/vsplit-new-buffer)
-(global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
-(global-set-key (kbd "C-c g") 'magit-status)
-(global-set-key (kbd "C-c R") 'pfn/reload-init)
-(global-set-key (kbd "C-c r") 'pfn/revert-buffer-no-confirm)
-(global-set-key (kbd "C-c b") 'mode-line-other-buffer)
-(global-set-key (kbd "C-c k") 'counsel-ag)
+(general-define-key
+ :keymaps '(minibuffer-local-map
+            minibuffer-local-ns-map
+            minibuffer-local-completion-map
+            minibuffer-local-must-match-map
+            minibuffer-local-isearch-map)
+ "ESC" 'minibuffer-keyboard-quit)
 
-(global-set-key (kbd "C-c a")
-                (defhydra hydra-org-agenda (:color blue :hint nil)
-                  "
- ^Agenda^
-----------
-  Modes:
+(general-define-key
+ :states '(normal visual insert emacs)
+ :prefix ","
+ :non-normal-prefix "M-,"
+ "/"  'swiper
+ "e"  'eval-defun
+ "i"  'pfn/open-init-file
+ "o"  'olivetti-mode
+ ","  'other-window
+ "."  'mode-line-other-buffer
+ "a"  'hydra-org-agenda/body
+ "b"  'hydra-buffer/body
+ "q"  'kill-this-buffer
+ "w"  'save-buffer
+ "x"  'counsel-M-x
+ "y"  'counsel-yank-pop
+ "m"  'counsel-bookmark)
 
- _a_genda
- _t_odo
-"
-                  ("a" org-agenda-list)
-                  ("t" org-todo-list)))
+(general-define-key
+ :states 'normal
+ "/"   'evil-search-forward
+ "?"   'evil-search-backward
+ "j"   'evil-next-visual-line
+ "k"   'evil-previous-visual-line
+ "-"   'counsel-find-file)
+
+(general-define-key
+ :states '(normal visual insert)
+ "C-e" 'end-of-line
+ "ESC" 'keyboard-quit)
+
+(general-define-key
+ "C-c s" 'pfn/ispell-toggle-dictionary
+ "C-x 2" 'pfn/vsplit-new-buffer
+ "C-x 3" 'pfn/hsplit-new-buffer
+ "C-c g" 'magit-status
+ "C-c R" 'pfn/reload-init
+ "C-c r" 'pfn/revert-buffer-no-confirm
+ "C-c b" 'mode-line-other-buffer
+ "C-c k" 'counsel-ag)
 
 ;; theme
 (use-package monokai-theme)
@@ -314,7 +314,7 @@
 (setq initial-buffer-choice "~/org/algemeen.org")
 
 (defun pfn/text-mode-hooks ()
-  "load text-mode hooks"
+  "Load 'text-mode' hooks."
   (flyspell-mode)
   (guess-language-mode)
   (turn-on-auto-fill)
@@ -327,3 +327,5 @@
 ;; lower garbace collection threshold
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
+
+;;; init.el ends here
