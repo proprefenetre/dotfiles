@@ -9,10 +9,6 @@
   :pin org
   :defer t
   :commands (org-capture)
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . hydra-org-agenda/body)
-         ("C-c c" . org-capture)
-         ("C-c w" . org-refile))
   :config
   (setq org-directory "~/org"
         org-default-notes-file "~/org/algemeen.org"

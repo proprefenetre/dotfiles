@@ -215,10 +215,7 @@
 
 ;; Make escape quit everything, whenever possible.
 (defun minibuffer-keyboard-quit ()
-  "Abort recursive edit.
-In Delete Selection mode, if the mark is
-active, just deactivate it; then it takes a second
-\\[keyboard-quit] to abort the minibuffer."
+  "Abort recursive edit."
   (interactive)
   (if (and delete-selection-mode transient-mark-mode mark-active)
       (setq deactivate-mark  t)
@@ -254,8 +251,8 @@ active, just deactivate it; then it takes a second
   "o"  'olivetti-mode
   ","  'other-window
   "."  'mode-line-other-buffer
-  "a"  'hydra-org-agenda/body
   "b"  'hydra-buffer/body
+  "a"  'hydra-org-agenda/body
   "q"  'kill-this-buffer
   "w"  'save-buffer
   "x"  'counsel-M-x
@@ -284,13 +281,17 @@ active, just deactivate it; then it takes a second
   "C-a" 'beginning-of-line)
 
 (general-def
- "C-c s" 'pfn/ispell-toggle-dictionary
- "C-c g" 'magit-status
- "C-c R" 'pfn/reload-init
- "C-c r" 'pfn/revert-buffer-no-confirm
- "C-c b" 'mode-line-other-buffer
- "C-c k" 'counsel-ag)
-
+  "C-c s" 'pfn/ispell-toggle-dictionary
+  "C-c g" 'magit-status
+  "C-c R" 'pfn/reload-init
+  "C-c r" 'pfn/revert-buffer-no-confirm
+  "C-c b" 'mode-line-other-buffer
+  "C-c k" 'counsel-ag
+  "C-c l" 'org-store-link
+  "C-c c" 'org-capture
+  "C-c f" 'org-archive
+  "C-c w" 'org-refile
+  "C-c a" 'org-archive-subtree)
 
 ;; theme
 (use-package nord-theme)
