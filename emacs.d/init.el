@@ -40,16 +40,6 @@
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
-(defun pfn/setup-prog-mode ()
-  "Load 'prog-mode' minor modes."
-  (auto-fill-mode)
-  (rainbow-delimiters-mode)
-  (display-line-numbers-mode)
-  (delete-trailing-whitespace)
-  (flycheck-mode 1)
-  (company-mode 1))
-(add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
-
 (use-package rust-mode
   :ensure t)
 
@@ -65,15 +55,6 @@
   (with-eval-after-load 'python (elpy-enable))
   :config
   (delete 'elpy-module-highlight-indentation elpy-modules))
-
-(defun pfn/setup-lisp-mode ()
-  "Setup lisp-modes such as racket and emacs-lisp."
-  (interactive)
-  (eldoc-mode 1)
-  (paredit-mode)
-  (aggressive-indent-mode))
-
-(add-hook 'emacs-lisp-mode 'pfn/setup-lisp-mode)
 
 (use-package racket-mode
   :config
@@ -100,8 +81,6 @@
   :config
   (setq eyebrowse-new-workspace t)
   (eyebrowse-setup-opinionated-keys)
-  (define-key evil-motion-state-map "gc" nil)
-  (define-key evil-motion-state-map "gC" 'eyebrowse-close-window-config)
   (eyebrowse-mode t))
 
 (use-package which-key
@@ -157,6 +136,25 @@
                                    (nl . ("dutch" "Dutch")))
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
+
+(defun pfn/setup-lisp-mode ()
+  "Setup lisp-modes such as racket and emacs-lisp."
+  (eldoc-mode 1)
+  (paredit-mode)
+  (aggressive-indent-mode))
+
+(add-hook 'emacs-lisp-mode-hook 'pfn/setup-lisp-mode)
+
+(defun pfn/setup-prog-mode ()
+  "Load 'prog-mode' minor modes."
+  (auto-fill-mode)
+  (rainbow-delimiters-mode)
+  (display-line-numbers-mode)
+  (delete-trailing-whitespace)
+  (flycheck-mode 1)
+  (company-mode 1))
+
+(add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
 
 (setq-default
  auto-window-vscroll nil         ; Lighten vertical scroll
@@ -227,14 +225,14 @@ active, just deactivate it; then it takes a second
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
 
-(general-define-key
- :keymaps '(minibuffer-local-map
-            minibuffer-local-ns-map
-            minibuffer-local-completion-map
-            minibuffer-local-must-match-map
-            minibuffer-local-isearch-map)
- [escape] 'minibuffer-keyboard-quit
- [C-w] 'pfn/backward-delete-word)
+(general-def
+  :keymaps '(minibuffer-local-map
+             minibuffer-local-ns-map
+             minibuffer-local-completion-map
+             minibuffer-local-must-match-map
+             minibuffer-local-isearch-map)
+  [escape] 'minibuffer-keyboard-quit
+  [C-w] 'pfn/backward-delete-word)
 
 (general-def 'emacs occur-mode-map
   "/" 'evil-search-forward
@@ -250,36 +248,40 @@ active, just deactivate it; then it takes a second
   :non-normal-prefix "M-,")
 
 (evil-leader-def
- "/"  'swiper
- "e"  'eval-defun
- "i"  'pfn/open-init-file
- "o"  'olivetti-mode
- ","  'other-window
- "."  'mode-line-other-buffer
- "a"  'hydra-org-agenda/body
- "b"  'hydra-buffer/body
- "q"  'kill-this-buffer
- "w"  'save-buffer
- "x"  'counsel-M-x
- "y"  'counsel-yank-pop
- "m"  'counsel-bookmark)
+  "/"  'swiper
+  "e"  'eval-defun
+  "i"  'pfn/open-init-file
+  "o"  'olivetti-mode
+  ","  'other-window
+  "."  'mode-line-other-buffer
+  "a"  'hydra-org-agenda/body
+  "b"  'hydra-buffer/body
+  "q"  'kill-this-buffer
+  "w"  'save-buffer
+  "x"  'counsel-M-x
+  "y"  'counsel-yank-pop
+  "m"  'counsel-bookmark
+  "gs" 'magit-status)
+
+(general-def 'emacs org-agenda-mode-map
+  "C-w C-w" 'other-window)
 
 (general-def 'motion
- "j"   'evil-next-visual-line
- "k"   'evil-previous-visual-line
- "-"   'counsel-find-file
- "_"   'counsel-recentf
- [escape] 'keyboard-quit
- "C-e" 'end-of-line
- "C-w v" 'pfn/vsplit-new-buffer
- "C-w h" 'pfn/hsplit-new-buffer)
-
-(general-def 'insert
- (general-chord "jj") 'evil-normal-state)
+  "j"   'evil-next-visual-line
+  "k"   'evil-previous-visual-line
+  "-"   'counsel-find-file
+  "_"   'counsel-recentf
+  [escape] 'keyboard-quit
+  "C-e" 'end-of-line
+  "C-w v" 'pfn/vsplit-new-buffer
+  "C-w h" 'pfn/hsplit-new-buffer
+  "gc" nil
+  "gC" 'eyebrowse-close-window-config)
 
 (general-def '(insert visual)
- "C-e" 'end-of-line
- "C-a" 'beginning-of-line)
+  (general-chord "jj") 'evil-normal-state
+  "C-e" 'end-of-line
+  "C-a" 'beginning-of-line)
 
 (general-def
  "C-c s" 'pfn/ispell-toggle-dictionary
@@ -288,6 +290,7 @@ active, just deactivate it; then it takes a second
  "C-c r" 'pfn/revert-buffer-no-confirm
  "C-c b" 'mode-line-other-buffer
  "C-c k" 'counsel-ag)
+
 
 ;; theme
 (use-package nord-theme)
