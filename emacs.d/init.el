@@ -34,8 +34,8 @@
   :ensure t
   :defer t
   :mode
-  ("\\.yml\\'" . yaml-mode)
-  ("\\.yaml\\'" . yaml-mode)
+  ("\\.yml" . yaml-mode)
+  ("\\.yaml" . yaml-mode)
   :config
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
@@ -132,7 +132,8 @@
 (use-package markdown-mode
   :ensure t
   :mode
-  ("\\.md\\'" . markdown-mode)
+  ("\\.md" . markdown-mode)
+  ("\\.mdpp" . markdown-mode)
   :init
   (setq markdown-command "pandoc")
   (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
@@ -203,7 +204,7 @@
 (tooltip-mode -1)                      ; Disable the tooltips
 (menu-bar-mode -1)                     ; Disable the menu bar
 
-;; keys
+;; General
 (use-package general
   :ensure t
   :demand t)
@@ -212,17 +213,7 @@
   :ensure t
   :demand t
   :config
-  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-  (key-chord-define evil-motion-state-map "gs" 'magit-status)
   (key-chord-mode 1))
-
-(evil-add-hjkl-bindings occur-mode-map 'emacs
-  (kbd "/")       'evil-search-forward
-  (kbd "n")       'evil-search-next
-  (kbd "N")       'evil-search-previous
-  (kbd "C-d")     'evil-scroll-down
-  (kbd "C-u")     'evil-scroll-up
-  (kbd "C-w C-w") 'other-window)
 
 ;; Make escape quit everything, whenever possible.
 (defun minibuffer-keyboard-quit ()
@@ -242,12 +233,23 @@ active, just deactivate it; then it takes a second
             minibuffer-local-completion-map
             minibuffer-local-must-match-map
             minibuffer-local-isearch-map)
- [escape] 'minibuffer-keyboard-quit)
+ [escape] 'minibuffer-keyboard-quit
+ [C-w] 'pfn/backward-delete-word)
 
-(general-define-key
- :keymaps '(normal visual insert emacs)
- :prefix ","
- :non-normal-prefix "M-,"
+(general-def 'emacs occur-mode-map
+  "/" 'evil-search-forward
+  "n" 'evil-search-backward
+  "N" 'evil-search-backward
+  "C-d" 'evil-scroll-down
+  "C-u" 'evil-scroll-up
+  "C-w C-w" 'other-window)
+
+(general-create-definer evil-leader-def
+  :states '(normal visual insert emacs)
+  :prefix ","
+  :non-normal-prefix "M-,")
+
+(evil-leader-def
  "/"  'swiper
  "e"  'eval-defun
  "i"  'pfn/open-init-file
@@ -262,8 +264,7 @@ active, just deactivate it; then it takes a second
  "y"  'counsel-yank-pop
  "m"  'counsel-bookmark)
 
-(general-define-key
- :states 'motion
+(general-def 'motion
  "j"   'evil-next-visual-line
  "k"   'evil-previous-visual-line
  "-"   'counsel-find-file
@@ -273,12 +274,14 @@ active, just deactivate it; then it takes a second
  "C-w v" 'pfn/vsplit-new-buffer
  "C-w h" 'pfn/hsplit-new-buffer)
 
-(general-define-key
- :states '(insert visual)
+(general-def 'insert
+ (general-chord "jj") 'evil-normal-state)
+
+(general-def '(insert visual)
  "C-e" 'end-of-line
  "C-a" 'beginning-of-line)
 
-(general-define-key
+(general-def
  "C-c s" 'pfn/ispell-toggle-dictionary
  "C-c g" 'magit-status
  "C-c R" 'pfn/reload-init
@@ -287,12 +290,13 @@ active, just deactivate it; then it takes a second
  "C-c k" 'counsel-ag)
 
 ;; theme
-(use-package monokai-theme)
+(use-package nord-theme)
+(use-package nordless-theme)
 (use-package gruvbox-theme)
 (use-package solarized-theme)
 
 (setq custom-safe-themes t)
-(load-theme 'material t)
+(load-theme 'nord t)
 
 (setq solarized-use-variable-pitch nil)
 (setq monokai-use-variable-pitch nil)
@@ -300,13 +304,13 @@ active, just deactivate it; then it takes a second
 (set-face-attribute 'default nil :font "Hack-10" )
 
 (fringe-mode '(8 . 8))
-(set-face-attribute 'fringe nil :inherit 'line-number)
+;; (set-face-attribute 'fringe nil :inherit 'line-number)
 
 ;;; native line numbers
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
       display-line-numbers-widen t)
-(set-face-attribute 'line-number nil :background 'unspecified)
+;; (set-face-attribute 'line-number nil :background 'unspecified)
 
 ;; modeline
 (use-package smart-mode-line
@@ -330,10 +334,11 @@ active, just deactivate it; then it takes a second
 
 (defun pfn/text-mode-hooks ()
   "Load 'text-mode' hooks."
-  (flyspell-mode)
-  (guess-language-mode)
+  (flyspell-mode 1)
+  (guess-language-mode 1)
   (turn-on-auto-fill)
-  (rainbow-delimiters-mode))
+  (rainbow-delimiters-mode 1)
+  (abbrev-mode 1))
 (add-hook 'text-mode-hook 'pfn/text-mode-hooks)
 
 ;; garbage collect on focus-out
@@ -343,4 +348,4 @@ active, just deactivate it; then it takes a second
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
 
-;;; INIT.el ends here
+;;; init.el ends here
