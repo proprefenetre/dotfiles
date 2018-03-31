@@ -121,9 +121,9 @@ bindsym $mod+q workspace next
 bindsym $mod+j workspace back_and_forth
 
 # scratchpad
+for_window [instance="^scratch$"] floating enable
+for_window [instance="^scratch$"] move scratchpad
 bindsym $mod+u [instance="^scratch$"] scratchpad show
-for_window [instance="^scratch$"] floating enable
-for_window [instance="^scratch$"] floating enable
 
 # assignments
 assign [class="^[Cc]hromium$"] 1

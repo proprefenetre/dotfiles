@@ -63,9 +63,15 @@
 
 (defun pfn/revert-buffer-no-confirm ()
   "Revert buffer without confirmation.
- Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
+Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
   (interactive)
   (revert-buffer :ignore-auto :noconfirm)
   (message "buffer reloaded"))
 
+(defun pfn/backward-delete-word (arg)
+  "Delete a word backwards, i.e. ctrl-w in terminals. Supply ARG to repeat."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
+
 (provide 'utils)
+;;; utils.el ends here
