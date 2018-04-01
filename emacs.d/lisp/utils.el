@@ -63,18 +63,15 @@
 
 (defun pfn/revert-buffer-no-confirm ()
   "Revert buffer without confirmation.
- Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
+Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
   (interactive)
   (revert-buffer :ignore-auto :noconfirm)
   (message "buffer reloaded"))
 
-;; custom keys
-(global-set-key (kbd "C-c s") 'pfn/ispell-toggle-dictionary)
-(global-set-key (kbd "C-c g") 'magit-status)
-(global-set-key (kbd "C-x 2") 'pfn/vsplit-new-buffer)
-(global-set-key (kbd "C-x 3") 'pfn/hsplit-new-buffer)
-(global-set-key (kbd "C-c R") 'pfn/reload-init)
-(global-set-key (kbd "C-c r") 'pfn/revert-buffer-no-confirm)
-(global-set-key (kbd "C-c b") 'mode-line-other-buffer)
+(defun pfn/backward-delete-word (arg)
+  "Delete a word backwards, i.e. ctrl-w in terminals. Supply ARG to repeat."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
 
 (provide 'utils)
+;;; utils.el ends here

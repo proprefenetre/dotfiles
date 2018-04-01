@@ -6,9 +6,6 @@ REM AT 16:00 +10 *5 MSG dexamfetamine 10mg %1
 fset _bed(x) choose(x, -15, 5, 5, 5, 0)
 REM AT 22:00 SCHED _bed MSG tijd om te stoppen %1
 
-# deadlines
-FSET _paper(x) choose(x, 10, 7, 5, 3, 2, 1, 0)
-REM 11 Nov 2016 WARN _paper MSG Paper semantics inleveren in %x day%p --urgency=critical
 
 # afspraken
 REM 04 Nov 2016 AT 14:00 +60 *5 MSG Meeting met Crit %1

@@ -13,18 +13,15 @@ Session.vim
 *~
 # auto-generated tag files
 tags
-
+.tags
 mutt/cache
 
 emacs.d/auto-save-list
 emacs.d/backups
 emacs.d/elpa
 emacs.d/network-security.data
-emacs.d/recentf
-
-# End of https://www.gitignore.io/api/vim
-.tags
 emacs.d/bookmarks
 emacs.d/eshell/
 emacs.d/recentf
 emacs.d/org-clock-save.el
+emacs.d/history

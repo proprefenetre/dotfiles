@@ -26,6 +26,7 @@ fi
 
 
 mount drijf
+
 unison org >/dev/null 2>&1 &
 
 xset +fp /usr/share/fonts/local
@@ -33,13 +34,13 @@ xset fp rehash
 xset m 1 0
 
 urxvtd --quiet --fork --opendisplay
+
 unclutter &
 
 /home/niels/bin/setbg &
 # xautolock -locker "systemctl suspend -i" -time 15 -detectsleep &
 
 redshift &
-~/bin/focus-last.py &
 
 # remind_sync.sh &
 # remind -z -k'notify-send -a reminder %s' .reminders &

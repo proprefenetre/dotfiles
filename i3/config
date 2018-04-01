@@ -13,7 +13,7 @@ font pango: Dejavu Sans 7
 
 hide_edge_borders both
 new_window pixel 1
-default_orientation vertical
+default_orientation horizontal
 
 set $ws1 workspace 1
 set $ws2 workspace 2
@@ -33,16 +33,15 @@ floating_modifier $mod
 set $browser chromium
 set $term urxvtc 
 set $backup_term xterm
+set $editor ~/bin/emax
 
-bindsym $mod+Return exec --no-startup-id $term
-bindsym $mod+apostrophe exec --no-startup-id gmrun
-bindsym $mod+Shift+Return exec --no-startup-id $backup_term
-bindsym $mod+Shift+u exec --no-startup-id $term -name scratch
-bindsym $mod+Shift+comma exec --no-startup-id ~/bin/passmenu
+bindsym $mod+Return exec $term
+bindsym $mod+apostrophe exec gmrun
+bindsym $mod+Shift+Return exec $backup_term
+bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec emacs
 
 # stuff
-
 # take a screenshot
 bindsym $mod+shift+d exec --no-startup-id scrot -e 'mv $f ~/pics/'
 
@@ -55,30 +54,36 @@ bindsym $mod+h focus down
 bindsym $mod+t focus up
 bindsym $mod+n focus right
 
-bindsym $mod+b focus mode_toggle
+mode "focus" {
+    bindsym m focus mode_toggle; mode "default"
+    bindsym p focus parent; mode "default"
+    bindsym c focus child; mode "default"
+    bindsym w focus output left; mode "default"
 
-bindsym $mod+p focus parent
-bindsym $mod+Shift+p focus child
+    bindsym Escape mode "default"
+}
+bindsym $mod+f mode "focus"
 
-bindsym $mod+w focus output left
+mode "split" {
+    bindsym h split h; mode "default"   
+    bindsym v split v; mode "default" 
+    bindsym period layout toggle split; mode "default"
 
-bindsym $alt+Tab [con_mark=_last] focus 
+    bindsym Escape mode "default"
+}
+bindsym $mod+s mode "split"
 
-# split in horizontal orientation
-bindsym $mod+Shift+h split h
+set $layout "layout [f]ullscreen [t]abbed [s]tacking s[p]lit f[l]oating"
+mode $layout {
+     bindsym f fullscreen toggle; mode "default"
+     bindsym t layout tabbed; mode "default"
+     bindsym s layout stacking; mode "default"
+     bindsym p layout toggle split
+     bindsym l floating toggle; mode "default"
 
-# split in vertical orientation
-bindsym $mod+Shift+v split v
-
-# enter fullscreen mode for the focused container
-bindsym $mod+y fullscreen toggle
-
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+comma layout tabbed
-bindsym $mod+period layout toggle split
-
-# change between tiling / floating windows
-bindsym $mod+Shift+space floating toggle
+    bindsym Escape mode "default"
+}
+bindsym $mod+l mode $layout
 
 # switch to workspace
 bindsym $mod+0 $ws0
@@ -92,31 +97,34 @@ bindsym $mod+7 $ws7
 bindsym $mod+8 $ws8
 bindsym $mod+9 $ws9
 
-# gesture: pinch out	xdotool key super+s
 # move focused container to workspace
-bindsym $mod+Shift+1 move $ws1; $ws1
-bindsym $mod+Shift+2 move $ws2; $ws2
-bindsym $mod+Shift+3 move $ws3; $ws3
-bindsym $mod+Shift+4 move $ws4; $ws4
-bindsym $mod+Shift+5 move $ws5; $ws5
-bindsym $mod+Shift+6 move $ws6; $ws6
-bindsym $mod+Shift+7 move $ws7; $ws7
-bindsym $mod+Shift+8 move $ws8; $ws8
-bindsym $mod+Shift+9 move $ws9; $ws9
-bindsym $mod+Shift+0 move $ws0; $ws0
+mode "move" {
+    bindsym 1 move $ws1; $ws1; focus tiling; mode "default"
+    bindsym 2 move $ws2; $ws2; focus tiling; mode "default"
+    bindsym 3 move $ws3; $ws3; focus tiling; mode "default"
+    bindsym 4 move $ws4; $ws4; focus tiling; mode "default"
+    bindsym 5 move $ws5; $ws5; focus tiling; mode "default"
+    bindsym 6 move $ws6; $ws6; focus tiling; mode "default"
+    bindsym 7 move $ws7; $ws7; focus tiling; mode "default"
+    bindsym 8 move $ws8; $ws8; focus tiling; mode "default"
+    bindsym 9 move $ws9; $ws9; focus tiling; mode "default"
+    bindsym 0 move $ws0; $ws0; focus tiling; mode "default"
+
+    bindsym w move workspace to output left
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+m mode "move"
 
 workspace_auto_back_and_forth yes
 bindsym $mod+semicolon workspace prev
 bindsym $mod+q workspace next
 bindsym $mod+j workspace back_and_forth
 
-bindsym $mod+Shift+W move workspace to output left
-
 # scratchpad
-bindsym $mod+u [instance="^scratch$"] scratchpad show
-for_window [instance="^scratch$"] move scratchpad
 for_window [instance="^scratch$"] floating enable
-for_window [class="^Spotify$"] move $ws0
+for_window [instance="^scratch$"] move scratchpad
+bindsym $mod+u [instance="^scratch$"] scratchpad show
 
 # assignments
 assign [class="^[Cc]hromium$"] 1
@@ -124,48 +132,41 @@ assign [class="^google-chrome$"] 1
 assign [class="^Vivaldi-stable$"] 1
 assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
-assign [class="^Spotify$"] 0
+assign [class="^Emacs"] 2
 
 # window rules
 for_window [class="^Dialog"] floating enable
 for_window [instance=".*Properties"] floating enable
 for_window [class="^Pinentry"] floating enable
+for_window [class="^mpv$"] floating enable, sticky enable
+for_window [class="^Spotify$"] move $ws0
 
 # resize window (you can also use the mouse for that)
-set $resize "resize"
-mode $resize {
+mode "resize" {
+    # These bindings trigger as soon as you enter the resize mode
 
-    bindsym d resize grow left 10 px
-    bindsym Shift+d resize shrink left 10 px
-    bindsym h resize grow down 10 px
-    bindsym Shift+h resize shrink down 10 px
-    bindsym t resize grow up 10 px
-    bindsym Shift+t resize shrink up 10 px
-    bindsym n resize grow right 10 px
-    bindsym Shift+n resize shrink right 10 px
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym j           resize shrink width 10 px or 10 ppt
+    bindsym k           resize grow height 10 px or 10 ppt
+    bindsym l           resize shrink height 10 px or 10 ppt
+    bindsym h           resize grow width 10 px or 10 ppt
 
+    # same bindings, but for the arrow keys
+    bindsym Left        resize shrink width 10 px or 10 ppt
+    bindsym Down        resize grow height 10 px or 10 ppt
+    bindsym Up          resize shrink height 10 px or 10 ppt
+    bindsym Right       resize grow width 10 px or 10 ppt
 
-    bindsym Escape mode "default"
+    # back to normal: Enter or Escape
     bindsym Return mode "default"
-}
-bindsym $mod+r mode $resize
-
-set $move "move window"
-mode $move {
-    
-    bindsym d move left                
-    bindsym h move down                
-    bindsym t move up                
-    bindsym n move right                
-    
-    # toggle tiling / floating
-    bindsym p floating toggle
-
     bindsym Escape mode "default"
-    bindsym Return mode "default"
 }
 
-bindsym $mod+m mode $move
+# Enter resize mode
+bindsym $mod+r mode "resize"
 
 set $locker /home/niels/bin/lock && sleep 1
 
@@ -178,21 +179,11 @@ mode $meta {
     bindsym e exec emacs ~/.config/i3/config; mode "default"
     bindsym r exec --no-startup-id i3-msg reload; mode "default"
 
-    bindsym m mode $launch
-
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
 
 bindsym $mod+Shift+apostrophe mode $meta
-
-set $launch "launch"
-mode $launch {
-    bindsym w exec --no-startup-id $browser
-
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-}
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

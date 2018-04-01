@@ -9,7 +9,7 @@ export HISTSIZE=50000
 export HISTFILESIZE=50000
 export PROMPT_COMMAND='history -a'
 
-export EDITOR='emacsclient'
+export EDITOR='emax'
 export PATH="${PATH}:$HOME/bin:$HOME/.cargo/bin"
 export BROWSER='chromium'
 export LESS='-R'
