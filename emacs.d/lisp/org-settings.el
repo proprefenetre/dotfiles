@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'hydras)
-
 (use-package org
   :ensure org-plus-contrib
   :pin org

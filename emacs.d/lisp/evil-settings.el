@@ -7,7 +7,7 @@
   :demand t
   :init
   (setq evil-want-integration nil)
-  (setq evil-disable-insert-state-bindings t)
+  ;; (setq evil-disable-insert-state-bindings t)
   :config
   (setq evil-search-wrap t
         evil-regexp-search t)
