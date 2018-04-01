@@ -24,6 +24,11 @@
 (require 'utils)                        ;functions
 (require 'hydras)                       ;hydras
 
+;; Packages
+(use-package avy
+  :config
+  (setq avy-timeout-seconds 0.2))
+
 (use-package paredit
   :ensure t)
 
@@ -32,7 +37,6 @@
 
 (use-package yaml-mode
   :ensure t
-  :defer t
   :mode
   ("\\.yml" . yaml-mode)
   ("\\.yaml" . yaml-mode)
@@ -62,7 +66,7 @@
 
 (use-package company
   :config
-  (define-key company-active-map [escape] 'company-abort))
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package magit
   :ensure t
@@ -179,7 +183,7 @@
  window-combination-resize t   ; Resize windows proportionally
  x-stretch-cursor t            ; Stretch cursor to the glyph width
  vc-follow-symlinks t     ; so you end up at the file itself rather than editing
-                          ; the link
+                                        ; the link
  large-file-warning-threshold nil ; this
  ispell-silently-savep t)  ; don't ask for confirmation when adding a word to
                            ; personal dictionary
@@ -224,7 +228,7 @@
 
 (general-def
   :keymaps '(minibuffer-local-map
-             minibuffer-local-ns-map
+             Minibuffer-local-ns-map
              minibuffer-local-completion-map
              minibuffer-local-must-match-map
              minibuffer-local-isearch-map)
@@ -245,6 +249,8 @@
   :non-normal-prefix "M-,")
 
 (evil-leader-def
+  "c"  'company-complete
+  "f"  'avy-goto-char-timer
   "/"  'swiper
   "e"  'eval-defun
   "i"  'pfn/open-init-file
@@ -252,7 +258,6 @@
   ","  'other-window
   "."  'mode-line-other-buffer
   "b"  'hydra-buffer/body
-  "a"  'hydra-org-agenda/body
   "q"  'kill-this-buffer
   "w"  'save-buffer
   "x"  'counsel-M-x
@@ -291,7 +296,7 @@
   "C-c c" 'org-capture
   "C-c f" 'org-archive
   "C-c w" 'org-refile
-  "C-c a" 'org-archive-subtree)
+  "C-c a" 'hydra-org/body)
 
 ;; theme
 (use-package nord-theme)
