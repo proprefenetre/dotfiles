@@ -18,13 +18,16 @@
   ;; don't come back to previous buffer after delete
   ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red))
 
-(defhydra hydra-org-agenda (:color blue :columns 3)
+(defhydra hydra-org (:color blue :columns 3)
   "
   AGENDA:
   "
-  ("A" org-agenda "agenda menu" :color red)
+  ("A" org-agenda "agenda menu" :color blue)
   ("a" org-agenda-list "agenda" :color blue)
-  ("t" org-todo-list "global to do-list" :color blue))
+  ("t" org-todo-list "global to do-list" :color blue)
+  ("r" org-refile "refile" :color red)
+  ("x" org-archive-subtree "archive" :color red))
+
 
 (provide 'hydras)
 
