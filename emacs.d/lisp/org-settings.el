@@ -70,5 +70,17 @@
   :config
   (add-hook 'org-mode-hook 'toc-org-enable))
 
+(use-package org-ref
+  :after org
+  :config
+  ;; see org-ref for use of these variables
+  (setq org-ref-completion-library 'org-ref-ivy-cite
+        org-ref-bibliography-notes "~/projects/thesis/bibliography/notes.org"
+        org-ref-default-bibliography '("~/projects/thesis/bibliography/refs.bib")
+        org-ref-pdf-directory "~/projects/thesis/bibliography/bibtex-pdfs/"
+        bibtex-completion-bibliography "~/projects/thesis/bibliography/refs.bib"
+        bibtex-completion-library-path "~/projects/thesis/bibliography/"
+        bibtex-completion-notes-path "~/projects/thesis/bibliography/notes.org"))
+
 (provide 'org-settings)
 ;;; org-settings.el ends here

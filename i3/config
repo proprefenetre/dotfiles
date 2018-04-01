@@ -73,16 +73,17 @@ mode "split" {
 }
 bindsym $mod+s mode "split"
 
-mode "layout" {
+set $layout "layout [f]ullscreen [t]abbed [s]tacking s[p]lit f[l]oating"
+mode $layout {
      bindsym f fullscreen toggle; mode "default"
-     bindsym comma layout tabbed; mode "default"
-     bindsym p layout stacking; mode "default"
-     bindsym period layout toggle split; mode "default"
-     bindsym space floating toggle; mode "default"
+     bindsym t layout tabbed; mode "default"
+     bindsym s layout stacking; mode "default"
+     bindsym p layout toggle split
+     bindsym l floating toggle; mode "default"
 
     bindsym Escape mode "default"
 }
-bindsym $mod+l mode "layout"
+bindsym $mod+l mode $layout
 
 # switch to workspace
 bindsym $mod+0 $ws0
