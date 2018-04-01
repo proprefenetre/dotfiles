@@ -280,7 +280,7 @@
   "gc" nil
   "gC" 'eyebrowse-close-window-config)
 
-(general-def '(insert visual)
+(general-def '(insert visual) evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
   "C-e" 'end-of-line
   "C-a" 'beginning-of-line)
