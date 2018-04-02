@@ -19,6 +19,7 @@ fi
 if [ "$(hostname)" = 'pfn' ]; then
     "$HOME"/bin/mhead
     # setxkbmap  -layout us -model asus_laptop -variant dvorak-alt-intl -option altwin:swap_alt_win
+    parcellite &
 
     "$HOME"/bin/keeb -dv
     xbindkeys &
