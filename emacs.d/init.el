@@ -79,9 +79,20 @@
     (duplicates t)))
 
 (use-package company
+  :ensure t
+  :demand t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (add-to-list 'company-backends 'org-keyword-backend))
+
+(require 'emms-player-mpv)
+
+(use-package emms
+  :config
+  (require 'emms-setup)
+  (emms-standard)
+  (emms-default-players)
+  (add-to-list 'emms-player-list 'emms-player-mpv))
 
 (use-package magit
   :ensure t
@@ -98,7 +109,9 @@
   :ensure t
   :demand
   :config
-  (setq eyebrowse-new-workspace t)
+  (setq eyebrowse-new-workspace t
+        eyebrowse-wrap-around t
+        eyebrowse-switch-back-and-forth t)
   (eyebrowse-setup-opinionated-keys)
   (eyebrowse-mode t))
 
@@ -200,8 +213,9 @@
  vc-follow-symlinks t     ; so you end up at the file itself rather than editing
                                         ; the link
  large-file-warning-threshold nil ; this
- ispell-silently-savep t)  ; don't ask for confirmation when adding a word to
-                           ; personal dictionary
+ ispell-silently-savep t  ; don't ask for confirmation when adding a word to
+ ispell-dictionary "dutch"
+ ispell-extra-args '("-a" "utf-8"))                         ; personal dictionary
 
 (setq backup-directory-alist
       `((".*" . ,(concat user-emacs-directory "backups"))))
