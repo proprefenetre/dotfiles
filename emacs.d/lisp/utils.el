@@ -75,5 +75,18 @@ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 
+(defun org-keyword-backend (command &optional arg &rest ignored)
+  (interactive (list 'interactive))
+  (cl-case command
+    (interactive (company-begin-backend 'org-keyword-backend))
+    (prefix (and (eq major-mode 'org-mode)
+                 (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
+                       t)))
+    (candidates (mapcar #'upcase
+                        (cl-remove-if-not
+                         (lambda (c) (string-prefix-p arg c))
+                         (pcomplete-completions))))
+    (ignore-case t)
+    (duplicates t)))
 (provide 'utils)
 ;;; utils.el ends here

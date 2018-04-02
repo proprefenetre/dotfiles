@@ -64,28 +64,12 @@
   :config
   (add-hook 'racket-mode-hook 'pfn/setup-lisp-mode))
 
-(defun org-keyword-backend (command &optional arg &rest ignored)
-  (interactive (list 'interactive))
-  (cl-case command
-    (interactive (company-begin-backend 'org-keyword-backend))
-    (prefix (and (eq major-mode 'org-mode)
-                 (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
-                       t)))
-    (candidates (mapcar #'upcase
-                        (cl-remove-if-not
-                         (lambda (c) (string-prefix-p arg c))
-                         (pcomplete-completions))))
-    (ignore-case t)
-    (duplicates t)))
-
 (use-package company
   :ensure t
   :demand t
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (add-to-list 'company-backends 'org-keyword-backend))
-
-(require 'emms-player-mpv)
 
 (use-package emms
   :config
