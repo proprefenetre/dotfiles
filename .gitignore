@@ -27,3 +27,6 @@ emacs.d/bookmarks
 emacs.d/history
 emacs.d/tramp
 emacs.d/custom.el
+emacs.d/emms/
+emacs.d/emms/*
+emacs.d/#*
