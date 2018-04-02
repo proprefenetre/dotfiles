@@ -1,29 +1,31 @@
-;;; custom functions / keys
+;;; utils.el --- Custom functions
+;;; Commentary:
+;;; Code:
 
 (defun pfn/open-config-file ()
-  "Open the config file at point"
+  "Open the config file at point."
   (interactive)
   (setq config-dir "~/.emacs.d/lisp"
         fname (concat (thing-at-point 'symbol) ".el"))
   (find-file (expand-file-name fname config-dir)))
 
 (defun pfn/open-init-file ()
-  "edit init file"
+  "Edit init file."
   (interactive)
   (find-file user-init-file))
 
 (defun pfn/reload-init ()
-  "reload init.el"
+  "Reload init.el."
   (interactive)
   (load-file user-init-file))
 
 (defun pfn/reload-current-file ()
-  "reload the file in this buffer"
+  "Reload the file in this buffer."
   (interactive)
   (load-file buffer-file-name))
 
 (defun pfn/ispell-toggle-dictionary ()
-  "toggle between the dutch and the english dictionaries"
+  "Toggle between the dutch and the english dictionaries."
   (interactive)
   (if (get 'pfn/ispell-toggle-dictionary 'state)
       (progn
@@ -36,14 +38,14 @@
       (put 'pfn/ispell-toggle-dictionary 'state t))))
 
 (defun pfn/vsplit-new-buffer ()
-  "open and move to a new vertically split buffer"
+  "Open and move to a new vertically split buffer."
   (interactive)
   (split-window-vertically)
   (other-window 1 nil)
   (switch-to-buffer "*scratch*"))
 
 (defun pfn/hsplit-new-buffer ()
-  "open and move to a new horizontally split buffer"
+  "Open and move to a new horizontally split buffer."
   (interactive)
   (split-window-horizontally)
   (other-window 1 nil)
