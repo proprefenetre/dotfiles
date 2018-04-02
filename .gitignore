@@ -25,3 +25,8 @@ emacs.d/eshell/
 emacs.d/recentf
 emacs.d/org-clock-save.el
 emacs.d/history
+emacs.d/tramp
+emacs.d/custom.el
+emacs.d/emms/
+emacs.d/emms/*
+emacs.d/#*
