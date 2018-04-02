@@ -28,7 +28,7 @@ Plug 'tpope/vim-vinegar'
 " Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-unimpaired'
-" Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-eunuch'
 
 " Plug 'godlygeek/tabular'
 
