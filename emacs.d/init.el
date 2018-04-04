@@ -71,13 +71,6 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (add-to-list 'company-backends 'org-keyword-backend))
 
-(use-package emms
-  :config
-  (require 'emms-setup)
-  (emms-standard)
-  (emms-default-players)
-  (add-to-list 'emms-player-list 'emms-player-mpv))
-
 (use-package magit
   :ensure t
   :commands
