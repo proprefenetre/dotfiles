@@ -101,7 +101,8 @@
 (use-package ivy
   :config
   (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) "))
+  (setq ivy-count-format "(%d/%d) ")
+  (setq ivy-initial-inputs-alist nil))
 
 (use-package counsel
   :ensure t
@@ -237,7 +238,9 @@
              Minibuffer-local-ns-map
              minibuffer-local-completion-map
              minibuffer-local-must-match-map
-             minibuffer-local-isearch-map)
+             minibuffer-local-isearch-map
+             ivy-minibuffer-map
+             swiper-map)
   [escape] 'minibuffer-keyboard-quit
   [C-w] 'pfn/backward-delete-word)
 
@@ -255,6 +258,7 @@
   :non-normal-prefix "M-,")
 
 (evil-leader-def
+  ":"  'counsel-find-file
   "c"  'company-complete
   "f"  'avy-goto-char-timer
   "/"  'swiper
@@ -275,16 +279,17 @@
   "C-w C-w" 'other-window)
 
 (general-def 'motion
-  "j"   'evil-next-visual-line
-  "k"   'evil-previous-visual-line
-  "-"   'counsel-find-file
-  "_"   'counsel-recentf
+  "j"      'evil-next-visual-line
+  "k"      'evil-previous-visual-line
+  "-"      'dired-jump
+  "_"      'counsel-recentf
   [escape] 'keyboard-quit
-  "C-e" 'end-of-line
+  "C-e"    'end-of-line
   "C-w v" 'pfn/vsplit-new-buffer
   "C-w h" 'pfn/hsplit-new-buffer
-  "gc" nil
-  "gC" 'eyebrowse-close-window-config)
+  "gc"    nil
+  "gC"    'eyebrowse-close-window-config
+  [return] 'org-open-at-point)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
@@ -292,8 +297,6 @@
   "C-a" 'beginning-of-line)
 
 (general-def
-  "C-c s" 'pfn/ispell-toggle-dictionary
-  "C-c g" 'magit-status
   "C-c R" 'pfn/reload-init
   "C-c r" 'pfn/revert-buffer-no-confirm
   "C-c b" 'mode-line-other-buffer
