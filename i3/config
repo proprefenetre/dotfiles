@@ -75,15 +75,17 @@ bindsym $mod+s mode "split"
 
 set $layout "layout [f]ullscreen [t]abbed [s]tacking s[p]lit f[l]oating"
 mode $layout {
-     bindsym f fullscreen toggle; mode "default"
-     bindsym t layout tabbed; mode "default"
-     bindsym s layout stacking; mode "default"
-     bindsym p layout toggle split
-     bindsym l floating toggle; mode "default"
-
+    bindsym f fullscreen toggle; mode "default"
+    bindsym t layout tabbed; mode "default"
+    bindsym s layout stacking; mode "default"
+    bindsym p layout toggle split
+    bindsym l floating toggle; mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+l mode $layout
+
+# fullscreen in a container
+bindsym $mod+Shift+f focus parent; fullscreen; focus child
 
 # switch to workspace
 bindsym $mod+0 $ws0
@@ -114,7 +116,17 @@ mode "workspace" {
 
     bindsym Escape mode "default"
 }
-bindsym $mod+m mode "workspace"
+bindsym $mod+w mode "workspace"
+
+mode "move" {
+    bindsym h move left
+    bindsym l move right
+    bindsym k move up
+    bindsym j move up
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+m mode "move"
 
 workspace_auto_back_and_forth yes
 bindsym $mod+semicolon workspace prev
@@ -152,6 +164,7 @@ mode "resize" {
     bindsym j           resize shrink width 10 px or 10 ppt
     bindsym k           resize grow height 10 px or 10 ppt
     bindsym l           resize shrink height 10 px or 10 ppt
+    bindsym q           resize shrinkk height 10 px or 10 ppt
     bindsym h           resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
