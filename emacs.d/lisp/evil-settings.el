@@ -6,7 +6,8 @@
   :ensure t
   :demand t
   :init
-  (setq evil-want-integration nil)
+  (setq evil-want-integration nil
+        evil-want-Y-yank-to-eol t)
   ;; (setq evil-disable-insert-state-bindings t)
   :config
   (setq evil-search-wrap t
