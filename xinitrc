@@ -25,7 +25,6 @@ if [ "$(hostname)" = 'pfn' ]; then
     xbindkeys &
 fi
 
-
 mount drijf
 
 unison org >/dev/null 2>&1 &
