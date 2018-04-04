@@ -20,10 +20,10 @@ emacs.d/auto-save-list
 emacs.d/backups
 emacs.d/elpa
 emacs.d/network-security.data
+emacs.d/bookmarks
 emacs.d/eshell/
 emacs.d/recentf
 emacs.d/org-clock-save.el
-emacs.d/bookmarks
 emacs.d/history
 emacs.d/tramp
 emacs.d/custom.el

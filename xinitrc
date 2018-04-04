@@ -13,7 +13,7 @@ fi
 
 if [ "$(hostname)" = 'archbook' ]; then
     # setxkbmap  -layout us -model chromebook -variant dvorak-alt-intl -option altwin:swap_alt_win
-    "$HOME"/bin/keeb -dv
+    "$HOME"/bin/keeb -e
     libinput-gestures &
 fi
 if [ "$(hostname)" = 'pfn' ]; then

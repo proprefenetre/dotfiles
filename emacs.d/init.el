@@ -26,6 +26,7 @@
 
 ;; Packages
 (use-package avy
+  :ensure t
   :config
   (setq avy-timeout-seconds 0.2))
 
