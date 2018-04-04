@@ -18,9 +18,7 @@
         org-cycle-separator-lines 1
         outline-blank-line t            ; newlines are not content
         org-level-color-stars-only t
-        org-clock-persist 'history
-        org-return-follows-link 1)
-  (org-clock-persistence-insinuate))
+        org-return-follows-link t))
 
 ;; Ensure ELPA org is prioritized above built-in org.
 (require 'cl)
