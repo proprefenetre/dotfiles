@@ -351,7 +351,7 @@
   :config
   (minions-mode 1))
 
-(setq initial-buffer-choice "~/org/algemeen.org")
+(setq initial-buffer-choice "~/org/todo.org")
 
 (defun pfn/text-mode-hooks ()
   "Load 'text-mode' hooks."
@@ -370,3 +370,4 @@
       gc-cons-percentage 0.1)
 
 ;;; init.el ends here
+(put 'dired-find-alternate-file 'disabled nil)
