@@ -28,6 +28,13 @@
   :config
   (global-evil-surround-mode))
 
+(use-package evil-embrace
+  :ensure t
+  :after evil-surround
+  :config
+  (add-hook 'org-mode-hook 'embrace-org-mode-hook)
+  (evil-embrace-enable-evil-surround-integration))
+
 (use-package evil-commentary
   :ensure t
   :demand t

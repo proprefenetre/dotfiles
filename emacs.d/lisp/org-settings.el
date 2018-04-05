@@ -25,10 +25,10 @@
 (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 
 (setq org-todo-keyword-faces
-      '(("bezig" . "orange")
-        ("afspraak" . "steel blue")
-        ("read" . "cadet blue")
-        ("idee" . "cadet blue")))
+      '(("BEZIG" . "orange")
+        ("AFSPRAAK" . "steel blue")
+        ("READ" . "cadet blue")
+        ("IDEE" . "cadet blue")))
 
 (setq org-refile-targets
       '((nil :maxlevel . 1)

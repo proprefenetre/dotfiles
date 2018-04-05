@@ -5,6 +5,9 @@
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
+(prefer-coding-system 'utf-8)           ; utf-8 always <3
+(set-language-environment "UTF-8")
+
 (eval-and-compile
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6))
