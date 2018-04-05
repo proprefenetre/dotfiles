@@ -9,8 +9,9 @@
   :commands (org-capture)
   :config
   (setq org-directory "~/org"
-        org-default-notes-file "~/org/algemeen.org"
-        org-agenda-files '("~/org/algemeen.org"
+        org-default-notes-file "~/org/todo.org"
+        org-agenda-files '("~/org/todo.org"
+                           "~/org/agenda.org"
                            "~/org/thesis.org")
         org-archive-location "~/org/archief.org::"
         org-log-done nil
@@ -18,7 +19,8 @@
         org-cycle-separator-lines 1
         outline-blank-line t            ; newlines are not content
         org-level-color-stars-only t
-        org-return-follows-link t))
+        org-return-follows-link t
+        org-tags-column -80))
 
 ;; Ensure ELPA org is prioritized above built-in org.
 (require 'cl)
@@ -39,15 +41,15 @@
          "* %? :: ")
         ("w" "usage" entry (file+headline "~/org/dict.org" "Usage")
          "* %? :: ")
-        ("t" "todo" entry (file+headline "~/org/algemeen.org" "To do")
-         "* todo %?")
-        ("e" "emacs" entry (file+headline "~/org/algemeen.org" "Emacs")
-         "* todo %?")
+        ("t" "todo" entry (file+headline "~/org/todo.org" "To do")
+         "* TODO %?")
+        ("e" "emacs" entry (file+headline "~/org/notes.org" "Emacs")
+         "* TODO %?")
         ("s" "scriptie" entry (file+headline "~/org/thesis.org" "Algemeen")
-         "* todo %?")
-        ("l" "link" entry (file+headline "~/org/algemeen.org" "To Read")
-         "* read [[%?][]]")
-        ("n" "Note" entry (file+headline "~/org/algemeen.org" "NB")
+         "* TODO %?")
+        ("l" "link" entry (file+headline "~/org/todo.org" "To Read")
+         "* READ [[%?][]]")
+        ("n" "note" entry (file+headline "~/org/todo.org" "NB")
          "* %?")))
 
 (defun pfn/org-header-settings ()
