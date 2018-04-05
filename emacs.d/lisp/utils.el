@@ -75,6 +75,7 @@ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
   (interactive "p")
   (delete-region (point) (progn (backward-word arg) (point))))
 
+;; Completion                                        ;
 (defun org-keyword-backend (command &optional arg &rest ignored)
   (interactive (list 'interactive))
   (cl-case command
@@ -88,5 +89,13 @@ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
                          (pcomplete-completions))))
     (ignore-case t)
     (duplicates t)))
+
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
+
 (provide 'utils)
 ;;; utils.el ends here
