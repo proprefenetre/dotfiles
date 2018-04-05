@@ -265,17 +265,17 @@
   ":"  'counsel-find-file
   "c"  'company-complete
   "f"  'avy-goto-char-timer
-  "/"  'swiper
+  "/"  'evil-search-forward
   "e"  'eval-defun
   "i"  'pfn/open-init-file
   "o"  'olivetti-mode
   ","  'other-window
   "."  'mode-line-other-buffer
   "b"  'hydra-buffer/body
-  "q"  'kill-this-buffer
+  "q"  'kill-buffer-and-window
   "w"  'save-buffer
   "x"  'counsel-M-x
-  "y"  'counsel-yank-pop
+  "p"  'counsel-yank-pop
   "m"  'counsel-bookmark
   "gs" 'magit-status)
 
@@ -283,33 +283,32 @@
   "C-w C-w" 'other-window)
 
 (general-def 'motion
-  "j"      'evil-next-visual-line
-  "k"      'evil-previous-visual-line
-  "-"      'dired-jump
-  "_"      'counsel-recentf
-  [escape] 'keyboard-quit
-  "C-e"    'end-of-line
-  "C-w v" 'pfn/vsplit-new-buffer
-  "C-w h" 'pfn/hsplit-new-buffer
-  "gc"    nil
-  "gC"    'eyebrowse-close-window-config
-  [return] 'org-open-at-point)
+  "j"       'evil-next-visual-line
+  "k"       'evil-previous-visual-line
+  "-"       'dired-jump
+  "_"       'counsel-recentf
+  [escape]  'keyboard-quit
+  "C-e"     'end-of-line
+  "C-w C-v" 'pfn/vsplit-new-buffer
+  "C-w C-h" 'pfn/hsplit-new-buffer
+  "gc"      nil
+  "gC"      'eyebrowse-close-window-config
+  [return]  'org-open-at-point
+  "/"       'swiper)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
   "C-e" 'end-of-line
-  "C-a" 'beginning-of-line)
+  "C-a" 'beginning-of-line
+  "<M-tab>" 'company-complete-common-or-cycle)
 
 (general-def
   "C-c R" 'pfn/reload-init
   "C-c r" 'pfn/revert-buffer-no-confirm
   "C-c b" 'mode-line-other-buffer
   "C-c k" 'counsel-ag
-  "C-c l" 'org-store-link
-  "C-c c" 'org-capture
-  "C-c f" 'org-archive
-  "C-c w" 'org-refile
-  "C-c a" 'hydra-org/body)
+  "C-c a" 'hydra-org/body
+  "M-/"   'hippie-expand)
 
 ;; theme
 (use-package nord-theme)
