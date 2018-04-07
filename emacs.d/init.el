@@ -111,6 +111,7 @@
     (setq shackle-default-size 0.3) ; default 0.5
     (setq shackle-rules
           '(("*Warnings*"  :select t :align below :inhibit-window-quit nil :modeline nil)
+            ("magit: *"  :regexp t :select t :align below :inhibit-window-quit nil :modeline nil)
             ("*Messages*"  :size 12 :noselect t)
             ("*Help*" :select t :align below :inhibit-window-quit nil :modeline nil)
             ("*Metahelp*" :size 0.3 :align left)
