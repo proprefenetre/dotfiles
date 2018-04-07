@@ -33,12 +33,12 @@
 (defun pfn-org-level-colors ()
   "Taste the rainbow!"
   (interactive)
-  (set-face-attribute 'org-level-1 nil :foreground "#ffd75f")
-  (set-face-attribute 'org-level-2 nil :foreground "#ff5f00")
-  (set-face-attribute 'org-level-3 nil :foreground "#906cff")
-  (set-face-attribute 'org-level-4 nil :foreground "#65b2ff")
-  (set-face-attribute 'org-level-5 nil :foreground "#87ffff")
-  (set-face-attribute 'org-level-6 nil :foreground "#87d7ff"))
+  (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
+  (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
+  (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
+  (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
+  (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
+  (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
 
 (defun org-cycle-hide-drawers (state)
   "Re-hide all drawers after a visibility STATE change."
