@@ -321,8 +321,10 @@
 (general-def 'emacs org-agenda-mode-map
   "C-w C-w" 'other-window)
 
-(general-def 'motion org-mode-map
-  [return]  'org-open-at-point)
+(general-def '(motion normal) org-mode-map
+  [return]  'org-open-at-point
+  "<tab>"   'org-cycle
+  "TAB"     'org-cycle)
 
 (general-def 'motion
   "j"       'evil-next-visual-line
