@@ -5,17 +5,20 @@
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
-(prefer-coding-system 'utf-8)           ; utf-8 always <3
-(set-language-environment "UTF-8")
+(set-language-environment 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 (eval-and-compile
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6))
 
+(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'package-settings)
-
-(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
@@ -30,6 +33,7 @@
 ;; Packages
 (use-package avy
   :ensure t
+  :demand t
   :config
   (setq avy-timeout-seconds 0.2))
 
@@ -66,13 +70,13 @@
 
 (use-package racket-mode
   :config
-  (add-hook 'racket-mode-hook 'pfn/setup-lisp-mode))
+  (add-hook 'racket-mode-hook 'pfn-setup-lisp-mode))
 
 (use-package company
   :ensure t
   :demand t
   :config
-  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-idle-delay 0.3)
   (add-to-list 'company-backends 'org-keyword-backend))
 
 (use-package magit
@@ -86,6 +90,8 @@
   :ensure t
   :demand t)
 
+(use-package rainbow-mode)
+
 (use-package eyebrowse
   :ensure t
   :demand
@@ -93,8 +99,23 @@
   (setq eyebrowse-new-workspace t
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
-  (eyebrowse-setup-opinionated-keys)
+  (eyebrowse-setup-evil-keys)
   (eyebrowse-mode t))
+
+(use-package shackle
+  :demand t
+  :config
+  (progn
+    (setq shackle-select-reused-windows nil) ; default nil
+    (setq shackle-default-alignment 'below) ; default below
+    (setq shackle-default-size 0.3) ; default 0.5
+    (setq shackle-rules
+          '(("*Warnings*"  :select t :align below :inhibit-window-quit nil :modeline nil)
+            ("*Messages*"  :size 12 :noselect t)
+            ("*Help*" :select t :align below :inhibit-window-quit nil :modeline nil)
+            ("*Metahelp*" :size 0.3 :align left)
+            ("*undo-tree*" :size 0.5 :align right)))
+    (shackle-mode 1)))
 
 (use-package which-key
   :ensure t
@@ -151,15 +172,15 @@
         guess-language-languages '(en nl)
         guess-language-min-paragraph-length 45))
 
-(defun pfn/setup-lisp-mode ()
+(defun pfn-setup-lisp-mode ()
   "Setup lisp-modes such as racket and emacs-lisp."
   (eldoc-mode 1)
   (paredit-mode)
   (aggressive-indent-mode))
 
-(add-hook 'emacs-lisp-mode-hook 'pfn/setup-lisp-mode)
+(add-hook 'emacs-lisp-mode-hook 'pfn-setup-lisp-mode)
 
-(defun pfn/setup-prog-mode ()
+(defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
   (auto-fill-mode)
   (rainbow-delimiters-mode)
@@ -168,7 +189,16 @@
   (flycheck-mode 1)
   (company-mode 1))
 
-(add-hook 'prog-mode-hook 'pfn/setup-prog-mode)
+(add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
+
+(defun pfn-setup-text-mode ()
+  "Load 'text-mode' hooks."
+  (flyspell-mode 1)
+  (guess-language-mode 1)
+  (turn-on-auto-fill)
+  (rainbow-delimiters-mode 1)
+  (abbrev-mode 1))
+(add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
 (setq-default
  auto-window-vscroll nil         ; Lighten vertical scroll
@@ -181,6 +211,7 @@
  inhibit-splash-screen t   ; Disable start-up screen
  inhibit-startup-message t ; No startup-message
  visual-bell nil           ; plz no visual bell
+ ring-bell-function 'ignore
  mouse-yank-at-point t     ; Yank at point rather than pointer
  recenter-positions '(5 top bottom) ; Set re-centering positions
  scroll-conservatively most-positive-fixnum ; Always scroll by one line
@@ -189,7 +220,7 @@
  x-select-enable-clipboard t ; Merge system's and Emacs' clipboard
  save-interprogram-paste-before-kill t ; ?
  sentence-end-double-space nil ; End a sentence after a dot and a space
- show-trailing-whitespace t  ; Display trailing whitespaces
+ show-trailing-whitespace nil  ; Display trailing whitespaces
  window-combination-resize t   ; Resize windows proportionally
  x-stretch-cursor t            ; Stretch cursor to the glyph width
  vc-follow-symlinks t     ; so you end up at the file itself rather than editing
@@ -199,10 +230,20 @@
  ispell-dictionary "dutch"
  ispell-extra-args '("-a" "utf-8"))                         ; personal dictionary
 
-(setq backup-directory-alist
-      `((".*" . ,(concat user-emacs-directory "backups"))))
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-saves") t)))
+(setq
+ make-backup-files t
+ version-control t   ; use numbers for backup files
+ kept-new-versions 10
+ kept-old-versions 0
+ delete-old-versions t
+ backup-by-copying t
+ vc-make-backup-files t
+ auto-save-default nil
+ backup-directory-alist
+ `(("." . ,(concat user-emacs-directory "backups")))
+ auto-save-file-name-transforms
+ `(("." ,(concat user-emacs-directory "auto-saves") t))
+ create-lockfiles nil)
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
@@ -246,7 +287,7 @@
              ivy-minibuffer-map
              swiper-map)
   [escape] 'minibuffer-keyboard-quit
-  [C-w] 'pfn/backward-delete-word)
+  "C-w" 'pfn-backward-delete-word)
 
 (general-def 'emacs occur-mode-map
   "/" 'evil-search-forward
@@ -263,11 +304,8 @@
 
 (evil-leader-def
   ":"  'counsel-find-file
-  "c"  'company-complete
-  "f"  'avy-goto-char-timer
-  "/"  'evil-search-forward
   "e"  'eval-defun
-  "i"  'pfn/open-init-file
+  "i"  'pfn-open-init-file
   "o"  'olivetti-mode
   ","  'other-window
   "."  'mode-line-other-buffer
@@ -277,24 +315,30 @@
   "x"  'counsel-M-x
   "p"  'counsel-yank-pop
   "m"  'counsel-bookmark
-  "gs" 'magit-status)
+  "gs" 'magit-status
+  "r"  'rainbow-mode)
 
 (general-def 'emacs org-agenda-mode-map
   "C-w C-w" 'other-window)
+
+(general-def 'motion org-mode-map
+  [return]  'org-open-at-point)
 
 (general-def 'motion
   "j"       'evil-next-visual-line
   "k"       'evil-previous-visual-line
   "-"       'dired-jump
-  "_"       'counsel-recentf
   [escape]  'keyboard-quit
   "C-e"     'end-of-line
-  "C-w C-v" 'pfn/vsplit-new-buffer
-  "C-w C-h" 'pfn/hsplit-new-buffer
-  "gc"      nil
-  "gC"      'eyebrowse-close-window-config
-  [return]  'org-open-at-point
-  "/"       'swiper)
+  "C-w C-v" 'pfn-vsplit-new-buffer
+  "C-w C-h" 'pfn-hsplit-new-buffer
+  "/"       'swiper
+  "C-f"     'evil-avy-goto-char-timer)
+
+(general-def 'motion eyebrowse-mode-map
+  "gc"  nil
+  "gC"  'eyebrowse-close-window-config
+  "C-'" nil)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
@@ -303,35 +347,42 @@
   "<M-tab>" 'company-complete-common-or-cycle)
 
 (general-def
-  "C-c R" 'pfn/reload-init
-  "C-c r" 'pfn/revert-buffer-no-confirm
+  "C-c R" 'pfn-reload-init
+  "C-c r" 'pfn-revert-buffer-no-confirm
   "C-c b" 'mode-line-other-buffer
   "C-c k" 'counsel-ag
   "C-c a" 'hydra-org/body
-  "M-/"   'hippie-expand)
+  "M-/"   'hippie-expand
+  "C-c l" 'org-store-link
+  "C-c c" 'org-capture)
+
+;; completion
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
 
 ;; theme
-(use-package nord-theme)
-(use-package nordless-theme)
-(use-package gruvbox-theme)
+(use-package challenger-deep-theme
+  :ensure t)
+(use-package nord-theme
+  :ensure t)
 (use-package solarized-theme)
 
 (setq custom-safe-themes t)
-(load-theme 'nord t)
-
-(setq solarized-use-variable-pitch nil)
-(setq monokai-use-variable-pitch nil)
+(load-theme 'challenger-deep t)
 
 (set-face-attribute 'default nil :font "Hack-10" )
-
 (fringe-mode '(8 . 8))
-;; (set-face-attribute 'fringe nil :inherit 'line-number)
+(set-face-attribute 'fringe nil :inherit 'line-number)
 
 ;;; native line numbers
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
       display-line-numbers-widen t)
-;; (set-face-attribute 'line-number nil :background 'unspecified)
+(set-face-attribute 'line-number nil :background 'unspecified)
 
 ;; modeline
 (use-package smart-mode-line
@@ -353,14 +404,8 @@
 
 (setq initial-buffer-choice "~/org/todo.org")
 
-(defun pfn/text-mode-hooks ()
-  "Load 'text-mode' hooks."
-  (flyspell-mode 1)
-  (guess-language-mode 1)
-  (turn-on-auto-fill)
-  (rainbow-delimiters-mode 1)
-  (abbrev-mode 1))
-(add-hook 'text-mode-hook 'pfn/text-mode-hooks)
+(add-hook 'after-init-hook 'global-company-mode)
+(put 'dired-find-alternate-file 'disabled nil)
 
 ;; garbage collect on focus-out
 (add-hook 'focus-out-hook #'garbage-collect)
@@ -370,4 +415,3 @@
       gc-cons-percentage 0.1)
 
 ;;; init.el ends here
-(put 'dired-find-alternate-file 'disabled nil)
