@@ -76,7 +76,8 @@
   :ensure t
   :demand t
   :config
-  (setq company-idle-delay 0.3)
+  (setq company-idle-delay 0.3
+        company-selection-wrap-around t)
   (add-to-list 'company-backends 'org-keyword-backend))
 
 (use-package magit

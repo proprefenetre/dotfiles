@@ -61,16 +61,11 @@
         (org-agenda-files :maxlevel . 1)))
 
 (setq org-capture-templates
-      '(("w" "word" entry (file+headline "~/org/dict.org" "Words")
-         "* %? :: ")
-        ("W" "usage" entry (file+headline "~/org/dict.org" "Usage")
-         "* %? :: ")
-        ("t" "todo" entry (file+headline "~/org/todo.org" "To Do")
-         "* TODO %?")
-        ("l" "link" entry (file+headline "~/org/todo.org" "To Do")
-         "* READ [[%?][]]")
-        ("n" "note" entry (file+headline "~/org/todo.org" "Notes")
-         "* %?")))
+      '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
+        ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
+        ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?")
+        ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ [[%?][]]")
+        ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")))
 
 (provide 'org-settings)
 ;;; org-settings.el ends here
