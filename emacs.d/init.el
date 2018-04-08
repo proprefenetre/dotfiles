@@ -99,7 +99,6 @@
   (setq eyebrowse-new-workspace t
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
-  (eyebrowse-setup-evil-keys)
   (eyebrowse-mode t))
 
 (use-package shackle
@@ -338,10 +337,8 @@
   "/"       'swiper
   "C-f"     'evil-avy-goto-char-timer)
 
-(general-def 'motion eyebrowse-mode-map
-  "gc"  nil
-  "gC"  'eyebrowse-close-window-config
-  "C-'" nil)
+(general-def 'visual eyebrowse-mode-map
+  "gc" nil)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state

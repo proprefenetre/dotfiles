@@ -41,6 +41,8 @@ bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec emacs
 
+bindsym $ctrl+c exec emacs-anywhere
+
 # stuff
 # take a screenshot
 bindsym $mod+shift+d exec --no-startup-id scrot -e 'mv $f ~/pics/'
@@ -144,7 +146,6 @@ assign [class="^google-chrome$"] 1
 assign [class="^Vivaldi-stable$"] 1
 assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
-assign [class="^Emacs"] 2
 
 # window rules
 for_window [class="^Dialog"] floating enable
@@ -152,6 +153,8 @@ for_window [instance=".*Properties"] floating enable
 for_window [class="^Pinentry"] floating enable
 for_window [class="^mpv$"] floating enable, sticky enable
 for_window [class="^Spotify$"] move $ws0
+for_window [class="^Spotify$"] move $ws0
+for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
