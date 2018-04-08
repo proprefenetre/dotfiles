@@ -41,7 +41,7 @@ bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec emacs
 
-bindsym $ctrl+c exec emacs-anywhere
+bindsym $mod+e exec emacs-anywhere
 
 # stuff
 # take a screenshot
