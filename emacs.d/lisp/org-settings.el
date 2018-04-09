@@ -18,7 +18,8 @@
         outline-blank-line t            ; newlines are not content
         org-level-color-stars-only t
         org-return-follows-link t
-        org-tags-column -80))
+        org-tags-column -80
+        org-reverse-note-order t))      ; enter new note as first item
 
 (defun pfn-org-level-sizes ()
   "Stop the org-level headers from increasing in height relative to the other text."
