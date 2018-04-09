@@ -394,7 +394,7 @@
   (column-number-mode t)
   (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
-  (setq sml/mode-width 'right)
+  (setq sml/mode-width 'full)
   (sml/setup))
 
 (use-package minions
