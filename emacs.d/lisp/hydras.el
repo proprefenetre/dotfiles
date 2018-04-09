@@ -28,6 +28,14 @@
   ("r" org-refile "refile" :color red)
   ("x" org-archive-subtree "archive" :color red))
 
+(defhydra hydra-toggle (:color blue :columns 3)
+  "
+  Toggle:
+  "
+  ("r" rainbow-mode "rainbow-mode" :color blue)
+  ("f" flyspell-mode "flyspell-mode" :color red)
+  ("p" paredit-mode "paredit" :color blue)
+  ("a" aggressive-indent-mode "aggressive-indent-mode" :color red))
 
 (provide 'hydras)
 
