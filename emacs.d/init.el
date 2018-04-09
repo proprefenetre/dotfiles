@@ -303,6 +303,7 @@
   :non-normal-prefix "M-,")
 
 (evil-leader-def
+  "t"  'hydra-toggle/body
   ":"  'counsel-find-file
   "e"  'eval-defun
   "i"  'pfn-open-init-file
