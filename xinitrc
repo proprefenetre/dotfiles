@@ -11,16 +11,16 @@ fi
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
-if [ "$(hostname)" = 'archbook' ]; then
-    "$HOME"/bin/keeb -e
+if [ "$(hostname)" = "archbook" ]; then
     libinput-gestures &
 fi
-if [ "$(hostname)" = 'pfn' ]; then
+if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
-    "$HOME"/bin/keeb -dv
-    parcellite &
     xbindkeys &
 fi
+
+parcellite &
+keeb -dv
 
 mount drijf
 
