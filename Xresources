@@ -85,6 +85,7 @@ XTerm*boldItalicFont: bold_italic
 XTerm*cursorBlink: true
 XTerm*cursorOffTime: 700
 XTerm*cursorOnTime: 900
+XTerm*cursorUnderLine: true
 
 XTerm*background: Molokai_black
 XTerm*foreground: Molokai_white

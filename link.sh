@@ -2,8 +2,8 @@
 
 config=$HOME/.config
 dotfiles_dir=$HOME/dotfiles
-dest_home=(bashrc bash_aliases vimrc gitconfig gtkrc-2.0 i3blocks.conf tmux.conf xbindkeysrc xinitrc Xresources reminders urlview mutt)
-dest_config=(libinput-gestures.conf redshift.conf gtk-3.0 i3 dunst)
+dest_home=(bashrc bash_aliases emacs.d gitconfig gtkrc-2.0 i3blocks.conf tmux.conf xbindkeysrc xinitrc Xresources)
+dest_config=(redshift.conf gtk-3.0 i3 dunst)
 
 # -h: true if exists and is symlink
 for f in ${dest_home[@]}; do
