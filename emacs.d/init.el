@@ -28,23 +28,18 @@
 (require 'evil-settings)
 (require 'org-settings)
 (require 'utils)                        ;functions
-(require 'hydras)                       ;hydras
 
 ;; Packages
 (use-package avy
-  :ensure t
   :demand t
   :config
   (setq avy-timeout-seconds 0.2))
 
-(use-package paredit
-  :ensure t)
+(use-package paredit)
 
-(use-package aggressive-indent
-  :ensure t)
+(use-package aggressive-indent)
 
 (use-package yaml-mode
-  :ensure t
   :mode
   ("\\.yml" . yaml-mode)
   ("\\.yaml" . yaml-mode)
@@ -52,17 +47,14 @@
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
-(use-package rust-mode
-  :ensure t)
+(use-package rust-mode)
 
 (use-package python-mode
-  :ensure t
   :config
   (setq python-shell-interpreter "ipython"
         python-shell-interpreter-args "-i --simple-prompt"))
 
 (use-package elpy
-  :ensure t
   :init
   (with-eval-after-load 'python (elpy-enable))
   :config
@@ -73,7 +65,6 @@
   (add-hook 'racket-mode-hook 'pfn-setup-lisp-mode))
 
 (use-package company
-  :ensure t
   :demand t
   :config
   (setq company-idle-delay 0.3
@@ -81,20 +72,17 @@
   (add-to-list 'company-backends 'org-keyword-backend))
 
 (use-package magit
-  :ensure t
   :commands
   (magit-status magit-blame magit-log-buffer-file magit-log-all)
   :config
   (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package rainbow-delimiters
-  :ensure t
   :demand t)
 
 (use-package rainbow-mode)
 
 (use-package eyebrowse
-  :ensure t
   :demand
   :config
   (setq eyebrowse-new-workspace t
@@ -119,7 +107,6 @@
     (shackle-mode 1)))
 
 (use-package which-key
-  :ensure t
   :demand t
   :config
   (which-key-mode 1))
@@ -131,21 +118,20 @@
   (setq ivy-initial-inputs-alist nil))
 
 (use-package counsel
-  :ensure t
   :demand t
   :config
   (counsel-mode 1))
 
 (use-package hydra
-  :ensure t)
+  :demand t
+  :config
+  (require 'hydras))
 
 (use-package olivetti
-  :ensure t
   :config
   (setq-default olivetti-body-width 90))
 
 (use-package markdown-mode
-  :ensure t
   :mode
   ("\\.md" . markdown-mode)
   ("\\.mdpp" . markdown-mode)
@@ -158,7 +144,6 @@
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 
 (use-package yasnippet
-  :ensure t
   :config
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (with-eval-after-load 'warnings
@@ -166,7 +151,6 @@
   (yas-global-mode 1))
 
 (use-package guess-language
-  :ensure t
   :config
   (setq guess-language-langcodes '((en . ("english" "English"))
                                    (nl . ("dutch" "Dutch")))
@@ -261,11 +245,9 @@
 
 ;; General
 (use-package general
-  :ensure t
   :demand t)
 
 (use-package key-chord
-  :ensure t
   :demand t
   :config
   (key-chord-mode 1))
@@ -367,10 +349,8 @@
         try-expand-dabbrev-from-kill))
 
 ;; theme
-(use-package challenger-deep-theme
-  :ensure t)
-(use-package nord-theme
-  :ensure t)
+(use-package challenger-deep-theme)
+(use-package nord-theme)
 (use-package solarized-theme)
 
 (setq custom-safe-themes t)
@@ -388,7 +368,6 @@
 
 ;; modeline
 (use-package smart-mode-line
-  :ensure t
   :demand t
   :config
   (line-number-mode t)
@@ -399,7 +378,6 @@
   (sml/setup))
 
 (use-package minions
-  :ensure t
   :demand t
   :config
   (minions-mode 1))
