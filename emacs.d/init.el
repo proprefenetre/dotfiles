@@ -5,23 +5,31 @@
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
-(set-language-environment 'utf-8)
-(setq locale-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
 
 (eval-and-compile
   (setq gc-cons-threshold 402653184
         gc-cons-percentage 0.6))
 
-(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+(require 'package)
+(setq package-enable-at-startup nil
+      load-prefer-newer t
+      package-user-dir "~/.emacs.d/elpa"
+      package--init-file-ensured t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(package-initialize)
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'package-settings)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-defer t
+      use-package-always-ensure t
+      use-package-verbose t)
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'noerror)
 
 (server-start)
 
@@ -229,6 +237,12 @@
  auto-save-file-name-transforms
  `(("." ,(concat user-emacs-directory "auto-saves") t))
  create-lockfiles nil)
+
+(set-language-environment 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
