@@ -107,6 +107,30 @@ Source: http://www.emacswiki.org/emacs-en/download/misc-cmds.el"
     (with-current-buffer standard-output ;; temp buffer
       (setq help-xref-stack-item (list #'my-describe-keymap keymap)))))
 
+(defun check-expansion ()
+  (save-excursion
+    (if (looking-at "\\_>") t
+      (backward-char 1)
+      (if (looking-at "\\.") t
+        (backward-char 1)
+        (if (looking-at "->") t nil)))))
+
+(defun do-yas-expand ()
+  (let ((yas/fallback-behavior 'return-nil))
+    (yas/expand)))
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas/minor-mode)
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
+
+(global-set-key [tab] 'tab-indent-or-complete)
+
 (provide 'utils)
 
 ;;; utils.el ends here
