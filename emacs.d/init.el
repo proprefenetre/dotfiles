@@ -153,13 +153,6 @@
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
 
-(use-package guess-language
-  :config
-  (setq guess-language-langcodes '((en . ("english" "English"))
-                                   (nl . ("dutch" "Dutch")))
-        guess-language-languages '(en nl)
-        guess-language-min-paragraph-length 45))
-
 (defun pfn-setup-lisp-mode ()
   "Setup lisp-modes such as racket and emacs-lisp."
   (eldoc-mode 1)
