@@ -11,10 +11,10 @@
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org")
-        org-archive-location "~/org/archief::"
+        org-archive-location "~/org/archief::datetree/"
         org-log-done nil
         org-log-into-drawer nil
-        org-cycle-separator-lines 1
+        org-cycle-separator-lines 2
         outline-blank-line t            ; newlines are not content
         org-level-color-stars-only t
         org-return-follows-link t

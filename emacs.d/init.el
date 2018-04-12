@@ -20,7 +20,7 @@
       package--init-file-ensured t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-(package-initialize)
+;; (package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -106,13 +106,9 @@
     (setq shackle-default-alignment 'below) ; default below
     (setq shackle-default-size 0.3) ; default 0.5
     (setq shackle-rules
-          '(("*Warnings*"  :select t :align below :inhibit-window-quit nil :modeline nil)
+          '(("\\*.*?\\*"  :regexp t :select t :align below :inhibit-window-quit nil :modeline nil)
             ("magit: *"  :regexp t :select t :align below :inhibit-window-quit nil :modeline nil)
-            ("*Messages*"  :size 12 :noselect t)
-            ("*Help*" :select t :align below :inhibit-window-quit nil :modeline nil)
-            ("*Metahelp*" :size 0.3 :align left)
-            ("*undo-tree*" :size 0.5 :align right)))
-    (shackle-mode 1)))
+            (shackle-mode 1)))))
 
 (use-package which-key
   :demand t
@@ -145,7 +141,6 @@
   ("\\.mdpp" . markdown-mode)
   :init
   (setq markdown-command "pandoc")
-  (add-hook 'markdown-mode-hook 'turn-on-orgtbl)
   (add-hook 'markdown-mode-hook 'turn-on-olivetti-mode)
   :config
   (font-lock-add-keywords 'markdown-mode
@@ -324,6 +319,9 @@
   "<tab>"   'org-cycle
   "TAB"     'org-cycle)
 
+(general-def :keymaps 'orgtbl-mode-map
+  "C-c C-w" nil)
+
 (general-def 'motion
   "j"       'evil-next-visual-line
   "k"       'evil-previous-visual-line
@@ -388,7 +386,7 @@
   (column-number-mode t)
   (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
-  (setq sml/mode-width 'full)
+  (setq sml/mode-width 'right)
   (sml/setup))
 
 (use-package minions
