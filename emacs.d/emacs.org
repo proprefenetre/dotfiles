@@ -195,7 +195,6 @@ to be alphabetical...
 #+END_SRC
 
 ** Packages
-
 *** Aggressive-indent
 What's in a name? I use this package for lisp modes only, I got scared using it in 
 python-mode.
@@ -252,6 +251,7 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
 
 (use-package evil-collection
   :after evil
+  :demand t
   :config
   (setq evil-collection-outline-bind-tab-p nil)
   (evil-collection-init))
@@ -290,7 +290,7 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
     
 #+BEGIN_SRC emacs-lisp
 (use-package eyebrowse
-  :demand
+  :demand t
   :config
   (setq eyebrowse-new-workspace t
         eyebrowse-wrap-around t
@@ -322,7 +322,7 @@ Tyrannical keybinding
       ":"  'counsel-find-file
       "e"  'eval-defun
       "i"  '(lambda () (interactive)
-              (find-file user-init-file))
+              (find-file "~/.emacs.d/emacs.org"))
       "o"  'olivetti-mode
       ","  'other-window
       "."  'mode-line-other-buffer
@@ -331,7 +331,8 @@ Tyrannical keybinding
       "w"  'save-buffer
       "x"  'counsel-M-x
       "p"  'counsel-yank-pop
-      "m"  'counsel-bookmark)
+      "m"  'counsel-bookmark
+      "g" 'magit-status)
 
     (general-define-key
       :keymaps 'evil-insert-state-map
@@ -343,6 +344,7 @@ Tyrannical keybinding
     (general-evil-setup)
 
     (general-mmap
+      "C-w n"   'evil-window-vnew
       "j"       'evil-next-visual-line
       "k"       'evil-previous-visual-line
       "-"       'dired-jump
@@ -363,6 +365,9 @@ Tyrannical keybinding
       "C-c l" 'org-store-link
       "C-c c" 'org-capture))
 #+END_SRC
+
+#+RESULTS:
+: t
 
 *** Hydra
 
