@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: ispell settings
-# key: def-dict
-# --
-<!-- Local Variables: -->
-<!-- ispell-check-comments: exclusive -->
-<!-- ispell-local-dictionary: "nederlands" -->
-<!-- End: -->

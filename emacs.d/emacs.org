@@ -45,6 +45,7 @@
     - [[#which-key][Which-key]]
     - [[#yaml-mode][Yaml-mode]]
     - [[#yasnippet][Yasnippet]]
+  - [[#utility-functions][utility functions]]
   - [[#editor][Editor]]
   - [[#editing][Editing]]
   - [[#hooks][Hooks]]
@@ -263,6 +264,7 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
 
 (use-package evil-embrace
   :after evil
+  :demand t
   :config
   (add-hook 'org-mode-hook 'embrace-org-mode-hook)
   (evil-embrace-enable-evil-surround-integration))
@@ -275,6 +277,7 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
 
 (use-package evil-org
   :after org
+  :demand t
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
@@ -293,6 +296,7 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
   (eyebrowse-mode t))
+  
 #+END_SRC
 *** Flycheck
 Syntax checking, on the fly.
@@ -317,7 +321,8 @@ Tyrannical keybinding
       "t"  'hydra-toggle/body
       ":"  'counsel-find-file
       "e"  'eval-defun
-      ;; "i"  'pfn-open-init-file
+      "i"  '(lambda () (interactive)
+              (find-file user-init-file))
       "o"  'olivetti-mode
       ","  'other-window
       "."  'mode-line-other-buffer
@@ -626,7 +631,6 @@ This is the package that automatically generates an up to date table of contents
   :init (add-hook 'org-mode-hook 'toc-org-enable))
 #+END_SRC
 
-
 *** Rainbow-mode
 highlight color names with their own names, it's awesome!
 
@@ -666,7 +670,7 @@ So much better than biblatex.
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
 #+END_SRC
-
+** utility functions
 ** Editor
    
 #+BEGIN_SRC emacs-lisp

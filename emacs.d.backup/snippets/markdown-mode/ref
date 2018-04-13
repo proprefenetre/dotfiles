@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: ref
-# --
-(\ref{${1:label}})$0
