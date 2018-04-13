@@ -30,3 +30,4 @@ emacs.d/custom.el
 emacs.d/emms/
 emacs.d/emms/*
 emacs.d/#*
+emacs.d/emacs.el
