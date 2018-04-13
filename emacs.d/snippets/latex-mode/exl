@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: gloss
+# key: gl
+# --
+\glt $2\\\\
+$3\\\\
+\glt $4
