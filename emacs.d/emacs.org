@@ -687,6 +687,7 @@ So much better than biblatex.
    
 Defaults:
 #+BEGIN_SRC emacs-lisp
+
   (load-theme 'challenger-deep t)
 
   (set-face-attribute 'default nil :font "Hack 10" )
@@ -710,15 +711,14 @@ Defaults:
    mouse-yank-at-point t                       ; Yank at point rather than pointer
    scroll-conservatively most-positive-fixnum  ; Always scroll by one line
    indicate-empty-lines nil                    ; no fuzz at the end of a file
-   vc-follow-symlinks t)	               ; so you end up at the file itself
+   vc-follow-symlinks t)	                   ; so you end up at the file itself
                                                ;rather than editing the link
-  (show-paren-mode t)
   (fset 'yes-or-no-p 'y-or-n-p)                ; Replace yes/no prompts with y/n
-
+  (show-paren-mode t)
   (scroll-bar-mode -1)                         ; Disable the scroll bar
-  (tool-bar-mode 1)
+  (tool-bar-mode -1)
   (tooltip-mode -1)                            ; Disable the tooltips
-  (menu-bar-mode -1)                           ; Disable the menu bar
+  (menu-bar-mode 1)                           ; Disable the menu bar
 
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
@@ -789,5 +789,7 @@ Let's lower our GC thresholds back down to a sane level.
 
 And see what's up:
 #+BEGIN_SRC emacs-lisp
-  (find-file "~/org/todo.org") 
+  (setq inhibit-splash-screen t   ; Disable start-up screen
+        inhibit-startup-message t) ; No startup-message
+   (find-file "~/org/todo.org")
 #+END_SRC
