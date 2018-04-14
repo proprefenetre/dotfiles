@@ -103,6 +103,7 @@ bindsym $mod+9 $ws9
 
 # move focused container to workspace
 mode "workspace" {
+
     bindsym 1 move $ws1; $ws1; focus tiling; mode "default"
     bindsym 2 move $ws2; $ws2; focus tiling; mode "default"
     bindsym 3 move $ws3; $ws3; focus tiling; mode "default"
@@ -114,7 +115,7 @@ mode "workspace" {
     bindsym 9 move $ws9; $ws9; focus tiling; mode "default"
     bindsym 0 move $ws0; $ws0; focus tiling; mode "default"
 
-    bindsym w move workspace to output left
+    bindsym w move output left
 
     bindsym Escape mode "default"
 }
