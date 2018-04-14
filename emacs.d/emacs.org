@@ -289,10 +289,6 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
 #+END_SRC
-
-#+RESULTS:
-: t
-
 *** Eyebrowse
     
 #+BEGIN_SRC emacs-lisp
@@ -348,11 +344,12 @@ Tyrannical keybinding
       "C-a" 'beginning-of-line
       "<M-tab>" 'company-complete-common-or-cycle)
 
-    (general-def org-mode-map
+    (general-evil-setup)
+    
+    (general-mmap
+      :keymaps 'org-mode-map
       "RET" 'org-return
       "<ret>" 'org-return)
-
-    (general-evil-setup)
 
     (general-mmap
       "C-w n"   'evil-window-vnew
@@ -361,9 +358,7 @@ Tyrannical keybinding
       "-"       'dired-jump
       "_"       'counsel-recentf
       "C-e"     'evil-end-of-line
-      ;; "C-w C-v" 'pfn-vsplit-new-buffer
-      ;; "C-w C-h" 'pfn-hsplit-new-buffer
-      "/"       'swiper)
+      "C-s"       'swiper)
 
     (general-nmap
       "C-c R" 'pfn-reload-init
