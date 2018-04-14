@@ -31,6 +31,7 @@ emacs.d/emms/
 emacs.d/emms/*
 emacs.d/#*
 emacs.d/emacs.el
-/emacs.d/emacs.:tangle
-/emacs.d/emacs.elc
-/emacs.d/init.elc
+emacs.d/emacs.:tangle
+emacs.d/emacs.elc
+emacs.d/init.elc
+emacs.d/var/
