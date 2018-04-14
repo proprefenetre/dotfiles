@@ -13,10 +13,6 @@
    :END:
 - [[#configuration][Configuration]]
   - [[#about-this-file][About this file]]
-  - [[#org-file-tweaks][Org File Tweaks]]
-    - [[#automatically-tangle][Automatically Tangle]]
-    - [[#visibility-settings][Visibility Settings]]
-    - [[#table-of-contents][Table of Contents]]
   - [[#personal-information][Personal Information]]
   - [[#emacs-initialization][Emacs Initialization]]
     - [[#settings][Settings]]
@@ -47,7 +43,7 @@
     - [[#which-key][Which-key]]
     - [[#yaml-mode][Yaml-mode]]
     - [[#yasnippet][Yasnippet]]
-  - [[#utility-functions][utility functions]]
+  - [[#utility-functions][Utility functions]]
   - [[#editor][Editor]]
   - [[#editing][Editing]]
   - [[#hooks][Hooks]]
@@ -56,40 +52,15 @@
 ** About this file
 I wanted something neat and tidy, so here we go.
 
-** Org File Tweaks
-There are a few tweaks included in this org file that make it a little easier to
-work with.
-
-*** Automatically Tangle
-First there is a property defined on the file:
-
-#+BEGIN_SRC :tangle no
-header-args :tangle yes
-#+END_SRC
-
-This tells emacs to automatically tangle (include) all code blocks in this file when
-generating the code for the config, unless the code block explicitly includes
-=:tangle no= as the above code block does.
-
-*** Visibility Settings
-Next we have a property defined on the [[Configuration][Configuration]] heading that defines the visibility
-that tells org to show it's direct children on startup. This way a clean outline of all
-sub headings under Configuration is shown each time this file is opened in org-mode.
-
-*** Table of Contents
-Finally, there is a [[Table of Contents][Table of Contents]] heading that includes the tag: =:TOC_3_gh:=. This
-tells an org-mode package =toc-org= to generate a table of contents under this heading
-that has a max depth of 3 and is created using Github-style hrefs. This table of contents
-is updated everytime the file is saved and makes for a functional table of contents that
-works property directly on github.
 
 ** Personal Information
-Let's set some variables with basic user information.
+basic user information (everybody does this.)
 
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 #+END_SRC
+
 
 ** Emacs Initialization
 
@@ -104,11 +75,10 @@ too high or it will result in long GC pauses during normal usage.
         gc-cons-percentage 0.6))
 #+END_SRC
 
-Disable certain byte compiler warnings to cut down on the noise. This is a personal choice and can be removed
-if you would like to see any and all byte compiler warnings.
+Don't disable certain byte compiler warnings to cut down on the noise. This is a personal choice and can be removed if you would like to see any and all byte compiler warnings.
 
 #+BEGIN_SRC emacs-lisp
-(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+  ;; (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 #+END_SRC
 
 *** Package Management
@@ -212,7 +182,6 @@ python-mode.
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 #+END_SRC
 
-
 *** Company
 Completion.
 
@@ -225,7 +194,6 @@ Completion.
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
-
 *** Counsel
 Counsel allows us to utilize ivy by replacing many built-in and common functions
 with richer versions. Let's install it!
@@ -235,7 +203,6 @@ with richer versions. Let's install it!
 (use-package counsel
   :demand t)
 #+END_SRC
-
 
 *** Evil
 Install, automatically load, and enable evil. It's like vim, but better! Especially
@@ -287,7 +254,6 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
     (evil-org-agenda-set-keys))
 #+END_SRC
 
-
 *** Eyebrowse
     
 #+BEGIN_SRC emacs-lisp
@@ -300,15 +266,14 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
   (eyebrowse-mode t))
 #+END_SRC
 
-
 *** Flycheck
 Syntax checking, on the fly.
+
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :config
     (add-hook 'prog-mode-hook 'flycheck-mode))
 #+END_SRC
-
 
 *** General
 Tyrannical keybinding 
@@ -375,7 +340,6 @@ Tyrannical keybinding
       "C-c c" 'org-capture))
 #+END_SRC
 
-
 *** Hydra
 
 #+BEGIN_SRC emacs-lisp
@@ -410,7 +374,6 @@ Tyrannical keybinding
     ("a" aggressive-indent-mode "aggressive-indent-mode" :color red)))
  #+END_SRC   
  
- 
 *** Ivy
 Generic completion frontend that's just awesome! Let's install and enable it.
 
@@ -423,7 +386,6 @@ Generic completion frontend that's just awesome! Let's install and enable it.
   (setq ivy-initial-inputs-alist nil))
 #+END_SRC
 
-
 *** Key-chord
     
 #+BEGIN_SRC emacs-lisp
@@ -433,7 +395,6 @@ Generic completion frontend that's just awesome! Let's install and enable it.
   (key-chord-mode 1))
 #+END_SRC
 
-
 *** Magit
 The magical git client. Let’s load magit only when one of the several entry 
 point functions we invoke regularly outside of magit is called.
@@ -442,7 +403,6 @@ point functions we invoke regularly outside of magit is called.
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all))
 #+END_SRC
-
 
 *** Markdown-mode
 
@@ -459,7 +419,6 @@ point functions we invoke regularly outside of magit is called.
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 #+END_SRC
 
-
 *** Olivetti
 
 #+BEGIN_SRC emacs-lisp
@@ -467,7 +426,6 @@ point functions we invoke regularly outside of magit is called.
   :config
   (setq-default olivetti-body-width 90))
 #+END_SRC
-
 
 *** Org
 Tweak the org header settings.
@@ -554,7 +512,6 @@ Tweak the org header settings.
     (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+END_SRC
 
-
 *** Paredit
 Do annoying things with parentheses.
 
@@ -565,7 +522,6 @@ Do annoying things with parentheses.
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
 #+END_SRC
 
-
 *** Projectile
 Projectile is a quick and easy project management package that "just works". We're
 going to install it and make sure it's loaded immediately.
@@ -574,7 +530,6 @@ going to install it and make sure it's loaded immediately.
   (use-package projectile
     :demand t)
 #+END_SRC
-
 
 *** Rainbow-delimiters
 Taste them!
@@ -587,15 +542,14 @@ Taste them!
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
-
 *** Swiper
-Swiper is an awesome searching utility with a quick preview. Let’s install it and load it when swiper or swiper-all is called.
+Swiper is an awesome searching utility with a quick preview. Let’s install it
+and load it when swiper or swiper-all is called.
 
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :commands (swiper swiper-all))
 #+END_SRC
-
 
 *** Smart mode-line
 Enable custom themes to avoid the popup every launch:
@@ -613,9 +567,10 @@ Enable custom themes to avoid the popup every launch:
     (column-number-mode t)
 
     (setq sml/theme 'respectful
+          sml/name-width 30
           sml/shorten-directory t
-          sml/name-width 40
           sml/mode-width 'right)
+    (add-to-list 'sml/replacer-regexp-list '("^~/\\.+dotfiles" ":DF:") t)
     (sml/setup))
 
   (use-package minions
@@ -624,7 +579,6 @@ Enable custom themes to avoid the popup every launch:
     :config
     (minions-mode 1))
 #+END_SRC
-
 
 *** Themes
 Can't have enough of these.
@@ -654,36 +608,33 @@ Org stuff:
   (pfn-org-level-colors)
 #+END_SRC
 
-
 *** Toc-org
 This is the package that automatically generates an up to date table of contents for us.
 
 #+BEGIN_SRC emacs-lisp
-(use-package toc-org
-:after org
-:init (add-hook 'org-mode-hook 'toc-org-enable))
+  (use-package toc-org
+    :after org
+    :init 
+    (add-hook 'org-mode-hook 'toc-org-enable))
 #+END_SRC
-
 
 *** Rainbow-mode
 highlight color names with their own names, it's awesome!
 
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-mode)
+  (use-package rainbow-mode)
 #+END_SRC
-
 
 *** Which-key
 For the lost.
 
 #+BEGIN_SRC emacs-lisp
-(use-package which-key
-  :ensure t
-  :demand t
-  :config
-  (which-key-mode))
+  (use-package which-key
+    :ensure t
+    :demand t
+    :config
+    (which-key-mode))
 #+END_SRC
-
 
 *** Yaml-mode
 So much better than biblatex.    
@@ -698,7 +649,6 @@ So much better than biblatex.
     (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 #+END_SRC
 
-
 *** Yasnippet
 
 #+BEGIN_SRC emacs-lisp
@@ -711,7 +661,7 @@ So much better than biblatex.
 #+END_SRC
 
 
-** utility functions
+** Utility functions
    
    
 ** Editor
@@ -801,7 +751,7 @@ If any.
     (interactive)
     (eldoc-mode 1)
     (paredit-mode 1)
-    (aggressive-indent-mode 1))
+    (aggressive-indent-mode))
   (add-hook 'emacs-lisp-mode 'pfn-setup-lisp-mode)
 
   (add-hook 'focus-out-hook #'garbage-collect)
