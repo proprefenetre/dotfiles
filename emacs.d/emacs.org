@@ -688,15 +688,18 @@ Defaults:
    ring-bell-function 'ignore
    mouse-yank-at-point t                       ; Yank at point rather than pointer
    scroll-conservatively most-positive-fixnum  ; Always scroll by one line
+   recenter-positions '(5 top bottom)          ; Set re-centering positions
+   scroll-conservatively most-positive-fixnum  ; Always scroll by one line
+   scroll-margin 10                            ; Add a margin when scrolling vertically
    indicate-empty-lines nil                    ; no fuzz at the end of a file
    vc-follow-symlinks t)	                   ; so you end up at the file itself
-                                               ;rather than editing the link
+                                               ; rather than editing the link
   (fset 'yes-or-no-p 'y-or-n-p)                ; Replace yes/no prompts with y/n
   (show-paren-mode t)
   (scroll-bar-mode -1)                         ; Disable the scroll bar
   (tool-bar-mode -1)
   (tooltip-mode -1)                            ; Disable the tooltips
-  (menu-bar-mode 1)                           ; Disable the menu bar
+  (menu-bar-mode 1)                            ; Disable the menu bar
 
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
@@ -710,6 +713,12 @@ Defaults:
   (put 'upcase-region 'disabled nil)                ; Enable upcase-region
   (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
+  (set-language-environment 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+  
   (setq
    ispell-silently-savep t
    ispell-dictionary "dutch"
@@ -759,17 +768,18 @@ If any.
 
 
 ** Post Initialization
-Let's lower our GC thresholds back down to a sane level.
+And see what's up:
 
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'focus-out-hook #'garbage-collect)
+  
+  (setq inhibit-splash-screen t    ; Disable start-up screen
+        inhibit-startup-message t) ; No startup-message
+  (find-file "~/org/todo.org")
+#+END_SRC
+
+And lower GC thresholds back down to a sane level.
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold 16777216
         gc-cons-percentage 0.1)
-#+END_SRC
-
-
-And see what's up:
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-splash-screen t   ; Disable start-up screen
-        inhibit-startup-message t) ; No startup-message
-  (find-file "~/org/todo.org")
 #+END_SRC
