@@ -25,7 +25,6 @@
     - [[#aggressive-indent][Aggressive-indent]]
     - [[#company][Company]]
     - [[#counsel][Counsel]]
-    - [[#embrace][Embrace]]
     - [[#evil][Evil]]
     - [[#eyebrowse][Eyebrowse]]
     - [[#flycheck][Flycheck]]
@@ -132,6 +131,7 @@ to not automatically call it on our behalf. Additionally we're setting
       (make-directory package-user-dir t)))
 #+END_SRC
 
+
 **** Use-Package Settings
 Tell =use-package= to always defer loading packages unless explicitly told otherwise. This speeds up
 initialization significantly as many packages are only loaded later when they are explicitly used.
@@ -140,6 +140,7 @@ initialization significantly as many packages are only loaded later when they ar
   (setq use-package-always-defer t
         use-package-verbose t)
 #+END_SRC
+
 
 **** Manually Set Load Path
 We're going to set the load path ourselves so that we don't have to call =package-initialize= at
@@ -152,6 +153,7 @@ first.
   (eval-and-compile
     (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
 #+END_SRC
+
 
 **** Initialize Package Management
 Next we are going to require =package.el= and add our additional package archives, 'melpa' and 'org'.
@@ -184,21 +186,22 @@ previously compiled manually then all of the package initialization will still t
     (setq use-package-always-ensure t))
 #+END_SRC
 
+
 **** No-littering
 Keep your =.emacs.d/= clean! No-littering is included here because it kind of has to do
 with package management. Also, it must be loaded early and the list of packages is supposed
 to be alphabetical...
 
 #+BEGIN_SRC emacs-lisp
-(use-package no-littering
-    :config
-    (setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-    (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+  (use-package no-littering
+      :config
+      (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+      (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 #+END_SRC
 
+
 ** Packages
-   
 *** Aggressive-indent
 What's in a name? I use this package for lisp modes only, I got scared using it in 
 python-mode.
@@ -209,10 +212,9 @@ python-mode.
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 #+END_SRC
 
+
 *** Company
 Completion.
-
-**** TODO org-mode backend
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -222,6 +224,7 @@ Completion.
           company-selection-wrap-around t)
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
+
 
 *** Counsel
 Counsel allows us to utilize ivy by replacing many built-in and common functions
@@ -233,12 +236,6 @@ with richer versions. Let's install it!
   :demand t)
 #+END_SRC
 
-*** Embrace
-For use with evil-embrace
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
 
 *** Evil
 Install, automatically load, and enable evil. It's like vim, but better! Especially
@@ -289,6 +286,8 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
 #+END_SRC
+
+
 *** Eyebrowse
     
 #+BEGIN_SRC emacs-lisp
@@ -299,8 +298,9 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
   (eyebrowse-mode t))
-  
 #+END_SRC
+
+
 *** Flycheck
 Syntax checking, on the fly.
 #+BEGIN_SRC emacs-lisp
@@ -308,6 +308,8 @@ Syntax checking, on the fly.
     :config
     (add-hook 'prog-mode-hook 'flycheck-mode))
 #+END_SRC
+
+
 *** General
 Tyrannical keybinding 
 
@@ -315,12 +317,13 @@ Tyrannical keybinding
   (use-package general
     :demand t
     :config
-    (general-create-definer evil-leader-def
+    
+    (general-create-definer evil-leader
       :states '(normal visual insert emacs)
       :prefix ","
       :non-normal-prefix "M-,")
 
-    (evil-leader-def
+    (evil-leader
       "t"  'hydra-toggle/body
       ":"  'counsel-find-file
       "e"  'eval-defun
@@ -372,6 +375,7 @@ Tyrannical keybinding
       "C-c c" 'org-capture))
 #+END_SRC
 
+
 *** Hydra
 
 #+BEGIN_SRC emacs-lisp
@@ -405,7 +409,8 @@ Tyrannical keybinding
     ("p" paredit-mode "paredit" :color blue)
     ("a" aggressive-indent-mode "aggressive-indent-mode" :color red)))
  #+END_SRC   
-
+ 
+ 
 *** Ivy
 Generic completion frontend that's just awesome! Let's install and enable it.
 
@@ -418,17 +423,16 @@ Generic completion frontend that's just awesome! Let's install and enable it.
   (setq ivy-initial-inputs-alist nil))
 #+END_SRC
 
-#+RESULTS:
-: t
 
 *** Key-chord
-
+    
 #+BEGIN_SRC emacs-lisp
 (use-package key-chord
   :demand t
   :config
   (key-chord-mode 1))
 #+END_SRC
+
 
 *** Magit
 The magical git client. Let’s load magit only when one of the several entry 
@@ -438,6 +442,7 @@ point functions we invoke regularly outside of magit is called.
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all))
 #+END_SRC
+
 
 *** Markdown-mode
 
@@ -453,6 +458,8 @@ point functions we invoke regularly outside of magit is called.
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 #+END_SRC
+
+
 *** Olivetti
 
 #+BEGIN_SRC emacs-lisp
@@ -461,105 +468,95 @@ point functions we invoke regularly outside of magit is called.
   (setq-default olivetti-body-width 90))
 #+END_SRC
 
+
 *** Org
-Let's include a newer version of org-mode than the one that is built in. We're going
-to manually remove the org directories from the load path, to ensure the version we
-want is prioritized instead.
+Tweak the org header settings.
 
 #+BEGIN_SRC emacs-lisp
-(use-package org
-  :ensure org-plus-contrib
-  :pin org
-  :defer t
-  :commands (org-capture)
-  :config
-  (setq org-directory "~/org"
-        org-default-notes-file "~/org/werk.org"
-        org-agenda-files '("~/org/werk.org")
-        org-archive-location "~/org/archief::datetree/"
-        org-log-done nil
-        org-log-into-drawer t
-        org-cycle-separator-lines 2
-        outline-blank-line t            ; newlines are not content
-        org-level-color-stars-only t
-        org-return-follows-link t
-        org-tags-column -80
-        org-reverse-note-order t))      ; enter new note as first item
+  (use-package org
+    :ensure org-plus-contrib
+    :demand t
+    :pin org
+    :commands (org-capture)
+    :config
+    (setq org-directory "~/org"
+          org-default-notes-file "~/org/werk.org"
+          org-agenda-files '("~/org/werk.org")
+          org-archive-location "~/org/archief::datetree/"
+          org-log-done nil
+          org-log-into-drawer t
+          org-cycle-separator-lines 2
+          outline-blank-line t
+          org-level-color-stars-only t
+          org-return-follows-link t
+          org-tags-column -80
+          org-reverse-note-order t)
 
-;; Ensure ELPA org is prioritized above built-in org.
-(require 'cl)
-(setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+    (setq org-refile-targets
+          '((nil :maxlevel . 1)
+            (org-agenda-files :maxlevel . 1)))
 
-(defun pfn-org-level-sizes ()
-  "Stop the org-level headers from increasing in height relative to the other text."
-  (interactive)
-  (dolist (face '(org-level-1
-                  org-level-2
-                  org-level-3
-                  org-level-4
-                  org-level-5))
-    (set-face-attribute face nil :height 1.0)))
+    (setq org-capture-templates
+          '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
+            ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
+            ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?")
+            ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ [[%?][]]")
+            ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")))
 
-(defun pfn-org-level-colors ()
-  "Taste the rainbow!"
-  (interactive)
-  (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
-  (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
-  (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
-  (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
-  (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
-  (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
+    (setq org-todo-keyword-faces
+          '(("TODO" . "#c991e1")
+            ("AFSPRAAK" . "#aaffe4")
+            ("BELLEN" . "#aaffe4")
+            ("INTAKE" . "#aaffe4")
+            ("CANCELED" . "#ff5458")
+            ("TOREAD" . "#65b2ff")
+            ("IDEE" . "#65b2ff")))
+            
+    (defun pfn-org-checkbox-todo ()
+      "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise."
+      (let ((todo-state (org-get-todo-state)) beg end)
+        (unless (not todo-state)
+          (save-excursion
+            (org-back-to-heading t)
+            (setq beg (point))
+            (end-of-line)
+            (setq end (point))
+            (goto-char beg)
+            (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
+                                   end t)
+                (if (match-end 1)
+                    (if (equal (match-string 1) "100%")
+                        (unless (string-equal todo-state "DONE")
+                          (org-todo 'done))
+                      (unless (string-equal todo-state "TODO")
+                        (org-todo 'todo)))
+                  (if (and (> (match-end 2) (match-beginning 2))
+                           (equal (match-string 2) (match-string 3)))
+                      (unless (string-equal todo-state "DONE")
+                        (org-todo 'done))
+                    (unless (string-equal todo-state "TODO")
+                      (org-todo 'todo)))))))))
+    (add-hook 'org-checkbox-statistics-hook 'pfn-org-checkbox-todo))
 
-(eval-after-load "org" '(progn (pfn-org-level-colors)
-                               (pfn-org-level-sizes)))
+    ;; (defun pfn-org-level-sizes ()
+    ;;   "Stop the org-level headers from increasing in height relative to the other text."
+    ;;   (interactive)
+    ;;   (dolist (face '(org-level-1
+    ;;                   org-level-2
+    ;;                   org-level-3
+    ;;                   org-level-4
+    ;;                   org-level-5))
+    ;;     (set-face-attribute face nil :height 1.0)))
+    ;; (pfn-org-level-sizes)
 
-(defun pfn-org-checkbox-todo ()
-  "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise."
-  (let ((todo-state (org-get-todo-state)) beg end)
-    (unless (not todo-state)
-      (save-excursion
-    (org-back-to-heading t)
-    (setq beg (point))
-    (end-of-line)
-    (setq end (point))
-    (goto-char beg)
-    (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
-                   end t)
-        (if (match-end 1)
-        (if (equal (match-string 1) "100%")
-            (unless (string-equal todo-state "DONE")
-              (org-todo 'done))
-          (unless (string-equal todo-state "TODO")
-            (org-todo 'todo)))
-          (if (and (> (match-end 2) (match-beginning 2))
-               (equal (match-string 2) (match-string 3)))
-          (unless (string-equal todo-state "DONE")
-            (org-todo 'done))
-        (unless (string-equal todo-state "TODO")
-          (org-todo 'todo)))))))))
-(add-hook 'org-checkbox-statistics-hook 'pfn-org-checkbox-todo)
-
-(setq org-todo-keyword-faces
-      '(("TODO" . "#c991e1")
-        ("AFSPRAAK" . "#aaffe4")
-        ("BELLEN" . "#aaffe4")
-        ("INTAKE" . "#aaffe4")
-        ("CANCELED" . "#ff5458")
-        ("TOREAD" . "#65b2ff")
-        ("IDEE" . "#65b2ff")))
-
-(setq org-refile-targets
-      '((nil :maxlevel . 1)
-        (org-agenda-files :maxlevel . 1)))
-
-(setq org-capture-templates
-      '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
-        ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
-        ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?")
-        ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ [[%?][]]")
-        ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")))
+    ;; Ensure ELPA org is prioritized above built-in org.
+    (require 'cl)
+    (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+END_SRC
+
+
 *** Paredit
+Do annoying things with parentheses.
 
 #+BEGIN_SRC emacs-lisp
 (use-package paredit
@@ -568,79 +565,105 @@ want is prioritized instead.
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode))
 #+END_SRC
 
+
 *** Projectile
 Projectile is a quick and easy project management package that "just works". We're
 going to install it and make sure it's loaded immediately.
 
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :demand t)
+  (use-package projectile
+    :demand t)
 #+END_SRC
+
 
 *** Rainbow-delimiters
 Taste them!
 
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters
-  :ensure t
-  :demand t
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (use-package rainbow-delimiters
+    :ensure t
+    :demand t
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
+
 
 *** Swiper
 Swiper is an awesome searching utility with a quick preview. Let’s install it and load it when swiper or swiper-all is called.
 
 #+BEGIN_SRC emacs-lisp
-(use-package swiper
-  :commands (swiper swiper-all))
+  (use-package swiper
+    :commands (swiper swiper-all))
 #+END_SRC
+
 
 *** Smart mode-line
 Enable custom themes to avoid the popup every launch:
 
 #+BEGIN_SRC emacs-lisp
-(setq custom-safe-themes t)
+  (setq custom-safe-themes t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package smart-mode-line
-  :ensure t
-  :demand t
-  :config
-  (line-number-mode t)
-  (column-number-mode t)
+  (use-package smart-mode-line
+    :ensure t
+    :demand t
+    :config
+    (line-number-mode t)
+    (column-number-mode t)
 
-  (setq sml/theme 'respectful
-        sml/shorten-directory t
-        sml/name-width 40
-        sml/mode-width 'right)
-  (sml/setup))
+    (setq sml/theme 'respectful
+          sml/shorten-directory t
+          sml/name-width 40
+          sml/mode-width 'right)
+    (sml/setup))
 
-(use-package minions
-  :ensure t
-  :demand t
-  :config
-  (minions-mode 1))
+  (use-package minions
+    :ensure t
+    :demand t
+    :config
+    (minions-mode 1))
 #+END_SRC
+
 
 *** Themes
 Can't have enough of these.
 
 #+BEGIN_SRC emacs-lisp
-(use-package challenger-deep-theme)
-(use-package nord-theme)
-(use-package solarized-theme)
+  (use-package challenger-deep-theme)
+  (use-package nord-theme)
+  (use-package solarized-theme)
 #+END_SRC
+
+Current favourite:
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'challenger-deep t)
+#+END_SRC
+
+Org stuff:
+#+BEGIN_SRC emacs-lisp
+  (defun pfn-org-level-colors ()
+      "Taste the rainbow!"
+      (interactive)
+      (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
+      (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
+      (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
+      (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
+      (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
+      (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
+  (pfn-org-level-colors)
+#+END_SRC
+
 
 *** Toc-org
 This is the package that automatically generates an up to date table of contents for us.
 
 #+BEGIN_SRC emacs-lisp
 (use-package toc-org
-  :after org
-  :init (add-hook 'org-mode-hook 'toc-org-enable))
+:after org
+:init (add-hook 'org-mode-hook 'toc-org-enable))
 #+END_SRC
+
 
 *** Rainbow-mode
 highlight color names with their own names, it's awesome!
@@ -649,8 +672,10 @@ highlight color names with their own names, it's awesome!
 (use-package rainbow-mode)
 #+END_SRC
 
+
 *** Which-key
 For the lost.
+
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
   :ensure t
@@ -659,37 +684,40 @@ For the lost.
   (which-key-mode))
 #+END_SRC
 
+
 *** Yaml-mode
 So much better than biblatex.    
 
 #+BEGIN_SRC emacs-lisp
-(use-package yaml-mode
-  :mode
-  ("\\.yml" . yaml-mode)
-  ("\\.yaml" . yaml-mode)
-  :config
-  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
-  (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
+  (use-package yaml-mode
+    :mode
+    ("\\.yml" . yaml-mode)
+    ("\\.yaml" . yaml-mode)
+    :config
+    (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+    (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 #+END_SRC
+
+
 *** Yasnippet
 
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-  (with-eval-after-load 'warnings
-    (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
-  (yas-global-mode 1))
+  (use-package yasnippet
+    :config
+    (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+    (with-eval-after-load 'warnings
+      (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
+    (yas-global-mode 1))
 #+END_SRC
 
+
 ** utility functions
+   
+   
 ** Editor
    
 Defaults:
 #+BEGIN_SRC emacs-lisp
-
-  (load-theme 'challenger-deep t)
-
   (set-face-attribute 'default nil :font "Hack 10" )
   (fringe-mode '(8 . 8))
   (set-face-attribute 'fringe nil :background nil)
@@ -723,6 +751,7 @@ Defaults:
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
 
+
 ** Editing
 +meat+ and potatoes
 
@@ -744,46 +773,47 @@ Defaults:
 	  try-expand-dabbrev
 	  try-expand-dabbrev-all-buffers
 	  try-expand-dabbrev-from-kill))
-
 #+END_SRC
+
 
 ** Hooks
 If any.
 
 #+BEGIN_SRC emacs-lisp
-(defun pfn-text-mode-hooks ()
-  "Load 'text-mode' hooks."
-  (turn-on-auto-fill)
-  (rainbow-delimiters-mode 1)
-  (abbrev-mode 1))
-(add-hook 'text-mode-hook 'pfn-text-mode-hooks)
+  (defun pfn-text-mode-hooks ()
+    "Load 'text-mode' hooks."
+    (turn-on-auto-fill)
+    (rainbow-delimiters-mode 1)
+    (abbrev-mode 1))
+  (add-hook 'text-mode-hook 'pfn-text-mode-hooks)
 
-(defun pfn-setup-prog-mode ()
-  "Load 'prog-mode' minor modes."
-  (auto-fill-mode)
-  (rainbow-delimiters-mode)
-  (display-line-numbers-mode)
-  (delete-trailing-whitespace)
-  (flycheck-mode 1))
-(add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
+  (defun pfn-setup-prog-mode ()
+    "Load 'prog-mode' minor modes."
+    (auto-fill-mode)
+    (rainbow-delimiters-mode)
+    (display-line-numbers-mode)
+    (delete-trailing-whitespace)
+    (flycheck-mode 1))
+  (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
-(defun pfn-setup-lisp-mode ()
-  "Setup lisp-modes such as racket and emacs-lisp."
-  (interactive)
-  (eldoc-mode 1)
-  (paredit-mode)
-  (aggressive-indent-mode))
-(add-hook 'emacs-lisp-mode 'pfn-setup-lisp-mode)
+  (defun pfn-setup-lisp-mode ()
+    "Setup lisp-modes such as racket and emacs-lisp."
+    (interactive)
+    (eldoc-mode 1)
+    (paredit-mode 1)
+    (aggressive-indent-mode 1))
+  (add-hook 'emacs-lisp-mode 'pfn-setup-lisp-mode)
 
-(add-hook 'focus-out-hook #'garbage-collect)
+  (add-hook 'focus-out-hook #'garbage-collect)
 #+END_SRC
+
 
 ** Post Initialization
 Let's lower our GC thresholds back down to a sane level.
 
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 16777216
-      gc-cons-percentage 0.1)
+  (setq gc-cons-threshold 16777216
+        gc-cons-percentage 0.1)
 #+END_SRC
 
 
@@ -791,5 +821,5 @@ And see what's up:
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-splash-screen t   ; Disable start-up screen
         inhibit-startup-message t) ; No startup-message
-   (find-file "~/org/todo.org")
+  (find-file "~/org/todo.org")
 #+END_SRC
