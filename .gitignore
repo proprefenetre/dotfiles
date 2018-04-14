@@ -31,3 +31,4 @@ emacs.d/emms/
 emacs.d/emms/*
 emacs.d/#*
 emacs.d/emacs.el
+emacs.d/var/
