@@ -215,12 +215,12 @@ Completion.
 **** TODO org-mode backend
 
 #+BEGIN_SRC emacs-lisp
-(use-package company
-  :demand t
-  :config
-  (setq company-idle-delay 0.3
-        company-selection-wrap-around t)
-  (add-hook 'after-init-hook 'global-company-mode))
+  (use-package company
+    :demand t
+    :config
+    (setq company-idle-delay 0.3
+          company-selection-wrap-around t)
+    (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
 *** Counsel
@@ -245,51 +245,55 @@ Install, automatically load, and enable evil. It's like vim, but better! Especia
 with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
 
 #+BEGIN_SRC emacs-lisp
-  (use-package evil
-  :demand t
-  :init
-  (setq evil-want-integration nil)	; required by evil-collection
-  (setq evil-want-Y-yank-to-eol t)	; Y == y$
-  :config
-  (evil-mode 1))
+    (use-package evil
+    :demand t
+    :init
+    (setq evil-want-integration nil)	; required by evil-collection
+    (setq evil-want-Y-yank-to-eol t)	; Y == y$
+    :config
+    (evil-mode 1))
 
-(use-package evil-collection
-  :after evil
-  :demand t
-  :config
-  (setq evil-collection-outline-bind-tab-p nil)
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :demand t
+    :config
+    (setq evil-collection-outline-bind-tab-p nil)
+    (evil-collection-init))
 
-(use-package evil-surround
-  :after evil
-  :demand t
-  :config
-  (global-evil-surround-mode))
+  (use-package evil-surround
+    :after evil
+    :demand t
+    :config
+    (global-evil-surround-mode))
 
-(use-package evil-embrace
-  :after evil
-  :demand t
-  :config
-  (add-hook 'org-mode-hook 'embrace-org-mode-hook)
-  (evil-embrace-enable-evil-surround-integration))
+  (use-package evil-embrace
+    :after evil
+    :demand t
+    :config
+    (add-hook 'org-mode-hook 'embrace-org-mode-hook)
+    (evil-embrace-enable-evil-surround-integration))
 
-(use-package evil-commentary
-  :after evil
-  :demand t
-  :config
-  (evil-commentary-mode))
+  (use-package evil-commentary
+    :after evil
+    :demand t
+    :config
+    (evil-commentary-mode))
 
-(use-package evil-org
-  :after org
-  :demand t
-  :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  (use-package evil-org
+    :after org
+    :demand t
+    :config
+    (evil-org-set-key-theme '(navigation insert return textobjects additional calendar))
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook (lambda ()
+                                    (evil-org-set-key-theme)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
 #+END_SRC
+
+#+RESULTS:
+: t
+
 *** Eyebrowse
     
 #+BEGIN_SRC emacs-lisp
@@ -776,7 +780,6 @@ If any.
   (aggressive-indent-mode))
 (add-hook 'emacs-lisp-mode 'pfn-setup-lisp-mode)
 
-(add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'focus-out-hook #'garbage-collect)
 #+END_SRC
 
