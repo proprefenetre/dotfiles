@@ -176,7 +176,7 @@ previously compiled manually then all of the package initialization will still t
     (unless (assoc-default "org" package-archives)
       (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
 
-    ;; (package-initialize)
+    (package-initialize)
     (unless (package-installed-p 'use-package)
       (package-refresh-contents)
       (package-install 'use-package))
@@ -212,8 +212,6 @@ python-mode.
 *** Company
 Completion.
 
-**** TODO org-mode backend
-
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :demand t
@@ -223,14 +221,18 @@ Completion.
     (add-hook 'after-init-hook 'global-company-mode))
 #+END_SRC
 
+**** TODO org-mode backend
+
 *** Counsel
 Counsel allows us to utilize ivy by replacing many built-in and common functions
 with richer versions. Let's install it!
 
 #+BEGIN_SRC emacs-lisp
-(use-package counsel-projectile)
-(use-package counsel
-  :demand t)
+  (use-package counsel-projectile)
+  (use-package counsel
+    :demand t
+    :config
+    (counsel-mode))
 #+END_SRC
 
 *** Embrace
@@ -315,10 +317,9 @@ Tyrannical keybinding
   (use-package general
     :demand t
     :config
+    
     (general-create-definer evil-leader-def
-      :states '(normal visual insert emacs)
-      :prefix ","
-      :non-normal-prefix "M-,")
+      :prefix ",")
 
     (evil-leader-def
       "t"  'hydra-toggle/body
@@ -417,9 +418,6 @@ Generic completion frontend that's just awesome! Let's install and enable it.
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-initial-inputs-alist nil))
 #+END_SRC
-
-#+RESULTS:
-: t
 
 *** Key-chord
 
@@ -682,6 +680,7 @@ So much better than biblatex.
   (yas-global-mode 1))
 #+END_SRC
 
+
 ** utility functions
 ** Editor
    
@@ -721,6 +720,8 @@ Defaults:
   (menu-bar-mode -1)                           ; Disable the menu bar
 
   (put 'dired-find-alternate-file 'disabled nil)
+  
+  (setq inititial-buffer-choice "~/org/todo.org")
 #+END_SRC
 
 ** Editing
@@ -784,10 +785,4 @@ Let's lower our GC thresholds back down to a sane level.
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
-#+END_SRC
-
-
-And see what's up:
-#+BEGIN_SRC emacs-lisp
-  (find-file "~/org/todo.org") 
 #+END_SRC
