@@ -8,6 +8,9 @@
 :END:
 
 ** Table of Contents :TOC_3_gh:
+   :PROPERTIES:
+   :VISIBILITY: children
+   :END:
 - [[#configuration][Configuration]]
   - [[#about-this-file][About this file]]
   - [[#org-file-tweaks][Org File Tweaks]]
@@ -195,6 +198,7 @@ to be alphabetical...
 #+END_SRC
 
 ** Packages
+   
 *** Aggressive-indent
 What's in a name? I use this package for lisp modes only, I got scared using it in 
 python-mode.
@@ -414,6 +418,9 @@ Generic completion frontend that's just awesome! Let's install and enable it.
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-initial-inputs-alist nil))
 #+END_SRC
+
+#+RESULTS:
+: t
 
 *** Key-chord
 
@@ -675,9 +682,11 @@ So much better than biblatex.
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
 #+END_SRC
+
 ** utility functions
 ** Editor
    
+Defaults:
 #+BEGIN_SRC emacs-lisp
   (load-theme 'challenger-deep t)
 
@@ -687,8 +696,8 @@ So much better than biblatex.
 
   ;;; native line numbers
   (setq display-line-numbers-width 4
-	display-line-numbers-width-start 3
-	display-line-numbers-widen t)
+    display-line-numbers-width-start 3
+    display-line-numbers-widen t)
   (set-face-attribute 'line-number nil :background 'unspecified)
 
   (setq-default
@@ -702,13 +711,13 @@ So much better than biblatex.
    mouse-yank-at-point t                       ; Yank at point rather than pointer
    scroll-conservatively most-positive-fixnum  ; Always scroll by one line
    indicate-empty-lines nil                    ; no fuzz at the end of a file
-   vc-follow-symlinks t)	               ; so you end up at the file itself 
+   vc-follow-symlinks t)	               ; so you end up at the file itself
                                                ;rather than editing the link
   (show-paren-mode t)
   (fset 'yes-or-no-p 'y-or-n-p)                ; Replace yes/no prompts with y/n
 
   (scroll-bar-mode -1)                         ; Disable the scroll bar
-  (tool-bar-mode -1)                           ; Disable the tool bar
+  (tool-bar-mode 1)
   (tooltip-mode -1)                            ; Disable the tooltips
   (menu-bar-mode -1)                           ; Disable the menu bar
 
@@ -777,4 +786,10 @@ Let's lower our GC thresholds back down to a sane level.
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
+#+END_SRC
+
+
+And see what's up:
+#+BEGIN_SRC emacs-lisp
+  (find-file "~/org/todo.org") 
 #+END_SRC
