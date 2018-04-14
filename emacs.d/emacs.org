@@ -283,7 +283,6 @@ with [[https://github.com/emacs-evil/evil-collection][evil-collection]]!
     :after org
     :demand t
     :config
-    (evil-org-set-key-theme '(navigation insert return textobjects additional calendar))
     (add-hook 'org-mode-hook 'evil-org-mode)
     (add-hook 'evil-org-mode-hook (lambda ()
                                     (evil-org-set-key-theme)))
@@ -349,6 +348,10 @@ Tyrannical keybinding
       "C-a" 'beginning-of-line
       "<M-tab>" 'company-complete-common-or-cycle)
 
+    (general-def org-mode-map
+      "RET" 'org-return
+      "<ret>" 'org-return)
+
     (general-evil-setup)
 
     (general-mmap
@@ -373,9 +376,6 @@ Tyrannical keybinding
       "C-c l" 'org-store-link
       "C-c c" 'org-capture))
 #+END_SRC
-
-#+RESULTS:
-: t
 
 *** Hydra
 
