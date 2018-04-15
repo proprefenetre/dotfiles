@@ -295,7 +295,7 @@
 
 
 (add-hook 'after-init-hook 'global-company-mode)
-(add-hook 'focus-out-hook #'garbage-collect)
+(add-hook 'focus-out-hook 'garbage-collect)
 
 ;;; Editor Settings
 (setq-default
@@ -395,7 +395,6 @@
   (general-chord "jj") 'evil-normal-state)
 
 (general-def
-  "C-a"     'evil-beginning-of-line
   "C-c R"   'pfn-reload-init
   "C-c r"   'pfn-revert-buffer-no-confirm
   "C-c b"   'mode-line-other-buffer
@@ -415,7 +414,6 @@
         try-expand-dabbrev
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
-
 
 ;;; starting up
 (setq initial-buffer-choice "~/org/todo.org")
