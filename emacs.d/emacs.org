@@ -34,12 +34,11 @@
     - [[#org][Org]]
     - [[#paredit][Paredit]]
     - [[#projectile][Projectile]]
-    - [[#rainbow-delimiters][Rainbow-delimiters]]
+    - [[#the-rainbow][The Rainbow]]
     - [[#swiper][Swiper]]
     - [[#smart-mode-line][Smart mode-line]]
     - [[#themes][Themes]]
     - [[#toc-org][Toc-org]]
-    - [[#rainbow-mode][Rainbow-mode]]
     - [[#which-key][Which-key]]
     - [[#yaml-mode][Yaml-mode]]
     - [[#yasnippet][Yasnippet]]
@@ -52,7 +51,6 @@
 ** About this file
 I wanted something neat and tidy, so here we go.
 
-
 ** Personal Information
 basic user information (everybody does this.)
 
@@ -60,7 +58,6 @@ basic user information (everybody does this.)
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 #+END_SRC
-
 
 ** Emacs Initialization
 
@@ -169,7 +166,6 @@ to be alphabetical...
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 #+END_SRC
-
 
 ** Packages
 *** Aggressive-indent
@@ -459,42 +455,16 @@ Tweak the org header settings.
             ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
             ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?")
             ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ [[%?][]]")
-            ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")))
+            ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?"))))
 
-    (setq org-todo-keyword-faces
-          '(("TODO" . "#c991e1")
-            ("AFSPRAAK" . "#aaffe4")
-            ("BELLEN" . "#aaffe4")
-            ("INTAKE" . "#aaffe4")
-            ("CANCELED" . "#ff5458")
-            ("TOREAD" . "#65b2ff")
-            ("IDEE" . "#65b2ff")))
-            
-    (defun pfn-org-checkbox-todo ()
-      "Switch header TODO state to DONE when all checkboxes are ticked, to TODO otherwise."
-      (let ((todo-state (org-get-todo-state)) beg end)
-        (unless (not todo-state)
-          (save-excursion
-            (org-back-to-heading t)
-            (setq beg (point))
-            (end-of-line)
-            (setq end (point))
-            (goto-char beg)
-            (if (re-search-forward "\\[\\([0-9]*%\\)\\]\\|\\[\\([0-9]*\\)/\\([0-9]*\\)\\]"
-                                   end t)
-                (if (match-end 1)
-                    (if (equal (match-string 1) "100%")
-                        (unless (string-equal todo-state "DONE")
-                          (org-todo 'done))
-                      (unless (string-equal todo-state "TODO")
-                        (org-todo 'todo)))
-                  (if (and (> (match-end 2) (match-beginning 2))
-                           (equal (match-string 2) (match-string 3)))
-                      (unless (string-equal todo-state "DONE")
-                        (org-todo 'done))
-                    (unless (string-equal todo-state "TODO")
-                      (org-todo 'todo)))))))))
-    (add-hook 'org-checkbox-statistics-hook 'pfn-org-checkbox-todo))
+    ;; (setq org-todo-keyword-faces
+    ;;       '(("TODO" . "#c991e1")
+    ;;         ("AFSPRAAK" . "#aaffe4")
+    ;;         ("INTAKE" . "#aaffe4")
+    ;;         ("CANCELED" . "#ff5458")
+    ;;         ("TOREAD" . "#65b2ff")
+    ;;         ("IDEE" . "#65b2ff")))
+
 
     ;; (defun pfn-org-level-sizes ()
     ;;   "Stop the org-level headers from increasing in height relative to the other text."
@@ -531,15 +501,17 @@ going to install it and make sure it's loaded immediately.
     :demand t)
 #+END_SRC
 
-*** Rainbow-delimiters
-Taste them!
+*** The Rainbow
+Taste it!
 
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
-    :ensure t
-    :demand t
-    :config
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+    :demand t)
+#+END_SRC
+
+Highlight color names with their own names, it's awesome!
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode)
 #+END_SRC
 
 *** Swiper
@@ -596,16 +568,16 @@ Current favourite:
 
 Org stuff:
 #+BEGIN_SRC emacs-lisp
-  (defun pfn-org-level-colors ()
-      "Taste the rainbow!"
-      (interactive)
-      (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
-      (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
-      (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
-      (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
-      (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
-      (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
-  (pfn-org-level-colors)
+  ;; (defun pfn-org-level-colors ()
+  ;;     "Taste the rainbow!"
+  ;;     (interactive)
+  ;;     (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
+  ;;     (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
+  ;;     (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
+  ;;     (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
+  ;;     (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
+  ;;     (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
+  ;; (pfn-org-level-colors)
 #+END_SRC
 
 *** Toc-org
@@ -616,13 +588,6 @@ This is the package that automatically generates an up to date table of contents
     :after org
     :init 
     (add-hook 'org-mode-hook 'toc-org-enable))
-#+END_SRC
-
-*** Rainbow-mode
-highlight color names with their own names, it's awesome!
-
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode)
 #+END_SRC
 
 *** Which-key
@@ -662,8 +627,7 @@ So much better than biblatex.
 
 
 ** Utility functions
-   
-   
+ 
 ** Editor
    
 Defaults:
@@ -749,6 +713,7 @@ If any.
   (defun pfn-setup-prog-mode ()
     "Load 'prog-mode' minor modes."
     (auto-fill-mode)
+    (rainbow-mode)
     (rainbow-delimiters-mode)
     (display-line-numbers-mode)
     (delete-trailing-whitespace)
