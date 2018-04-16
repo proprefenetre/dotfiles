@@ -105,7 +105,6 @@
   (delete 'elpy-module-highlight-indentation elpy-modules))
 
 (use-package evil
-  :ensure t
   :demand t
   :init
   (setq evil-want-integration nil
@@ -124,32 +123,28 @@
   (evil-mode 1))
 
 (use-package evil-collection
-  :ensure t
   :demand t
   :after evil
   :init (setq evil-collection-outline-bind-tab-p nil)
   :config (evil-collection-init))
 
 (use-package evil-surround
-  :ensure t
   :demand t
   :config (global-evil-surround-mode))
 
 (use-package evil-embrace
-  :ensure t
   :after evil-surround
   :config
   (add-hook 'org-mode-hook 'embrace-org-mode-hook)
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-commentary
-  :ensure t
   :after evil
   :demand t
   :config (evil-commentary-mode))
 
 (use-package eyebrowse
-  :demand
+  :demand t
   :config
   (setq eyebrowse-new-workspace t
         eyebrowse-wrap-around t
