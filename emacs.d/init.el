@@ -109,7 +109,8 @@
   :demand t
   :init
   (setq evil-want-integration nil
-        evil-want-Y-yank-to-eol t)
+        evil-want-Y-yank-to-eol t
+        evil-vsplit-window-right t)
   :config
   (setq evil-search-wrap t
         evil-regexp-search t)
@@ -229,6 +230,8 @@
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org")
         org-archive-location "~/org/archief::datetree/"
+        org-startup-indented t
+        org-hide-leading-stars nil
         org-log-done nil
         org-log-into-drawer nil
         org-cycle-separator-lines 2
@@ -328,7 +331,9 @@
          (next (aref themes idx-after)))
     (put 'pfn-cycle-themes 'state idx-after)
     (disable-theme prev)
-    (load-theme next t)))
+    (load-theme next t)
+    (set-face-attribute 'line-number nil :background 'unspecified)
+    (set-face-attribute 'fringe nil :inherit 'line-number)))
 
 (defun pfn-revert-buffer-no-confirm ()
   "Revert buffer without confirmation."
@@ -461,6 +466,9 @@
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state)
+
+(general-def :keymaps 'evil-window-map
+  "N" 'evil-window-vnew)
 
 (general-def
   "C-c R"   '(lambda () (interactive)
