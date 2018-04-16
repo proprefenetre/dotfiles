@@ -9,8 +9,8 @@
       user-mail-address "nielseigenraam@gmail.com")
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'noerror)
+;; (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+;; (load custom-file 'noerror)
 
 ;; garbage collection
 (eval-and-compile
@@ -23,6 +23,7 @@
       load-prefer-newer t
       package-user-dir "~/.emacs.d/elpa"
       package--init-file-ensured t)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
@@ -38,21 +39,28 @@
       use-package-always-ensure t
       use-package-verbose t)
 
+(use-package no-littering
+  :demand t
+  :config
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+
 ;;; theme
 (setq custom-safe-themes t)
+
 (use-package challenger-deep-theme)
 (use-package nord-theme)
-(load-theme 'challenger-deep t)
-(set-face-attribute 'default nil :font "Hack 10")
+
+(load-theme 'nord t)
+
 (fringe-mode '(8 . 8))
+
+(set-face-attribute 'default nil :font "Hack 10")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
 (server-start)
-
-;;; Include files
-(require 'org-settings)
-(require 'utils)
 
 ;;; Packages
 (use-package aggressive-indent
@@ -67,6 +75,20 @@
 
 (use-package company
   :demand t
+  :init
+  (defun org-keyword-backend (command &optional arg &rest ignored)
+    (interactive (list 'interactive))
+    (cl-case command
+      (interactive (company-begin-backend 'org-keyword-backend))
+      (prefix (and (eq major-mode 'org-mode)
+                   (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
+                         t)))
+      (candidates (mapcar #'upcase
+                          (cl-remove-if-not
+                           (lambda (c) (string-prefix-p arg c))
+                           (pcomplete-completions))))
+      (ignore-case t)
+      (duplicates t)))
   :config
   (setq company-idle-delay 0.3
         company-selection-wrap-around t)
@@ -166,13 +188,6 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 
-(use-package no-littering
-  :demand t
-  :config
-  (setq auto-save-file-name-transforms
-      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
-
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
@@ -180,7 +195,34 @@
 (use-package org
   :ensure org-plus-contrib
   :pin org
-  :defer t
+  :demand t
+  :init
+  (require 'cl)
+  (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+
+  (defun pfn-org-level-sizes ()
+    "Stop the org-level headers from increasing in height relative to the other text."
+    (interactive)
+    (dolist (face '(org-level-1
+                    org-level-2
+                    org-level-3
+                    org-level-4
+                    org-level-5))
+      (set-face-attribute face nil :height 1.0)))
+
+  (defun pfn-org-level-colors ()
+    "Taste the rainbow!"
+    (interactive)
+    (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
+    (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
+    (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
+    (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
+    (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
+    (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
+
+  ;; (eval-after-load "org" '(progn (pfn-org-level-colors)
+  ;;                                (pfn-org-level-sizes)))
+
   :commands (org-capture)
   :config
   (setq org-directory "~/org"
@@ -200,14 +242,14 @@
         '((nil :maxlevel . 1)
           (org-agenda-files :maxlevel . 1)))
 
-  (setq org-todo-keyword-faces
-        '(("TODO" . "#c991e1")
-          ("AFSPRAAK" . "#aaffe4")
-          ("BELLEN" . "#aaffe4")
-          ("INTAKE" . "#aaffe4")
-          ("CANCELED" . "#ff5458")
-          ("READ" . "#65b2ff")
-          ("IDEE" . "#65b2ff")))
+  ;; (setq org-todo-keyword-faces
+  ;;       '(("TODO" . "#c991e1")
+  ;;         ("AFSPRAAK" . "#aaffe4")
+  ;;         ("BELLEN" . "#aaffe4")
+  ;;         ("INTAKE" . "#aaffe4")
+  ;;         ("CANCELED" . "#ff5458")
+  ;;         ("READ" . "#65b2ff")
+  ;;         ("IDEE" . "#65b2ff")))
 
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
@@ -273,6 +315,26 @@
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
+
+;;; Utility functions
+(defun pfn-cycle-themes ()
+  "Cycle through available themes."
+  (interactive)
+  (let* ((themes [challenger-deep nord])
+         (idx-before (if (get 'pfn-cycle-themes 'state)
+                         (get 'pfn-cycle-themes 'state) 0))
+         (idx-after (% (+ idx-before (length themes) 1) (length themes)))
+         (prev (aref themes idx-before))
+         (next (aref themes idx-after)))
+    (put 'pfn-cycle-themes 'state idx-after)
+    (disable-theme prev)
+    (load-theme next t)))
+
+(defun pfn-revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive)
+  (revert-buffer :ignore-auto :noconfirm)
+  (message "buffer reloaded"))
 
 ;;; Hooks
 (defun pfn-setup-prog-mode ()
@@ -360,28 +422,34 @@
   :non-normal-prefix "M-,")
 
 (evil-leader
- "t"  'hydra-toggle/body
- ":"  'counsel-find-file
- "e"  'eval-defun
- "i"  'pfn-open-init-file
- "o"  'olivetti-mode
- ","  'other-window
- "."  'mode-line-other-buffer
- "b"  'hydra-buffer/body
- "q"  'kill-buffer-and-window
- "w"  'save-buffer
- "x"  'counsel-M-x
- "p"  'counsel-yank-pop
- "m"  'counsel-bookmark
- "gs" 'magit-status
- "r"  'rainbow-mode)
+  "b"  'hydra-buffer/body
+  "e"  'eval-defun
+  "i"  '(lambda () (interactive)
+          (find-file user-init-file))
+  "gs" 'magit-status
+  "m"  'counsel-bookmark
+  "o"  'olivetti-mode
+  "p"  'counsel-yank-pop
+  "q"  'kill-buffer-and-window
+  "t"  'hydra-toggle/body
+  "w"  'save-buffer
+  "x"  'counsel-M-x
+  "."  'mode-line-other-buffer
+  ","  'other-window
+  ":"  'counsel-find-file)
+
+(general-omap
+  :prefix "SPC"
+  "." 'avy-goto-word-or-subword-1
+  "l" 'evil-avy-goto-line
+  "e" 'evil-avy-goto-subword-0)
 
 (general-mmap
- :keymaps 'org-mode-map
- "<ret>" 'org-open-at-point
- "RET"   'org-open-at-point
- "<tab>" 'org-cycle
- "TAB"   'org-cycle)
+  :keymaps 'org-mode-map
+  "<ret>" 'org-open-at-point
+  "RET"   'org-open-at-point
+  "<tab>" 'org-cycle
+  "TAB"   'org-cycle)
 
 (general-mmap
   "-"       'dired-jump
@@ -395,8 +463,11 @@
   (general-chord "jj") 'evil-normal-state)
 
 (general-def
-  "C-c R"   'pfn-reload-init
-  "C-c r"   'pfn-revert-buffer-no-confirm
+  "C-c R"   '(lambda () (interactive)
+               (load-file user-init-file))
+  "C-c r"   '(lambda () (interactive)
+               (revert-buffer :ignore-auto :noconfirm)
+               (message "buffer reloaded"))
   "C-c b"   'mode-line-other-buffer
   "C-c k"   'counsel-ag
   "C-c a"   'hydra-org/body
