@@ -9,8 +9,6 @@
       user-mail-address "nielseigenraam@gmail.com")
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-;; (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-;; (load custom-file 'noerror)
 
 ;; garbage collection
 (eval-and-compile
@@ -28,7 +26,7 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;; use-package
-; (package-initialize)
+(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -168,7 +166,7 @@
 (use-package hydra
   :demand t
   :config
-  (defhydra hydra-buffer (:color blue)
+  (defhydra hydra-buffer (:color blue :columns 4)
     " Buffers: "
     ("n" next-buffer "next" :color red)
     ("p" previous-buffer "prev" :color red)
@@ -180,7 +178,7 @@
     ;; don't come back to previous buffer after delete
     ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red))
 
-  (defhydra hydra-org (:color blue)
+  (defhydra hydra-org (:color blue :columns 3)
     " AGENDA: "
     ("A" org-agenda "agenda menu" :color blue)
     ("a" org-agenda-list "agenda" :color blue)
@@ -213,11 +211,11 @@
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
-
 (use-package org
   :ensure org-plus-contrib
   :pin org
   :demand t
+  :commands (org-capture)
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
@@ -245,7 +243,7 @@
   ;; (eval-after-load "org" '(progn (pfn-org-level-colors)
   ;;                                (pfn-org-level-sizes)))
 
-  :commands (org-capture)
+
   :config
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
@@ -285,6 +283,41 @@
           ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?"
            :empty-lines 1))))
 
+;; global org-capture
+(defadvice org-capture-finalize
+    (after delete-capture-frame activate)
+  "Advise capture-finalize to close the frame."
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-frame)))
+
+(defadvice org-capture-destroy
+    (after delete-capture-frame activate)
+  "Advise capture-destroy to close the frame."
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-frame)))
+
+;; make the frame contain a single window. by default org-capture
+;; splits the window.
+(add-hook 'org-capture-mode-hook
+          'delete-other-windows)
+
+(defadvice org-switch-to-buffer-other-window
+    (after supress-window-splitting activate)
+  "Delete the extra window if we're in a capture frame."
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-other-windows)))
+
+(defun make-capture-frame ()
+  "Create a new frame and run 'org-capture'."
+  (interactive)
+  (make-frame '((name . "capture")
+                (width . 120)
+                (height . 15)))
+  (select-frame-by-name "capture")
+  (setq word-wrap 1)
+  (setq truncate-lines nil)
+  (org-capture))
+;; org-config ends here
 (use-package paredit
   :demand t
   :config

@@ -41,7 +41,7 @@ bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec emacs
 
-bindsym $mod+e exec emacs-anywhere
+bindsym $mod+c exec emacsclient -n -e '(make-capture-frame)'
 
 # stuff
 # take a screenshot
