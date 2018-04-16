@@ -172,7 +172,33 @@
 
 (use-package hydra
   :demand t
-  :config (require 'hydras))
+  :config
+  (defhydra hydra-buffer (:color blue)
+    " Buffers: "
+    ("n" next-buffer "next" :color red)
+    ("p" previous-buffer "prev" :color red)
+    ("b" ivy-switch-buffer "ivy-switch")
+    ("B" ibuffer "ibuffer")
+    ("N" evil-buffer-new "new")
+    ("s" save-buffer "save" :color red)
+    ("d" kill-this-buffer "delete" :color red)
+    ;; don't come back to previous buffer after delete
+    ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red))
+
+  (defhydra hydra-org (:color blue)
+    " AGENDA: "
+    ("A" org-agenda "agenda menu" :color blue)
+    ("a" org-agenda-list "agenda" :color blue)
+    ("t" org-todo-list "global to do-list" :color blue)
+    ("r" org-refile "refile" :color red)
+    ("x" org-archive-subtree "archive" :color red))
+
+  (defhydra hydra-toggle (:color blue :columns 2)
+    " Toggle: "
+    ("r" rainbow-mode "rainbow-mode" :color blue)
+    ("f" flyspell-mode "flyspell-mode" :color red)
+    ("p" paredit-mode "paredit" :color blue)
+    ("a" aggressive-indent-mode "aggressive-indent-mode" :color red)))
 
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all)
