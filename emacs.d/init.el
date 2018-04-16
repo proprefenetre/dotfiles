@@ -52,7 +52,7 @@
 (use-package challenger-deep-theme)
 (use-package nord-theme)
 
-(load-theme 'nord t)
+(load-theme 'challenger-deep t)
 
 (fringe-mode '(8 . 8))
 
@@ -245,21 +245,24 @@
         '((nil :maxlevel . 1)
           (org-agenda-files :maxlevel . 1)))
 
-  ;; (setq org-todo-keyword-faces
-  ;;       '(("TODO" . "#c991e1")
-  ;;         ("AFSPRAAK" . "#aaffe4")
-  ;;         ("BELLEN" . "#aaffe4")
-  ;;         ("INTAKE" . "#aaffe4")
-  ;;         ("CANCELED" . "#ff5458")
-  ;;         ("READ" . "#65b2ff")
-  ;;         ("IDEE" . "#65b2ff")))
+  (setq org-todo-keyword-faces
+        '(("TODO" . "#c991e1")
+          ("AFSPRAAK" . "#aaffe4")
+          ("BELLEN" . "#aaffe4")
+          ("INTAKE" . "#aaffe4")
+          ("CANCELED" . "#ff5458")
+          ("READ" . "#65b2ff")
+          ("IDEE" . "#65b2ff")))
 
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
           ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
-          ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?")
-          ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ [[%?][]]")
-          ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?"))))
+          ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?"
+           :empty-lines 1)
+          ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ
+        [[%?][]]" :empty-lines 1)
+          ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?"
+           :empty-lines 1))))
 
 (use-package paredit
   :demand t
@@ -444,10 +447,10 @@
   ":"  'counsel-find-file)
 
 (general-omap
-  :prefix "SPC"
-  "." 'avy-goto-word-or-subword-1
-  "l" 'evil-avy-goto-line
-  "e" 'evil-avy-goto-subword-0)
+  "C-a" 'avy-goto-word-or-subword-1
+  "C-o" 'evil-avy-goto-subword-0
+  "C-e" 'evil-avy-goto-line
+  "C-u" 'evil-avy-goto-char-timer)
 
 (general-mmap
   :keymaps 'org-mode-map

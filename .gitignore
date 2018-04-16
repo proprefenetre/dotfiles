@@ -32,3 +32,4 @@ emacs.d/emms/*
 emacs.d/#*
 emacs.d/emacs.el
 emacs.d/var/
+emacs.d/etc/custom.el
