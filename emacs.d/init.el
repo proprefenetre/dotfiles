@@ -26,7 +26,8 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 ;; use-package
-(package-initialize)
+
+;; (package-initialize)                    ; emacs 27+ does this for you. TIL
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -132,6 +133,7 @@
 
 (use-package evil-embrace
   :after evil-surround
+  :demand t
   :config
   (add-hook 'org-mode-hook 'embrace-org-mode-hook)
   (evil-embrace-enable-evil-surround-integration))
