@@ -33,15 +33,15 @@ floating_modifier $mod
 set $browser chromium
 set $term xterm 
 set $backup_term xterm
-set $editor ~/bin/emax
+set $editor emacsclient -n -c
 
 bindsym $mod+Return exec $term
 bindsym $mod+apostrophe exec gmrun
 bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
-bindsym $mod+g exec emacs
+bindsym $mod+g exec $editor
 
-bindsym $mod+c exec emacsclient -n -e '(make-capture-frame)'
+bindsym $mod+c exec emacsclient -n -c -e '(make-capture-frame)'
 
 # stuff
 # take a screenshot
@@ -149,13 +149,10 @@ assign [class="^Firefox$"]  1
 assign [class="^Steam"] 2
 
 # window rules
-for_window [class="^Dialog"] floating enable
-for_window [instance=".*Properties"] floating enable
 for_window [class="^Pinentry"] floating enable
 for_window [class="^mpv$"] floating enable, sticky enable
 for_window [class="^Spotify$"] move $ws0
 for_window [class="^Spotify$"] move $ws0
-for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
