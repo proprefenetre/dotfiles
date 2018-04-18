@@ -59,8 +59,6 @@
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
-(server-start)
-
 ;;; Packages
 (use-package aggressive-indent
   :demand t
@@ -95,6 +93,11 @@
 
 (use-package counsel
   :demand t)
+
+(use-package counsel-projectile
+  :demand t
+  :config
+  (counsel-projectile-mode))
 
 (use-package elpy
   :after python-mode
@@ -151,7 +154,9 @@
         eyebrowse-switch-back-and-forth t)
   (eyebrowse-mode t))
 
-(use-package flycheck)
+(use-package flycheck
+  :config
+  (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
 (use-package general
   :demand t)
@@ -161,9 +166,11 @@
   :config (key-chord-mode 1))
 
 (use-package ivy
-  :config (setq ivy-use-virtual-buffers t
-                ivy-count-format "(%d/%d) "
-                ivy-initial-inputs-alist nil))
+  :config
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-initial-inputs-alist nil)
+  (ivy-mode 1))
 
 (use-package hydra
   :demand t
@@ -193,7 +200,31 @@
     ("r" rainbow-mode "rainbow-mode" :color blue)
     ("f" flyspell-mode "flyspell-mode" :color red)
     ("p" paredit-mode "paredit" :color blue)
-    ("a" aggressive-indent-mode "aggressive-indent-mode" :color red)))
+    ("a" aggressive-indent-mode "aggressive-indent-mode" :color red))
+
+  (defhydra hydra-compile (:columns 2)
+    " Compile with:"
+    ("m" (compile "make") "make")
+    ("t" (compile "make tex") "make tex")
+    ("c" (compile "make clean") "make clean"))
+
+  (defhydra hydra-eyebrowse ()
+    "workspace: "
+    ("n" eyebrowse-create-window-config "new")
+    ("c" eyebrowse-close-window-config "close")
+    (">" eyebrowse-next-window-config "next")
+    ("<" eyebrowse-prev-window-config "prev")
+    ("0" eyebrowse-switch-to-window-config-0 "0")
+    ("1" eyebrowse-switch-to-window-config-1 "1")
+    ("2" eyebrowse-switch-to-window-config-2 "2")
+    ("3" eyebrowse-switch-to-window-config-3 "3")
+    ("4" eyebrowse-switch-to-window-config-4 "4")
+    ("5" eyebrowse-switch-to-window-config-5 "5")
+    ("6" eyebrowse-switch-to-window-config-6 "6")
+    ("7" eyebrowse-switch-to-window-config-7 "7")
+    ("8" eyebrowse-switch-to-window-config-8 "8")
+    ("9" eyebrowse-switch-to-window-config-9 "9")))
+     
 
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all)
@@ -210,9 +241,15 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+" . font-lock-keyword-face))))
 
+(use-package projectile
+  :demand t
+  :config
+  (projectile-mode))
+
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
+;;; ORRRRG
 (use-package org
   :ensure org-plus-contrib
   :pin org
@@ -221,30 +258,6 @@
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
-
-  (defun pfn-org-level-sizes ()
-    "Stop the org-level headers from increasing in height relative to the other text."
-    (interactive)
-    (dolist (face '(org-level-1
-                    org-level-2
-                    org-level-3
-                    org-level-4
-                    org-level-5))
-      (set-face-attribute face nil :height 1.0)))
-
-  (defun pfn-org-level-colors ()
-    "Taste the rainbow!"
-    (interactive)
-    (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
-    (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
-    (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
-    (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
-    (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
-    (set-face-attribute 'org-level-6 nil :foreground "#5fffaf"))
-
-  ;; (eval-after-load "org" '(progn (pfn-org-level-colors)
-  ;;                                (pfn-org-level-sizes)))
-
 
   :config
   (setq org-directory "~/org"
@@ -257,7 +270,7 @@
         org-log-into-drawer nil
         org-cycle-separator-lines 2
         outline-blank-line t            ; newlines are not content
-        org-level-color-stars-only t
+        ;; org-level-color-stars-only t ; learn to use the first line as a header
         org-return-follows-link t
         org-tags-column -80
         org-reverse-note-order t)
@@ -267,7 +280,7 @@
           (org-agenda-files :maxlevel . 1)))
 
   (setq org-todo-keyword-faces
-        '(("TODO" . "#c991e1")
+        '(;("TODO" . "#c991e1")
           ("AFSPRAAK" . "#aaffe4")
           ("BELLEN" . "#aaffe4")
           ("INTAKE" . "#aaffe4")
@@ -275,17 +288,24 @@
           ("READ" . "#65b2ff")
           ("IDEE" . "#65b2ff")))
 
+  ;; (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
+  ;; (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
+  ;; (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
+  ;; (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
+  ;; (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
+  ;; (set-face-attribute 'org-level-6 nil :foreground "#5fffaf")
+
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
           ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
-          ("t" "todo" entry (file+headline "~/org/todo.org" "To Do") "* TODO %?"
-           :empty-lines 1)
-          ("l" "link" entry (file+headline "~/org/todo.org" "To Do") "* READ
-        [[%?][]]" :empty-lines 1)
-          ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?"
-           :empty-lines 1))))
+          ("t" "todo" entry (file+headline "~/org/todo.org" "Needs") "* TODO %?")
+          ("l" "link" entry (file+headline "~/org/todo.org" "Needs") "* READ [[%?][]]")
+          ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")
+          ("s" "scriptie note" entry (file+headline "~/projects/thesis/todo.org" "Notes") "* %?")
+          ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?"))))
 
 ;; global org-capture
+
 (defadvice org-capture-finalize
     (after delete-capture-frame activate)
   "Advise capture-finalize to close the frame."
@@ -319,12 +339,31 @@
   (setq word-wrap 1)
   (setq truncate-lines nil)
   (org-capture))
-;; org-config ends here
+
+(use-package org-pdfview
+  :demand t
+  :after org
+  :config
+  (add-to-list 'org-file-apps
+               '("\\.pdf\\'" . (lambda (file link)
+                                 (org-pdfview-open link)))))
+
+;;; And on we go:
+
 (use-package paredit
   :demand t
   :config
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (add-hook 'racket-mode-hook 'paredit-mode))
+
+(use-package pdf-tools
+  :config
+  ;; initialise
+  (pdf-tools-install)
+  ;; open pdfs scaled to fit page
+  (setq-default pdf-view-display-size 'fit-page)
+  ;; automatically annotate highlights
+  (setq pdf-annot-activate-created-annotations t))
 
 (use-package python-mode
   :config
@@ -346,7 +385,7 @@
   (setq shackle-select-reused-windows nil) ; default nil
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
-  (setq shackle-default-rule '(:regexp t :select t :align below :inhibit-window-quit nil :modeline nil))
+  (setq shackle-default-rule '(:regexp t :align below :inhibit-window-quit nil :modeline nil))
   (shackle-mode 1))
 
 (use-package smart-mode-line
@@ -356,7 +395,14 @@
   (column-number-mode t)
   (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
-  (setq sml/mode-width 'right)
+  (setq sml/mode-width 'full)
+  (setq rm-whitelist (format "^ \\(%s\\)$"
+                             (mapconcat #'identity
+                                        '("=>" "Paredit" "Elpy")
+                                        "\\|")))
+  (add-to-list 'sml/replacer-regexp-list '("^~/projects/thesis" ":TH:") t)
+  (add-to-list 'sml/replacer-regexp-list '("^~/projects/" ":PRJ:") t)
+  (add-to-list 'sml/replacer-regexp-list '("^~/dotfiles" ":.F:") t)
   (sml/setup))
 
 (use-package which-key
@@ -372,11 +418,12 @@
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
 (use-package yasnippet
+  :demand t
   :config
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
+
 
 ;;; Utility functions
 (defun pfn-cycle-themes ()
@@ -447,7 +494,7 @@
  show-trailing-whitespace nil  ; Display trailing whitespaces
  window-combination-resize t   ; Resize windows proportionally
  x-stretch-cursor t            ; Stretch cursor to the glyph width
- vc-fllow-symlinks t                         ; so you end up at the file itself rather than editing the link
+ vc-follow-symlinks t                         ; so you end up at the file itself rather than editing the link
  large-file-warning-threshold nil)
 
 (set-language-environment 'utf-8)
@@ -486,21 +533,23 @@
   :non-normal-prefix "M-,")
 
 (evil-leader
-  "b"  'hydra-buffer/body
-  "e"  'eval-defun
-  "i"  '(lambda () (interactive)
-          (find-file user-init-file))
-  "gs" 'magit-status
-  "m"  'counsel-bookmark
-  "o"  'olivetti-mode
-  "p"  'counsel-yank-pop
-  "q"  'kill-buffer-and-window
-  "t"  'hydra-toggle/body
-  "w"  'save-buffer
-  "x"  'counsel-M-x
-  "."  'mode-line-other-buffer
-  ","  'other-window
-  ":"  'counsel-find-file)
+  "b" 'hydra-buffer/body
+  "d" 'dired-jump-other-window
+  "e" 'eval-defun
+  "i" '(lambda () (interactive)
+         (find-file user-init-file))
+  "gs"'magit-status
+  "m" 'counsel-bookmark
+  "o" 'olivetti-mode
+  "p" 'counsel-yank-pop
+  "q" 'kill-buffer-and-window
+  "r" 'hydra-compile/body
+  "t" 'hydra-toggle/body
+  "w" 'hydra-eyebrowse/body
+  "x" 'counsel-M-x
+  "." 'mode-line-other-buffer
+  "," 'other-window
+  ":" 'counsel-find-file)
 
 (general-omap
   "C-a" 'avy-goto-word-or-subword-1
@@ -516,7 +565,6 @@
   "TAB"   'org-cycle)
 
 (general-mmap
-  "-"       'dired-jump
   "j"       'evil-next-visual-line
   "k"       'evil-previous-visual-line
   "<tab>"   'outline-toggle-children
@@ -529,6 +577,9 @@
 (general-def :keymaps 'evil-window-map
   "N" 'evil-window-vnew)
 
+(general-def :keymaps 'org-agenda-mode-map
+  "C-w C-W" 'other-window)
+
 (general-def
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
@@ -540,7 +591,6 @@
   "C-c a"   'hydra-org/body
   "C-c l"   'org-store-link
   "C-c c"   'org-capture
-  "C-f"     'evil-avy-goto-char-timer
   "C-s"     'swiper
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)
