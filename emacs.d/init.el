@@ -92,13 +92,13 @@
   :config
   (setq company-idle-delay 0.3
         company-selection-wrap-around t)
-  (add-to-list 'company-backends 'org-keyword-backend))
+  (add-to-list 'company-backends 'org-keyword-backend)
+  (global-company-mode))
 
 (use-package counsel
   :demand t)
 
 (use-package counsel-projectile
-  :demand t
   :config
   (counsel-projectile-mode))
 
@@ -179,6 +179,23 @@
 (use-package hydra
   :demand t
   :config
+  (defhydra hydra-projectile (:columns 4)
+    "Projectile"
+    ("f"   projectile-find-file                "Find File")
+    ("r"   projectile-recentf                  "Recent Files")
+    ("z"   projectile-cache-current-file       "Cache Current File")
+    ("x"   projectile-remove-known-project     "Remove Known Project")
+    
+    ("d"   projectile-find-dir                 "Find Directory")
+    ("b"   projectile-switch-to-buffer         "Switch to Buffer")
+    ("c"   projectile-invalidate-cache         "Clear Cache")
+    ("X"   projectile-cleanup-known-projects   "Cleanup Known Projects")
+    
+    ("o"   projectile-multi-occur              "Multi Occur")
+    ("s"   projectile-switch-project           "Switch Project")
+    ("k"   projectile-kill-buffers             "Kill Buffers")
+    ("q"   nil "Cancel" :color blue))
+
   (defhydra hydra-eval (:columns 2)
     "Eval"
     ("b" eval-buffer "buffer" :exit t)
@@ -402,7 +419,9 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (setq shackle-select-reused-windows nil) ; default nil
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
-  (setq shackle-default-rule '(:regexp t :align below :inhibit-window-quit nil :modeline nil))
+  (setq shackle-default-rule '(:select t)
+        shackle-rules '((compilation-mode :noselect t)))
+  ;; '(:align below :inhibit-window-quit nil :select t :modeline nil)
   (shackle-mode 1))
 
 (use-package smart-mode-line
@@ -483,8 +502,6 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (abbrev-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
-
-(add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'focus-out-hook 'garbage-collect)
 
 ;;; Editor Settings
@@ -601,6 +618,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   "C-c a"   'hydra-org/body
   "C-c b"   'mode-line-other-buffer
   "C-c c"   'org-capture
+  "C-c f"   'hydra-projectile/body
   "C-c k"   'counsel-ag
   "C-c l"   'org-store-link
   "C-c R"   '(lambda () (interactive)
