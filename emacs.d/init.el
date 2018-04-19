@@ -292,7 +292,6 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
-
   :config
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
@@ -302,12 +301,10 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
         org-hide-leading-stars nil
         org-log-done nil
         org-log-into-drawer nil
-        org-cycle-separator-lines 2
-        outline-blank-line t            ; newlines are not content
-        ;; org-level-color-stars-only t ; learn to use the first line as a header
         org-return-follows-link t
-        org-tags-column -80
-        org-reverse-note-order t)
+        org-reverse-note-order t
+        org-blank-before-new-entry '((heading . t)
+                                     (plain-list-item . nil)))
 
   (setq org-refile-targets
         '((nil :maxlevel . 1)
