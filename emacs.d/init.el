@@ -68,6 +68,9 @@
 (use-package avy
   :demand t
   :config
+  (defun avy-goto-paren ()
+    (interactive)
+    (avy--generic-jump ")" nil 'pre))
   (setq avy-timeout-seconds 0.2))
 
 (use-package company
@@ -111,7 +114,8 @@
   :init
   (setq evil-want-integration nil
         evil-want-Y-yank-to-eol t
-        evil-vsplit-window-right t)
+        evil-vsplit-window-right t
+        evil-cross-lines t)             ; motions work across newlines
   :config
   (setq evil-search-wrap t
         evil-regexp-search t)
@@ -175,8 +179,16 @@
 (use-package hydra
   :demand t
   :config
+  (defhydra hydra-eval (:columns 2)
+    "Eval"
+    ("b" eval-buffer "buffer" :exit t)
+    ("d" eval-defun "defun" :exit t)
+    ("l" eval-last-sexp "last" :exit t)
+    ("r" eval-region "region" :exit t)
+    ("q" nil "nvm" :color blue))
+
   (defhydra hydra-buffer (:color blue :columns 4)
-    " Buffers: "
+    "Buffers"
     ("n" next-buffer "next" :color red)
     ("p" previous-buffer "prev" :color red)
     ("b" ivy-switch-buffer "ivy-switch")
@@ -185,46 +197,51 @@
     ("s" save-buffer "save" :color red)
     ("d" kill-this-buffer "delete" :color red)
     ;; don't come back to previous buffer after delete
-    ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red))
+    ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red)
+    ("w" delete-window "window" :color red))
 
   (defhydra hydra-org (:color blue :columns 3)
-    " AGENDA: "
+    "Agenda"
     ("A" org-agenda "agenda menu" :color blue)
     ("a" org-agenda-list "agenda" :color blue)
     ("t" org-todo-list "global to do-list" :color blue)
     ("r" org-refile "refile" :color red)
     ("x" org-archive-subtree "archive" :color red))
 
-  (defhydra hydra-toggle (:color blue :columns 2)
-    " Toggle: "
-    ("r" rainbow-mode "rainbow-mode" :color blue)
-    ("f" flyspell-mode "flyspell-mode" :color red)
-    ("p" paredit-mode "paredit" :color blue)
-    ("a" aggressive-indent-mode "aggressive-indent-mode" :color red))
+  (defhydra hydra-toggle (:columns 2)
+    "Toggle"
+    ("r" rainbow-mode "rainbow-mode")
+    ("f" flyspell-mode "flyspell-mode")
+    ("p" paredit-mode "paredit")
+    ("a" aggressive-indent-mode "aggressive-indent-mode")
+    ("q" nil "nothing" :color blue))
 
   (defhydra hydra-compile (:columns 2)
-    " Compile with:"
-    ("m" (compile "make") "make")
-    ("t" (compile "make tex") "make tex")
-    ("c" (compile "make clean") "make clean"))
+    "Make"
+    ("m" (compile "make") "default")
+    ("t" (compile "make tex") "tex")
+    ("c" (compile "make clean") "clean"))
 
-  (defhydra hydra-eyebrowse ()
-    "workspace: "
+  (defhydra hydra-eyebrowse (:hint nil)
+    "
+_0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
+"
+    ("0" eyebrowse-switch-to-window-config-0)
+    ("1" eyebrowse-switch-to-window-config-1)
+    ("2" eyebrowse-switch-to-window-config-2)
+    ("3" eyebrowse-switch-to-window-config-3)
+    ("4" eyebrowse-switch-to-window-config-4)
+    ("5" eyebrowse-switch-to-window-config-5)
+    ("6" eyebrowse-switch-to-window-config-6)
+    ("7" eyebrowse-switch-to-window-config-7)
+    ("8" eyebrowse-switch-to-window-config-8)
+    ("9" eyebrowse-switch-to-window-config-9)
     ("n" eyebrowse-create-window-config "new")
     ("c" eyebrowse-close-window-config "close")
-    (">" eyebrowse-next-window-config "next")
     ("<" eyebrowse-prev-window-config "prev")
-    ("0" eyebrowse-switch-to-window-config-0 "0")
-    ("1" eyebrowse-switch-to-window-config-1 "1")
-    ("2" eyebrowse-switch-to-window-config-2 "2")
-    ("3" eyebrowse-switch-to-window-config-3 "3")
-    ("4" eyebrowse-switch-to-window-config-4 "4")
-    ("5" eyebrowse-switch-to-window-config-5 "5")
-    ("6" eyebrowse-switch-to-window-config-6 "6")
-    ("7" eyebrowse-switch-to-window-config-7 "7")
-    ("8" eyebrowse-switch-to-window-config-8 "8")
-    ("9" eyebrowse-switch-to-window-config-9 "9")))
-     
+    (">" eyebrowse-next-window-config " next")
+    ("q" nil "quit" :color blue)))
+
 
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all)
@@ -535,14 +552,14 @@
 (evil-leader
   "b" 'hydra-buffer/body
   "d" 'dired-jump-other-window
-  "e" 'eval-defun
+  "e" 'hydra-eval/body
   "i" '(lambda () (interactive)
          (find-file user-init-file))
   "gs"'magit-status
   "m" 'counsel-bookmark
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
-  "q" 'kill-buffer-and-window
+  "q" 'delete-window
   "r" 'hydra-compile/body
   "t" 'hydra-toggle/body
   "w" 'hydra-eyebrowse/body
@@ -575,22 +592,23 @@
   (general-chord "jj") 'evil-normal-state)
 
 (general-def :keymaps 'evil-window-map
-  "N" 'evil-window-vnew)
+  "C-n" 'evil-window-vnew)
 
 (general-def :keymaps 'org-agenda-mode-map
   "C-w C-W" 'other-window)
 
 (general-def
+  "C-c a"   'hydra-org/body
+  "C-c b"   'mode-line-other-buffer
+  "C-c c"   'org-capture
+  "C-c k"   'counsel-ag
+  "C-c l"   'org-store-link
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
   "C-c r"   '(lambda () (interactive)
                (revert-buffer :ignore-auto :noconfirm)
                (message "buffer reloaded"))
-  "C-c b"   'mode-line-other-buffer
-  "C-c k"   'counsel-ag
-  "C-c a"   'hydra-org/body
-  "C-c l"   'org-store-link
-  "C-c c"   'org-capture
+  "C-c w"   'hydra-eyebrowse/body
   "C-s"     'swiper
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)
