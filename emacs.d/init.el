@@ -271,6 +271,9 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
     ("c" eyebrowse-close-window-config "close")
     ("<" eyebrowse-prev-window-config "prev")
     (">" eyebrowse-next-window-config " next")
+    ("i" (lambda () (interactive)
+           (eyebrowse-create-window-config)
+           (find-file user-init-file)) "init.el")
     ("q" nil "quit" :color blue)))
 
 (use-package nov
@@ -314,7 +317,11 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   :config
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
-        org-agenda-files '("~/org/todo.org")
+        org-agenda-files '("~/org/todo.org"
+                           "~/org/werk.org"
+                           "~/org/notes.org"
+                           "~/org/foxy.org")
+        org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-archive-location "~/org/archief::datetree/"
         org-startup-indented t
         org-hide-leading-stars nil
@@ -323,6 +330,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
         org-return-follows-link t
         org-reverse-note-order t
         org-M-RET-may-split-line nil
+        org-outline-path-complete-in-steps nil         ; Refile in a single go
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path t
         org-blank-before-new-entry '((heading . nil)
@@ -348,8 +356,6 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
           ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?"))))
 
 ;; global org-capture
-
-
 (defadvice org-capture-finalize
     (after delete-capture-frame activate)
   "Advise capture-finalize to close the frame."
