@@ -68,7 +68,7 @@
 (use-package avy
   :demand t
   :config
-  (defun avy-goto-paren ()
+  (defun pfn-avy-goto-paren ()
     (interactive)
     (avy--generic-jump ")" nil 'pre))
   (setq avy-timeout-seconds 0.2))
@@ -136,7 +136,10 @@
 
 (use-package evil-surround
   :demand t
-  :config (global-evil-surround-mode))
+  :config
+  (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
+  (push '(?_ . ("_" . "_")) evil-surround-pairs-alist)
+  (global-evil-surround-mode))
 
 (use-package evil-embrace
   :after evil-surround
@@ -159,6 +162,7 @@
   (eyebrowse-mode t))
 
 (use-package flycheck
+  :delight " Fly"
   :config
   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
@@ -179,22 +183,31 @@
 (use-package hydra
   :demand t
   :config
+  (defhydra hydra-avy (:columns 2)
+    ("a" evil-avy-goto-word-1-above "word above")
+    ("o" evil-avy-goto-word-1-below "word below")
+    ("e" evil-avy-goto-line "line")
+
+    ("u" evil-avy-goto-char-timer "char")
+    ("i" pfn-avy-goto-paren "paren")
+    ("q" nil "quit"))
+
   (defhydra hydra-projectile (:columns 4)
     "Projectile"
-    ("f"   projectile-find-file                "Find File")
-    ("r"   projectile-recentf                  "Recent Files")
-    ("z"   projectile-cache-current-file       "Cache Current File")
-    ("x"   projectile-remove-known-project     "Remove Known Project")
-    
-    ("d"   projectile-find-dir                 "Find Directory")
-    ("b"   projectile-switch-to-buffer         "Switch to Buffer")
-    ("c"   projectile-invalidate-cache         "Clear Cache")
-    ("X"   projectile-cleanup-known-projects   "Cleanup Known Projects")
-    
-    ("o"   projectile-multi-occur              "Multi Occur")
-    ("s"   projectile-switch-project           "Switch Project")
-    ("k"   projectile-kill-buffers             "Kill Buffers")
-    ("q"   nil "Cancel" :color blue))
+    ("a"   counsel-projectile                  "Jump")
+    ("o"   projectile-recentf                  "Recent Files")
+    ("e"   counsel-projectile-find-file        "Find File")
+    ("u"   projectile-cache-current-file       "Cache Current File")
+
+    ("d"   counsel-projectile-find-dir         "Find Directory")
+    ("h"   counsel-projectile-switch-to-buffer "Switch to Buffer")
+    ("t"   projectile-invalidate-cache         "Clear Cache")
+    ("n"   projectile-cleanup-known-projects   "Cleanup Known Projects")
+
+    ("p"   counsel-projectile-ag               "Counsel-ag")
+    ("."   counsel-projectile-switch-project   "Switch Project")
+    (","   projectile-kill-buffers             "Kill Buffers")
+    ("q"   nil "Quit" :color blue))
 
   (defhydra hydra-eval (:columns 2)
     "Eval"
@@ -206,16 +219,17 @@
 
   (defhydra hydra-buffer (:color blue :columns 4)
     "Buffers"
-    ("n" next-buffer "next" :color red)
-    ("p" previous-buffer "prev" :color red)
+    ("<" previous-buffer "prev")
+    (">" next-buffer "next")
     ("b" ivy-switch-buffer "ivy-switch")
     ("B" ibuffer "ibuffer")
     ("N" evil-buffer-new "new")
-    ("s" save-buffer "save" :color red)
+    ("s" save-buffer "save")
     ("d" kill-this-buffer "delete" :color red)
-    ;; don't come back to previous buffer after delete
     ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red)
-    ("w" delete-window "window" :color red))
+    ("w" delete-window "window" :color red)
+    ("W" kill-buffer-and-window "buf/win" :color red)
+    ("E" save-buffers-kill-emacs "emacs" :color red))
 
   (defhydra hydra-org (:color blue :columns 3)
     "Agenda"
@@ -259,6 +273,8 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
     (">" eyebrowse-next-window-config " next")
     ("q" nil "quit" :color blue)))
 
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode))
 
 (use-package magit
   :commands (magit-status magit-blame magit-log-buffer-file magit-log-all)
@@ -277,13 +293,16 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
 
 (use-package projectile
   :demand t
+  :delight '(:eval (concat " PRJ:" (projectile-project-name)))
   :config
   (projectile-mode))
 
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
+
 ;;; ORRRRG
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
@@ -300,31 +319,24 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
         org-startup-indented t
         org-hide-leading-stars nil
         org-log-done nil
-        org-log-into-drawer nil
+        org-log-into-drawer t
         org-return-follows-link t
         org-reverse-note-order t
-        org-blank-before-new-entry '((heading . t)
+        org-M-RET-may-split-line nil
+        org-refile-allow-creating-parent-nodes t
+        org-refile-use-outline-path t
+        org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil)))
 
-  (setq org-refile-targets
-        '((nil :maxlevel . 1)
-          (org-agenda-files :maxlevel . 1)))
-
+  (setq org-todo-keywords '((sequence "TODO" "WAITING" "BEZIG" "|" "DONE" "CANCELED")
+                            (sequence "AFSPRAAK" "VERPLAATST" "|" "DONE" "AFGEZEGD")
+                            (type "|" "READ" "IDEE")))
   (setq org-todo-keyword-faces
-        '(;("TODO" . "#c991e1")
-          ("AFSPRAAK" . "#aaffe4")
+        '(("AFSPRAAK" . "#aaffe4")
           ("BELLEN" . "#aaffe4")
-          ("INTAKE" . "#aaffe4")
           ("CANCELED" . "#ff5458")
           ("READ" . "#65b2ff")
           ("IDEE" . "#65b2ff")))
-
-  ;; (set-face-attribute 'org-level-1 nil :foreground "#87ffff")
-  ;; (set-face-attribute 'org-level-2 nil :foreground "#87d7ff")
-  ;; (set-face-attribute 'org-level-3 nil :foreground "#5fffaf")
-  ;; (set-face-attribute 'org-level-4 nil :foreground "#87ffff")
-  ;; (set-face-attribute 'org-level-5 nil :foreground "#87d7ff")
-  ;; (set-face-attribute 'org-level-6 nil :foreground "#5fffaf")
 
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
@@ -336,6 +348,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
           ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?"))))
 
 ;; global org-capture
+
 
 (defadvice org-capture-finalize
     (after delete-capture-frame activate)
@@ -371,6 +384,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (setq truncate-lines nil)
   (org-capture))
 
+
 (use-package org-pdfview
   :demand t
   :after org
@@ -379,10 +393,10 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
                '("\\.pdf\\'" . (lambda (file link)
                                  (org-pdfview-open link)))))
 
-;;; And on we go:
 
 (use-package paredit
   :demand t
+  :delight " ()"
   :config
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (add-hook 'racket-mode-hook 'paredit-mode))
@@ -429,13 +443,14 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
   (setq sml/mode-width 'full)
-  (setq rm-whitelist (format "^ \\(%s\\)$"
-                             (mapconcat #'identity
-                                        '("=>" "Paredit" "Elpy")
-                                        "\\|")))
+  (add-to-list 'rm-whitelist " ()")
+  (add-to-list 'rm-whitelist " Fly")
+  (add-to-list 'rm-whitelist " Outl")
+  (add-to-list 'rm-whitelist " =>")
+  (add-to-list 'rm-whitelist " PRJ:.*?")
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/thesis" ":TH:") t)
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/" ":PRJ:") t)
-  (add-to-list 'sml/replacer-regexp-list '("^~/dotfiles" ":.F:") t)
+  (add-to-list 'sml/replacer-regexp-list '("^~/dotfiles" ":DF:"))
   (sml/setup))
 
 (use-package which-key
@@ -458,6 +473,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (yas-global-mode 1))
 
 
+
 ;;; Utility functions
 (defun pfn-cycle-themes ()
   "Cycle through available themes."
@@ -474,11 +490,6 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'fringe nil :inherit 'line-number)))
 
-(defun pfn-revert-buffer-no-confirm ()
-  "Revert buffer without confirmation."
-  (interactive)
-  (revert-buffer :ignore-auto :noconfirm)
-  (message "buffer reloaded"))
 
 ;;; Hooks
 (defun pfn-setup-prog-mode ()
@@ -533,6 +544,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+(setq default-input-method "dutch")
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -567,20 +579,19 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   "b" 'hydra-buffer/body
   "d" 'dired-jump-other-window
   "e" 'hydra-eval/body
+  "f" 'hydra-projectile/body
   "i" '(lambda () (interactive)
          (find-file user-init-file))
-  "gs"'magit-status
-  "m" 'counsel-bookmark
+  "m" 'hydra-compile/body
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
   "q" 'delete-window
-  "r" 'hydra-compile/body
+  "s" 'magit-status
   "t" 'hydra-toggle/body
   "w" 'hydra-eyebrowse/body
-  "x" 'counsel-M-x
   "." 'mode-line-other-buffer
   "," 'other-window
-  ":" 'counsel-find-file)
+  "-" 'counsel-find-file)
 
 (general-omap
   "C-a" 'avy-goto-word-or-subword-1
@@ -615,7 +626,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   "C-c a"   'hydra-org/body
   "C-c b"   'mode-line-other-buffer
   "C-c c"   'org-capture
-  "C-c f"   'hydra-projectile/body
+  "C-c f"   'hydra-avy/body
   "C-c k"   'counsel-ag
   "C-c l"   'org-store-link
   "C-c R"   '(lambda () (interactive)
@@ -624,6 +635,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
                (revert-buffer :ignore-auto :noconfirm)
                (message "buffer reloaded"))
   "C-c w"   'hydra-eyebrowse/body
+  "C-c x"   'org-archive-subtree
   "C-s"     'swiper
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)

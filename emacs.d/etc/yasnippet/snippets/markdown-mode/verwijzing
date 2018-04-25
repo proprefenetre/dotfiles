@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: verwijzing
+# key: [@
+# --
+[@$1 $2]$0

@@ -36,4 +36,6 @@ unclutter &
 
 redshift &
 
+emacs --daemon
+
 exec i3
