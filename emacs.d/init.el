@@ -235,9 +235,20 @@
     "Agenda"
     ("A" org-agenda "agenda menu" :color blue)
     ("a" org-agenda-list "agenda" :color blue)
-    ("t" org-todo-list "global to do-list" :color blue)
+    ("t" org-todo-list "global to do-list" :color blue))
+
+  (defhydra hydra-todo (:color blue :columns 3)
+    "States"
+    ("d" (org-todo 'done) "DONE")
+    ("b" (org-todo "BEZIG") "BEZIG")
+    ("w" (org-todo "WAITING") "WAITING")
+
+    ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
+    ("w" (org-todo "VERPLAATST") "VERPLAATST")
+    ("c" (org-todo "CANCELED") "CANCELED")
     ("r" org-refile "refile" :color red)
-    ("x" org-archive-subtree "archive" :color red))
+    ("x" org-archive-subtree "archive" :color red)
+    ("q" nil "nvm" :color red))
 
   (defhydra hydra-toggle (:columns 2)
     "Toggle"
@@ -583,7 +594,8 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
 
 (evil-leader
   "b" 'hydra-buffer/body
-  "d" 'dired-jump-other-window
+  "c" 'hydra-todo/body
+  "d" 'dired-jump
   "e" 'hydra-eval/body
   "f" 'hydra-projectile/body
   "i" '(lambda () (interactive)
@@ -655,7 +667,6 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
         try-expand-dabbrev-from-kill))
 
 ;;; starting up
-(setq initial-buffer-choice "~/org/todo.org")
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; lower garbace collection threshold
