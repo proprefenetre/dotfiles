@@ -183,6 +183,12 @@
 (use-package hydra
   :demand t
   :config
+  (defhydra hydra-table (:columns 2)
+    ("k" (org-table-insert-row) "insert row above")
+    ("j" (org-table-insert-row 1) "insert row below")
+    ("l" (org-table-insert-column) "insert column")
+    ("q" nil "nvm"))
+
   (defhydra hydra-avy (:columns 2)
     ("a" evil-avy-goto-word-1-above "word above")
     ("o" evil-avy-goto-word-1-below "word below")
@@ -264,9 +270,10 @@
     ("t" (compile "make tex") "tex")
     ("c" (compile "make clean") "clean"))
 
-  (defhydra hydra-eyebrowse (:hint nil)
+  (defhydra hydra-eyebrowse (:hint nil :columns 3)
     "
-_0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
+
+^^^^_0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
 "
     ("0" eyebrowse-switch-to-window-config-0)
     ("1" eyebrowse-switch-to-window-config-1)
@@ -279,12 +286,16 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
     ("8" eyebrowse-switch-to-window-config-8)
     ("9" eyebrowse-switch-to-window-config-9)
     ("n" eyebrowse-create-window-config "new")
-    ("c" eyebrowse-close-window-config "close")
-    ("<" eyebrowse-prev-window-config "prev")
-    (">" eyebrowse-next-window-config " next")
+    ("o" (lambda () (interactive)
+           (let* ((curdir default-directory)
+                  (eyebrowse-create-window-config)
+                  (find-file (read-file-name "open file: " curdir))))) "file in new")
     ("i" (lambda () (interactive)
            (eyebrowse-create-window-config)
            (find-file user-init-file)) "init.el")
+    ("c" eyebrowse-close-window-config "close")
+    ("<" eyebrowse-prev-window-config "prev")
+    (">" eyebrowse-next-window-config " next")
     ("q" nil "quit" :color blue)))
 
 (use-package nov
@@ -622,7 +633,8 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   "<ret>" 'org-open-at-point
   "RET"   'org-open-at-point
   "<tab>" 'org-cycle
-  "TAB"   'org-cycle)
+  "TAB"   'org-cycle
+  "C-c 1" 'hydra-table/body)
 
 (general-mmap
   "j"       'evil-next-visual-line
@@ -635,7 +647,7 @@ _0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
   (general-chord "jj") 'evil-normal-state)
 
 (general-def :keymaps 'evil-window-map
-  "C-n" 'evil-window-vnew)
+  "N" 'evil-window-vnew)
 
 (general-def :keymaps 'org-agenda-mode-map
   "C-w C-W" 'other-window)
