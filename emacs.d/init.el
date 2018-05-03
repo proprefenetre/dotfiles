@@ -243,17 +243,20 @@
     ("a" org-agenda-list "agenda" :color blue)
     ("t" org-todo-list "global to do-list" :color blue))
 
-  (defhydra hydra-todo (:color blue :columns 3)
+  (defhydra hydra-todo (:color blue :columns 4)
     "States"
+    ("SPC" (org-todo 'none) "clear")
     ("d" (org-todo 'done) "DONE")
     ("b" (org-todo "BEZIG") "BEZIG")
-    ("w" (org-todo "WAITING") "WAITING")
 
+    ("w" (org-todo "WAITING") "WAITING")
     ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
     ("w" (org-todo "VERPLAATST") "VERPLAATST")
+
     ("c" (org-todo "CANCELED") "CANCELED")
     ("r" org-refile "refile" :color red)
     ("x" org-archive-subtree "archive" :color red)
+
     ("q" nil "nvm" :color red))
 
   (defhydra hydra-toggle (:columns 2)
@@ -270,31 +273,36 @@
     ("t" (compile "make tex") "tex")
     ("c" (compile "make clean") "clean"))
 
-  (defhydra hydra-eyebrowse (:hint nil :columns 3)
+  (defhydra hydra-eyebrowse (:hint nil :columns 5)
     "
 
-^^^^_0_    _1_    _2_    _3_     _4_     _5_    _6_    _7_    _8_     _9_
+^^^^_0_    _1_    _2_    _3_    _4_    _5_    _6_    _7_    _8_     _9_
 "
-    ("0" eyebrowse-switch-to-window-config-0)
-    ("1" eyebrowse-switch-to-window-config-1)
-    ("2" eyebrowse-switch-to-window-config-2)
-    ("3" eyebrowse-switch-to-window-config-3)
-    ("4" eyebrowse-switch-to-window-config-4)
-    ("5" eyebrowse-switch-to-window-config-5)
-    ("6" eyebrowse-switch-to-window-config-6)
-    ("7" eyebrowse-switch-to-window-config-7)
-    ("8" eyebrowse-switch-to-window-config-8)
-    ("9" eyebrowse-switch-to-window-config-9)
+    ("0" eyebrowse-switch-to-window-config-0 :exit t)
+    ("1" eyebrowse-switch-to-window-config-1 :exit t)
+    ("2" eyebrowse-switch-to-window-config-2 :exit t)
+
+    ("3" eyebrowse-switch-to-window-config-3 :exit t)
+    ("4" eyebrowse-switch-to-window-config-4 :exit t)
+    ("5" eyebrowse-switch-to-window-config-5 :exit t)
+
+    ("6" eyebrowse-switch-to-window-config-6 :exit t)
+    ("7" eyebrowse-switch-to-window-config-7 :exit t)
+    ("8" eyebrowse-switch-to-window-config-8 :exit t)
+
+    ("9" eyebrowse-switch-to-window-config-9 :exit t)
     ("n" eyebrowse-create-window-config "new")
     ("o" (lambda () (interactive)
-           (let* ((curdir default-directory)
+           (let* ((curdir defaul :exit tt-directory)
                   (eyebrowse-create-window-config)
-                  (find-file (read-file-name "open file: " curdir))))) "file in new")
+                  (find-file (read-file :exit t-name "open file: " curdir))))) "file in new")
+
     ("i" (lambda () (interactive)
            (eyebrowse-create-window-config)
            (find-file user-init-file)) "init.el")
     ("c" eyebrowse-close-window-config "close")
     ("<" eyebrowse-prev-window-config "prev")
+
     (">" eyebrowse-next-window-config " next")
     ("q" nil "quit" :color blue)))
 
@@ -371,8 +379,8 @@
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
           ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
-          ("t" "todo" entry (file+headline "~/org/todo.org" "Needs") "* TODO %?")
-          ("l" "link" entry (file+headline "~/org/todo.org" "Needs") "* READ [[%?][]]")
+          ("t" "todo" entry (file+headline "~/org/todo.org" "To do") "* TODO %?")
+          ("l" "link" entry (file+headline "~/org/todo.org" "To do") "* [[%?][]]")
           ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")
           ("s" "scriptie note" entry (file+headline "~/projects/thesis/todo.org" "Notes") "* %?")
           ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?"))))
@@ -458,9 +466,7 @@
   (setq shackle-select-reused-windows nil) ; default nil
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
-  (setq shackle-default-rule '(:select t)
-        shackle-rules '((compilation-mode :noselect t)))
-  ;; '(:align below :inhibit-window-quit nil :select t :modeline nil)
+  (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
 (use-package smart-mode-line
