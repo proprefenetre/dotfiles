@@ -92,8 +92,7 @@
   :config
   (setq company-idle-delay 0.3
         company-selection-wrap-around t)
-  (add-to-list 'company-backends 'org-keyword-backend)
-  (global-company-mode))
+  (add-to-list 'company-backends 'org-keyword-backend))
 
 (use-package counsel
   :demand t)
@@ -112,13 +111,15 @@
 (use-package evil
   :demand t
   :init
-  (setq evil-want-integration nil
+  (setq evil-want-integration nil)
+  :config
+  (setq evil-search-wrap t
+        evil-regexp-search t
+        evil-complete-next-func 'hippie-expand
         evil-want-Y-yank-to-eol t
         evil-vsplit-window-right t
         evil-cross-lines t)             ; motions work across newlines
-  :config
-  (setq evil-search-wrap t
-        evil-regexp-search t)
+  
   (setq evil-emacs-state-cursor '("#906cff" box)
         evil-normal-state-cursor '("#91ddff" box)
         evil-motion-state-cursor '("#65b2ff" hollow)
@@ -243,20 +244,19 @@
     ("a" org-agenda-list "agenda" :color blue)
     ("t" org-todo-list "global to do-list" :color blue))
 
-  (defhydra hydra-todo (:color blue :columns 4)
+  (defhydra hydra-todo (:color blue :columns 3)
     "States"
     ("SPC" (org-todo 'none) "clear")
     ("d" (org-todo 'done) "DONE")
     ("b" (org-todo "BEZIG") "BEZIG")
-
     ("w" (org-todo "WAITING") "WAITING")
-    ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
-    ("w" (org-todo "VERPLAATST") "VERPLAATST")
 
+    ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
+    ("v" (org-todo "VERPLAATST") "VERPLAATST")
     ("c" (org-todo "CANCELED") "CANCELED")
     ("r" org-refile "refile" :color red)
-    ("x" org-archive-subtree "archive" :color red)
 
+    ("x" org-archive-subtree "archive" :color red)
     ("q" nil "nvm" :color red))
 
   (defhydra hydra-toggle (:columns 2)
@@ -281,28 +281,19 @@
     ("0" eyebrowse-switch-to-window-config-0 :exit t)
     ("1" eyebrowse-switch-to-window-config-1 :exit t)
     ("2" eyebrowse-switch-to-window-config-2 :exit t)
-
     ("3" eyebrowse-switch-to-window-config-3 :exit t)
     ("4" eyebrowse-switch-to-window-config-4 :exit t)
     ("5" eyebrowse-switch-to-window-config-5 :exit t)
-
     ("6" eyebrowse-switch-to-window-config-6 :exit t)
     ("7" eyebrowse-switch-to-window-config-7 :exit t)
     ("8" eyebrowse-switch-to-window-config-8 :exit t)
-
     ("9" eyebrowse-switch-to-window-config-9 :exit t)
     ("n" eyebrowse-create-window-config "new")
-    ("o" (lambda () (interactive)
-           (let* ((curdir defaul :exit tt-directory)
-                  (eyebrowse-create-window-config)
-                  (find-file (read-file :exit t-name "open file: " curdir))))) "file in new")
-
     ("i" (lambda () (interactive)
            (eyebrowse-create-window-config)
-           (find-file user-init-file)) "init.el")
+           (find-file user-init-file)) "init.el" :exit t)
     ("c" eyebrowse-close-window-config "close")
     ("<" eyebrowse-prev-window-config "prev")
-
     (">" eyebrowse-next-window-config " next")
     ("q" nil "quit" :color blue)))
 
@@ -378,7 +369,7 @@
 
   (setq org-capture-templates
         '(("w" "word" entry (file+headline "~/org/dict.org" "Words") "* %? :: ")
-          ("W" "usage" entry (file+headline "~/org/dict.org" "Usage") "* %? :: ")
+          ("W" "terminologie" entry (file+headline "~/org/dict.org" "Terminologie") "* %? ")
           ("t" "todo" entry (file+headline "~/org/todo.org" "To do") "* TODO %?")
           ("l" "link" entry (file+headline "~/org/todo.org" "To do") "* [[%?][]]")
           ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")
@@ -534,11 +525,13 @@
   (display-line-numbers-mode)
   (delete-trailing-whitespace)
   (flycheck-mode 1)
-  (outline-minor-mode))
+  (outline-minor-mode)
+  (company-mode-on))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
+  (delete-trailing-whitespace)
   (turn-on-auto-fill)
   (rainbow-delimiters-mode 1)
   (abbrev-mode 1))
