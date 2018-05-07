@@ -313,11 +313,11 @@
   (add-hook 'markdown-mode-hook 'turn-on-olivetti-mode)
   :config
   (font-lock-add-keywords 'markdown-mode
-                          '(("@[[:alnum:]]+" . font-lock-keyword-face))))
+                          '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
 
 (use-package projectile
   :demand t
-  :delight '(:eval (concat " PRJ:" (projectile-project-name)))
+  ;; :delight '(:eval (concat " PRJ:" (projectile-project-name)))
   :config
   (projectile-mode))
 
@@ -472,7 +472,7 @@
   (add-to-list 'rm-whitelist " Fly")
   (add-to-list 'rm-whitelist " Outl")
   (add-to-list 'rm-whitelist " =>")
-  (add-to-list 'rm-whitelist " PRJ:.*?")
+  (add-to-list 'rm-whitelist " Projectile.*")
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/thesis" ":TH:") t)
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/" ":PRJ:") t)
   (add-to-list 'sml/replacer-regexp-list '("^~/dotfiles" ":DF:"))
@@ -595,6 +595,7 @@
       ispell-extra-args '("-a" "utf-8"))
 
 ;;; Custom Keys
+
 (general-evil-setup)
 
 (general-create-definer evil-leader
@@ -609,7 +610,7 @@
   "e" 'hydra-eval/body
   "i" '(lambda () (interactive)
          (find-file user-init-file))
-  "m" 
+  ;; "m"
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
   "q" 'delete-window
@@ -657,30 +658,30 @@
   "C-c a"   'hydra-org/body
   "C-c b"   'hydra-buffer/body
   "C-c c"   'org-capture
-  "C-c d"   'hydra-todo/body   
-  ;; "C-c e"   
+  "C-c d"   'hydra-todo/body
+  ;; "C-c e"
   "C-c f"   'hydra-projectile/body
-  ;; "C-c g"   
-  ;; "C-c h"   
-  ;; "C-c i"   
-  ;; "C-c j"   
+  ;; "C-c g"
+  ;; "C-c h"
+  ;; "C-c i"
+  ;; "C-c j"
   "C-c k"   'counsel-ag
   "C-c l"   'org-store-link
   "C-c m"   'hydra-compile/body
-  ;; "C-c n"   
-  ;; "C-c o"   
-  ;; "C-c p"   
-  ;; "C-c q"   
+  ;; "C-c n"
+  ;; "C-c o"
+  ;; "C-c p"
+  ;; "C-c q"
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
-  ;; "C-c s"   
-  "C-c t"   'hydra-toggle/body   
+  ;; "C-c s"
+  "C-c t"   'hydra-toggle/body
   "C-c u"   'evil-avy-goto-char-timer
-  ;; "C-c v"   
+  ;; "C-c v"
   "C-c w"   'hydra-eyebrowse/body
   "C-c x"   'org-archive-subtree
-  ;; "C-c y"   
-  ;; "C-c z"   
+  ;; "C-c y"
+  ;; "C-c z"
   "C-s"     'swiper
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)
