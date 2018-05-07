@@ -119,7 +119,7 @@
         evil-want-Y-yank-to-eol t
         evil-vsplit-window-right t
         evil-cross-lines t)             ; motions work across newlines
-  
+
   (setq evil-emacs-state-cursor '("#906cff" box)
         evil-normal-state-cursor '("#91ddff" box)
         evil-motion-state-cursor '("#65b2ff" hollow)
@@ -603,21 +603,23 @@
   :non-normal-prefix "M-,")
 
 (evil-leader
-  "b" 'hydra-buffer/body
-  "c" 'hydra-todo/body
+  "b" 'mode-line-other-buffer
+  ;; "c"
   "d" 'dired-jump
   "e" 'hydra-eval/body
-  "f" 'hydra-projectile/body
   "i" '(lambda () (interactive)
          (find-file user-init-file))
-  "m" 'hydra-compile/body
+  "m" 
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
   "q" 'delete-window
+  "r" '(lambda () (interactive)
+         (revert-buffer :ignore-auto :noconfirm))
+  "R" '(lambda () (interactive)
+         (load-file user-init-file)
+         (message "buffer reloaded"))
   "s" 'magit-status
-  "t" 'hydra-toggle/body
-  "w" 'hydra-eyebrowse/body
-  "." 'mode-line-other-buffer
+  ;; "t"
   "," 'other-window
   "-" 'counsel-find-file)
 
@@ -631,8 +633,8 @@
   :keymaps 'org-mode-map
   "<ret>" 'org-open-at-point
   "RET"   'org-open-at-point
-  "<tab>" 'org-cycle
-  "TAB"   'org-cycle
+  ;; "<tab>" 'org-cycle
+  ;; "TAB"   'org-cycle
   "C-c 1" 'hydra-table/body)
 
 (general-mmap
@@ -653,18 +655,32 @@
 
 (general-def
   "C-c a"   'hydra-org/body
-  "C-c b"   'mode-line-other-buffer
+  "C-c b"   'hydra-buffer/body
   "C-c c"   'org-capture
-  "C-c f"   'hydra-avy/body
+  "C-c d"   'hydra-todo/body   
+  ;; "C-c e"   
+  "C-c f"   'hydra-projectile/body
+  ;; "C-c g"   
+  ;; "C-c h"   
+  ;; "C-c i"   
+  ;; "C-c j"   
   "C-c k"   'counsel-ag
   "C-c l"   'org-store-link
+  "C-c m"   'hydra-compile/body
+  ;; "C-c n"   
+  ;; "C-c o"   
+  ;; "C-c p"   
+  ;; "C-c q"   
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
-  "C-c r"   '(lambda () (interactive)
-               (revert-buffer :ignore-auto :noconfirm)
-               (message "buffer reloaded"))
+  ;; "C-c s"   
+  "C-c t"   'hydra-toggle/body   
+  "C-c u"   'evil-avy-goto-char-timer
+  ;; "C-c v"   
   "C-c w"   'hydra-eyebrowse/body
   "C-c x"   'org-archive-subtree
+  ;; "C-c y"   
+  ;; "C-c z"   
   "C-s"     'swiper
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)
