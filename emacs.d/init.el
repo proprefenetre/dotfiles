@@ -27,7 +27,7 @@
 
 ;; use-package
 
-;; (package-initialize)                    ; emacs 27+ does this for you. TIL
+(package-initialize)                    ; emacs 27+ does this for you. TIL
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -638,16 +638,17 @@
   :keymaps 'org-mode-map
   "<ret>" 'org-open-at-point
   "RET"   'org-open-at-point
-  ;; "<tab>"   'org-cycle
-  ;; "TAB"   'org-cycle
   "C-c 1" 'hydra-table/body)
 
 (general-mmap
   "j"       'evil-next-visual-line
   "k"       'evil-previous-visual-line
-  ;; "<tab>"   'outline-toggle-children
-  ;; "TAB"     'outline-toggle-children
   "C-e"     'evil-end-of-line)
+
+(general-def
+  :states 'normal
+  :keymaps 'image-mode-map
+  "," nil)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state)
