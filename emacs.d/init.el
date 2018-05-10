@@ -60,11 +60,14 @@
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
 ;;; Packages
+(use-package academic-phrases)
+
 (use-package aggressive-indent
   :demand t
   :config
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 
+(use-package aggressive-fill-paragraph)
 (use-package avy
   :demand t
   :config
@@ -531,6 +534,7 @@
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
+  (aggressive-fill-paragraph-mode)
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
   (rainbow-delimiters-mode 1)
@@ -634,15 +638,15 @@
   :keymaps 'org-mode-map
   "<ret>" 'org-open-at-point
   "RET"   'org-open-at-point
-  ;; "<tab>" 'org-cycle
+  ;; "<tab>"   'org-cycle
   ;; "TAB"   'org-cycle
   "C-c 1" 'hydra-table/body)
 
 (general-mmap
   "j"       'evil-next-visual-line
   "k"       'evil-previous-visual-line
-  "<tab>"   'outline-toggle-children
-  "TAB"     'outline-toggle-children
+  ;; "<tab>"   'outline-toggle-children
+  ;; "TAB"     'outline-toggle-children
   "C-e"     'evil-end-of-line)
 
 (general-def :keymaps 'evil-insert-state-map
