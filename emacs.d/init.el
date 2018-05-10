@@ -27,7 +27,7 @@
 
 ;; use-package
 
-;; (package-initialize)                    ; emacs 27+ does this for you. TIL
+(package-initialize)                    ; emacs 27+ does this for you. TIL
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -119,7 +119,7 @@
         evil-want-Y-yank-to-eol t
         evil-vsplit-window-right t
         evil-cross-lines t)             ; motions work across newlines
-  
+
   (setq evil-emacs-state-cursor '("#906cff" box)
         evil-normal-state-cursor '("#91ddff" box)
         evil-motion-state-cursor '("#65b2ff" hollow)
@@ -631,8 +631,8 @@
   :keymaps 'org-mode-map
   "<ret>" 'org-open-at-point
   "RET"   'org-open-at-point
-  "<tab>" 'org-cycle
-  "TAB"   'org-cycle
+  ;; "<tab>" 'org-cycle
+  ;; "TAB"   'org-cycle
   "C-c 1" 'hydra-table/body)
 
 (general-mmap
@@ -641,6 +641,11 @@
   "<tab>"   'outline-toggle-children
   "TAB"     'outline-toggle-children
   "C-e"     'evil-end-of-line)
+
+(general-def
+  :states 'normal
+  :keymaps 'image-mode-map
+  "," nil)
 
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state)
