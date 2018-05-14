@@ -247,19 +247,20 @@
     ("a" org-agenda-list "agenda" :color blue)
     ("t" org-todo-list "global to do-list" :color blue))
 
-  (defhydra hydra-todo (:color blue :columns 3)
-    "States"
-    ("SPC" (org-todo 'none) "clear")
+  (defhydra hydra-todo (:columns 4)
+    "Stuff"
+    ("t" (org-todo) "TODO")
     ("d" (org-todo 'done) "DONE")
     ("b" (org-todo "BEZIG") "BEZIG")
     ("w" (org-todo "WAITING") "WAITING")
-
     ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
     ("v" (org-todo "VERPLAATST") "VERPLAATST")
     ("c" (org-todo "CANCELED") "CANCELED")
-    ("r" org-refile "refile" :color red)
-
-    ("x" org-archive-subtree "archive" :color red)
+    ("SPC" (org-todo 'none) "clear")
+    ("T" (find-file "~/org/todo.org") "todo.org")
+    ("N" (find-file "~/org/notes.org") "todo.org")
+    ("r" org-refile "refile" :color blue)
+    ("x" org-archive-subtree "archive" :color blue)
     ("q" nil "nvm" :color red))
 
   (defhydra hydra-toggle (:columns 2)
@@ -267,7 +268,8 @@
     ("r" rainbow-mode "rainbow-mode")
     ("f" flyspell-mode "flyspell-mode")
     ("p" paredit-mode "paredit")
-    ("a" aggressive-indent-mode "aggressive-indent-mode")
+    ("a" aggressive-indent-mode "aggressive-indent-mode") 
+    ("A" aggressive-fill-paragraph-mode "aggressive-fill-paragraph-mode")
     ("q" nil "nothing" :color blue))
 
   (defhydra hydra-compile (:columns 2)
