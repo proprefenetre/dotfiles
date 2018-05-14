@@ -41,8 +41,6 @@ bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec $editor
 
-bindsym $mod+c exec emacsclient -n -c -e '(make-capture-frame)'
-
 # stuff
 # take a screenshot
 bindsym $mod+shift+d exec --no-startup-id scrot -e 'mv $f ~/pics/'
