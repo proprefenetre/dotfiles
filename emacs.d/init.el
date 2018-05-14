@@ -68,6 +68,7 @@
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 
 (use-package aggressive-fill-paragraph)
+
 (use-package avy
   :demand t
   :config
@@ -95,7 +96,8 @@
   :config
   (setq company-idle-delay 0.3
         company-selection-wrap-around t)
-  (add-to-list 'company-backends 'org-keyword-backend))
+  (add-to-list 'company-backends 'org-keyword-backend)
+  (add-hook 'nxml-mode 'company-mode))
 
 (use-package counsel
   :demand t)
@@ -320,17 +322,14 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
 
-(use-package projectile
-  :demand t
-  ;; :delight '(:eval (concat " PRJ:" (projectile-project-name)))
+(use-package projectile  :demand t
+  :delight '(:eval (concat " PRJ:" (projectile-project-name)))
   :config
   (projectile-mode))
 
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
-
-;;; ORRRRG
 
 (use-package org
   :ensure org-plus-contrib
@@ -435,10 +434,11 @@
   (column-number-mode t)
   (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
+  (setq sml/shorten-modes nil)
+  (setq sml/name-width 40)
   (setq sml/mode-width 'full)
   (add-to-list 'rm-whitelist " ()")
   (add-to-list 'rm-whitelist " Fly")
-  (add-to-list 'rm-whitelist " Outl")
   (add-to-list 'rm-whitelist " =>")
   (add-to-list 'rm-whitelist " Projectile.*")
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/thesis" ":TH:") t)
@@ -465,8 +465,6 @@
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (yas-global-mode 1))
 
-
-
 ;;; Utility functions
 (defun pfn-cycle-themes ()
   "Cycle through available themes."
@@ -482,7 +480,6 @@
     (load-theme next t)
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'fringe nil :inherit 'line-number)))
-
 
 ;;; Hooks
 (defun pfn-setup-prog-mode ()
@@ -533,7 +530,8 @@
  window-combination-resize t   ; Resize windows proportionally
  x-stretch-cursor t            ; Stretch cursor to the glyph width
  vc-follow-symlinks t                         ; so you end up at the file itself rather than editing the link
- large-file-warning-threshold nil)
+ large-file-warning-threshold nil
+ tab-always-indent 'complete)
 
 (set-language-environment 'utf-8)
 (setq locale-coding-system 'utf-8)
@@ -553,7 +551,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
@@ -616,7 +614,9 @@
   "," nil)
 
 (general-def :keymaps 'evil-insert-state-map
-  (general-chord "jj") 'evil-normal-state)
+  (general-chord "jj") 'evil-normal-state
+  "TAB" 'company-complete-common-or-cycle)
+
 
 (general-def :keymaps 'evil-window-map
   "N" 'evil-window-vnew)
@@ -653,8 +653,9 @@
   ;; "C-c y"
   ;; "C-c z"
   "C-s"     'swiper
-  "M-/"     'hippie-expand
-  "<M-tab>" 'company-complete-common-or-cycle)
+  ;; "M-/"     'hippie-expand
+  ;; "<M-tab>" 'company-complete-common-or-cycle
+  )
 
 ;; completion
 (setq hippie-expand-try-functions-list
