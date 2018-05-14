@@ -8,7 +8,7 @@
 export HISTSIZE=50000
 export HISTFILESIZE=50000
 export PROMPT_COMMAND='history -a'
-
+export CM_SELECTIONS=clipboard
 export EDITOR='emacsclient -n -c'
 export ALTERNATE_EDITOR=""
 export PATH="${PATH}:$HOME/bin:$HOME/.cargo/bin"
