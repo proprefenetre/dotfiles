@@ -13,14 +13,13 @@ fi
 
 if [ "$(hostname)" = "archbook" ]; then
     libinput-gestures &
+    keeb -dvc
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
+    keeb -dv
     xbindkeys &
 fi
-
-parcellite &
-keeb -dv
 
 mount drijf
 
@@ -28,14 +27,12 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-# urxvtd --quiet --fork --opendisplay
-
 unclutter &
-
-/home/niels/bin/setbg &
+clipmenud &
+hsetroot -fill "~/pics/wallpapers/molokai-background.png" &
 
 redshift &
-
 emacs --daemon &
 
-exec i3
+# exec i3
+exec openbox-session
