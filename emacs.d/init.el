@@ -65,6 +65,7 @@
 (use-package aggressive-indent
   :demand t
   :config
+  (add-hook 'TeX-mode-hook 'aggressive-indent-mode)
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 
 (use-package aggressive-fill-paragraph)
@@ -270,7 +271,7 @@
     ("r" rainbow-mode "rainbow-mode")
     ("f" flyspell-mode "flyspell-mode")
     ("p" paredit-mode "paredit")
-    ("a" aggressive-indent-mode "aggressive-indent-mode") 
+    ("a" aggressive-indent-mode "aggressive-indent-mode")
     ("A" aggressive-fill-paragraph-mode "aggressive-fill-paragraph-mode")
     ("q" nil "nothing" :color blue))
 
@@ -298,7 +299,8 @@
     ("n" eyebrowse-create-window-config "new")
     ("i" (lambda () (interactive)
            (eyebrowse-create-window-config)
-           (find-file user-init-file)) "init.el" :exit t)
+           (find-file user-init-file)
+           (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el")) "init.el" :exit t)
     ("c" eyebrowse-close-window-config "close")
     ("<" eyebrowse-prev-window-config "prev")
     (">" eyebrowse-next-window-config " next")
@@ -319,6 +321,7 @@
   (setq markdown-command "pandoc")
   (add-hook 'markdown-mode-hook 'turn-on-olivetti-mode)
   :config
+  (add-hook 'markdown-mode-hook 'aggressive-fill-paragraph-mode)
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
 
@@ -343,7 +346,6 @@
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org"
-                           "~/org/werk.org"
                            "~/org/notes.org"
                            "~/org/foxy.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
@@ -364,6 +366,7 @@
   (setq org-todo-keywords '((sequence "TODO" "WAITING" "BEZIG" "|" "DONE" "CANCELED")
                             (sequence "AFSPRAAK" "VERPLAATST" "|" "DONE" "AFGEZEGD")
                             (type "|" "READ" "IDEE")))
+
   (setq org-todo-keyword-faces
         '(("AFSPRAAK" . "#aaffe4")
           ("BELLEN" . "#aaffe4")
@@ -425,6 +428,7 @@
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
   (setq shackle-default-rule '(:select t :align 'below))
+  (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)))
   (shackle-mode 1))
 
 (use-package smart-mode-line
@@ -496,7 +500,6 @@
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
-  (aggressive-fill-paragraph-mode)
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
   (rainbow-delimiters-mode 1)
@@ -653,6 +656,7 @@
   ;; "C-c y"
   ;; "C-c z"
   "C-s"     'swiper
+  "C-c )"   'pfn-avy-goto-paren
   ;; "M-/"     'hippie-expand
   ;; "<M-tab>" 'company-complete-common-or-cycle
   )
