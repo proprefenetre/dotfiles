@@ -65,10 +65,11 @@
 (use-package aggressive-indent
   :demand t
   :config
-  (add-hook 'tex-mode-hook 'aggressive-indent-mode)
+  (add-hook 'TeX-mode-hook 'aggressive-indent-mode)
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
 
 (use-package aggressive-fill-paragraph)
+
 (use-package avy
   :demand t
   :config
@@ -367,6 +368,7 @@
   (setq org-todo-keywords '((sequence "TODO" "WAITING" "BEZIG" "|" "DONE" "CANCELED")
                             (sequence "AFSPRAAK" "VERPLAATST" "|" "DONE" "AFGEZEGD")
                             (type "|" "READ" "IDEE")))
+
   (setq org-todo-keyword-faces
         '(("AFSPRAAK" . "#aaffe4")
           ("BELLEN" . "#aaffe4")
@@ -655,6 +657,7 @@
   ;; "C-c y"
   ;; "C-c z"
   "C-s"     'swiper
+  "C-c )"   'pfn-avy-goto-paren
   "M-/"     'hippie-expand
   "<M-tab>" 'company-complete-common-or-cycle)
 
