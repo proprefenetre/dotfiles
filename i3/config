@@ -36,7 +36,7 @@ set $backup_term xterm
 set $editor emacsclient -n -c
 
 bindsym $mod+Return exec $term
-bindsym $mod+apostrophe exec gmrun
+bindsym $mod+apostrophe exec dmenu_run -l 5
 bindsym $mod+Shift+Return exec $backup_term
 bindsym $mod+Shift+u exec $term -name scratch
 bindsym $mod+g exec $editor
