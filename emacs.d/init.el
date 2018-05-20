@@ -27,7 +27,7 @@
 
 ;; use-package
 
-(package-initialize)                    ; emacs 27+ does this for you. TIL
+;;; (package-initialize)                    ; emacs 27+ does this for you. TIL
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -124,6 +124,7 @@
         evil-complete-next-func 'hippie-expand
         evil-want-Y-yank-to-eol t
         evil-vsplit-window-right t
+        evil-split-window-below t
         evil-cross-lines t)             ; motions work across newlines
 
   (setq evil-emacs-state-cursor '("#906cff" box)
@@ -351,7 +352,6 @@
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-archive-location "~/org/archief::datetree/"
         org-startup-indented t
-        org-hide-leading-stars nil
         org-log-done nil
         org-log-into-drawer t
         org-return-follows-link t
@@ -381,7 +381,9 @@
           ("l" "link" entry (file+headline "~/org/todo.org" "To do") "* [[%?][]]")
           ("n" "note" entry (file+headline "~/org/todo.org" "Notes") "* %?")
           ("s" "scriptie note" entry (file+headline "~/projects/thesis/todo.org" "Notes") "* %?")
-          ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?"))))
+          ("S" "scriptie todo" entry (file+headline "~/projects/thesis/todo.org" "To Do") "* TODO %?")))
+
+  (add-to-list 'org-structure-template-alist '("ll" "#+BEGIN_LATEX latex\n?\n#+END_LATEX")))
 
 (use-package org-pdfview
   :demand t
@@ -541,7 +543,7 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-(setq default-input-method "dutch")
+(setq default-input-method "latin-postfix")
 
 (show-paren-mode t)
 (fset 'yes-or-no-p 'y-or-n-p)
