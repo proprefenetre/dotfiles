@@ -12,11 +12,13 @@ fi
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = "archbook" ]; then
+    hsetroot -fill "~/pics/wallpapers/molokai-background.png" &
     libinput-gestures &
     keeb -dvc
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
+    hsetroot -fill /home/niels/pics/sunset-originial.png
     keeb -dv
     xbindkeys &
 fi
@@ -28,11 +30,12 @@ xset fp rehash
 xset m 1 0
 
 unclutter &
+
 clipmenud &
-hsetroot -fill "~/pics/wallpapers/molokai-background.png" &
 
 redshift &
 emacs --daemon &
 
 # exec i3
-exec openbox-session
+# exec openbox-session
+exec bspwm

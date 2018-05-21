@@ -428,7 +428,8 @@
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
   (setq shackle-default-rule '(:select t :align 'below))
-  (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)))
+  (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)
+                        ("\\`\\*Man .*\\*\\'" :regexp t :same t)))
   (shackle-mode 1))
 
 (use-package smart-mode-line
