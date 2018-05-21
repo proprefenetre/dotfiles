@@ -28,15 +28,15 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-# urxvtd --quiet --fork --opendisplay
-
 unclutter &
 
-hsetroot -fill /home/niels/pics/sunset-originial.png
+hsetroot -fill /home/niels/pics/sunset-originial.png &
 
 redshift &
 
 emacs --daemon &
+
+xterm -class Scratchpad -e /home/niels/bin/scratch &
 
 exec bspwm
 
