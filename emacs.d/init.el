@@ -564,6 +564,9 @@
       ispell-dictionary "english"
       ispell-extra-args '("-a" "utf-8"))
 
+;;; tramp
+(setq tramp-default-method "ssh")
+
 ;;; Custom Keys
 
 (general-evil-setup)
