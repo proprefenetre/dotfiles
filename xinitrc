@@ -32,10 +32,12 @@ xset m 1 0
 
 unclutter &
 
-/home/niels/bin/setbg &
+hsetroot -fill /home/niels/pics/sunset-originial.png
 
 redshift &
 
 emacs --daemon &
 
-exec i3
+exec bspwm
+
+# exec i3
