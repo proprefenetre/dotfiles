@@ -12,8 +12,7 @@ fi
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = "archbook" ]; then
-    hsetroot -fill "~/pics/wallpapers/molokai-background.png" &
-    libinput-gestures &
+    # libinput-gestures &
     keeb -dvc
 fi
 if [ "$(hostname)" = "PFN" ]; then
@@ -30,8 +29,6 @@ xset fp rehash
 xset m 1 0
 
 unclutter &
-
-clipmenud &
 
 redshift &
 emacs --daemon &
