@@ -112,6 +112,10 @@ mod4 + ctrl + shift + space
 # move/resize
 #
 
+# rotate 90 deg
+super + r
+    bspc node @parent -R 90
+
 # expand a window by moving one of its side outward
 mod4 + alt + {d,h,t,n}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}

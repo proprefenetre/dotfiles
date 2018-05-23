@@ -12,12 +12,10 @@ fi
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = "archbook" ]; then
-    # libinput-gestures &
     keeb -dvc
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
-    hsetroot -fill /home/niels/pics/sunset-originial.png
     keeb -dv
     xbindkeys &
 fi
@@ -30,8 +28,12 @@ xset m 1 0
 
 unclutter &
 
+hsetroot -fill /home/niels/pics/sunset-originial.png &
+
 redshift &
 emacs --daemon &
+
+xterm -class Scratchpad -e /home/niels/bin/scratch &
 
 # exec i3
 # exec openbox-session
