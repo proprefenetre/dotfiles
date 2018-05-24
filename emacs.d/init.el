@@ -430,7 +430,8 @@
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
   (setq shackle-default-rule '(:select t :align 'below))
-  (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)))
+  (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)
+                        ("\\`\\*Man .*\\*\\'" :regexp t :same t)))
   (shackle-mode 1))
 
 (use-package smart-mode-line
@@ -556,7 +557,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
@@ -565,6 +566,9 @@
 (setq ispell-silently-savep t
       ispell-dictionary "english"
       ispell-extra-args '("-a" "utf-8"))
+
+;;; tramp
+(setq tramp-default-method "ssh")
 
 ;;; Custom Keys
 
