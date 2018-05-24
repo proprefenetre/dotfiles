@@ -555,7 +555,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
