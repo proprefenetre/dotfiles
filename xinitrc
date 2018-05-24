@@ -13,26 +13,22 @@ fi
 
 if [ "$(hostname)" = "archbook" ]; then
     libinput-gestures &
+    keeb -dvc &
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
+    hsetroot -fill ~/pics/galaxy.png
     xbindkeys &
+    keeb -dv &
 fi
 
-parcellite &
-keeb -dv
-
-mount drijf
+mount drijf &
 
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-# urxvtd --quiet --fork --opendisplay
-
 unclutter &
-
-/home/niels/bin/setbg &
 
 redshift &
 
