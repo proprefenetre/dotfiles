@@ -12,15 +12,19 @@ fi
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
 if [ "$(hostname)" = "archbook" ]; then
-    keeb -dvc
+    hsetroot -fill /home/niels/pics/wallpapers/lighthouse.jpg &
+    keeb -dvc &
+    # low power level warning for until I've fixed a panel
+    battery3 &
+
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
+    hsetroot -fill /home/niels/pics/sunset-originial.png &
     keeb -dv
-    xbindkeys &
 fi
 
-mount drijf
+mount drijf &
 
 xset +fp /usr/share/fonts/local
 xset fp rehash
@@ -28,13 +32,7 @@ xset m 1 0
 
 unclutter &
 
-hsetroot -fill /home/niels/pics/sunset-originial.png &
-
 redshift &
 emacs --daemon &
 
-xterm -class Scratchpad -e /home/niels/bin/scratch &
-
-# exec i3
-# exec openbox-session
 exec bspwm
