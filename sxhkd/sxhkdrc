@@ -10,13 +10,12 @@ mod4 + Return
 mod4 + @apostrophe
 	dmenu_run -l 5
 
-# scratchpad
-mod4 + u
-	id=$(cat /tmp/scratchid); bspc node $id --flag hidden; bspc node -f $id
-
 # make sxhkd reload its configuration files:
 mod4 + Escape
 	pkill -USR1 -x sxhkd
+
+mod4 + e
+    emax
 
 #
 # bspwm hotkeys
