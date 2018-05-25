@@ -13,6 +13,12 @@ mod4 + e
 mod4 + @apostrophe
 	dmenu_run -l 5
 
+mod4 + shift + @apostrophe
+    passmenu --type -l 5
+
+mod4 + v
+    clipmenu -l 5
+
 # create a receptacle
 mod4 + shift + Return
     bspc node -i

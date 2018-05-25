@@ -35,8 +35,4 @@ unclutter &
 redshift &
 emacs --daemon &
 
-# bspwm scratchpad
-xterm -class scratch &
-bspc query -N -n .hidden > /tmp/scratchid &
-
 exec bspwm
