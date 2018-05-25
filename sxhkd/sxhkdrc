@@ -13,6 +13,10 @@ mod4 + e
 mod4 + @apostrophe
 	dmenu_run -l 5
 
+# create a receptacle
+mod4 + shift + Return
+    bspc node -i
+
 # make sxhkd reload its configuration files:
 mod4 + Escape
 	pkill -USR1 -x sxhkd
@@ -37,6 +41,11 @@ mod4 + {a,shift + a,s,f}
 mod4 + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
+# toggle scratchpad
+mod4 + u
+   id=$(cat /tmp/scratchid); \
+   bspc node $id --flag hidden
+
 # alternate between the tiled and monocle layout
 mod4 + l
 	bspc desktop -l next
@@ -48,6 +57,7 @@ mod4 + y
 # swap the current node and the biggest node
 mod4 + g
 	bspc node -s biggest.local
+
 
 #
 # focus/swap
@@ -123,3 +133,5 @@ mod4 + alt + shift + {d,h,t,n}
 # move a floating window
 mod4 + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# -*-Conf-*-
