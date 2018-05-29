@@ -6,9 +6,6 @@
 mod4 + Return
 	xterm
 
-mod4 + e
-    emax
-
 # program launcher
 mod4 + @apostrophe
 	dmenu_run -l 5
@@ -26,6 +23,9 @@ mod4 + shift + Return
 # make sxhkd reload its configuration files:
 mod4 + Escape
 	pkill -USR1 -x sxhkd
+
+mod4 + e
+    emax
 
 #
 # bspwm hotkeys
@@ -47,10 +47,6 @@ mod4 + {a,shift + a,s,f}
 mod4 + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
-# toggle scratchpad
-mod4 + u
-   id=$(cat /tmp/scratchid); \
-   bspc node $id --flag hidden
 
 # alternate between the tiled and monocle layout
 mod4 + l
@@ -66,6 +62,10 @@ mod4 + g
 
 
 #
+# state/flags
+#
+
+#
 # focus/swap
 #
 
@@ -77,17 +77,16 @@ mod4 + {_,shift + }{d,h,t,n}
 mod4 + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
-# # focus the next/previous node in the current desktop
-# mod4 + {_,shift + }semicolon
-# 	bspc node -f {next,prev}.local
+# focus the next/previous node in the current desktop
+mod4 + {_,shift + }semicolon
+	bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
-# mod4 + bracket{left,right}
-mod4 + {semicolon,q}
+mod4 + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-mod4 + {_,shift +}Tab
+mod4 + {grave,Tab}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history

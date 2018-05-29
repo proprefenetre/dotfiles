@@ -20,8 +20,8 @@ if [ "$(hostname)" = "archbook" ]; then
 fi
 if [ "$(hostname)" = "PFN" ]; then
     "$HOME"/bin/mhead -e
-    hsetroot -fill /home/niels/pics/galaxy.png &
-    keeb -dv &
+    hsetroot -fill /home/niels/pics/sunset-originial.png &
+    keeb -dv
 fi
 
 mount drijf &
