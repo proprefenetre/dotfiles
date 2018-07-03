@@ -1,4 +1,4 @@
-;;; transform-word.el -- transform word or region
+;;; custom-functions.el -- transform word or region
 ;;; commentary:
 ;;; code:
 
@@ -14,4 +14,5 @@
       (insert (mapconcat (function (lambda (x) (format fmt x)))
                          (split-string text) " ")))))
 
-;;; transform-word.el ends here
+(provide 'custom-functions)
+;;; custom-functions.el ends here

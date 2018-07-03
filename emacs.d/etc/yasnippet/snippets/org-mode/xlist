@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: xlist
+# key: xlist
+# --
+\begin{xlist}
+$1
+\end{xlist}

@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: case table
+# key: ctab
+# --
+
+#+caption: $1 {#tbl:$2}
+| Case       | Noun |
+|------------+------|
+| Nominative |      |
+| Genitive   |      |
+| Dative     |      |
+| Accusative |      |
+| Vocative   |      |
+| Ablative   |      |

@@ -48,10 +48,10 @@
 ;;; theme
 (setq custom-safe-themes t)
 
-(use-package challenger-deep-theme)
-(use-package nord-theme)
+;; (use-package challenger-deep-theme)
+;; (use-package nord-theme)
 
-(load-theme 'challenger-deep t)
+;; (load-theme 'challenger-deep t)
 
 (fringe-mode '(8 . 8))
 
@@ -429,7 +429,7 @@
   (setq shackle-select-reused-windows nil) ; default nil
   (setq shackle-default-alignment 'below) ; default below
   (setq shackle-default-size 0.3) ; default 0.5
-  (setq shackle-default-rule '(:select t :align 'below))
+  (setq shackle-default-rule '(:select t))
   (setq shackle-rules '(("\\`\\*edit-indirect .*\\*\\'" :regexp t :same t)
                         ("\\`\\*Man .*\\*\\'" :regexp t :same t)))
   (shackle-mode 1))
@@ -439,7 +439,7 @@
   :config
   (line-number-mode t)
   (column-number-mode t)
-  (setq sml/theme 'respectful)
+  (setq sml/theme 'light)
   (setq sml/modified-char "+")
   (setq sml/shorten-modes nil)
   (setq sml/name-width 40)
@@ -557,7 +557,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 
 (setq display-line-numbers-width 4
       display-line-numbers-width-start 3
@@ -628,7 +628,7 @@
 
 
 (general-def :keymaps 'evil-window-map
-  "N" 'evil-window-vnew)
+  "N" 'evil-window-vsplit)
 
 (general-def :keymaps 'org-agenda-mode-map
   "C-w C-W" 'other-window)
@@ -637,7 +637,7 @@
   "C-c a"   'hydra-org/body
   "C-c b"   'hydra-buffer/body
   "C-c c"   'org-capture
-  "C-c d"   'hydra-todo/body
+  "C-c t"   'hydra-todo/body
   ;; "C-c e"
   "C-c f"   'hydra-projectile/body
   ;; "C-c g"
@@ -654,7 +654,7 @@
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
   ;; "C-c s"
-  "C-c t"   'hydra-toggle/body
+  "C-c d"   'hydra-toggle/body
   "C-c u"   'evil-avy-goto-char-timer
   ;; "C-c v"
   "C-c w"   'hydra-eyebrowse/body
@@ -676,6 +676,8 @@
         try-expand-dabbrev-from-kill))
 
 ;;; starting up
+(require 'custom-functions)
+
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; lower garbace collection threshold

@@ -60,7 +60,7 @@ mod4 + y
 mod4 + g
 	bspc node -s biggest.local
 
-
+mod4 +
 #
 # state/flags
 #

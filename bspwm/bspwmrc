@@ -3,7 +3,12 @@
 sxhkd &
 panel &
 
-bspc monitor -d I II III IV V
+if [[ $(hostname) == 'PFN' ]]; then
+     bspc monitor VGA-1 -d I II III IV V
+     bspc monitor LVDS-1 -d VI VII VIII IX X
+elif [[ $(hostname) == 'archbook' ]]; then
+     bspc monitor -d I II III IV V
+fi
 
 bspc config border_width         2
 bspc config window_gap           8
