@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: ref
+# key: ref
+# --
+  - id: $1 
+    type: $2
+    title: >
+      \"$3\"
+    author:
+      - family: \"$4\"
+        given: \"$5\"
+    editor:
+      - family: \"$6\"
+        given: \"$7\"
+    publisher: \"$8\"
+    publisher-place: \"$9\"
+    issued:
+      - year: $10

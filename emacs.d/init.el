@@ -191,20 +191,6 @@
 (use-package hydra
   :demand t
   :config
-  (defhydra hydra-table (:columns 2)
-    ("k" (org-table-insert-row) "insert row above")
-    ("j" (org-table-insert-row 1) "insert row below")
-    ("l" (org-table-insert-column) "insert column")
-    ("q" nil "nvm"))
-
-  (defhydra hydra-avy (:columns 2)
-    ("a" evil-avy-goto-word-1-above "word above")
-    ("o" evil-avy-goto-word-1-below "word below")
-    ("e" evil-avy-goto-line "line")
-
-    ("u" evil-avy-goto-char-timer "char")
-    ("i" pfn-avy-goto-paren "paren")
-    ("q" nil "quit"))
 
   (defhydra hydra-projectile (:columns 4)
     "Projectile"
@@ -223,89 +209,111 @@
     (","   projectile-kill-buffers             "Kill Buffers")
     ("q"   nil "Quit" :color blue))
 
-  (defhydra hydra-eval (:columns 2)
+  (defhydra hydra-eval (:columns 2 :color blue)
     "Eval"
-    ("b" eval-buffer "buffer" :exit t)
-    ("d" eval-defun "defun" :exit t)
-    ("l" eval-last-sexp "last" :exit t)
-    ("r" eval-region "region" :exit t)
-    ("q" nil "nvm" :color blue))
+    ("b" eval-buffer "buffer")
+    ("d" eval-defun "defun")
+    ("l" eval-last-sexp "last")
+    ("r" eval-region "region")
+    ("q" nil "nvm"))
 
-  (defhydra hydra-buffer (:color blue :columns 4)
+  (defhydra hydra-buffer (:columns 4 :color blue) 
     "Buffers"
-    ("<" previous-buffer "prev")
-    (">" next-buffer "next")
-    ("b" ivy-switch-buffer "ivy-switch")
+    ("<" previous-buffer "prev" :color red)
+    (">" next-buffer "next" :color red)
     ("B" ibuffer "ibuffer")
     ("N" evil-buffer-new "new")
     ("s" save-buffer "save")
-    ("d" kill-this-buffer "delete" :color red)
-    ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red)
-    ("w" delete-window "window" :color red)
-    ("W" kill-buffer-and-window "buf/win" :color red)
-    ("E" save-buffers-kill-emacs "emacs" :color red))
+    ("d" kill-this-buffer "delete buffer" :color red)
+    ("w" delete-window "kill window" :color red)
+    ("W" kill-buffer-and-window "kill buffer and window" :color red)
+    ("E" save-buffers-kill-emacs "kill all" :color red))
 
-  (defhydra hydra-org (:color blue :columns 3)
-    "Agenda"
-    ("A" org-agenda "agenda menu" :color blue)
-    ("a" org-agenda-list "agenda" :color blue)
-    ("t" org-todo-list "global to do-list" :color blue))
-
-  (defhydra hydra-todo (:columns 4)
-    "Stuff"
+  (defhydra hydra-todo (:columns 4 :color red)
+    "Todos"
     ("t" (org-todo) "TODO")
     ("d" (org-todo 'done) "DONE")
     ("b" (org-todo "BEZIG") "BEZIG")
     ("w" (org-todo "WAITING") "WAITING")
+    ("f" (org-todo "FEEDBACK") "FEEDBACK")
     ("a" (org-todo "AFSPRAAK") "AFSPRAAK")
     ("v" (org-todo "VERPLAATST") "VERPLAATST")
     ("c" (org-todo "CANCELED") "CANCELED")
     ("SPC" (org-todo 'none) "clear")
     ("T" (find-file "~/org/todo.org") "todo.org")
-    ("N" (find-file "~/org/notes.org") "todo.org")
+    ("N" (find-file "~/org/notes.org") "notes.org")
+
     ("r" org-refile "refile" :color blue)
     ("x" org-archive-subtree "archive" :color blue)
-    ("q" nil "nvm" :color red))
+    ("q" nil "nvm" :color blue)
+    ("A" org-agenda "agenda" :color blue))
 
-  (defhydra hydra-toggle (:columns 2)
-    "Toggle"
-    ("r" rainbow-mode "rainbow-mode")
-    ("f" flyspell-mode "flyspell-mode")
-    ("p" paredit-mode "paredit")
-    ("a" aggressive-indent-mode "aggressive-indent-mode")
-    ("A" aggressive-fill-paragraph-mode "aggressive-fill-paragraph-mode")
-    ("q" nil "nothing" :color blue))
+  (defvar rainbow-mode nil)
+  (defhydra hydra-toggle (:color pink)
+    "
 
-  (defhydra hydra-compile (:columns 2)
+  ^Toggle^                             ^State^
+  ^─^──────────────────────────────────^─────^
+  _a_ aggressive-indent-mode:          [%`aggressive-indent-mode]
+  _A_ aggressive-fill-paragraph-mode:  [%`aggressive-fill-paragraph-mode]
+  _b_ abbrev-mode:                     [%`abbrev-mode]
+  _c_ rainbow-mode:                    [%`rainbow-mode]
+  _d_ flyspell:                        [%`flyspell-mode]
+  _D_ flycheck:                        [%`flycheck-mode]
+  _e_ paredit:                         [%`paredit-mode]
+  _f_ debug-on-error:                  [%`debug-on-error]
+  _q_ nvm.
+  ^─^──────────────────────────────────^─────^
+"
+    ("a" aggressive-indent-mode nil)
+    ("A" aggressive-fill-paragraph-mode nil)
+    ("b" abbrev-mode nil)
+    ("c" rainbow-mode nil)
+    ("d" flyspell-mode nil)
+    ("D" flycheck-mode nil)
+    ("e" paredit-mode nil)
+    ("f" debug-on-error nil)
+    ("q" nil nil :color blue))
+  
+
+  (defhydra hydra-compile (:columns 2 :color blue)
     "Make"
     ("m" (compile "make") "default")
     ("t" (compile "make tex") "tex")
-    ("c" (compile "make clean") "clean"))
+    ("c" (compile "make clean") "clean")
+    ("i" (compile "make install") "install"))
 
-  (defhydra hydra-eyebrowse (:hint nil :columns 5)
+  (defun pfn-eyebrowse-open-init ()
+    (eyebrowse-create-window-config)
+    (find-file user-init-file)
+    (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el"))
+
+  (defhydra hydra-eyebrowse (:color red)
     "
-
-^^^^_0_    _1_    _2_    _3_    _4_    _5_    _6_    _7_    _8_     _9_
+  Workspaces
+  ^─^───^─^───^─^────^─────────^──^────────^─^────────^
+  _0_   _1_   _2_     _c_ close    _i_ init   _n_ new
+  _3_   _4_   _5_     ^ ^          ^ ^        ^ ^
+  _6_   _7_   _8_     _<_ prev     _>_ next   _q_ quit
+  ^ ^   _9_   ^ ^     ^ ^          ^ ^        ^ ^
+  ^─^───^─^───^─^────^─────────^─^─────────^─^────────^
 "
-    ("0" eyebrowse-switch-to-window-config-0 :exit t)
-    ("1" eyebrowse-switch-to-window-config-1 :exit t)
-    ("2" eyebrowse-switch-to-window-config-2 :exit t)
-    ("3" eyebrowse-switch-to-window-config-3 :exit t)
-    ("4" eyebrowse-switch-to-window-config-4 :exit t)
-    ("5" eyebrowse-switch-to-window-config-5 :exit t)
-    ("6" eyebrowse-switch-to-window-config-6 :exit t)
-    ("7" eyebrowse-switch-to-window-config-7 :exit t)
-    ("8" eyebrowse-switch-to-window-config-8 :exit t)
-    ("9" eyebrowse-switch-to-window-config-9 :exit t)
-    ("n" eyebrowse-create-window-config "new")
-    ("i" (lambda () (interactive)
-           (eyebrowse-create-window-config)
-           (find-file user-init-file)
-           (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el")) "init.el" :exit t)
-    ("c" eyebrowse-close-window-config "close")
-    ("<" eyebrowse-prev-window-config "prev")
-    (">" eyebrowse-next-window-config " next")
-    ("q" nil "quit" :color blue)))
+    ("0" eyebrowse-switch-to-window-config-0 nil)
+    ("1" eyebrowse-switch-to-window-config-1 nil)
+    ("2" eyebrowse-switch-to-window-config-2 nil)
+    ("3" eyebrowse-switch-to-window-config-3 nil)
+    ("4" eyebrowse-switch-to-window-config-4 nil)
+    ("5" eyebrowse-switch-to-window-config-5 nil)
+    ("6" eyebrowse-switch-to-window-config-6 nil)
+    ("7" eyebrowse-switch-to-window-config-7 nil)
+    ("8" eyebrowse-switch-to-window-config-8 nil)
+    ("9" eyebrowse-switch-to-window-config-9 nil)
+    ("n" eyebrowse-create-window-config nil)
+    ("i" pfn-eyebrowse-open-init nil)
+    ("c" eyebrowse-close-window-config nil)
+    ("<" eyebrowse-prev-window-config nil)
+    (">" eyebrowse-next-window-config nil)
+    ("q" nil nil :color blue)))
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
