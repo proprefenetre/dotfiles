@@ -14,5 +14,19 @@
       (insert (mapconcat (function (lambda (x) (format fmt x)))
                          (split-string text) " ")))))
 
+(defun pfn-cycle-themes ()
+  "Cycle through available themes."
+  (interactive)
+  (let* ((themes [challenger-deep nord])
+         (idx-before (if (get 'pfn-cycle-themes 'state)
+                         (get 'pfn-cycle-themes 'state) 0))
+         (idx-after (% (+ idx-before (length themes) 1) (length themes)))
+         (prev (aref themes idx-before))
+         (next (aref themes idx-after)))
+    (put 'pfn-cycle-themes 'state idx-after)
+    (disable-theme prev)
+    (load-theme next t)
+    (set-face-attribute 'line-number nil :background 'unspecified)
+    (set-face-attribute 'fringe nil :inherit 'line-number)))
 (provide 'custom-functions)
 ;;; custom-functions.el ends here

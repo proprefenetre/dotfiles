@@ -107,6 +107,12 @@
   :config
   (counsel-projectile-mode))
 
+(use-package dashboard
+  :init
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  :config
+  (dashboard-setup-startup-hook))
+
 (use-package elpy
   :after python-mode
   :init
@@ -192,18 +198,12 @@
   :demand t
   :config
 
-  (defhydra hydra-projectile (:columns 4)
+  (defhydra hydra-projectile (:columns 2)
     "Projectile"
     ("a"   counsel-projectile                  "Jump")
-    ("o"   projectile-recentf                  "Recent Files")
+    ("o"   counsel-recentf                  "Recent Files")
     ("e"   counsel-projectile-find-file        "Find File")
-    ("u"   projectile-cache-current-file       "Cache Current File")
-
-    ("d"   counsel-projectile-find-dir         "Find Directory")
     ("h"   counsel-projectile-switch-to-buffer "Switch to Buffer")
-    ("t"   projectile-invalidate-cache         "Clear Cache")
-    ("n"   projectile-cleanup-known-projects   "Cleanup Known Projects")
-
     ("p"   counsel-projectile-ag               "Counsel-ag")
     ("."   counsel-projectile-switch-project   "Switch Project")
     (","   projectile-kill-buffers             "Kill Buffers")
@@ -217,17 +217,25 @@
     ("r" eval-region "region")
     ("q" nil "nvm"))
 
-  (defhydra hydra-buffer (:columns 4 :color blue) 
-    "Buffers"
-    ("<" previous-buffer "prev" :color red)
-    (">" next-buffer "next" :color red)
-    ("B" ibuffer "ibuffer")
-    ("N" evil-buffer-new "new")
-    ("s" save-buffer "save")
-    ("d" kill-this-buffer "delete buffer" :color red)
-    ("w" delete-window "kill window" :color red)
-    ("W" kill-buffer-and-window "kill buffer and window" :color red)
-    ("E" save-buffers-kill-emacs "kill all" :color red))
+  (defhydra hydra-buffer(:color pink :hint nil)
+    "
+  ^Buffer^        ^kill^
+  ^^^^^^^------------------------
+  _<_: previous   _b_: buffer
+  _>_: next       _w_: window
+  _n_: new        _W_: both
+  _s_: save       _E_: Emacs
+  _q_: nvm
+"
+    ("<" previous-buffer)
+    (">" next-buffer)
+    ("n" evil-buffer-new)
+    ("s" evil-save)
+    ("b" kill-buffer)
+    ("w" evil-window-delete)
+    ("W" kill-buffer-and-window)
+    ("E" save-buffers-kill-emacs)
+    ("q" nil nil :color blue))
 
   (defhydra hydra-todo (:columns 4 :color red)
     "Todos"
@@ -274,7 +282,7 @@
     ("e" paredit-mode nil)
     ("f" debug-on-error nil)
     ("q" nil nil :color blue))
-  
+
 
   (defhydra hydra-compile (:columns 2 :color blue)
     "Make"
@@ -290,13 +298,12 @@
 
   (defhydra hydra-eyebrowse (:color red)
     "
-  Workspaces
-  ^─^───^─^───^─^────^─────────^──^────────^─^────────^
-  _0_   _1_   _2_     _c_ close    _i_ init   _n_ new
-  _3_   _4_   _5_     ^ ^          ^ ^        ^ ^
-  _6_   _7_   _8_     _<_ prev     _>_ next   _q_ quit
-  ^ ^   _9_   ^ ^     ^ ^          ^ ^        ^ ^
-  ^─^───^─^───^─^────^─────────^─^─────────^─^────────^
+  ^Workspaces^
+  ^^^^^^^^-----------------------
+  _0_  _1_  _2_    _c_lose
+  _3_  _4_  _5_    _i_nit.el
+  _6_  _7_  _8_    _n_ew
+  _<_  _9_  _>_    _q_uit
 "
     ("0" eyebrowse-switch-to-window-config-0 nil)
     ("1" eyebrowse-switch-to-window-config-1 nil)
@@ -642,11 +649,11 @@
   "C-w C-W" 'other-window)
 
 (general-def
-  "C-c a"   'hydra-org/body
+  ;; "C-c a"
   "C-c b"   'hydra-buffer/body
   "C-c c"   'org-capture
-  "C-c t"   'hydra-todo/body
-  ;; "C-c e"
+  "C-c d"   'hydra-toggle/body
+  "C-c e"   'hydra-eval/body
   "C-c f"   'hydra-projectile/body
   ;; "C-c g"
   ;; "C-c h"
@@ -662,7 +669,7 @@
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
   ;; "C-c s"
-  "C-c d"   'hydra-toggle/body
+  "C-c t"   'hydra-todo/body
   "C-c u"   'evil-avy-goto-char-timer
   ;; "C-c v"
   "C-c w"   'hydra-eyebrowse/body
