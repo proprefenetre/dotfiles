@@ -292,11 +292,12 @@
     ("i" (compile "make install") "install"))
 
   (defun pfn-eyebrowse-open-init ()
+    (interactive)
     (eyebrowse-create-window-config)
     (find-file user-init-file)
     (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el"))
 
-  (defhydra hydra-eyebrowse (:color red)
+  (defhydra hydra-eyebrowse (:color blue)
     "
   ^Workspaces^
   ^^^^^^^^-----------------------
@@ -320,7 +321,7 @@
     ("c" eyebrowse-close-window-config nil)
     ("<" eyebrowse-prev-window-config nil)
     (">" eyebrowse-next-window-config nil)
-    ("q" nil nil :color blue)))
+    ("q" nil nil)))
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
@@ -535,8 +536,8 @@
  indent-tabs-mode nil      ; Stop using tabs to indent
  tab-width 4               ; Set width for tabs
  fill-column 80            ; Set width for automatic line breaks
- inhibit-splash-screen t   ; Disable start-up screen
- inhibit-startup-message t ; No startup-message
+ ;; inhibit-splash-screen t   ; Disable start-up screen
+ ;; inhibit-startup-message t ; No startup-message
  visual-bell nil           ; plz no visual bell
  ring-bell-function 'ignore
  mouse-yank-at-point t     ; Yank at point rather than pointer
