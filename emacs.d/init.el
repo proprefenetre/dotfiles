@@ -108,10 +108,14 @@
   (counsel-projectile-mode))
 
 (use-package dashboard
+  :demand t
   :init
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents  . 5)
+                          (bookmarks . 5)
+                          (projects . 5))))
 
 (use-package elpy
   :after python-mode
@@ -153,6 +157,7 @@
   :config
   (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
   (push '(?_ . ("_" . "_")) evil-surround-pairs-alist)
+  (push '(?/ . ("/" . "/")) evil-surround-pairs-alist)
   (global-evil-surround-mode))
 
 (use-package evil-embrace
@@ -219,12 +224,12 @@
 
   (defhydra hydra-buffer(:color pink :hint nil)
     "
-  ^Buffer^        ^kill^
-  ^^^^^^^------------------------
-  _<_: previous   _b_: buffer
-  _>_: next       _w_: window
-  _n_: new        _W_: both
-  _s_: save       _E_: Emacs
+  ^Buffer^        ^kill^        ^list^
+  ^^^^^^^-----------------------------------
+  _<_: previous   _b_: buffer   _i_: ivy
+  _>_: next       _w_: window   _B_: iBuffer
+  _n_: new        _W_: both     _d_: dired
+  _s_: save       _E_: Emacs    _D_: dired-other-window
   _q_: nvm
 "
     ("<" previous-buffer)
@@ -235,6 +240,10 @@
     ("w" evil-window-delete)
     ("W" kill-buffer-and-window)
     ("E" save-buffers-kill-emacs)
+    ("i" ivy-switch)
+    ("B" ibuffer-other-window :color blue)
+    ("D" dired-other-window :color blue)
+    ("d" dired :color blue)
     ("q" nil nil :color blue))
 
   (defhydra hydra-todo (:columns 4 :color red)
@@ -269,7 +278,7 @@
   _d_ flyspell:                        [%`flyspell-mode]
   _D_ flycheck:                        [%`flycheck-mode]
   _e_ paredit:                         [%`paredit-mode]
-  _f_ debug-on-error:                  [%`debug-on-error]
+  _f_ visual-line-mode:                [%`visual-line-mode]
   _q_ nvm.
   ^─^──────────────────────────────────^─────^
 "
@@ -280,7 +289,7 @@
     ("d" flyspell-mode nil)
     ("D" flycheck-mode nil)
     ("e" paredit-mode nil)
-    ("f" debug-on-error nil)
+    ("f" visual-line-mode nil)
     ("q" nil nil :color blue))
 
 
@@ -342,9 +351,11 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
 
-(use-package projectile  :demand t
+(use-package projectile
+  :demand t
   :delight '(:eval (concat " PRJ:" (projectile-project-name)))
   :config
+  (setq projectile-completion-system 'ivy)
   (projectile-mode))
 
 (use-package olivetti
@@ -486,6 +497,9 @@
   :config
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
+  (setq yas-triggers-in-field t
+        yas-snippet-revival t
+        yas-indent-line nil)
   (yas-global-mode 1))
 
 ;;; Utility functions
@@ -553,7 +567,10 @@
  x-stretch-cursor t            ; Stretch cursor to the glyph width
  vc-follow-symlinks t                         ; so you end up at the file itself rather than editing the link
  large-file-warning-threshold nil
- tab-always-indent 'complete)
+ tab-always-indent 'complete
+ bookmark-default-file "~/dotfiles/emacs.d/var/bookmarks"
+ bookmark-save-flag 1)
+
 
 (set-language-environment 'utf-8)
 (setq locale-coding-system 'utf-8)
@@ -616,7 +633,7 @@
   "," 'other-window
   "-" 'counsel-find-file)
 
-(general-omap
+(general-omap                           ; operator map
   "C-a" 'avy-goto-word-or-subword-1
   "C-o" 'evil-avy-goto-subword-0
   "C-e" 'evil-avy-goto-line
@@ -629,9 +646,11 @@
   "C-c 1" 'hydra-table/body)
 
 (general-mmap
-  "j"       'evil-next-visual-line
-  "k"       'evil-previous-visual-line
-  "C-e"     'evil-end-of-line)
+  "j"   'evil-next-visual-line
+  "k"   'evil-previous-visual-line
+  "C-e" 'evil-end-of-line
+  "[ p" 'evil-paste-before
+  "] p" 'evil-paste-after)
 
 (general-def
   :states 'normal
@@ -649,14 +668,17 @@
 (general-def :keymaps 'org-agenda-mode-map
   "C-w C-W" 'other-window)
 
+(general-def :keymaps 'markdown-mode-map
+  "C-c l" 'pfn-edit-indirect-latex)
+
 (general-def
   ;; "C-c a"
   "C-c b"   'hydra-buffer/body
   "C-c c"   'org-capture
   "C-c d"   'hydra-toggle/body
   "C-c e"   'hydra-eval/body
-  "C-c f"   'hydra-projectile/body
-  ;; "C-c g"
+  "C-c f"   'ffap
+  "C-c g"   'hydra-projectile/body
   ;; "C-c h"
   ;; "C-c i"
   ;; "C-c j"
