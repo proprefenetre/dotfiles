@@ -2,6 +2,6 @@
 # name: gloss
 # key: gl
 # --
-\glt $2\\\\
+\gll $2\\\\
 $3\\\\
-\glt $4
+\glt '$4'

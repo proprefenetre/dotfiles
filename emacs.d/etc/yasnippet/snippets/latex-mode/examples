@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: begin-exe
-# key: exe
-# --
-\begin{exe}
-$1
-\end{exe}

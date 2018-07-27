@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: example-environment
+# key: exe
+# --
+\begin{exe}
+    \ex \label{$1}
+    $2
+\end{exe}
