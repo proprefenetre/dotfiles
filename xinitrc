@@ -35,6 +35,4 @@ unclutter &
 redshift &
 emacs --daemon &
 
-catakiller >>~/files/catakiller_log 2>&1 &
-
 exec bspwm
