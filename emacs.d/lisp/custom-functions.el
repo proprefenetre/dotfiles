@@ -28,5 +28,12 @@
     (load-theme next t)
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'fringe nil :inherit 'line-number)))
+
+(defun pfn-edit-indirect-latex (beg end)
+  "Edit Latex-snippets in an indirect buffer."
+  (interactive "r")
+  (switch-to-buffer (edit-indirect-region beg end))
+  (LaTeX-mode))
+
 (provide 'custom-functions)
 ;;; custom-functions.el ends here
