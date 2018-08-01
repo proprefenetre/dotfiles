@@ -60,7 +60,7 @@ mod4 + y
 mod4 + g
 	bspc node -s biggest.local
 
-mod4 +
+
 #
 # state/flags
 #
@@ -78,11 +78,11 @@ mod4 + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-mod4 + {_,shift + }semicolon
+mod4 + {less,greater}
 	bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
-mod4 + bracket{left,right}
+mod4 + {semicolon,q}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop

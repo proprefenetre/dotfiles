@@ -240,7 +240,7 @@
     ("w" evil-window-delete)
     ("W" kill-buffer-and-window)
     ("E" save-buffers-kill-emacs)
-    ("i" ivy-switch)
+    ("i" ivy-switch-buffer)
     ("B" ibuffer-other-window :color blue)
     ("D" dired-other-window :color blue)
     ("d" dired :color blue)
@@ -266,6 +266,7 @@
     ("A" org-agenda "agenda" :color blue))
 
   (defvar rainbow-mode nil)
+  (defvar aggressive-fill-paragraph-mode nil)
   (defhydra hydra-toggle (:color pink)
     "
 
@@ -353,9 +354,9 @@
 
 (use-package projectile
   :demand t
-  :delight '(:eval (concat " PRJ:" (projectile-project-name)))
   :config
-  (setq projectile-completion-system 'ivy)
+  (setq projectile-mode-line '(:eval (format " PRJ:%s" (projectile-project-name)))
+        projectile-completion-system 'ivy)
   (projectile-mode))
 
 (use-package olivetti
@@ -450,6 +451,8 @@
 
 (use-package rust-mode)
 
+(use-package s)
+
 (use-package shackle
   :demand t
   :config
@@ -468,13 +471,18 @@
   (column-number-mode t)
   (setq sml/theme 'light)
   (setq sml/modified-char "+")
-  (setq sml/shorten-modes nil)
   (setq sml/name-width 40)
-  (setq sml/mode-width 'full)
-  (add-to-list 'rm-whitelist " ()")
-  (add-to-list 'rm-whitelist " Fly")
-  (add-to-list 'rm-whitelist " =>")
-  (add-to-list 'rm-whitelist " Projectile.*")
+  (setq sml/shorten-modes nil)
+  (setq sml/mode-width 0)
+  ;; (add-to-list 'rm-whitelist "\\s()")
+  ;; (add-to-list 'rm-whitelist "\\sFly")
+  ;; (add-to-list 'rm-whitelist "\\s=>")
+  ;; (add-to-list 'rm-whitelist "\\sPRJ:*")
+  (setq rm-whitelist
+        (format "^ \\(%s\\)$"
+                (mapconcat #'identity
+                           '("()" "Fly" "PRJ.*" "=>")
+                           "\\|")))
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/thesis" ":TH:") t)
   (add-to-list 'sml/replacer-regexp-list '("^~/projects/" ":PRJ:") t)
   (add-to-list 'sml/replacer-regexp-list '("^~/dotfiles" ":DF:"))

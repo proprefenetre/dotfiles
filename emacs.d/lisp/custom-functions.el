@@ -2,6 +2,8 @@
 ;;; commentary:
 ;;; code:
 
+(require 's)
+
 (defun pfn-transform-word-or-region (fmt)
   "Transform word or words in a region according to FMT."
   (interactive "sFormat string: ")
@@ -34,6 +36,13 @@
   (interactive "r")
   (switch-to-buffer (edit-indirect-region beg end))
   (LaTeX-mode))
+
+(defun pfn-comment-region (beg end)
+  "Comment out the active region."
+  (interactive "r")
+  (let* ((text (buffer-substring-no-properties beg end)))
+    (delete-region beg end)
+    (insert (format "%s%s%s\n" comment-start (s-trim text) comment-end))))
 
 (provide 'custom-functions)
 ;;; custom-functions.el ends here
