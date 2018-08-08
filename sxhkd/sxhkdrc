@@ -139,4 +139,8 @@ mod4 + alt + shift + {d,h,t,n}
 mod4 + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+# volume
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    amixer set Master {1%+,1%-,toggle} 
+
 # -*-Conf-*-
