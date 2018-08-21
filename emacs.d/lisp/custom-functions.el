@@ -4,6 +4,18 @@
 
 (require 's)
 
+(defun pfn-eyebrowse-open-init ()
+  (interactive)
+  (eyebrowse-create-window-config)
+  (find-file user-init-file)
+  (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el"))
+
+(defun pfn-eyebrowse-open-package ()
+  (interactive)
+  (eyebrowse-create-window-config)
+  (package-list-packages)
+  (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "package"))
+
 (defun pfn-transform-word-or-region (fmt)
   "Transform word or words in a region according to FMT."
   (interactive "sFormat string: ")
@@ -28,6 +40,7 @@
     (put 'pfn-cycle-themes 'state idx-after)
     (disable-theme prev)
     (load-theme next t)
+    (setq sml/theme 'respectful)
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'fringe nil :inherit 'line-number)))
 
@@ -43,6 +56,11 @@
   (let* ((text (buffer-substring-no-properties beg end)))
     (delete-region beg end)
     (insert (format "%s%s%s\n" comment-start (s-trim text) comment-end))))
+
+(defun pfn-find-file-region (beg end)
+  "Open the selected file."
+  (interactive "r")
+  (find-file (buffer-substring-no-properties beg end)))
 
 (provide 'custom-functions)
 ;;; custom-functions.el ends here

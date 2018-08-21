@@ -4,8 +4,6 @@
 #define italic          xft:Hack-Italic:pixelsize=13
 #define bold_italic     xft:Hack-BoldItalic:pixelsize=13
 
-#define rofi_font       Hack Regular 10
-
 ! colors
 #define white                #f0f0f0
 #define dark_grey            #1b1d1e
@@ -40,6 +38,13 @@ URxvt*cursorUnderline: true
 URxvt*cursorBlink: true
 URxvt*scrollBar: false
 
+URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
+URxvt.url-select.launcher:  chromium
+URxvt.url-select.underline: true
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+URxvt.keysym.M-s:           perl:keyboard-select:search
+
 URxvt*font: normal_font
 URxvt*boldFont: bold
 URxvt*italic: italic
@@ -65,17 +70,11 @@ URxvt*color13: Molokai_light_purple
 URxvt*color14: Molokai_light_cyan
 URxvt*color15: Molokai_white
 
-! rofi
-rofi.font: rofi_font
-rofi.lines: 4
-rofi.width: 30
-rofi.location: 6
-rofi.yoffset: -100 
-
 ! XTERM
 ! =====
 XTerm*termName: xterm-256color
 XTerm*locale: true
+XTerm*selectToClipboard: true
 XTerm*faceName: normal_font
 XTerm*boldFont: bold
 XTerm*italic: italic

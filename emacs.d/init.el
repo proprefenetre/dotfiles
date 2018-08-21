@@ -60,15 +60,11 @@
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
 ;;; Packages
-(use-package academic-phrases)
-
 (use-package aggressive-indent
   :demand t
   :config
   (add-hook 'TeX-mode-hook 'aggressive-indent-mode)
   (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
-
-(use-package aggressive-fill-paragraph)
 
 (use-package avy
   :demand t
@@ -95,7 +91,7 @@
       (ignore-case t)
       (duplicates t)))
   :config
-  (setq company-idle-delay 0.3
+  (setq company-idle-delay 0
         company-selection-wrap-around t)
   (add-to-list 'company-backends 'org-keyword-backend)
   (add-hook 'nxml-mode 'company-mode))
@@ -104,6 +100,7 @@
   :demand t)
 
 (use-package counsel-projectile
+  :demand t
   :config
   (counsel-projectile-mode))
 
@@ -116,13 +113,6 @@
   (setq dashboard-items '((recents  . 5)
                           (bookmarks . 5)
                           (projects . 5))))
-
-(use-package elpy
-  :after python-mode
-  :init
-  (with-eval-after-load 'python (elpy-enable))
-  :config
-  (delete 'elpy-module-highlight-indentation elpy-modules))
 
 (use-package evil
   :demand t
@@ -222,7 +212,7 @@
     ("r" eval-region "region")
     ("q" nil "nvm"))
 
-  (defhydra hydra-buffer(:color pink :hint nil)
+  (defhydra hydra-buffer(:color blue :hint nil)
     "
   ^Buffer^        ^kill^        ^list^
   ^^^^^^^-----------------------------------
@@ -232,19 +222,19 @@
   _s_: save       _E_: Emacs    _D_: dired-other-window
   _q_: nvm
 "
-    ("<" previous-buffer)
-    (">" next-buffer)
+    ("<" previous-buffer :color red)
+    (">" next-buffer :color red)
     ("n" evil-buffer-new)
     ("s" evil-save)
-    ("b" kill-buffer)
-    ("w" evil-window-delete)
-    ("W" kill-buffer-and-window)
+    ("b" kill-buffer :color red)
+    ("w" evil-window-delete :color red)
+    ("W" kill-buffer-and-window :color red)
     ("E" save-buffers-kill-emacs)
     ("i" ivy-switch-buffer)
-    ("B" ibuffer-other-window :color blue)
-    ("D" dired-other-window :color blue)
-    ("d" dired :color blue)
-    ("q" nil nil :color blue))
+    ("B" ibuffer-other-window)
+    ("D" dired-other-window)
+    ("d" dired)
+    ("q" nil nil))
 
   (defhydra hydra-todo (:columns 4 :color red)
     "Todos"
@@ -267,6 +257,7 @@
 
   (defvar rainbow-mode nil)
   (defvar aggressive-fill-paragraph-mode nil)
+  (defvar orgtbl-mode nil)
   (defhydra hydra-toggle (:color pink)
     "
 
@@ -280,6 +271,8 @@
   _D_ flycheck:                        [%`flycheck-mode]
   _e_ paredit:                         [%`paredit-mode]
   _f_ visual-line-mode:                [%`visual-line-mode]
+  _g_ orgtbl-mode                      [%`orgtbl-mode]
+  _h_ display-line-numbers-mode        [%`display-line-numbers-mode]
   _q_ nvm.
   ^─^──────────────────────────────────^─────^
 "
@@ -291,6 +284,8 @@
     ("D" flycheck-mode nil)
     ("e" paredit-mode nil)
     ("f" visual-line-mode nil)
+    ("g" orgtbl-mode nil)
+    ("h" display-line-numbers-mode nil)
     ("q" nil nil :color blue))
 
 
@@ -301,11 +296,6 @@
     ("c" (compile "make clean") "clean")
     ("i" (compile "make install") "install"))
 
-  (defun pfn-eyebrowse-open-init ()
-    (interactive)
-    (eyebrowse-create-window-config)
-    (find-file user-init-file)
-    (eyebrowse-rename-window-config (eyebrowse--get 'current-slot) "init.el"))
 
   (defhydra hydra-eyebrowse (:color blue)
     "
@@ -313,8 +303,9 @@
   ^^^^^^^^-----------------------
   _0_  _1_  _2_    _c_lose
   _3_  _4_  _5_    _i_nit.el
-  _6_  _7_  _8_    _n_ew
-  _<_  _9_  _>_    _q_uit
+  _6_  _7_  _8_    _p_ackage
+  _<_  _9_  _>_    _n_ew
+  ^^^^^^           _q_uit
 "
     ("0" eyebrowse-switch-to-window-config-0 nil)
     ("1" eyebrowse-switch-to-window-config-1 nil)
@@ -328,6 +319,7 @@
     ("9" eyebrowse-switch-to-window-config-9 nil)
     ("n" eyebrowse-create-window-config nil)
     ("i" pfn-eyebrowse-open-init nil)
+    ("p" pfn-eyebrowse-open-package nil)
     ("c" eyebrowse-close-window-config nil)
     ("<" eyebrowse-prev-window-config nil)
     (">" eyebrowse-next-window-config nil)
@@ -469,15 +461,11 @@
   :config
   (line-number-mode t)
   (column-number-mode t)
-  (setq sml/theme 'light)
+  (setq sml/theme 'respectful)
   (setq sml/modified-char "+")
   (setq sml/name-width 40)
   (setq sml/shorten-modes nil)
   (setq sml/mode-width 0)
-  ;; (add-to-list 'rm-whitelist "\\s()")
-  ;; (add-to-list 'rm-whitelist "\\sFly")
-  ;; (add-to-list 'rm-whitelist "\\s=>")
-  ;; (add-to-list 'rm-whitelist "\\sPRJ:*")
   (setq rm-whitelist
         (format "^ \\(%s\\)$"
                 (mapconcat #'identity
@@ -510,21 +498,7 @@
         yas-indent-line nil)
   (yas-global-mode 1))
 
-;;; Utility functions
-(defun pfn-cycle-themes ()
-  "Cycle through available themes."
-  (interactive)
-  (let* ((themes [challenger-deep nord])
-         (idx-before (if (get 'pfn-cycle-themes 'state)
-                         (get 'pfn-cycle-themes 'state) 0))
-         (idx-after (% (+ idx-before (length themes) 1) (length themes)))
-         (prev (aref themes idx-before))
-         (next (aref themes idx-after)))
-    (put 'pfn-cycle-themes 'state idx-after)
-    (disable-theme prev)
-    (load-theme next t)
-    (set-face-attribute 'line-number nil :background 'unspecified)
-    (set-face-attribute 'fringe nil :inherit 'line-number)))
+
 
 ;;; Hooks
 (defun pfn-setup-prog-mode ()
@@ -536,7 +510,8 @@
   (delete-trailing-whitespace)
   (flycheck-mode 1)
   (outline-minor-mode)
-  (company-mode-on))
+  (company-mode-on)
+  (abbrev-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
@@ -550,6 +525,14 @@
 (add-hook 'focus-out-hook 'garbage-collect)
 
 ;;; Editor Settings
+
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
+
 (setq-default
  auto-window-vscroll nil         ; Lighten vertical scroll
  confirm-kill-emacs 'yes-or-no-p ; Confirm before exiting Emacs
@@ -624,7 +607,7 @@
   "b" 'mode-line-other-buffer
   ;; "c"
   "d" 'dired-jump
-  "e" 'hydra-eval/body
+  ;;"e" 
   "i" '(lambda () (interactive)
          (find-file user-init-file))
   ;; "m"
@@ -668,7 +651,6 @@
 (general-def :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
   "TAB" 'company-complete-common-or-cycle)
-
 
 (general-def :keymaps 'evil-window-map
   "N" 'evil-window-vsplit)
@@ -714,13 +696,6 @@
   )
 
 ;; completion
-(setq hippie-expand-try-functions-list
-      '(try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-dabbrev
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill))
-
 ;;; starting up
 (require 'custom-functions)
 
