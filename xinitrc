@@ -35,4 +35,7 @@ unclutter &
 redshift &
 emacs --daemon &
 
+panel &
+sxhkd &
+
 exec bspwm

@@ -1,8 +1,5 @@
 #! /bin/sh
 
-sxhkd &
-panel &
-
 if [[ $(hostname) == 'PFN' ]]; then
      bspc monitor VGA-1 -d I II III IV V
      bspc monitor LVDS-1 -d VI VII VIII IX X
