@@ -49,6 +49,7 @@ URxvt*font: normal_font
 URxvt*boldFont: bold
 URxvt*italic: italic
 URxvt*boldItalicFont: bold_italic
+URxvt*letterSpace: -1
 
 URxvt*background: Molokai_black
 URxvt*foreground: Molokai_white

@@ -19,9 +19,9 @@ if [ "$(hostname)" = "archbook" ]; then
 
 fi
 if [ "$(hostname)" = "PFN" ]; then
-    "$HOME"/bin/mhead -e
+    mhead &
     hsetroot -fill /home/niels/pics/sunset-originial.png &
-    keeb -dv
+    # keeb -dv
 fi
 
 mount drijf &
@@ -36,6 +36,6 @@ redshift &
 emacs --daemon &
 
 panel &
-sxhkd &
+sxhkd -m -1 &
 
 exec bspwm

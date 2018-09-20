@@ -8,7 +8,8 @@
 (setq user-full-name "Niels Eigenraam"
       user-mail-address "nielseigenraam@gmail.com")
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+;; personal lisp collection
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; garbage collection
 (eval-and-compile
@@ -48,10 +49,10 @@
 ;;; theme
 (setq custom-safe-themes t)
 
-;; (use-package challenger-deep-theme)
-;; (use-package nord-theme)
+(use-package challenger-deep-theme)
+(use-package nord-theme)
 
-;; (load-theme 'challenger-deep t)
+(load-theme 'challenger-deep t)
 
 (fringe-mode '(8 . 8))
 
@@ -117,7 +118,8 @@
 (use-package evil
   :demand t
   :init
-  (setq evil-want-integration nil)
+  (setq evil-want-integration t
+        evil-want-keybinding nil)
   :config
   (setq evil-search-wrap t
         evil-regexp-search t
@@ -256,7 +258,6 @@
     ("A" org-agenda "agenda" :color blue))
 
   (defvar rainbow-mode nil)
-  (defvar aggressive-fill-paragraph-mode nil)
   (defvar orgtbl-mode nil)
   (defhydra hydra-toggle (:color pink)
     "
@@ -264,7 +265,6 @@
   ^Toggle^                             ^State^
   ^─^──────────────────────────────────^─────^
   _a_ aggressive-indent-mode:          [%`aggressive-indent-mode]
-  _A_ aggressive-fill-paragraph-mode:  [%`aggressive-fill-paragraph-mode]
   _b_ abbrev-mode:                     [%`abbrev-mode]
   _c_ rainbow-mode:                    [%`rainbow-mode]
   _d_ flyspell:                        [%`flyspell-mode]
@@ -277,7 +277,6 @@
   ^─^──────────────────────────────────^─────^
 "
     ("a" aggressive-indent-mode nil)
-    ("A" aggressive-fill-paragraph-mode nil)
     ("b" abbrev-mode nil)
     ("c" rainbow-mode nil)
     ("d" flyspell-mode nil)
@@ -340,9 +339,15 @@
   (setq markdown-command "pandoc")
   (add-hook 'markdown-mode-hook 'turn-on-olivetti-mode)
   :config
-  (add-hook 'markdown-mode-hook 'aggressive-fill-paragraph-mode)
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
+
+(use-package prescient
+  :demand t
+  :config
+  (ivy-prescient-mode)
+  (company-prescient-mode)
+  (prescient-persist-mode))
 
 (use-package projectile
   :demand t
@@ -429,10 +434,10 @@
   ;; automatically annotate highlights
   (setq pdf-annot-activate-created-annotations t))
 
-(use-package python-mode
-  :config
-  (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i --simple-prompt"))
+;; (use-package python-mode
+;;   :config
+;;   (setq python-shell-interpreter "ipython"
+;;         python-shell-interpreter-args "-i --simple-prompt"))
 
 (use-package racket-mode)
 
@@ -499,7 +504,6 @@
   (yas-global-mode 1))
 
 
-
 ;;; Hooks
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
@@ -541,8 +545,6 @@
  indent-tabs-mode nil      ; Stop using tabs to indent
  tab-width 4               ; Set width for tabs
  fill-column 80            ; Set width for automatic line breaks
- ;; inhibit-splash-screen t   ; Disable start-up screen
- ;; inhibit-startup-message t ; No startup-message
  visual-bell nil           ; plz no visual bell
  ring-bell-function 'ignore
  mouse-yank-at-point t     ; Yank at point rather than pointer
@@ -607,7 +609,7 @@
   "b" 'mode-line-other-buffer
   ;; "c"
   "d" 'dired-jump
-  ;;"e" 
+  ;;"e"
   "i" '(lambda () (interactive)
          (find-file user-init-file))
   ;; "m"
@@ -629,6 +631,13 @@
   "C-o" 'evil-avy-goto-subword-0
   "C-e" 'evil-avy-goto-line
   "C-u" 'evil-avy-goto-char-timer)
+
+(general-imap
+  :keymaps 'python-mode-map
+  "C-<right>" 'sp-forward-slurp-sexp
+  "C-<left>" 'sp-backward-slurp-sexp
+  "M-<right>" 'sp-forward-barf-sexp
+  "M-<left>" 'sp-backward-barf-sexp)
 
 (general-mmap
   :keymaps 'org-mode-map
@@ -695,7 +704,6 @@
   ;; "<M-tab>" 'company-complete-common-or-cycle
   )
 
-;; completion
 ;;; starting up
 (require 'custom-functions)
 

@@ -62,5 +62,17 @@
   (interactive "r")
   (find-file (buffer-substring-no-properties beg end)))
 
+
+(defun pfn-unique-words-region (beg end)
+  "Collect all of the unique words in the current region."
+  (interactive "r")
+  (let ((txt (delete-dups (mapcar #'downcase
+                                  (split-string (buffer-substring-no-properties beg end)
+                                                nil nil
+                                                "[^[:alnum:]]+")))))
+    (delete-region beg end)
+    (cl-dolist (word (sort txt #'string<) txt)
+      (insert (concat word "\n")))))
+
 (provide 'custom-functions)
 ;;; custom-functions.el ends here

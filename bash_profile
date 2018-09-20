@@ -13,7 +13,7 @@ export CM_SELECTIONS=clipboard
 export EDITOR='emacsclient -n -c'
 export ALTERNATE_EDITOR=""
 export PATH="${PATH}:$HOME/bin:$HOME/.cargo/bin"
-export BROWSER='chromium'
+export BROWSER='firefox-developer-edition'
 export LESS='-R'
 export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
 
