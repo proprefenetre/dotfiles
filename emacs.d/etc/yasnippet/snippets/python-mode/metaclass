@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: self
-# key: .
+# name: metaclass
+# key: mt
 # group: object oriented
 # --
-self.$0
+__metaclass__ = ${1:type}
