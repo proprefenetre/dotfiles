@@ -1,7 +1,7 @@
 #! /bin/sh
 
-bspc config border_width         2
-bspc config window_gap           8
+bspc config border_width         1
+bspc config window_gap           4
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   false
@@ -12,22 +12,3 @@ bspc config gapless_monocle      false
 bspc rule -a Chromium desktop='^1'
 bspc rule -a mpv state=floating
 bspc rule -a scratch sticky=on state=floating hidden=on
-
-[ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
-[ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
-
-xset +fp /usr/share/fonts/local
-xset fp rehash
-xset m 1 0
-
-mhead &
-hsetroot -fill /home/niels/pics/sunset-originial.png &
-
-mount drijf &
-
-unclutter &
-redshift &
-emacs --daemon
-
-panel &
-sxhkd -m -1 &

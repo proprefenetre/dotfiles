@@ -1,5 +1,6 @@
 ! fonts
-#define normal_font     xft:Hack-Regular:pixelsize=13
+#define regular         xft:Hack-Regular:pixelsize=13
+#define dzen_regular    xft:Hack-Regular:pixelsize=10
 #define bold            xft:Hack-Bold:pixelsize=13
 #define italic          xft:Hack-Italic:pixelsize=13
 #define bold_italic     xft:Hack-BoldItalic:pixelsize=13
@@ -31,6 +32,11 @@ Xft*antialias: true
 Xft*hinting: true
 Xft*hintstyle: hintslight
 
+! Dzen2
+dzen2.font: dzen_regular
+dzen2.foreground: Molokai_white
+dzen2.background: Molokai_black
+
 ! urxvt
 URxvt*LoginShell: true
 
@@ -45,7 +51,7 @@ URxvt.keysym.M-u:           perl:url-select:select_next
 URxvt.keysym.M-Escape:      perl:keyboard-select:activate
 URxvt.keysym.M-s:           perl:keyboard-select:search
 
-URxvt*font: normal_font
+URxvt*font: regular
 URxvt*boldFont: bold
 URxvt*italic: italic
 URxvt*boldItalicFont: bold_italic
@@ -76,7 +82,7 @@ URxvt*color15: Molokai_white
 XTerm*termName: xterm-256color
 XTerm*locale: true
 XTerm*selectToClipboard: true
-XTerm*faceName: normal_font
+XTerm*faceName: regular
 XTerm*boldFont: bold
 XTerm*italic: italic
 XTerm*boldItalicFont: bold_italic

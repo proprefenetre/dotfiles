@@ -11,31 +11,22 @@ fi
 [ -L "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 [ -L "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap"
 
-if [ "$(hostname)" = "archbook" ]; then
-    hsetroot -fill /home/niels/pics/wallpapers/lighthouse.jpg &
-    keeb -dvc &
-    # low power level warning for until I've fixed a panel
-    battery3 &
-
-fi
-if [ "$(hostname)" = "PFN" ]; then
-    mhead &
-    hsetroot -fill /home/niels/pics/sunset-originial.png &
-    # keeb -dv
-fi
-
-mount drijf &
-
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-unclutter &
+mount drijf &
 
+unclutter &
 redshift &
+
 emacs --daemon &
 
-panel &
+xautolock -time 10 -locker slock &
+
+mhead &
+hsetroot -fill /home/niels/pics/sunset-originial.png &
 sxhkd -m -1 &
+panel &
 
 exec bspwm
