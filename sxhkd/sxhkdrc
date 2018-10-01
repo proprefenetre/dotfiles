@@ -10,9 +10,6 @@ mod4 + Return
 mod4 + @apostrophe
 	dmenu_run -l 5
 
-mod4 + shift + @apostrophe
-    passmenu --type -l 5
-
 mod4 + v
     clipmenu -l 5
 
@@ -48,7 +45,7 @@ mod4 + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
 
-# alternate between the tiled and monocle layout
+# Alternate between the tiled and monocle layout
 mod4 + l
 	bspc desktop -l next
 
@@ -124,8 +121,8 @@ mod4 + ctrl + shift + space
 #
 
 # rotate 90 deg
-super + r
-    bspc node @parent -R 90
+super + {_,shift} + r
+    bspc node @parent -R {90,270}
 
 # expand a window by moving one of its side outward
 mod4 + alt + {d,h,t,n}
