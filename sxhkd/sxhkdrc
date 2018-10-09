@@ -24,9 +24,7 @@ mod4 + Escape
 mod4 + e
     emax
 
-#
 # bspwm hotkeys
-#
 
 # quit bspwm normally
 mod4 + control + Escape
@@ -54,17 +52,11 @@ mod4 + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
 
-
-# state/flags
-
-
-
 # focus/swap
 
 # swap the current node and the biggest node
 mod4 + g
 	bspc node -s biggest.local
-
 
 # focus the node in the given direction
 mod4 + {_,shift + }{d,h,t,n}

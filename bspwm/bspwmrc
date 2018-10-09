@@ -12,3 +12,4 @@ bspc config gapless_monocle      false
 bspc rule -a Chromium desktop='^1'
 bspc rule -a mpv state=floating
 bspc rule -a scratch sticky=on state=floating hidden=on
+bspc rule -a Emacs state=tiled

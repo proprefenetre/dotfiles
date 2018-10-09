@@ -1,6 +1,6 @@
 ;;; init.el --- Emacs Configuration
 ;;; Commentary:
-;;; Sunday iteration. After dicking around with literate org files for days.
+;;; Tuesday 09 iteration: a new hope
 ;;; Code:
 
 ;;; Initialization
@@ -119,12 +119,12 @@
   :demand t
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        evil-want-Y-yank-to-eol t)
   :config
   (setq evil-search-wrap t
         evil-regexp-search t
         evil-complete-next-func 'hippie-expand
-        evil-want-Y-yank-to-eol t
         evil-vsplit-window-right t
         evil-split-window-below t
         evil-cross-lines t)             ; motions work across newlines
@@ -663,6 +663,12 @@
 
 (general-def :keymaps 'evil-window-map
   "N" 'evil-window-vsplit)
+
+(general-def
+  :keymaps 'org-mode-map
+  :states '(normal insert visual)
+  "> >" 'org-do-demote
+  "< <" 'org-do-promote)
 
 (general-def :keymaps 'org-agenda-mode-map
   "C-w C-W" 'other-window)
