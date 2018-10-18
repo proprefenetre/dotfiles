@@ -25,7 +25,8 @@ emacs --daemon &
 xautolock -time 10 -locker slock &
 
 mhead &
-hsetroot -fill /home/niels/pics/sunset-originial.png &
+hsetroot -fill /home/niels/pics/thegekk.jpg &
+urxvt -c scratchterm &
 sxhkd -m -1 &
 panel &
 
