@@ -55,6 +55,16 @@
   :config
   (load-theme 'challenger-deep t))
 
+;; theme colors
+;; "#906cff"
+;; "#91ddff"
+;; "#65b2ff"
+;; "#ffd75f"
+;; "#62d196"
+;; "#ff5458"
+;; "#ffe9aa"
+;; "#95ffa4"
+
 (set-face-attribute 'default nil :font "Iosevka 11")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
@@ -67,14 +77,30 @@
 (setq default-input-method "latin-postfix")
 
 (setq-default abbrev-mode 1
-	      recentf-mode 1
-	      show-paren-mode 1)
+              recentf-mode 1
+	          show-paren-mode 1)
 
+(run-at-time nil (* 5 60)
+             (lambda ()
+               (let ((inhibit-message t))
+                 (recentf-save-list))))
+
+
+(setq confirm-kill-emacs 'yes-or-no-p)
 (fset 'yes-or-no-p 'y-or-n-p)
+
+(setq-default x-select-enable-clipboard t)
+(setq-default vc-follow-symlinks t)
 
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
+
+(setq-default indent-tabs-mode nil
+              tab-width 4
+	          fill-column 80)
+
+(setq-default auto-fill-function 'do-auto-fill)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -91,13 +117,53 @@
       ispell-dictionary "english"
       ispell-extra-args '("-a" "utf-8"))
 
-
 (setq-default bookmark-save-flag 1
-	      bookmark-default-file "~/dotfiles/emacs.d/var/bookmarks")
+              bookmark-default-file "~/dotfiles/emacs.d/var/bookmarks")
 
+(setq help-window-select t)
 (setq tramp-default-method "ssh")
 
+(setq frame-title-format "%b")
+
+(setq compilation-read-command nil)
+
+(setq hippie-expand-try-functions-list
+      '(try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-dabbrev
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill))
+
 ;;; Packages
+(use-package eyebrowse
+  :demand t
+  :config
+  (setq eyebrowse-new-workspace t
+	eyebrowse-wrap-around t
+	eyebrowse-switch-back-and-forth t))
+
+(use-package edit-indirect
+  :demand t)
+
+(use-package shackle
+  :demand t
+  :config
+  (setq shackle-select-reused-windows nil) ; default nil
+  (setq shackle-default-alignment 'below) ; default below
+  (setq shackle-default-size 0.3) ; default 0.5
+  (setq shackle-default-rule '(:select t :align 'below))
+  (shackle-mode 1))
+
+(use-package table
+  :demand t)
+
+(use-package slow-keys
+  :config
+  (setq slow-keys-min-delay 0.02)
+  (dolist (it '(next-line previous-line ivy-next-line ivy-previous-line))
+    (add-to-list 'slow-keys-ignore-cmds it t))
+  (slow-keys-mode 1))
+
 (use-package aggressive-indent
   :demand t
   :config
@@ -107,7 +173,7 @@
 (use-package company
   :demand t
   :config
-  (setq company-idle-delay 0
+  (setq company-idle-delay 0.3
         company-selection-wrap-around t)
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -137,8 +203,12 @@
 (use-package evil-collection
   :demand t
   :after evil
-  :init (setq evil-collection-outline-bind-tab-p nil)
+  :init (setq evil-collection-outline-bind-tab-p nil
+	          evil-collection-setup-minibuffer t)
   :config (evil-collection-init))
+
+(use-package evil-numbers
+  :demand t)
 
 (use-package evil-surround
   :demand t
@@ -166,14 +236,6 @@
   :config
   (setq evil-org-set-key-theme '(textobjects insert navigation))
   (add-hook 'org-mode-hook 'evil-org-mode))
-
-(use-package eyebrowse
-  :demand t
-  :config
-  (setq eyebrowse-new-workspace t
-        eyebrowse-wrap-around t
-        eyebrowse-switch-back-and-forth t)
-  (eyebrowse-mode t))
 
 (use-package flycheck
   :delight " Fly"
@@ -207,13 +269,6 @@
   (font-lock-add-keywords 'markdown-mode
                           '(("@[[:alnum:]]+\\(-[[:alnum:]]+\\)?" . font-lock-keyword-face))))
 
-;; (use-package projectile
-;;   :demand t
-;;   :config
-;;   (setq projectile-mode-line '(:eval (format " PRJ:%s" (projectile-project-name)))
-;;         projectile-completion-system 'ivy)
-;;   (projectile-mode))
-
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
@@ -230,8 +285,23 @@
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org" "~/org/notes.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
+        org-refile-allow-creating-parent-nodes t
+        org-refile-use-outline-path t
         org-archive-location "~/org/archief::datetree/"
-	org-cycle-separator-lines -1))
+	org-cycle-separator-lines -1
+	org-blank-before-new-entry '((heading . nil)
+				     (plain-list-item . nil))
+	org-M-RET-may-split-line '((default . nil))
+        org-return-follows-link t
+	org-reverse-note-order t
+        org-outline-path-complete-in-steps nil)
+
+  (setq org-todo-keyword-faces
+        '(("READ" . "#65b2ff")
+          ("GOOGLE" . "#65b2ff")))
+
+  (setq org-capture-templates
+	'(("d" "dict" entry (file+headline "~/org/dict.org" "Words") "* %? :: "))))
 
 (use-package paredit
   :demand t
@@ -295,7 +365,6 @@
   (dashboard-setup-startup-hook))
 
 ;;; Hooks
-(setq-default auto-fill-function 'do-auto-fill)
 
 (add-hook 'focus-out-hook 'garbage-collect)
 
@@ -317,6 +386,8 @@
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
 ;;; Keys
+(setq tab-always-indent 'complete)
+
 (general-evil-setup)
 
 (general-mmap
@@ -330,37 +401,54 @@
   :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state)
 
-;; (general-create-definer evil-leader
-;;   :states '(normal visual insert emacs)
-;;   :prefix ","
-;;   :non-normal-prefix "M-,")
+(general-def 'insert markdown-mode-map
+  "TAB"   'company-complete-common-or-cycle
+  "<tab>" 'company-complete-common-or-cycle)
 
-(general-def
-  :states '(normal visual insert emacs)
+(general-def 'normal image-mode-map
+  "," nil)
+
+(dolist (key '("<return>" "RET"))
+  ;; Here we are using an advanced feature of define-key that lets
+  ;; us pass an "extended menu item" instead of an interactive
+  ;; function. Doing this allows RET to regain its usual
+  ;; functionality when the user has not explicitly interacted with
+  ;; Company.
+  (general-def company-active-map key
+    `(menu-item nil company-complete
+		        :filter ,(lambda (cmd)
+			               (when (company-explicit-action-p)
+			                 cmd)))))
+(general-def company-active-map
+  "TAB" 'company-complete-selection
+  "SPC" nil
+  "C-w" 'evil-delete-backward-word)
+
+(general-def '(normal visual insert emacs)
   :prefix ","
   :non-normal-prefix "M-,"
-  "b" 'mode-line-other-buffer
+  "b" 'switch-to-previous-buffer
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "i" '(lambda () (interactive)
-	 (find-file user-init-file))
+	     (find-file user-init-file))
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
   "q" 'kill-buffer-and-window
   "r" '(lambda () (interactive)
-	 (revert-buffer :ignore-auto :noconfirm))
+	     (revert-buffer :ignore-auto :noconfirm))
   "R" '(lambda () (interactive)
-	 (load-file user-init-file)
-	 (message "buffer reloaded"))
+	     (load-file user-init-file)
+	     (message "buffer reloaded"))
   "s" 'magit-status
-  "," 'other-window
-  "-" 'counsel-find-file)
+  "," 'other-window)
 
 (general-def
-  ;; "C-c a"
-  ;; "C-c b"
-  "C-c c"   'org-capture
-  ;; "C-c d"
+  "C-x C-f" 'counsel-find-file
+  "C-c a"   'evil-numbers/inc-at-point
+  "C-c b"   'counsel-bookmark
+  "C-c c"   'compile
+  "C-c d"   'quick-calc
   ;; "C-c e"
   "C-c f"   'ffap
   ;; "C-c g"
@@ -374,20 +462,20 @@
   ;; "C-c o"
   ;; "C-c p"
   ;; "C-c q"
+  "C-c r"   'counsel-recentf
   "C-c R"   '(lambda () (interactive)
                (load-file user-init-file))
-  ;; "C-c s"
+  "C-c s"   'cycle-ispell-languages
   ;; "C-c t"
   ;; "C-c u"
   ;; "C-c v"
   ;; "C-c w"
-  "C-c x"   'org-archive-subtree
+  "C-c a"   'evil-numbers/dec-at-point
   ;; "C-c y"
   ;; "C-c z"
   "C-s"     'swiper)
 
 ;; lower garbace collection threshold
-
 
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)

@@ -22,12 +22,13 @@ redshift &
 
 emacs --daemon &
 
-xautolock -time 10 -locker slock &
+clipster -d 2>/dev/null &
 
 mhead &
-hsetroot -fill /home/niels/pics/thegekk.jpg &
-urxvt -c scratchterm &
+hsetroot -fill /home/niels/pics/DE-foto.jpg &
 sxhkd -m -1 &
 panel &
+
+xautolock -time 10 -locker slock &
 
 exec bspwm

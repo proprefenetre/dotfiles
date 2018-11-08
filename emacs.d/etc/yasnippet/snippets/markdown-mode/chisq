@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: chisq
+# key: chisq
+# --
+$\chi^2$($1) = $2, p < $3 

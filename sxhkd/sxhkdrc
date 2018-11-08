@@ -2,15 +2,15 @@
 mod4 + Return
     urxvt
 
-mod4 + u
-    scratchterm
+mod4 + {e,u}
+    {scratchmacs,scratchterm}
 
 # program launcher
 mod4 + @apostrophe
-    dmenu_run -l 5
+     dmenu_run -l 5
 
 mod4 + v
-    clipmenu -l 5
+     roficlip
 
 # create a receptacle
 mod4 + shift + Return
@@ -20,18 +20,15 @@ mod4 + shift + Return
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
-mod4 + e
-    emax
-
 # bspwm hotkeys
 
 # quit bspwm normally
 mod4 + control + Escape
     bspc quit
 
-# close and kill
-mod4 + {_,shift + }c
-    bspc node -{c,k}
+# kill
+mod4 + c
+    bspc node -k
 
 # set the window state
 mod4 + {a,shift + a,s,f}
@@ -40,7 +37,6 @@ mod4 + {a,shift + a,s,f}
 # set the node flags
 mod4 + ctrl + {m,x,y,z}
     bspc node -g {marked,locked,sticky,private}
-
 
 # Alternate between the tiled and monocle layout
 mod4 + l
@@ -61,12 +57,8 @@ mod4 + g
 mod4 + {_,shift + }{d,h,t,n}
     bspc node --{focus,swap} {west,south,north,east}
 
-# focus the node for the given path jump
-mod4 + {p,b,comma,period}
-    bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous node in the current desktop
-mod4 + {less,greater}
+mod4 + {comma, period}
     bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
@@ -74,14 +66,14 @@ mod4 + {semicolon,q}
     bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-mod4 + {grave,Tab}
-    bspc {node,desktop} -f last
+mod4 + Tab
+    bspc desktop -f last
 
 # focus the older or newer node in the focus history
-mod4 + {o,e}
-    bspc wm -h off; \
-    bspc node {older,newer} -f; \
-    bspc wm -h on
+# mod4 + {_, shift +} u
+#     bspc wm -h off; \
+#     bspc node {older,newer} -f; \
+#     bspc wm -h on
 
 # focus or send to the given desktop
 mod4 + {_,shift + } {1-9,0}
@@ -109,8 +101,12 @@ mod4 + ctrl + shift + space
 
 ## move/resize
 
+# center floating window
+mod4 + j
+     corner -c
+
 # rotate 90 deg
-super + {_,shift} + r
+mod4 + {_,shift} + r
     bspc node @parent -R {90,270}
 
 # expand a window by moving one of its side outward
@@ -130,3 +126,4 @@ mod4 + {Left,Down,Up,Right}
     amixer set Master {1%+,1%-,toggle} 
 
 # -*-Conf-*-
+
