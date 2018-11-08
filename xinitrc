@@ -19,13 +19,13 @@ mount drijf &
 
 unclutter &
 redshift &
+hsetroot -fill /home/niels/pics/DE-foto.jpg &
 
 emacs --daemon &
 
-clipster -d 2>/dev/null &
 
+clipster -d 2>/dev/null &
 mhead &
-hsetroot -fill /home/niels/pics/DE-foto.jpg &
 sxhkd -m -1 &
 panel &
 
