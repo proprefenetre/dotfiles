@@ -7,16 +7,19 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   false
 bspc config gapless_monocle      false
 
-bspc config external_rules_command "/home/niels/bin/external_rules"
+bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
 # rules
 # remove all rules first
 bspc rule -a Chromium desktop='^1'
 bspc rule -a Navigator desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a "URxvt":scratchterm sticky=on state=floating hidden=on rectangle=683x384
+bspc rule -a "URxvt":scratchterm sticky=on state=floating hidden=on rectangle=704x512
+bspc rule -a "URxvt":fmterm state=floating hidden=on rectangle=704x512
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 
-scratchmacs &
-scratchterm &
+/home/niels/dotfiles/bspwm/panel &
+fmterm &
+/home/niels/dotfiles/bspwm/scratchmacs &
+/home/niels/dotfiles/bspwm/scratchterm &

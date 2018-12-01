@@ -23,11 +23,10 @@ hsetroot -fill /home/niels/pics/DE-foto.jpg &
 
 emacs --daemon &
 
-
 clipster -d 2>/dev/null &
 mhead &
 sxhkd -m -1 &
-panel &
+# panel &
 
 xautolock -time 10 -locker slock &
 

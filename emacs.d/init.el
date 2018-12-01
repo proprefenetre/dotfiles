@@ -21,6 +21,7 @@
       package--init-file-ensured t)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 (unless package--initialized (package-initialize t))
@@ -120,8 +121,10 @@
 (setq-default bookmark-save-flag 1
               bookmark-default-file "~/dotfiles/emacs.d/var/bookmarks")
 
-(setq help-window-select t)
-(setq tramp-default-method "ssh")
+(setq TeX-engine 'xelatex)
+(setq latex-run-command "xelatex")
+
+(setq-default tramp-default-method "ssh")
 
 (setq frame-title-format "%b")
 
@@ -134,13 +137,32 @@
         try-expand-dabbrev-all-buffers
         try-expand-dabbrev-from-kill))
 
+;;; built-ins
+(require 'recentf)
+(recentf-mode 1)
+(require 'table)
+
 ;;; Packages
+(use-package smex
+  :demand t)
+
+(use-package polymode
+  :mode
+  ("\\.Rnw" . poly-noweb+r-mode)
+  ("\\.Rmd" . poly-markdown+r-mode))
+
+(use-package poly-markdown)
+
+(use-package ess
+  :config
+  (setq ess-eval-visibly 'nowait))
+
 (use-package eyebrowse
   :demand t
   :config
   (setq eyebrowse-new-workspace t
-	eyebrowse-wrap-around t
-	eyebrowse-switch-back-and-forth t))
+	    eyebrowse-wrap-around t
+	    eyebrowse-switch-back-and-forth t))
 
 (use-package edit-indirect
   :demand t)
@@ -148,21 +170,13 @@
 (use-package shackle
   :demand t
   :config
-  (setq shackle-select-reused-windows nil) ; default nil
-  (setq shackle-default-alignment 'below) ; default below
-  (setq shackle-default-size 0.3) ; default 0.5
-  (setq shackle-default-rule '(:select t :align 'below))
+  (setq shackle-rules '((compilation-mode :noselect t))
+        shackle-default-rule '(:select t))
+  ;; (setq shackle-select-reused-windows nil) ; default nil
+  ;; (setq shackle-default-alignment 'below) ; default below
+  ;; (setq shackle-default-size 0.3) ; default 0.5
+  ;; (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
-
-(use-package table
-  :demand t)
-
-(use-package slow-keys
-  :config
-  (setq slow-keys-min-delay 0.02)
-  (dolist (it '(next-line previous-line ivy-next-line ivy-previous-line))
-    (add-to-list 'slow-keys-ignore-cmds it t))
-  (slow-keys-mode 1))
 
 (use-package aggressive-indent
   :demand t
@@ -175,15 +189,10 @@
   :config
   (setq company-idle-delay 0.3
         company-selection-wrap-around t)
-  (add-hook 'after-init-hook 'global-company-mode))
+  (delete 'company-dabbrev company-backends))
 
 (use-package counsel
   :demand t)
-
-;; (use-package counsel-projectile
-;;   :demand t
-;;   :config
-;;   (counsel-projectile-mode))
 
 (use-package evil
   :demand t
@@ -213,7 +222,7 @@
 (use-package evil-surround
   :demand t
   :config
-  (push '(?* . ("*" . "*")) evil-surround-pairs-alist)
+  (push '(?* . ("**" . "**")) evil-surround-pairs-alist)
   (push '(?_ . ("_" . "_")) evil-surround-pairs-alist)
   (push '(?/ . ("/" . "/")) evil-surround-pairs-alist)
   (global-evil-surround-mode))
@@ -353,16 +362,9 @@
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
   (setq yas-triggers-in-field t
         yas-snippet-revival t
-        yas-indent-line nil)
+        yas-indent-line 'nil
+        yas-wrap-around-region t)
   (yas-global-mode 1))
-
-(use-package dashboard
-  :demand t
-  :config
-  (setq dashboard-items '((recents  . 10)
-                          (bookmarks . 10))
-	initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  (dashboard-setup-startup-hook))
 
 ;;; Hooks
 
@@ -371,6 +373,8 @@
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
   (eldoc-mode 1)
+  (company-mode-on)
+  (aggressive-indent-mode)
   (rainbow-delimiters-mode)
   (display-line-numbers-mode)
   (delete-trailing-whitespace)
@@ -386,7 +390,7 @@
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
 ;;; Keys
-(setq tab-always-indent 'complete)
+;; (setq tab-always-indent 'complete)
 
 (general-evil-setup)
 
@@ -401,32 +405,29 @@
   :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state)
 
-(general-def 'insert markdown-mode-map
-  "TAB"   'company-complete-common-or-cycle
-  "<tab>" 'company-complete-common-or-cycle)
-
-(general-def 'normal image-mode-map
+(general-def 'normal (ibuffer-mode-map image-mode-map inferior-ess-r-mode-map)
   "," nil)
 
+(general-def 'insert markdown-mode-map
+  "TAB" 'company-complete-common-or-cycle
+  "<tab>" 'company-complete-common-or-cycle)
+
 (dolist (key '("<return>" "RET"))
-  ;; Here we are using an advanced feature of define-key that lets
-  ;; us pass an "extended menu item" instead of an interactive
-  ;; function. Doing this allows RET to regain its usual
-  ;; functionality when the user has not explicitly interacted with
-  ;; Company.
   (general-def company-active-map key
     `(menu-item nil company-complete
 		        :filter ,(lambda (cmd)
 			               (when (company-explicit-action-p)
 			                 cmd)))))
+
 (general-def company-active-map
   "TAB" 'company-complete-selection
   "SPC" nil
   "C-w" 'evil-delete-backward-word)
 
-(general-def '(normal visual insert emacs)
+(general-def '(normal visual emacs)
   :prefix ","
   :non-normal-prefix "M-,"
+  :keymaps 'override
   "b" 'switch-to-previous-buffer
   "d" 'dired-jump
   "e" 'eval-last-sexp
@@ -440,43 +441,47 @@
   "R" '(lambda () (interactive)
 	     (load-file user-init-file)
 	     (message "buffer reloaded"))
-  "s" 'magit-status
-  "," 'other-window)
+  "s" 'magit-status)
 
 (general-def
-  "C-x C-f" 'counsel-find-file
-  "C-c a"   'evil-numbers/inc-at-point
-  "C-c b"   'counsel-bookmark
-  "C-c c"   'compile
-  "C-c d"   'quick-calc
-  ;; "C-c e"
-  "C-c f"   'ffap
-  ;; "C-c g"
-  ;; "C-c h"
-  ;; "C-c i"
-  ;; "C-c j"
-  "C-c k"   'counsel-ag
-  "C-c l"   'org-store-link
-  ;; "C-c m"
-  ;; "C-c n"
-  ;; "C-c o"
-  ;; "C-c p"
-  ;; "C-c q"
-  "C-c r"   'counsel-recentf
-  "C-c R"   '(lambda () (interactive)
-               (load-file user-init-file))
-  "C-c s"   'cycle-ispell-languages
-  ;; "C-c t"
-  ;; "C-c u"
-  ;; "C-c v"
-  ;; "C-c w"
-  "C-c a"   'evil-numbers/dec-at-point
-  ;; "C-c y"
-  ;; "C-c z"
-  "C-s"     'swiper)
+  :prefix "C-c"
+  "a"   'evil-numbers/inc-at-point
+  "b"   'counsel-bookmark
+  "c"   'compile
+  "d"   'quick-calc
+  ;; "e"
+  "f"   'ffap
+  ;; "g" "h"
+  "i"   'ibuffer
+  ;; "j"
+  "k"   'counsel-ag
+  "l"   'org-store-link
+  ;; "m" "n" "o" "p" "q"
+  "r"   'counsel-recentf
+  "R"   '(lambda () (interactive)
+           (load-file user-init-file))
+  "s"   'cycle-ispell-languages
+  ;; "t" "u" "v" "w"
+  "x"   'evil-numbers/dec-at-point)
 
-;; lower garbace collection threshold
+(general-def
+  :prefix "C-h"
+  "f"   'counsel-describe-function
+  "v"   'counsel-describe-variable)
 
+(general-def
+  :prefix "C-x"
+  "f"   'counsel-find-file
+  "C-f" 'counsel-find-file)
+
+(general-def
+  "C-;"     'evil-repeat-find-char-reverse
+  "C-s"     'swiper
+  "M-/"     'hippie-expand
+  "<M-tab>" 'company-complete-common-or-cycle
+  "M-x"     'counsel-M-x)
+
+;; lower garbage collection threshold
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
 

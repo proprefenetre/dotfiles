@@ -1,0 +1,6 @@
+# key: >
+# name: pipe
+# expand-env: ((yas-indent-line 'fixed))
+# --
+%>%
+    $1

@@ -60,3 +60,12 @@ alias vt-vim='urxvt -e vim'
 alias v='vim'
 alias zath='zathura --fork'
 alias startx='exec startx'
+
+n() {
+    nnn "$@"
+
+    if [ -f $NNN_TMPFILE ]; then
+        . $NNN_TMPFILE
+        rm -f $NNN_TMPFILE > /dev/null
+    fi
+}
