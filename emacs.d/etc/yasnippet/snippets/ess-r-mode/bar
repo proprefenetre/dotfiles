@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: bar
+# key: bar
+# --
+ggplot($1) +
+    geom_bar(aes(x=$2, fill=$3), position = position_${4:fill}(), width = ${5:.5}) +
+    ylab("Proportion") +
+    theme_${6:bw}() ${7:+ plot.opts + scale_fill_brewer("Paired")}$0

@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name:images-sbs 
+# key: sbs6
+# --
+\begin{figure}
+  \makebox[\textwidth]{
+    \frame{\includegraphics[width=0.49\textwidth]{${1:image}}}
+    \hfill
+    \frame{\includegraphics[width=0.49\textwidth]{${2:image}}}
+  }
+  \caption{${3:caption}}\label{fig:${label}}
+ \end{figure}

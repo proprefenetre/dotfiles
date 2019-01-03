@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fig-ref
+# key: fig
+# --
+\@ref(fig:$1)

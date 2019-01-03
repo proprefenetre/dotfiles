@@ -1,0 +1,14 @@
+# key: id
+# name: entry
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+- id: $1
+  type: $2
+  title: $3
+  author:
+    - family: $4
+      given: $5
+  issued:
+    - year: $6
+  publisher: $7
+  publisher-place: $8

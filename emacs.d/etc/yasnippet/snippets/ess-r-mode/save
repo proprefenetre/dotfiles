@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: save
+# key: ggsave
+# --
+ggsave(${1:fig.path($2)}, ${3:width = 4}, ${4:height = 2.5})
