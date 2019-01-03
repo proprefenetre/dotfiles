@@ -15,11 +15,8 @@ if [ "$instance" = emacs ] ; then
     case "$title" in
 	scratchmacs)
 	    echo "state=floating"
-	    # echo "sticky=on"
         echo "locked=on"
-        
-	    echo "                 : state=floating" >> /tmp/bspc-external-rules
-	    echo "                 : sticky=on" >> /tmp/bspc-external-rules
+        echo "rectangle=896x711"
 	    ;;
     esac
 fi

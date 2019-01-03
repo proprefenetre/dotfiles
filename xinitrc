@@ -21,7 +21,7 @@ unclutter &
 redshift &
 hsetroot -fill /home/niels/pics/DE-foto.jpg &
 
-emacs --daemon &
+# emacs --daemon="EMAX" &
 
 clipster -d 2>/dev/null &
 mhead &

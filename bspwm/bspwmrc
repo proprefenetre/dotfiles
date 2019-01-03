@@ -15,11 +15,9 @@ bspc rule -a Chromium desktop='^1'
 bspc rule -a Navigator desktop='^1'
 bspc rule -a mpv state=floating
 bspc rule -a "URxvt":scratchterm sticky=on state=floating hidden=on rectangle=704x512
-bspc rule -a "URxvt":fmterm state=floating hidden=on rectangle=704x512
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 
 /home/niels/dotfiles/bspwm/panel &
-fmterm &
 /home/niels/dotfiles/bspwm/scratchmacs &
 /home/niels/dotfiles/bspwm/scratchterm &

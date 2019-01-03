@@ -1,71 +1,14 @@
-" vimrc -- Sinterklaas iteration 
+" vimrc -- Sinterklaas 2018 iteration 
+" For terminal use only (though not for murder)
 " Preamble
 " ========
 set nocompatible
 filetype plugin indent on
 syntax enable
 
-call plug#begin('~/.vim/plugged')
-
-" Plug 'sirver/ultisnips'
-
-Plug 'proprefenetre/molokai'
-" Plug 'proprefenetre/flattened'
-" Plug 'morhetz/gruvbox'
-
-" Plug 'vim-syntastic/syntastic'
-" Plug 'airblade/vim-gitgutter'
-
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-easytags'
-
-" Plug 'ctrlpvim/ctrlp.vim'
-
-Plug 'tpope/vim-abolish'
-" Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
-" Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-eunuch'
-
-" Plug 'godlygeek/tabular'
-
-Plug 'junegunn/rainbow_parentheses.vim'
-
-" Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-" Plug 'vim-pandoc/vim-pandoc-after'
-
-" Plug 'ron89/thesaurus_query.vim'
-" Plug 'reedes/vim-wordy'
-
-" Plug 'fs111/pydoc.vim'
-
-" Plug 'rust-lang/rust.vim'
-
-call plug#end()
-
 " General
 " =======
-let g:molokai_original=1
-let g:rehash256=1
-colorscheme molokai
-
 hi clear SignColumn	
-
-if has ("gui_running")
-    set guifont=Hack\ 10
-    set go-=e
-    set go-=m
-    set go-=r
-    set go-=L
-    set go-=T
-    set go+=a
-    set go+=c
-    set guiheadroom=0
-endif
 
 set backspace=indent,eol,start
 set mouse=a
@@ -93,7 +36,6 @@ set foldnestmax=10
 " ----------
 set laststatus=2
 set statusline=
-" set statusline+=\ %{fugitive#statusline()}\ 
 set statusline+=%M\ 
 set statusline+=%<%f\ 
 set statusline+=[%(%R\,\ %)%Y\,\ %{(&fenc!=''?&fenc:&enc)}]
@@ -116,10 +58,6 @@ set incsearch
 
 set gdefault
 
-" spelling 
-" --------
-set spelllang=en,nl
-
 " general style
 " -------------
 set tabstop=8
@@ -134,46 +72,6 @@ set formatprg=par\ -w80q
 set backupdir=./.backup//,~/.vim/backup//,/tmp//
 set directory=./.swap//,~/.vim/swap//,/tmp//
 set undodir=./.vim/undo//,/tmp//
-
-" File-type specific
-" ==================
-
-" *unspecific
-" -----------
-autocmd BufNewFile,BufRead * :RainbowParentheses
-
-" C(++)
-" -----
-augroup c
-    autocmd!
-    autocmd FileType c set cms=//\ %s
-    autocmd FileType cpp set cms=//\ %s
-augroup END
-
-" MDPP
-" ----
-autocmd BufNewFile,BufRead *.mdpp set filetype=pandoc
-
-" Python
-" ------
-autocmd FileType python set breakindentopt=shift:4
-let g:pydoc_open_cmd = 'tabnew'
-
-" Rust
-" ----
-augroup rust
-    autocmd!
-    autocmd FileType * call RustHighlights()
-augroup END
-
-function! RustHighlights()
-    hi clear rustSigil
-    highlight! link rustSigil Question
-endfunction
-
-" Yaml
-" ----
-autocmd FileType yaml setlocal ts=4 sts=4 sw=4 indentkeys-=<:>
 
 " Functions
 " =========
@@ -264,67 +162,6 @@ function! MapR()
 endfunction
 " }}} "
 
-" Plugins
-" =======
-
-" ctlp
-" ----
-" let g:ctrlp_switch_buffer='et'
-let g:ctrlp_cmd = 'CtrlP'
-
-" UltiSnips
-" ---------
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetDirectories=["snipperts"]
-let g:UltiSnipsEditSplit="vertical"
-
-" Rainbow parentheses
-" -------------------
-let g:rainbow#max_level = 16
-let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
-
-" vim-easytags
-" ------------
-set tags=./.tags;,~/.vimtags
-let g:easytags_events = ['BufReadPost', 'BufWritePost']
-let g:easytags_async = 1
-let g:easytags_dynamic_files = 2
-let g:easytags_resolve_links = 1
-let g:easytags_suppress_ctags_warning = 1
-
-" vim-pandoc
-" ----------
-let g:pandoc#filetyes#handled = ["markdown", "mail"]
-let g:pandoc#modules#disabled = ["folding"]
-let g:pandoc#formatting#mode = "h"
-
-let g:pandoc#after#modules#enabled = ["ultisnips"]
-
-" thesaurus_query
-" ---------------
-let g:tq_enabled_backends=["thesaurus_com","mthesaur_txt"]
-
-" vim-vinegar
-" -----------
-let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
-
-" syntastic
-" ---------
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_python_checkers = ["flake8"]
-let g:syntastic_python_flake8_args = "--ignore=E301,E303,E501,W291,W293,W391,F401"
-
-let g:syntastic_bash_checkers = ["ShellCheck"]
-let g:syntastic_sh_ShellCheck_args = "-x"
-
-let g:syntastic_rust_checkers = ['clippy']
-
 " Mappings
 " ========
 
@@ -383,11 +220,6 @@ nnoremap <silent> <leader><s-t> :call ToggleTabline()<cr>
 
 " command line keys
 cnoremap <c-a> <Home>
-
-" vim-fugitive
-nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gs :Gstatus<cr>
 
 " aliases
 call CommandAlias("reindent", ":!indent -kr %")

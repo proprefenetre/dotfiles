@@ -94,7 +94,7 @@ bind index,pager \Co sidebar-open
 
 macro index,pager M "<save-message>=[Gmail]/Alle berichten<enter><enter>" "Archive"
 macro index,pager d "<save-message>=[Gmail]/Prullenbak<enter><enter>" "Trash"
-macro index,pager a "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
+# macro index,pager a "<pipe-message>goobook add<return>" "add the sender address to Google contacts"
 
 macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index,pager ga "<change-folder>=[Gmail]/Alle berichten<enter>" "Go to all mail"
@@ -128,6 +128,8 @@ bind pager gg top
 bind pager G bottom
 
 # editor
+set editor=vim
+
 bind editor <Tab> complete-query
 
 # colors

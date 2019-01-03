@@ -1,4 +1,4 @@
-# vim: ft=muttrc
+# -*- mode: mail -*-
 
 # accounts
 set my_password="`(pass gmail/ne-mutt)`"
