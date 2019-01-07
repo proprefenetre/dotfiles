@@ -370,7 +370,7 @@
         '(("READ" . "#65b2ff")
           ("GOOGLE" . "#65b2ff")
           ("AFSPRAAK" . "#906cff")
-          ("WEEKLY" . "#aaffe4")))
+          ("WEEKLY" . "#ff8080")))
 
   (setq org-capture-templates
 	    '(("d" "dict" entry (file+headline "~/org/dict.org" "Words") "* %? :: "))))
@@ -458,7 +458,8 @@
   (flycheck-mode 1)
   (outline-minor-mode)
   (company-mode-on)
-  (display-line-numbers-mode))
+  (display-line-numbers-mode)
+  (aggressive-indent-mode))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()

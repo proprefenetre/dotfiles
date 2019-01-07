@@ -5,10 +5,10 @@ mod4 + Return
      urxvt
 
 mod4 + e
-     scratchmacs
+     ~/dotfiles/bspwm/scratchmacs
 
 mod4 + u
-     scratchterm
+     ~/dotfiles/bspwm/scratchterm
 
 # set flags
 mod4 + f; {m,l,s,p}
@@ -21,7 +21,7 @@ mod4 + g
 
 # hide and restore  windows 
 mod4 + {_,shift +} m
-    {/home/niels/dotfiles/bspwm/hide -h,/home/niels/dotfiles/bspwm/hide -r}
+    {~/dotfiles/bspwm/hide -h,~/dotfiles/bspwm/hide -r}
 
 # program launcher
 mod4 + @apostrophe ; {1,2,3,@apostrophe}
