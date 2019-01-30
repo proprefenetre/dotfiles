@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: block
+# key: %
+# --
+{% ${1:block} $2 %}
+$3
+{% end$1%}

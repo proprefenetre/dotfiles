@@ -1,0 +1,9 @@
+# key: ex
+# name: example
+# --
+\begin{exe}
+  \ex\label{${1:label}}
+  \gll ${2:example} \\\\
+    ${3:glosses} \\\\ ${4:\hfill ${5:source}}
+    \glt ${6:translation}
+\end{exe}

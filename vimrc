@@ -6,6 +6,14 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
+" plugins
+" =======
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'w0rp/ale'
+
+call plug#end()
+
 " General
 " =======
 hi clear SignColumn	
@@ -76,7 +84,7 @@ set undodir=./.vim/undo//,/tmp//
 " Functions
 " =========
 
-" fill line with character(s) {{{
+" fill line with character(s) 
 " ---------------------------
 function! FillLine(str)
     let tw = 79
@@ -88,9 +96,8 @@ function! FillLine(str)
 endfunction
 
 command! -nargs=1 Fill call FillLine(<args>) 
-" }}} "
 
-" toggle ui elements {{{
+" toggle ui elements 
 " ------------------
 let g:toggle_tabline=0
 let g:hide_all=0
@@ -132,16 +139,14 @@ function! ToggleTabline()
         set showtabline=0
     endif
 endfunction
-" }}} "
 
-" create command aliases {{{
+" create command aliases 
 " ----------------------
 function! CommandAlias(key, value)
     exe printf('cabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() <= %d) ? %s : %s', a:key, 1+len(a:key), string(a:value), string(a:key))
 endfu
-" }}} "
 
-" 'run' mapping {{{
+" 'run' mapping 
 " -------------
 function! MapR()
     if (&ft=='rust')
@@ -160,7 +165,6 @@ function! MapR()
         !yamllint %
     endif
 endfunction
-" }}} "
 
 " Mappings
 " ========
@@ -170,6 +174,8 @@ let mapleader = ","
 " navigation
 map j gj
 map k gk
+
+nnoremap <leader>q :wq<cr>
 
 inoremap jj <esc>
 
@@ -202,8 +208,8 @@ nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
 " editing vimrc
-nnoremap <leader>.p :e $MYVIMRC<cr>
-nnoremap <leader>eu :source $MYVIMRC<cr>
+nnoremap <leader>i :e $MYVIMRC<cr>
+nnoremap <C-c>r: source $MYVIMRC<cr>
 
 " highlight information
 map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '>

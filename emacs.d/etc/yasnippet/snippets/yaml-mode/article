@@ -1,0 +1,15 @@
+# key: art
+# name: article
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+- id: $1
+  type: article-journal
+  author:
+    - family: $2
+      given: $3
+  issued:
+    - year: $4
+  title: $5
+  container-title: $6
+  page: $7
+  URL: $8

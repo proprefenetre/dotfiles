@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: small caps
+# key: sc
+# --
+\fakesc{$1}

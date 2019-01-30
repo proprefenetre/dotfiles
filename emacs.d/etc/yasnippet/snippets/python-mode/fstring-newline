@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fstring-newline
+# key: nl
+# --
+chr(10)$0

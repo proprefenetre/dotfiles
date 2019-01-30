@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: example list
+# key: exlist
+# --
+\begin{exe}
+    \ex
+    \begin{xlist}
+    \ex \label{${1:label}}
+    \gll $2\\
+    ${3:glosses}\\ ${5:\hfill${6:source}}
+    ${7:translation}
+  \end{xlist}
+\end{exe}

@@ -17,7 +17,8 @@ alias drijf='cadaver https://proprefenetre.stackstorage.com/remote.php/webdav/'
 alias dropbox='dropbox-cli'
 alias ducks='du -cksh * | sort -hr | head -n 15'
 alias dunstr='killall dunst && dunst &'
-alias e='emacsclient -n -c'
+alias e='emax'
+alias ex-start='npm install && touch .projectile'
 alias get='fc -s "Ss=S"'
 alias gg='g++ -Wall -Wextra -std=gnu++11 -g'
 alias g='emax'
@@ -37,7 +38,7 @@ alias octoperms='stat -c "%a %n"'
 alias pacman='sudo pacman --color=always'
 alias pdf-tif='gs -dNOPAUSE -r300 -sDEVICE=tiffg4 -sOutputFile=vdmast.tif'
 alias pgp='gpg'
-alias pignore='curl https://www.gitignore.io/api/python%2Cvim -o .gitignore'
+alias pignore='curl https://www.gitignore.io/api/python%2Cemacs -o .gitignore'
 alias ping3='ping -c3 www.google.com'
 alias pkglist='pacman -Qqe >pkglist'
 alias powertop='sudo powertop'
@@ -60,12 +61,3 @@ alias vt-vim='urxvt -e vim'
 alias v='vim'
 alias zath='zathura --fork'
 alias startx='exec startx'
-
-n() {
-    nnn "$@"
-
-    if [ -f $NNN_TMPFILE ]; then
-        . $NNN_TMPFILE
-        rm -f $NNN_TMPFILE > /dev/null
-    fi
-}
