@@ -1,0 +1,4 @@
+# key: lm
+# name: let-mut
+# --
+let mut ${2:name:} ${3:type} = $4;

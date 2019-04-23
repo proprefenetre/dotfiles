@@ -21,22 +21,16 @@
   "," nil
   "C-c C-w" 'eyebrowse-last-window-config)
 
-(general-def 'insert markdown-mode-map
-  "TAB"   'yas-expand
-  "<tab>" 'yas-expand)
-
 (general-def company-active-map
-  "SPC"   nil
+  "<tab>"   'nil
   "C-w"   'evil-delete-backward-word
-  "C-h"   nil
-  "TAB"   'yas-expand
-  "<tab>" 'yas-expand)
+  "C-h"   nil)
 
 (general-def '(normal visual emacs)
   :prefix ","
   :non-normal-prefix "M-,"
   :keymaps '(override inferior-ess-r-mode-map)
-  "b" 'switch-to-previous-buffer
+  ;; "b" 'switch-to-prev-buffer
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "i" '(lambda () (interactive)
@@ -56,7 +50,7 @@
   "a"   'org-agenda
   "b"   'counsel-bookmark
   "c"   'compile
-  "d"   'calc-dispatch
+  ;; "d"
   "C-d" 'dired-jump
   ;; "e"
   "f"   'ffap
@@ -70,8 +64,7 @@
   ;; "m" "n" "o"
   "p"   'projectile-command-map
   ;; "q"
-
-  "r"   'counsel-recentf
+  "r"   'org-refile
   "R"   '(lambda () (interactive)
            (load-file user-init-file))
   "s"   'cycle-ispell-languages
@@ -95,8 +88,10 @@
   "C-;"     'evil-repeat-find-char-reverse
   "C-s"     'swiper
   "M-/"     'hippie-expand
-  "M-<tab>" 'company-complete-common
-  "M-x"     'counsel-M-x)
+  "M-<tab>" 'company-complete-common-or-cycle
+  "M-x"     'counsel-M-x
+  "TAB"     'yas-expand
+  "<tab>"   'yas-expand)
 
 (provide 'keys)
 ;;; keys.el ends here

@@ -1,0 +1,4 @@
+# key: use
+# name: use
+# --
+use $1::$2;

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: function with lifetime spec
+# key: fnl
+# --
+fn ${1:name}<'${2:a}>($3) -> $4 {
+    $0
+}

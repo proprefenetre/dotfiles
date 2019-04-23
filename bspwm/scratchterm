@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-id=$(xdotool search --classname scratchterm)
+id=$(xdotool search --class scratchterm)
 
 if [ -z "$id" ]; then
-    urxvt -name scratchterm &
-    id=$(xdotool search --classname scratchterm)
+    st -c scratchterm
+    # urxvt -name scratchterm &
+    id=$(xdotool search --class scratchterm)
 fi
 
 bspc node "$id" --flag "hidden" -f

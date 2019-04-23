@@ -71,22 +71,11 @@
     (cl-dolist (word (sort txt #'string<) txt)
       (insert (concat word "\n")))))
 
-(defun switch-to-previous-buffer ()
+(defun pfn-switch-to-previous-buffer ()
   "Switch to previously open buffer.
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
-
-(defun mode-line-fill (face reserve)
-  "Return empty space using FACE and leaving RESERVE space on the right."
-  (unless reserve
-    (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
-  (propertize " "
-              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
-              'face face))
-
 
 (provide 'functions)
 ;;; functions.el ends here

@@ -1,8 +1,15 @@
-# -*-mode: Conf-*-
+# -*- mode: Conf -*-
+
+# make sxhkd reload its configuration files:
+mod4 + Escape
+    pkill -USR1 -x sxhkd
 
 # terminal emulator
 mod4 + Return
-     urxvt
+    st
+
+mod4 + shift + Return
+    urxvt 
 
 mod4 + e
      ~/dotfiles/bspwm/scratchmacs
@@ -24,24 +31,20 @@ mod4 + {_,shift +} m
     {~/dotfiles/bspwm/hide -h,~/dotfiles/bspwm/hide -r}
 
 # program launcher
-mod4 + @apostrophe ; {1,2,3,@apostrophe}
+mod4 + apostrophe ; {1,2,3,apostrophe}
      {firefox-developer-edition,emax,okular,dmenu_run -l 5}
 
 mod4 + v
      roficlip
 
 # create a receptacle
-mod4 + shift + Return
-     bspc node -i
+# mod4 + shift + Return
+#      bspc node -i
 
 mod4 + shift + control + Return
     for win in $(bspc query -N -n .leaf.\!window.local); \
     do bspc node $win -k ; \
     done;
-
-# make sxhkd reload its configuration files:
-mod4 + Escape
-    pkill -USR1 -x sxhkd
 
 ## quit bspwm normally
 mod4 + control + Escape
@@ -103,6 +106,7 @@ mod4 + ctrl + shift + space
 mod4 + {_,shift} + r
     bspc node @parent -R {90,270}
 
+#3 Resize
 # contract/expand side a
 # vim keys
 # ========

@@ -28,3 +28,5 @@ shopt -s histappend
 
 # see .bash_profile for environment variables
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

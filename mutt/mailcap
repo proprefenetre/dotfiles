@@ -1,5 +1,6 @@
 # text
 text/html; w3m -I utf-8 -T text/html; copiousoutput;
+text/plain; emax %s
 
 # Images
 image/*; feh %s

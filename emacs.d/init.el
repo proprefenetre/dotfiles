@@ -169,7 +169,6 @@
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "--simple-prompt -i")
 
-
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
 
@@ -196,19 +195,8 @@
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
-;; company - yasnippet garbage
-(defun company-yasnippet-or-completion ()
-  (interactive)
-  (let ((yas-fallback-behavior nil))
-    (unless (yas-expand)
-      (call-interactively #'company-complete-common))))
-(add-hook 'company-mode-hook (lambda ()
-                               (substitute-key-definition 'company-complete-common
-                                                          'company-yasnippet-or-completion
-                                                          company-active-map)))
 
 ;; lower garbage collection threshold
-
 (setq gc-cons-threshold 16777216
       gc-cons-percentage 0.1)
 ;;; init.el ends here

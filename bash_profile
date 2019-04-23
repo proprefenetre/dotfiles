@@ -23,3 +23,4 @@ export PANEL_FONT="-*-hack-*-*-*-*-10-*-*-*-*-*-*-*"
 export PANEL_WM_NAME=bspwm_panel
 
 export npm_config_prefix=~/.node_modules
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"

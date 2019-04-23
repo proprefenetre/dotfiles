@@ -9,12 +9,15 @@ bspc config gapless_monocle      false
 
 bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
+# class instance title
+# scratchterm st-256color st
+
 # rules
 # remove all rules first
 bspc rule -a Chromium desktop='^1'
 bspc rule -a Navigator desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a "URxvt":scratchterm sticky=on state=floating hidden=on rectangle=704x512
+bspc rule -a scratchterm sticky=on state=floating hidden=on
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 
