@@ -3,6 +3,7 @@
 alias amke='make'
 alias bashrc='emacsclient -n -c ~/.bashrc'
 alias battlenet='wine .wine/drive_c/Program\ Files\ \(x86\)/Battle.net/Battle.net.exe'
+alias bc='bc ~/dotfiles/funcs.bc -l'
 alias cal='cal -3w --color=always'
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 alias cd..='cd ..'

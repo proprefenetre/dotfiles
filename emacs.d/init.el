@@ -248,6 +248,7 @@
   :config
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
+  (add-to-list 'hippie-expand-try-functions-list 'yas-hippie-try-expand)
   (setq yas-triggers-in-field t
         yas-snippet-revival t
         yas-indent-line 'nil
@@ -305,7 +306,7 @@
   "b"   'counsel-bookmark
   "c"   'compile
   ;; "d"
-  "C-d" 'dired-jump
+  "C-d" 'dired-jump-other-window
   ;; "e"
   "f"   'ffap-other-window
   ;; "g" "h"
@@ -329,7 +330,13 @@
   :prefix "C-x"
   "ESC ESC" nil)
 
+(general-def
+  "M-/" 'hippie-expand)
+
                                         ; different modes
+(general-def 'insert racket-mode-map
+  "C-)" 'sp-forward-slurp-sexp)
+
 (general-def 'normal racket-repl-mode-map
   :prefix "C-w"
   "C-w" 'other-window)
