@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: injection
-# key: inj
-# --
-injection $1

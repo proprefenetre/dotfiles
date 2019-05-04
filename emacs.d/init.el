@@ -1,42 +1,25 @@
-;; init.el --- Emacs Configuration
-;;; Commentary:
-;;; iteration: 2019-4-23
-;;; Code:
+;;; init.el -- a fresh shart
 
-;;; Initialization
-;; Personal settngs
-(setq user-full-name "Niels Eigenraam"
-      user-mail-address "nielseigenraam@gmail.com")
-
-;; garbage collection
-(eval-and-compile
-  (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6))
-
-;; package.el
 (require 'package)
 
-(setq package-enable-at-startup nil
-      load-prefer-newer t
-      package-user-dir "~/.emacs.d/elpa"
-      package--init-file-ensured t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("org" . "https://orgmode.org/elpa/"))
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("stable" . "https://stable.melpa.org/packages"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+(setq package-enable-at-startup nil)
+(package-initialize)
 
-(unless package--initialized (package-initialize t))
+(setq-default use-package-always-ensure t
+              use-package-always-defer t
+              use-package-verbose t)
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
-(setq use-package-always-defer t
-      use-package-always-ensure t
-      use-package-verbose t)
+	(package-refresh-contents)
+	(package-install 'use-package))
+(require 'use-package)
 
 (use-package no-littering
   :demand t
@@ -46,12 +29,58 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-;;; personal lisp collection
-(add-to-list 'load-path "/home/niels/dotfiles/emacs.d")
-(add-to-list 'load-path "/home/niels/dotfiles/emacs.d/etc/lisp/")
-;;; Settings
+(set-face-attribute 'default nil :font "Hack 10")
+(set-face-attribute 'line-number nil :background 'unspecified)
+(set-face-attribute 'fringe nil :inherit 'line-number)
 
-;; theme
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(prefer-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+
+(setq-default locale-coding-system 'utf-8
+	      default-input-method "latin-postfix"
+	      indent-tabs-mode nil
+	      tab-width 4
+	      fill-column 80
+	      scroll-margin 10
+	      scroll-conservatively most-positive-fixnum
+	      auto-fill-function 'do-auto-fill
+	      confirm-kill-emacs 'yes-or-no-p
+	      x-select-enable-clipboard t
+	      vc-follow-symlinks t
+	      display-line-numbers-width 4
+	      display-line-numbers-width-start 3
+	      display-line-numbers-widen nil
+	      bookmark-save-flag 1
+	      bookmark-default-file "~/.emacs.d/var/bookmarks"
+	      TeX-engine 'xelatex
+	      latex-run-command "xelatex"
+	      tramp-default-method "ssh")
+
+(dolist (table abbrev-table-name-list)
+  (abbrev-table-put (symbol-value table) :case-fixed t))
+
+(put 'downcase-region 'disabled nil)              ; Enable downcase-region
+(put 'upcase-region 'disabled nil)                ; Enable upcase-region
+(put 'narrow-to-region 'disabled nil)             ; Enable narrowing
+
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(abbrev-mode 1)
+(recentf-mode 1)
+(show-paren-mode 1)
+(fringe-mode '(8 . 8))
+
+(setq ispell-silently-savep t
+      ispell-dictionary "dutch"
+      ispell-extra-args '("-a" "utf-8"))
+
+;; Packages
 (setq custom-safe-themes t)
 
 (use-package all-the-icons)
@@ -65,71 +94,13 @@
   (doom-themes-org-config))
 
 (use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
   :config
-  (setq doom-modeline-height 10
+  (setq doom-modeline-height 11
         doom-modeline-bar-width 3
         column-number-mode t
-        doom-modeline-icon t)
-  :hook (after-init . doom-modeline-mode))
+        doom-modeline-icon t))
 
-(set-face-attribute 'default nil :font "Iosevka 11")
-(set-face-attribute 'line-number nil :background 'unspecified)
-(set-face-attribute 'fringe nil :inherit 'line-number)
-
-(prefer-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(setq default-input-method "latin-postfix")
-
-(setq-default indent-tabs-mode nil
-              tab-width 4
-              fill-column 80
-              scroll-margin 10
-              scroll-conservatively most-positive-fixnum
-              auto-fill-function 'do-auto-fill)
-
-(dolist (table abbrev-table-name-list)
-  (abbrev-table-put (symbol-value table) :case-fixed t))
-
-(setq confirm-kill-emacs 'yes-or-no-p)
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(setq-default x-select-enable-clipboard t)
-
-(setq-default vc-follow-symlinks t)
-
-(put 'downcase-region 'disabled nil)              ; Enable downcase-region
-(put 'upcase-region 'disabled nil)                ; Enable upcase-region
-(put 'narrow-to-region 'disabled nil)             ; Enable narrowing
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(menu-bar-mode 1)
-(abbrev-mode 1)
-(recentf-mode 1)
-(show-paren-mode 1)
-(fringe-mode '(8 . 8))
-
-(setq display-line-numbers-width 4
-      display-line-numbers-width-start 3
-      display-line-numbers-widen nil)
-
-(setq ispell-silently-savep t
-      ispell-dictionary "dutch"
-      ispell-extra-args '("-a" "utf-8"))
-
-(setq-default bookmark-save-flag 1
-              bookmark-default-file "~/dotfiles/emacs.d/var/bookmarks")
-
-(setq TeX-engine 'xelatex)
-(setq latex-run-command "xelatex")
-
-(setq-default tramp-default-method "ssh")
-
-;; Packages
 (use-package evil
   :demand t
   :init
@@ -257,11 +228,8 @@
         yas-also-auto-indent-first-line t)
   (yas-global-mode 1))
 
-;;; other packages // what's with the error?
-(require 'packages.el)
-(require 'functions)
 
-;; keybinding
+;;; keybinding
 (setq tab-always-indent t)
 
 (general-evil-setup)
@@ -298,8 +266,8 @@
 	     (load-file user-init-file)
          (message "buffer reloaded"))
   "s" 'magit-status)
-                                        ; C-c binds
 
+                                        ; C-c binds
 (general-def
   :prefix "C-c"
   "a"   'org-agenda
@@ -324,17 +292,21 @@
            (load-file user-init-file))
   "s"   'cycle-ispell-languages
   ;; "t" "u" "v" "w" "x"
+  "C-l" 'comint-clear-buffer
   )
 
 (general-def
   :prefix "C-x"
-  "ESC ESC" nil)
+  "ESC ESC" nil
+  "t t" 'treemacs
+  "t 0" 'treemacs-select-window
+  "t 1" 'treemacs-delete-other-windows
+  "t B" 'treemacs-bookmark
+  "t C-t" 'treemacs-find-file
+  "t M-t" 'treemacs-find-tag)
 
 (general-def
-  "M-/" 'hippie-expand)
-
-                                        ; different modes
-(general-def 'insert racket-mode-map
+  "M-/" 'hippie-expand
   "C-)" 'sp-forward-slurp-sexp)
 
 (general-def 'normal racket-repl-mode-map
@@ -348,18 +320,15 @@
   "<backtab>" 'company-select-previous
   "RET" nil)
 
-(general-def yas-minor-mode-map
-  "C-n" 'yas-expand
-  "TAB" nil
-  "<tab>" nil)
+(general-def 'insert yas-keymap
+  "TAB" 'yas-next-field-or-maybe-expand
+  "<tab>" 'yas-next-field-or-maybe-expand
+  "<backtab>" 'yas-prev)
 
-(general-def yas-keymap
-  "C-n" 'yas-next-field-or-maybe-expand
-  "TAB" nil
-  "<tab>" nil)
-
-;; personal elisp
+;;; other stuff
+(add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'functions)
+(require 'packages)
 
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
@@ -374,7 +343,6 @@
   (outline-minor-mode 1)
   (display-line-numbers-mode 1)
   (smartparens-mode 1))
-
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
@@ -384,10 +352,5 @@
   (rainbow-delimiters-mode 1)
   (flyspell-mode 1)
   (electric-pair-mode 1))
-
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
-
-;; lower garbage collection threshold
-(setq gc-cons-threshold 16777216
-      gc-cons-percentage 0.1)
 ;;; init.el ends here

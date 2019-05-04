@@ -2,13 +2,6 @@
 ;;; commentary:
 ;;; code:
 
-;; Rust
-(use-package racer
-  :hook (rust-mode . racer-mode))
-
-(use-package rust-mode
-  :mode ("\\.rs" . rust-mode))
-
 ;; Python
 (use-package pyvenv
   :init
@@ -24,12 +17,12 @@
   (add-to-list 'company-backends 'company-anaconda))
 
 ;; Language Server Protocol
-(require 'lsp-clients)
 (use-package lsp-mode
   :commands lsp
   :init
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
   :config
+  (require 'lsp-clients)
   (setq lsp-auto-guess-root t
         lsp-prefer-flymake nil
         lsp-auto-configure t))
@@ -63,13 +56,42 @@
   :config
   (counsel-projectile-mode))
 
-;; Science stuff
-(use-package poly-markdown)
+(use-package treemacs
+  :config
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple))))
+  )
 
-(use-package polymode
-  :mode
-  ("\\.Rnw" . poly-noweb+r-mode)
-  ("\\.Rmd" . poly-markdown+r-mode))
+(use-package treemacs-evil
+  :after treemacs evil
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after treemacs projectile
+  :ensure t)
+
+(use-package treemacs-magit
+  :after treemacs magit
+  :ensure t)
+
+;; Science stuff
+;; (use-package poly-markdown)
+
+;; (use-package polymode
+;;   :mode
+;;   ("\\.Rnw" . poly-noweb+r-mode)
+;;   ("\\.Rmd" . poly-markdown+r-mode))
+
+;; (use-package ess
+;;   :config
+;;   (setq ess-eval-visibly 'nowait))
 
 (use-package markdown-mode
   :mode
@@ -88,18 +110,7 @@
                           '(("(b?red .*)" . font-lock-keyword-face)))
   )
 
-(use-package ess
-  :config
-  (setq ess-eval-visibly 'nowait))
-
 ;; evil stuff
-(use-package evil-embrace
-  :after evil-surround
-  :demand t
-  :config
-  (add-hook 'org-mode-hook 'embrace-org-mode-hook)
-  (evil-embrace-enable-evil-surround-integration))
-
 (use-package evil-org
   :after org
   :demand t
@@ -111,15 +122,6 @@
   :after '(evil magit)
   :config
   (setq evil-magit-state 'normal))
-
-;; misc
-;; (use-package eyebrowse
-;;   :demand t
-;;   :config
-;;   (setq eyebrowse-new-workspace t
-;;         eyebrowse-wrap-around t
-;;         eyebrowse-switch-back-and-forth t)
-;;   (eyebrowse-mode))
 
 (use-package flycheck
   :delight " Fly"
@@ -189,13 +191,13 @@
           ("CANCELED" . "red")
           ("NB". "orange"))))
 
-  (use-package yaml-mode
-    :mode
-    ("\\.yml" . yaml-mode)
-    ("\\.yaml" . yaml-mode)
-    :config
-    (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
-    (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
+(use-package yaml-mode
+  :mode
+  ("\\.yml" . yaml-mode)
+  ("\\.yaml" . yaml-mode)
+  :config
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
 (use-package yasnippet-snippets
   :after yasnippet)

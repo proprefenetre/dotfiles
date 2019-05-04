@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: simplify_eq
-# key: simeq
-# --
-simplify_eq ${1:hyp}

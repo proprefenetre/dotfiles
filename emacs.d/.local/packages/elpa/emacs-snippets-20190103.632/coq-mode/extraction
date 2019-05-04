@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Extraction
-# key: extr
-# --
-Extraction ${1:id}.

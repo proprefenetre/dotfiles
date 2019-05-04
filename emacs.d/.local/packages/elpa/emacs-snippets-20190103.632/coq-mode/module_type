@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: Module Type
-# key: mti
-# --
-Module Type $1.
-$2
-End $3.

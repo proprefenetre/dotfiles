@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: compare
-# key: cmpa
-# --
-compare $1 $2
