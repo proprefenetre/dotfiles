@@ -17,7 +17,7 @@ bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 bspc rule -a Chromium desktop='^1'
 bspc rule -a Navigator desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a scratchterm sticky=on state=floating hidden=on
+bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=500x500
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 

@@ -14,7 +14,8 @@ if [ "$instance" = emacs ] ; then
 	scratchmacs)
 	    echo "state=floating"
 	    echo "sticky=on"
-        echo "rectangle=896x711"
+        echo "center=on"
+        echo "rectangle=600x600"
 	    ;;
     esac
 fi
