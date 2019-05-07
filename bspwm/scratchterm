@@ -4,7 +4,6 @@ id=$(xdotool search --class scratchterm)
 
 if [ -z "$id" ]; then
     st -c scratchterm
-    # urxvt -name scratchterm &
     id=$(xdotool search --class scratchterm)
 fi
 

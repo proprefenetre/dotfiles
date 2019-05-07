@@ -8,8 +8,8 @@
   (add-hook 'anaconda-mode-hook pyvenv-mode))
 
 (use-package anaconda-mode
-  :hook (python-mode . anaconda-mode)
   :init
+  (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
@@ -67,19 +67,14 @@
      (treemacs-git-mode 'deferred))
     (`(t . _)
      (treemacs-git-mode 'simple))))
-  )
 
 (use-package treemacs-evil
-  :after treemacs evil
-  :ensure t)
+  :demand t)
 
 (use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
+  :demand t)
 
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+(use-package treemacs-magit)
 
 ;; Science stuff
 ;; (use-package poly-markdown)
@@ -205,5 +200,5 @@
 ;; Racket
 (use-package racket-mode)
 
-(provide 'packages.el)
+(provide 'packages)
 ;;; packages.el ends here

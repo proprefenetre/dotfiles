@@ -96,9 +96,9 @@
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
   :config
-  (setq doom-modeline-height 11
-        doom-modeline-bar-width 3
-        column-number-mode t
+  ;; doom-modeline-height 11
+  ;; doom-modeline-bar-width 3
+  (setq column-number-mode t
         doom-modeline-icon t))
 
 (use-package evil

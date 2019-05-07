@@ -19,7 +19,7 @@ xset m 1 0
 unclutter &
 redshift &
 
-mhead
+mhead &
 setxkbmap -model chromebook \
        	-layout us \
 	-variant dvorak-alt-intl \
@@ -29,5 +29,5 @@ setxkbmap -model chromebook \
  
 xautolock -time 10 -locker slock &
 sxhkd -m -1 &
-
+st &
 exec bspwm

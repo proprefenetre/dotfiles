@@ -1,11 +1,16 @@
 Host getinmabella
-    User niels
-    Hostname 192.168.1.2
-    ProxyCommand ssh -W %h:%p thuis
+     User niels
+     Hostname 192.168.1.2
+     ProxyCommand ssh -W %h:%p thuis
 
-Host laptop
+Host pfn
     User niels
     Hostname 192.168.1.2
+    Port 22
+
+Host pfnw 
+    User niels
+    Hostname 192.168.1.24
     Port 22
 
 Host server

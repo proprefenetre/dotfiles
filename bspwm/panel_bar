@@ -2,7 +2,7 @@
 #
 # Example panel for lemonbar
 
-. ./panel_colors
+. /home/niels/dotfiles/bspwm/panel_colors
 
 num_mon=$(bspc query -M | wc -l)
 
