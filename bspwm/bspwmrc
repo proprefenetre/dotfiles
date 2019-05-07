@@ -4,22 +4,25 @@ bspc config border_width         1
 bspc config window_gap           3
 
 bspc config split_ratio          0.52
-bspc config borderless_monocle   false
-bspc config gapless_monocle      false
-
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
 bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
+bspc config automatic_scheme spiral
+bspc single_monocle true
 # class instance title
 # scratchterm st-256color st
 
 # rules
 # remove all rules first
 bspc rule -a Chromium desktop='^1'
-bspc rule -a Navigator desktop='^1'
+bspc rule -a "Firefox Developer Edition" desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=500x500
+bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=809x500+278+134
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
+
+bspc desktop ^1 --layout monocle
 
 /home/niels/dotfiles/bspwm/panel &
 /home/niels/dotfiles/bspwm/scratchmacs &

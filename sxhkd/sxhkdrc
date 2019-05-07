@@ -70,9 +70,11 @@ mod4 + l
 mod4 + {_,shift + }{d,h,t,n}
     bspc node --{focus,swap} {west,south,north,east}
 
+mod4 + {_, shift} Tab
+     bspc node @/ -C {forward,backward}
 
 ## focus the last node
-mod4 + Tab
+mod4 + space
     bspc node -f prev.local
 
 focus the older or newer node in the focus history

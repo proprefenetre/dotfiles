@@ -15,7 +15,7 @@ if [ "$instance" = emacs ] ; then
 	    echo "state=floating"
 	    echo "sticky=on"
         echo "center=on"
-        echo "rectangle=600x600"
+        echo "rectangle=971x600+199+90"
 	    ;;
     esac
 fi
