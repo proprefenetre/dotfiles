@@ -1,0 +1,5 @@
+rofi.width:                          20
+rofi.lines:                          10
+rofi.columns:                        1
+rofi.font:                           Hack 10
+rofi.terminal:                       st
