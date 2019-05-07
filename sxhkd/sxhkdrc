@@ -8,9 +8,6 @@ mod4 + Escape
 mod4 + Return
     st
 
-mod4 + shift + Return
-    urxvt 
-
 mod4 + e
      ~/dotfiles/bspwm/scratchmacs
 
@@ -21,38 +18,21 @@ mod4 + u
 mod4 + f; {m,l,s,p}
     bspc node -g {marked,locked,sticky,private}
 
-# move marked node to current desktop
-mod4 + g
-    cur_desk=$(bspc query -D -d focused); \
-    bspc node any.marked -d "$cur_desk" --focus
-
 # hide and restore  windows 
 mod4 + {_,shift +} m
     {~/dotfiles/bspwm/hide -h,~/dotfiles/bspwm/hide -r}
 
 # program launcher
-mod4 + apostrophe ; {1,2,3,apostrophe}
-     {firefox-developer-edition,emax,okular,dmenu_run -l 5}
-
-mod4 + v
-     roficlip
-
-# create a receptacle
-# mod4 + shift + Return
-#      bspc node -i
-
-mod4 + shift + control + Return
-    for win in $(bspc query -N -n .leaf.\!window.local); \
-    do bspc node $win -k ; \
-    done;
+mod4 + @space ; {1,2,3,space,r}
+     {firefox-developer-edition,emax,okular,dmenu_run -l 5,bspc desktop --rename $(rofi -dmenu -input /dev/null -p "New name: ")}
 
 ## quit bspwm normally
-mod4 + control + Escape
-    bspc quit
-
+mod1 + mod4 + {q,r}
+     pkill -x panel; bspc {quit, wm -r}
+    
 ## close
-mod4 + c
-    bspc node -c
+mod4 + {_,shift + }c
+    bspc node -{c,k}
 
 ## set the window state
 mod4 + s; {t,f,shift+f}
@@ -63,7 +43,7 @@ mod4 + ctrl + {m,x,y,z,h}
     bspc node -g {marked,locked,sticky,private,hidden}
 
 ## Alternate between the tiled and monocle layout
-mod4 + l
+mod4 + m
     bspc desktop -l next
 
 ## focus the node in the given direction
@@ -72,12 +52,20 @@ mod4 + {_,shift + }{d,h,t,n}
 
 mod4 + {_, shift} Tab
      bspc node @/ -C {forward,backward}
+     
+# swap node with biggest node on desktop
+mod4 + g
+    bspc node -s biggest.local
 
-## focus the last node
-mod4 + space
+# focus the last node
+mod4 + grave
     bspc node -f prev.local
 
-focus the older or newer node in the focus history
+# focus previous desktop
+mod4 + z
+    bspc desktop -f last
+
+# focus the older or newer node in the focus history
 mod4 + ctrl {_, shift +} u 
     bspc wm -h off; \
     bspc node {older,newer} -f; \
@@ -127,7 +115,7 @@ mod4 + shift + plus : {d,h,t,n}
 mod4 + minus : {d,h,t,n}
      bspc node -z {left 10 0,bottom 0 -10,top 0 10,right -10 0}
 
-## center 
+# teleport floating windows
 mod4 + semicolon; {a,o,e,u,semicolon}
      corner -{ul,ll,ur,lr,c}
 
