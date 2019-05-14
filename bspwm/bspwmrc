@@ -1,8 +1,6 @@
 #! /bin/sh
 
-# desktops are added by mhead
-# bspc monitor -d I II III IV V VI VII VIII IX X
-
+# config
 bspc config border_width         1
 bspc config window_gap           3
 
@@ -12,13 +10,19 @@ bspc config gapless_monocle      true
 
 bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
-bspc rule -a Navigator desktop='I'
-bspc desktop I --layout monocle
+bspc config automatic_scheme spiral
+bspc single_monocle true
+
+# rules
+bspc rule -a "Firefox Developer Edition" desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a scratchterm sticky=on state=floating hidden=on
+bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=809x500+278+134
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 
+bspc desktop ^1 --layout monocle
+
+# scripts
 /home/niels/dotfiles/bspwm/panel &
 /home/niels/dotfiles/bspwm/scratchmacs &
 /home/niels/dotfiles/bspwm/scratchterm &
