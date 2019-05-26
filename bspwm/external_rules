@@ -10,10 +10,10 @@ echo "$(date '+%D %T'): $wid $class $instance $title" >> /tmp/bspc-external-rule
 
 if [ "$instance" = scratchmacs ] ; then
     case "$title" in
-	    scratchmacs)
-	        echo "state=floating"
-	        echo "sticky=on"
-            echo "rectangle=896x711"
-	    ;;
+        scratchmacs)
+            echo "state=floating"
+            echo "sticky=on"
+            echo "rectangle=904x561+231+103"
+        ;;
     esac
 fi

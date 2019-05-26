@@ -12,3 +12,7 @@
     lol = log --graph --decorate --oneline --abbrev-commit
     st = status
 
+[url "https://aur.archlinux.org/"]
+insteadOf = "aur:"
+[url "ssh://aur@aur.archlinux.org/"]
+pushInsteadOf = "aur:"

@@ -20,14 +20,27 @@ unclutter &
 redshift &
 
 mhead &
+
 setxkbmap -model chromebook \
-       	-layout us \
-	-variant dvorak-alt-intl \
- 	-option terminate:ctrl_alt_bksp \
- 	-option ctrl:swap_lwin_lctl \
-	-option compose:rctrl
- 
-xautolock -time 10 -locker slock &
+          -layout us \
+          -variant dvorak-alt-intl \
+          -option terminate:ctrl_alt_bksp \
+          -option ctrl:swap_lwin_lctl \
+          -option compose:rctrl
+
+xidlehook \
+    --not-when-fullscreen \
+    --not-when-audio \
+    --timer normal 60 \
+    'xbacklight -set 10' \
+    'xbacklight -set 30' \
+    --timer primary 240 \
+    'xbacklight -set 30; slock' \
+    '' \
+    --timer normal 1800 \
+    'systemctl hibernate' \
+    '' &
+
 sxhkd -m -1 &
 st &
 exec bspwm

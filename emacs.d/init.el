@@ -1,4 +1,6 @@
 ;;; init.el -- a fresh shart
+;;; Commentary:
+;;; Code:
 
 (require 'package)
 
@@ -17,8 +19,8 @@
               use-package-verbose t)
 
 (unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 (require 'use-package)
 
 (use-package no-littering
@@ -35,30 +37,25 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(prefer-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-
 (setq-default locale-coding-system 'utf-8
-	      default-input-method "latin-postfix"
-	      indent-tabs-mode nil
-	      tab-width 4
-	      fill-column 80
-	      scroll-margin 10
-	      scroll-conservatively most-positive-fixnum
-	      auto-fill-function 'do-auto-fill
-	      confirm-kill-emacs 'yes-or-no-p
-	      x-select-enable-clipboard t
-	      vc-follow-symlinks t
-	      display-line-numbers-width 4
-	      display-line-numbers-width-start 3
-	      display-line-numbers-widen nil
-	      bookmark-save-flag 1
-	      bookmark-default-file "~/.emacs.d/var/bookmarks"
-	      TeX-engine 'xelatex
-	      latex-run-command "xelatex"
-	      tramp-default-method "ssh")
+              default-input-method "latin-postfix"
+              indent-tabs-mode nil
+              tab-width 4
+              fill-column 80
+              scroll-margin 10
+              scroll-conservatively most-positive-fixnum
+              auto-fill-function 'do-auto-fill
+              confirm-kill-emacs 'yes-or-no-p
+              x-select-enable-clipboard t
+              vc-follow-symlinks t
+              display-line-numbers-width 4
+              display-line-numbers-width-start 3
+              display-line-numbers-widen nil
+              bookmark-save-flag 1
+              bookmark-default-file "~/.emacs.d/var/bookmarks"
+              TeX-engine 'xelatex
+              latex-run-command "xelatex"
+              tramp-default-method "ssh")
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -75,6 +72,8 @@
 (recentf-mode 1)
 (show-paren-mode 1)
 (fringe-mode '(8 . 8))
+(global-hl-line-mode 1)
+(global-auto-revert-mode 1)
 
 (setq ispell-silently-savep t
       ispell-dictionary "dutch"
@@ -195,6 +194,12 @@
 (use-package edit-indirect
   :demand t)
 
+(use-package expand-region
+  :ensure t)
+
+(use-package avy
+  :ensure t)
+
 (use-package shackle
   :demand t
   :config
@@ -256,14 +261,14 @@
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "i" '(lambda () (interactive)
-	     (find-file user-init-file))
+         (find-file user-init-file))
   "o" 'olivetti-mode
   "p" 'counsel-yank-pop
   "q" 'kill-buffer-and-window
   "r" '(lambda () (interactive)
-	     (revert-buffer :ignore-auto :noconfirm))
+         (revert-buffer :ignore-auto :noconfirm))
   "R" '(lambda () (interactive)
-	     (load-file user-init-file)
+         (load-file user-init-file)
          (message "buffer reloaded"))
   "s" 'magit-status)
 
@@ -291,7 +296,10 @@
   "R"   '(lambda () (interactive)
            (load-file user-init-file))
   "s"   'cycle-ispell-languages
-  ;; "t" "u" "v" "w" "x"
+  "t"   'treemacs
+  ;; "u"
+  ;; "v"
+  ;; "w" "x"
   "C-l" 'comint-clear-buffer
   )
 
@@ -307,7 +315,14 @@
 
 (general-def
   "M-/" 'hippie-expand
-  "C-)" 'sp-forward-slurp-sexp)
+  "C-)" 'sp-forward-slurp-sexp
+  "M-s" 'avy-goto-word-1)
+
+(general-def 'visual
+  ")" 'er/expand-region)
+
+(general-def 'motion treemacs-mode-map
+  "," nil)
 
 (general-def 'normal racket-repl-mode-map
   :prefix "C-w"
@@ -332,6 +347,7 @@
 
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
