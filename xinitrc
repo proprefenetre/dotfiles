@@ -39,7 +39,7 @@ xidlehook \
     'xbacklight -set 30; slock' \
     '' \
     --timer normal 1800 \
-    'systemctl suspend' \
+    'systemctl hibernate' \
     '' &
 
 firefox-developer-edition &
