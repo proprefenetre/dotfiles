@@ -19,6 +19,6 @@ export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
 
 # bspwm
 export PANEL_FIFO=/tmp/panel-fifo
-export PANEL_HEIGHT=18
+export PANEL_HEIGHT=24
 export PANEL_FONT="-*-hack-*-*-*-*-10-*-*-*-*-*-*-*"
 export PANEL_WM_NAME=bspwm_panel

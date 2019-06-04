@@ -21,12 +21,13 @@ redshift &
 
 mhead &
 
-setxkbmap -model chromebook \
+setxkbmap -model pc104 \
           -layout us \
-          -variant dvorak-alt-intl \
+          -variant dvorak \
+          -option \
           -option terminate:ctrl_alt_bksp \
-          -option ctrl:swap_lwin_lctl \
-          -option compose:rctrl
+          -option compose:rctrl \
+          -option ctrl:nocaps
 
 xidlehook \
     --not-when-fullscreen \
@@ -38,9 +39,10 @@ xidlehook \
     'xbacklight -set 30; slock' \
     '' \
     --timer normal 1800 \
-    'systemctl hibernate' \
+    'systemctl suspend' \
     '' &
 
+firefox-developer-edition &
+
 sxhkd -m -1 &
-st &
 exec bspwm

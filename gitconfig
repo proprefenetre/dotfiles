@@ -6,7 +6,7 @@
     default = simple
 [core]
     excludesfile = ~/.gitignore-global
-    editor = vim
+    editor = emax
 [alias]
     lola = log --graph --decorate --oneline --abbrev-commit --all
     lol = log --graph --decorate --oneline --abbrev-commit

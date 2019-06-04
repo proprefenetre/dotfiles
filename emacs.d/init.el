@@ -270,7 +270,9 @@
   "R" '(lambda () (interactive)
          (load-file user-init-file)
          (message "buffer reloaded"))
-  "s" 'magit-status)
+  "s" 'magit-status
+  "-" '(lamda () (interactive)
+              (insert "→")))
 
                                         ; C-c binds
 (general-def
