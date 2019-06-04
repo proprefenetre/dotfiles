@@ -87,5 +87,5 @@ Repeated invocations toggle between the two most recently open buffers."
                (get-buffer-create "*compilation*"))
               (message "No Compilation Errors!")))))
 
-(provide 'functions)
+(provide 'my-functions)
 ;;; functions.el ends here

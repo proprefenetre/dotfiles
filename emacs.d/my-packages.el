@@ -200,5 +200,5 @@
 ;; Racket
 (use-package racket-mode)
 
-(provide 'packages)
+(provide 'my-packages)
 ;;; packages.el ends here

@@ -37,6 +37,9 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
 (setq-default locale-coding-system 'utf-8
               default-input-method "latin-postfix"
               indent-tabs-mode nil
@@ -55,7 +58,10 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              tramp-default-method "ssh")
+              tramp-default-method "ssh"
+              abbrev-mode t
+              save-abbrevs 'silent)
+
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -68,7 +74,6 @@
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
-(abbrev-mode 1)
 (recentf-mode 1)
 (show-paren-mode 1)
 (fringe-mode '(8 . 8))
@@ -344,8 +349,8 @@
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
-(require 'functions)
-(require 'packages)
+(require 'my-functions)
+(require 'my-packages)
 
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
