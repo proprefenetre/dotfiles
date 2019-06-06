@@ -12,6 +12,7 @@ bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
 bspc config automatic_scheme spiral
 bspc single_monocle true
+bspc config top_padding 0
 
 # rules
 bspc rule -a "Firefox Developer Edition" desktop='^1'
@@ -23,6 +24,7 @@ bspc rule -a Zathura state=tiled
 bspc desktop ^1 --layout monocle
 
 # scripts
-/home/niels/dotfiles/bspwm/panel &
+# /home/niels/dotfiles/bspwm/panel &
+/home/niels/dotfiles/bspwm/pblaunch &
 /home/niels/dotfiles/bspwm/scratchmacs &
 /home/niels/dotfiles/bspwm/scratchterm &
