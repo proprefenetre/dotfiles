@@ -44,5 +44,7 @@ xidlehook \
 
 firefox-developer-edition &
 
+touchegg &
+
 sxhkd -m -1 &
 exec bspwm

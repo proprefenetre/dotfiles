@@ -7,15 +7,19 @@
 mod4 + Return
     st
 
-# program launcher
-mod4 + @space
-    dmenu_run -l 5
+mod4 + shift + Return
+    emacsclient --alternate-editor=start-emax --create-frame --no-wait --socket-name="EMAX" "$@"
 
+# program launcher
+mod4 + @space ; {1,2,3,space,r,l,s}
+     {firefox-developer-edition,emax,okular,dmenu_run -l 5,bspc desktop --rename $(rofi -lines 1 -dmenu -input /dev/null -p "New name"),slock,systemctl suspend}
 
 # MAKE SXHKD relad its configuration files:
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
+mod4 + l
+     slock
 #
 # bspwm hotkeys
 #
@@ -50,6 +54,7 @@ mod4 + g
 ## rotate 90 deg
 mod4 + {_,shift} + r
     bspc node @parent -R {90,270}
+
 #
 # state/flags
 #
@@ -67,24 +72,28 @@ mod4 + ctrl + {m,x,y,z}
 #
 
 # focus the node in the given direction
-mod4 + {_,shift + }{h,j,k,l}
-    bspc node -{f,s} {west,south,north,east}
+mod4 + {_,shift + }{d,h,t,n}
+    bspc node --{focus,swap} {west,south,north,east}
 
 # focus the node for the given path jump
 mod4 + {p,b,comma,period}
     bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-mod4 + {_,shift + }w
+mod4 + {_,shift + }Tab
     bspc node -f {next,prev}.local
 
-# focus the next/previous desktop in the current monitor
-mod4 + bracket{left,right}
-    bspc desktop -f {prev,next}.local
+mod4 + {_,shift + }F1
+    bspc desktop -f {next,prev}.local
 
-# focus the last node/desktop
-mod4 + {grave,Tab}
-    bspc {node,desktop} -f last.local
+# focus the last desktop
+mod4 + grave
+    bspc desktop -f last.local
+
+## focus other monitor
+mod4 + apostrophe
+     bspc monitor -f last
+
 
 # focus the older or newer node in the focus history
 mod4 + {o,i}
@@ -101,7 +110,7 @@ mod4 + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-mod4 + ctrl + {h,j,k,l}
+mod4 + ctrl + {d,h,t,n}
     bspc node -p {west,south,north,east}
 
 # preselect the ratio
@@ -121,11 +130,11 @@ mod4 + ctrl + shift + space
 #
 
 # expand a window by moving one of its side outward
-mod1 + mod4 + {h,j,k,l}
+mod1 + mod4 + {d,h,t,n}
     bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-mod1 + mod4 + shift + {h,j,k,l}
+mod1 + mod4 + shift + {d,h,t,n}
     bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
@@ -135,3 +144,10 @@ mod4 + {Left,Down,Up,Right}
 # center
 mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
      corner -{ul,ll,ur,lr,u,d,l,r,c}
+
+# volume 🗈
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    amixer set Master {1%+,1%-,toggle}
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+    xbacklight  {+,-} 5
