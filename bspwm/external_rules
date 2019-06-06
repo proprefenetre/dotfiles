@@ -13,7 +13,7 @@ if [ "$instance" = scratchmacs ] ; then
         scratchmacs)
             echo "state=floating"
             echo "sticky=on"
-            echo "rectangle=904x561+508+259"
+            echo "rectangle=1192x713+364+174"
         ;;
     esac
 fi

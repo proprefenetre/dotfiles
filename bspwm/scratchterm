@@ -7,4 +7,6 @@ if [ -z "$id" ]; then
     id=$(xdotool search --class scratchterm)
 fi
 
-bspc node "$id" --flag "hidden" -f
+cur_monitor=$(bspc query -M -m focused)
+
+bspc node "$id" --flag "hidden" -m "$cur_monitor" -f
