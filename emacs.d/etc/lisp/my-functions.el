@@ -2,6 +2,8 @@
 ;;; commentary:
 ;;; code:
 
+(use-package s)
+
 (require 's)
 (require 'ring)
 

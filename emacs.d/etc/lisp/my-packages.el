@@ -3,6 +3,9 @@
 ;;; code:
 
 ;; Python
+(setq python-shell-interpreter "/usr/bin/python")
+(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
+
 (use-package pyvenv
   :init
   (add-hook 'anaconda-mode-hook pyvenv-mode))
@@ -201,4 +204,4 @@
 (use-package racket-mode)
 
 (provide 'my-packages)
-;;; packages.el ends here
+;;; my-packages.el ends here

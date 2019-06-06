@@ -31,7 +31,7 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(set-face-attribute 'default nil :font "Hack 10")
+(set-face-attribute 'default nil :font "Hack 15")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -88,6 +88,7 @@
 (setq custom-safe-themes t)
 
 (use-package all-the-icons)
+
 (use-package doom-themes
   :init
   (load-theme 'doom-vibrant t)
@@ -104,6 +105,49 @@
   ;; doom-modeline-bar-width 3
   (setq column-number-mode t
         doom-modeline-icon t))
+
+(use-package org
+  :ensure org-plus-contrib
+  :pin org
+  :demand t
+  :commands (org-capture)
+  :init
+  (require 'cl)
+  (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+  :config
+  (setq org-directory "~/org"
+        org-default-notes-file "~/org/todo.org"
+        org-agenda-files '("~/org/todo.org" "~/org/notes.org")
+        org-refile-targets '((org-agenda-files :maxlevel . 3))
+        org-refile-allow-creating-parent-nodes t
+        org-refile-use-outline-path 'file
+        org-archive-location "~/org/archief::datetree/"
+        org-cycle-separator-lines -1
+        org-blank-before-new-entry '((heading . nil)
+                                     (plain-list-item . nil))
+        org-M-RET-may-split-line '((default . nil))
+        org-return-follows-link t
+        org-reverse-note-order t
+        org-outline-path-complete-in-steps nil
+        org-use-speed-commands t
+        org-pretty-entities t
+        org-log-done nil
+        org-startup-indented t)
+
+  (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "|"
+                                  "DONE(d)")
+                            (sequence "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
+
+
+  (setq org-todo-keyword-faces
+        '(("TODO" . "yellow")
+          ("BEZIG" . "SpringGreen")
+          ("AFWACHTEN" . "SpringGreen" )
+          ("READ" . "cyan")
+          ("GOOGLE" . "cyan")
+          ("AFSPRAAK" . "magenta")
+          ("CANCELED" . "red")
+          ("NB". "orange"))))
 
 (use-package evil
   :demand t
@@ -143,6 +187,18 @@
   :demand t
   :config
   (global-evil-surround-mode))
+
+(use-package evil-org
+  :after org
+  :demand t
+  :config
+  (setq evil-org-set-key-theme '(textobjects insert navigation))
+  (add-hook 'org-mode-hook 'evil-org-mode))
+
+(use-package evil-magit
+  :after '(evil magit)
+  :config
+  (setq evil-magit-state 'normal))
 
 (use-package general
   :demand t)
@@ -196,14 +252,11 @@
   :config
   (company-prescient-mode 1))
 
-(use-package edit-indirect
-  :demand t)
+(use-package edit-indirect)
 
-(use-package expand-region
-  :ensure t)
+(use-package expand-region)
 
-(use-package avy
-  :ensure t)
+(use-package avy)
 
 (use-package shackle
   :demand t
@@ -218,6 +271,17 @@
 
 (use-package rainbow-delimiters
   :demand t)
+
+(use-package smartparens
+  :demand t
+  :config
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  (sp-local-pair 'org-mode "<" nil :actions nil)
+  (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
+  (electric-pair-mode 0)
+  (require 'smartparens-config))
+
+(use-package rainbow-mode)
 
 (use-package aggressive-indent
   :demand t
@@ -238,6 +302,59 @@
         yas-also-auto-indent-first-line t)
   (yas-global-mode 1))
 
+(use-package projectile
+  :demand t
+  :config
+  (projectile-mode))
+
+(use-package counsel-projectile
+  :demand t
+  :config
+  (counsel-projectile-mode))
+
+(use-package treemacs
+  :demand t
+  :config
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple))))
+
+(use-package treemacs-evil
+  :demand t)
+
+(use-package treemacs-projectile
+  :demand t)
+
+(use-package treemacs-magit)
+
+(use-package olivetti
+  :config (setq-default olivetti-body-width 90))
+
+(use-package flycheck
+  :delight " Fly"
+  :commands (projectile-switch-project)
+  :config
+  (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
+  (setq flycheck-flake8rc "~/.flake8"))
+
+;; Python
+(setq python-shell-interpreter "/usr/bin/python")
+(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
+
+(use-package anaconda-mode
+  :init
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+
+(use-package company-anaconda
+  :init
+  (add-to-list 'company-backends 'company-anaconda))
 
 ;;; keybinding
 (setq tab-always-indent t)
@@ -276,8 +393,7 @@
          (load-file user-init-file)
          (message "buffer reloaded"))
   "s" 'magit-status
-  "-" '(lamda () (interactive)
-              (insert "→")))
+  )
 
                                         ; C-c binds
 (general-def
@@ -350,7 +466,6 @@
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
-(require 'my-packages)
 
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
@@ -376,4 +491,24 @@
   (flyspell-mode 1)
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
+
+;;; xml stuff
+;; folding
+(require 'hideshow)
+(require 'sgml-mode)
+(require 'nxml-mode)
+
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
+(add-hook 'nxml-mode-hook 'hs-minor-mode)
+
+(general-def nxml-mode-map
+  "C-c h" 'hs-toggle-hiding)
 ;;; init.el ends here
