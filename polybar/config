@@ -17,19 +17,17 @@
 ;==========================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
 background = #222
 background-alt = #444
-;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
 foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/int]
+[bar/general]
 enable-ipc = true
-monitor = ${env:MONITOR:eDP1}
+
 width = 100%
 height = 21
 
@@ -46,64 +44,35 @@ padding-left = 0
 padding-right = 0
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
 
 font-0 = Hack:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-
-
-modules-left = bspwm
-modules-center =
-modules-right =
+font-1 = FontAwesome:pixelsize=10;1
 
 tray-position = right
 tray-padding = 2
+separator = "|"
 
-[bar/ext]
-enable-ipc = true
-monitor = ${env:MONITOR:DP1}
-width = 100%
-height = 21
-;offset-x = 1%
-;offset-y = 1%
-; radius = 6.0
-fixed-center = false
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 3
-line-color = #f00
-
-border-size = 4
-border-color = #00000000
-
-padding-left = 0
-padding-right = 0
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = misc fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-
-modules-left = bspwm
-modules-center =
-modules-right = xbacklight cpu wlan eth battery date
-
-tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
-
-;wm-restack = bspwm
-;wm-restack = i3
-
+wm-restack = bspwm
 ;override-redirect = true
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+[bar/int]
+inherit = bar/general
+
+monitor = ${env:MONITOR:eDP1}
+
+modules-left = bspwm
+modules-center =
+modules-right = xbacklight alsa wlan eth battery date
+
+[bar/ext]
+inherit = bar/general
+modules-left = bspwm
+modules-center =
+modules-right = cpu wlan eth battery date
 
 [module/xwindow]
 type = internal/xwindow
@@ -289,10 +258,10 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date =
+date = " %a %d %b"
 date-alt = " %Y-%m-%d"
 
-time = %H:%M
+time = "%H:%M "
 time-alt = %H:%M:%S
 
 format-prefix = 
@@ -332,7 +301,7 @@ bar-volume-empty-foreground = ${colors.foreground-alt}
 type = internal/alsa
 
 format-volume = <label-volume> <bar-volume>
-label-volume = VOL
+label-volume = "VOL"
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -446,7 +415,7 @@ screenchange-reload = true
 ;pseudo-transparency = false
 
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 0
+margin-bottom = 0
 
 ; vim:ft=dosini

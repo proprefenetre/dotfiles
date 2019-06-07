@@ -31,7 +31,7 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(set-face-attribute 'default nil :font "Hack 15")
+(set-face-attribute 'default nil :font "Hack 10")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -336,6 +336,13 @@
 (use-package olivetti
   :config (setq-default olivetti-body-width 90))
 
+(use-package eyebrowse
+  :config
+  (setq eyebrowse-new-workspace t
+        eyebrowse-wrap-around t
+        eyebrowse-switch-back-and-forth t)
+  (eyebrowse-mode))
+
 (use-package flycheck
   :delight " Fly"
   :commands (projectile-switch-project)
@@ -447,9 +454,10 @@
 (general-def 'motion treemacs-mode-map
   "," nil)
 
-(general-def 'normal racket-repl-mode-map
-  :prefix "C-w"
-  "C-w" 'other-window)
+;; (general-def 'normal
+;;   :keymaps '(racket-repl-mode-map inferior-python-mode-map)
+;;   "C-w C-w" 'other-window
+;;   "C-l" 'comint-clear-buffer)
 
 (general-def company-active-map
   "C-w" 'evil-delete-backward-word
