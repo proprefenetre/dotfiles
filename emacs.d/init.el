@@ -70,6 +70,7 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
+;; builtins
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -79,6 +80,7 @@
 (fringe-mode '(8 . 8))
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
+(desktop-save-mode)
 
 (setq ispell-silently-savep t
       ispell-dictionary "dutch"
@@ -290,6 +292,7 @@
   (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
 
 (use-package yasnippet
+  :demand t
   :config
   (with-eval-after-load 'warnings
     (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
@@ -337,10 +340,12 @@
   :config (setq-default olivetti-body-width 90))
 
 (use-package eyebrowse
+  :demand t
   :config
   (setq eyebrowse-new-workspace t
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
+  (eyebrowse-setup-opinionated-keys)
   (eyebrowse-mode))
 
 (use-package flycheck

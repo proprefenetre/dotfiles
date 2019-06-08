@@ -3,6 +3,7 @@
 # config
 bspc config border_width         1
 bspc config window_gap           3
+# bspc config top_padding          21
 
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
@@ -12,8 +13,6 @@ bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
 bspc config automatic_scheme spiral
 bspc single_monocle true
-
-bspc config top_padding 21
 
 # rules
 bspc rule -a "Firefox Developer Edition" desktop='^1'

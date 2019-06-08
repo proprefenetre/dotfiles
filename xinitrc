@@ -20,6 +20,9 @@ unclutter &
 redshift &
 
 mhead &
+hsetroot -full /home/niels/Downloads/spruiten.jpg &
+
+dunst &
 
 setxkbmap -model pc104 \
           -layout us \

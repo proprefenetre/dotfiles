@@ -105,8 +105,8 @@ mod4 + {o,i}
 mod4 + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} '^{1-9,10}'
 
-mod4 + shift + apostrophe
-     bspc node -m ^2
+mod4 + shift + apostrophe ; {1,2}
+     bspc node -m ^{1,2}
 #
 # preselect
 #
