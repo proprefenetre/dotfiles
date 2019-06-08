@@ -363,6 +363,9 @@
   :init
   (add-to-list 'company-backends 'company-anaconda))
 
+(use-package ace-window
+  :demand t)
+
 ;;; keybinding
 (setq tab-always-indent t)
 
@@ -379,14 +382,15 @@
                                         ; bind esc
 (general-def
   :keymaps 'evil-insert-state-map
-  (general-chord "jj") 'evil-normal-state)
+  (general-chord "jj") 'evil-normal-state
+  (general-chord "ww") 'evil-window-next)
 
                                         ; leader key
 (general-def '(normal visual emacs)
   :prefix ","
   :non-normal-prefix "M-,"
   :keymaps '(override inferior-ess-r-mode-map)
-  ;; "b" 'switch-to-prev-buffer
+  "b" 'mode-line-other-buffer
   "d" 'dired-jump
   "e" 'eval-last-sexp
   "i" '(lambda () (interactive)
@@ -400,6 +404,8 @@
          (load-file user-init-file)
          (message "buffer reloaded"))
   "s" 'magit-status
+  "t" 'treemacs
+  "w" 'ace-window
   )
 
                                         ; C-c binds
@@ -454,10 +460,10 @@
 (general-def 'motion treemacs-mode-map
   "," nil)
 
-;; (general-def 'normal
-;;   :keymaps '(racket-repl-mode-map inferior-python-mode-map)
-;;   "C-w C-w" 'other-window
-;;   "C-l" 'comint-clear-buffer)
+(general-def '(normal insert)
+  :keymaps '(racket-repl-mode-map inferior-python-mode-map)
+  "C-w C-w" 'ace-window
+  "C-l" 'comint-clear-buffer)
 
 (general-def company-active-map
   "C-w" 'evil-delete-backward-word
