@@ -32,11 +32,6 @@ Xft*antialias: true
 Xft*hinting: true
 Xft*hintstyle: hintslight
 
-! Dzen2
-dzen2.font: dzen_regular
-dzen2.foreground: Molokai_white
-dzen2.background: Molokai_black
-
 ! urxvt
 URxvt*LoginShell: true
 
@@ -109,3 +104,30 @@ XTerm*color12: Molokai_light_blue
 XTerm*color13: Molokai_light_purple
 XTerm*color14: Molokai_light_cyan
 XTerm*color15: Molokai_white
+
+! ST
+! ==
+
+st*cursorBlink: true
+st*cursorOffTime: 700
+st*cursorOnTime: 900
+st*cursorUnderLine: true
+st*background: Molokai_black
+st*foreground: Molokai_white
+st*cursorColor: Molokai_green
+st*color0: Molokai_black
+st*color1: Molokai_red
+st*color2: Molokai_green
+st*color3: Molokai_brown
+st*color4: Molokai_blue
+st*color5: Molokai_purple
+st*color6: Molokai_cyan
+st*color7: Molokai_light_grey
+st*color8: Molokai_dark_grey
+st*color9: Molokai_light_red
+st*color10: Molokai_light_green
+st*color11: Molokai_yellow
+st*color12: Molokai_light_blue
+st*color13: Molokai_light_purple
+st*color14: Molokai_light_cyan
+st*color15: Molokai_white
