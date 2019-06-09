@@ -117,6 +117,8 @@
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
+  (setq initial-major-mode 'org-mode
+        initial-scratch-message "")
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org" "~/org/notes.org")
@@ -369,7 +371,9 @@
   (add-to-list 'company-backends 'company-anaconda))
 
 (use-package ace-window
-  :demand t)
+  :demand t
+  :config
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)))
 
 ;;; keybinding
 (setq tab-always-indent t)
@@ -462,12 +466,8 @@
 (general-def 'visual
   ")" 'er/expand-region)
 
-(general-def 'motion treemacs-mode-map
-  "," nil)
-
 (general-def '(normal insert)
   :keymaps '(racket-repl-mode-map inferior-python-mode-map)
-  "C-w C-w" 'ace-window
   "C-l" 'comint-clear-buffer)
 
 (general-def company-active-map
@@ -511,23 +511,4 @@
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
-;;; xml stuff
-;; folding
-(require 'hideshow)
-(require 'sgml-mode)
-(require 'nxml-mode)
-
-(add-to-list 'hs-special-modes-alist
-             '(nxml-mode
-               "<!--\\|<[^/>]*[^/]>"
-               "-->\\|</[^/>]*[^/]>"
-
-               "<!--"
-               sgml-skip-tag-forward
-               nil))
-
-(add-hook 'nxml-mode-hook 'hs-minor-mode)
-
-(general-def nxml-mode-map
-  "C-c h" 'hs-toggle-hiding)
 ;;; init.el ends here

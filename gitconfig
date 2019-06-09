@@ -16,3 +16,6 @@
 insteadOf = "aur:"
 [url "ssh://aur@aur.archlinux.org/"]
 pushInsteadOf = "aur:"
+
+[url "ssh://git@github.com:proprefenetre/"]
+insteadOf = "pfn:"
