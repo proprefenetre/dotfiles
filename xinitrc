@@ -26,7 +26,7 @@ dunst &
 
 setxkbmap -model pc104 \
           -layout us \
-          -variant dvorak \
+          -variant dvorak-alt-intl \
           -option \
           -option terminate:ctrl_alt_bksp \
           -option compose:rctrl \
