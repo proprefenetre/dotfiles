@@ -8,21 +8,18 @@ mod4 + Return
     st
 
 mod4 + shift + Return
-    emacsclient --alternate-editor=start-emax --create-frame --no-wait --socket-name="EMAX" "$@"
+    /home/niels/bin/emax
 
 # program launcher
 mod4 + @space ; {1,2,3,space,r,l,s}
      {firefox-developer-edition,emax,okular,dmenu_run -l 5,bspc desktop --rename $(rofi -lines 1 -dmenu -input /dev/null -p "New name"),slock,systemctl suspend}
 
-# MAKE SXHKD relad its configuration files:
+# MAKE SXHKD reload its configuration files:
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
 mod4 + l
      slock
-#
-# bspwm hotkeys
-#
 
 # scratchterm
 mod4 + u
@@ -31,9 +28,12 @@ mod4 + u
 mod4 + e
     ~/dotfiles/bspwm/scratchmacs
 
+mod4 + {_,shift +}a
+    /home/niels/dotfiles/bspwm/hide {--hide,--retrieve}
+
 # quit/restart bspwm
 mod1 + mod4 + {q,r}
-    pkill -x panel; bspc {quit,wm -r}
+    bspc {quit,wm -r}
 
 # close and kill
 mod4 + {_,shift + }c
@@ -107,6 +107,7 @@ mod4 + {_,shift + }{1-9,0}
 
 mod4 + shift + apostrophe ; {1,2}
      bspc node -m ^{1,2}
+
 #
 # preselect
 #
@@ -152,4 +153,4 @@ mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
     amixer set Master {1%+,1%-,toggle}
 
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
-    xbacklight  {+,-} 5
+    xbacklight  {+,-} 1

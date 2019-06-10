@@ -31,7 +31,7 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(set-face-attribute 'default nil :font "Hack 10")
+(set-face-attribute 'default nil :font "Hack 11")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -39,6 +39,18 @@
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
+
+;; builtins
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(menu-bar-mode -1)
+(recentf-mode 1)
+(show-paren-mode 1)
+(fringe-mode '(8 . 8))
+(global-hl-line-mode 1)
+(global-auto-revert-mode 1)
+(desktop-save-mode)
 
 (setq-default locale-coding-system 'utf-8
               default-input-method "latin-postfix"
@@ -60,7 +72,8 @@
               latex-run-command "xelatex"
               tramp-default-method "ssh"
               abbrev-mode t
-              save-abbrevs 'silent)
+              save-abbrevs 'silent
+              desktop-restore-frames nil)
 
 
 (dolist (table abbrev-table-name-list)
@@ -69,18 +82,6 @@
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
-
-;; builtins
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(menu-bar-mode -1)
-(recentf-mode 1)
-(show-paren-mode 1)
-(fringe-mode '(8 . 8))
-(global-hl-line-mode 1)
-(global-auto-revert-mode 1)
-(desktop-save-mode)
 
 (setq ispell-silently-savep t
       ispell-dictionary "dutch"
@@ -161,10 +162,14 @@
         evil-want-Y-yank-to-eol t
         evil-want-C-w-delete t)
   :config
+  (add-to-list 'desktop-locals-to-save 'evil-markers-alist)
   (eval-after-load 'evil-ex
     '(evil-ex-define-cmd "W" 'evil-write))
-
-  (setq evil-search-wrap t
+  (evil-set-initial-state 'treemacs-mode 'normal)
+  (setq evil-emacs-state-modes nil
+        evil-insert-state-modes nil
+        evil-motion-state-modes nil
+        evil-search-wrap t
         evil-regexp-search t
         evil-complete-next-func 'hippie-expand
         evil-vsplit-window-right t
@@ -175,8 +180,9 @@
 (use-package evil-collection
   :after evil
   :demand t
-  :init (setq evil-collection-outline-bind-tab-p nil
-              evil-collection-setup-minibuffer t)
+  :init
+  (setq evil-collection-outline-bind-tab-p nil
+        evil-collection-setup-minibuffer t)
   :config
   (setq evil-collection-mode-list (delete 'company evil-collection-mode-list))
   (evil-collection-init))
@@ -266,7 +272,9 @@
   :demand t
   :config
   (setq shackle-rules '((compilation-mode :noselect t)
-                        ("*Flycheck error messages*" :noselect t :align below :ignore t)))
+                        ("*Flycheck error messages*" :noselect t :align 'below
+                         :ignore t)
+                        ("*Python*" :noselect t :size .25 :align :'below)))
   (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
@@ -348,6 +356,8 @@
         eyebrowse-wrap-around t
         eyebrowse-switch-back-and-forth t)
   (eyebrowse-setup-opinionated-keys)
+  (general-def 'motion
+    "gc" 'evil-commentary)
   (eyebrowse-mode))
 
 (use-package flycheck
@@ -373,14 +383,15 @@
 (use-package ace-window
   :demand t
   :config
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)))
+  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
+        aw-scope 'frame))
 
 ;;; keybinding
 (setq tab-always-indent t)
 
 (general-evil-setup)
 
-                                        ; movement, pasting
+;; movement, pasting
 (general-mmap
   "j"   'evil-next-visual-line
   "k"   'evil-previous-visual-line
@@ -388,17 +399,18 @@
   "[ p" 'evil-paste-before
   "] p" 'evil-paste-after)
 
-                                        ; bind esc
+;; chords
 (general-def
   :keymaps 'evil-insert-state-map
   (general-chord "jj") 'evil-normal-state
   (general-chord "ww") 'evil-window-next)
 
-                                        ; leader key
-(general-def '(normal visual emacs)
+;; leader key
+(general-override-mode)
+
+(general-def '(normal visual emacs) override
   :prefix ","
   :non-normal-prefix "M-,"
-  :keymaps '(override inferior-ess-r-mode-map)
   "b" 'mode-line-other-buffer
   "d" 'dired-jump
   "e" 'eval-last-sexp
@@ -416,7 +428,6 @@
   "t" 'treemacs
   "w" 'ace-window
   )
-
                                         ; C-c binds
 (general-def
   :prefix "C-c"
@@ -441,10 +452,11 @@
   "R"   '(lambda () (interactive)
            (load-file user-init-file))
   "s"   'cycle-ispell-languages
-  "t"   'treemacs
+  ;; "t"   'treemacs
   ;; "u"
   ;; "v"
-  ;; "w" "x"
+  "w"   'ace-window
+  ;;"x"
   "C-l" 'comint-clear-buffer
   )
 
@@ -465,10 +477,6 @@
 
 (general-def 'visual
   ")" 'er/expand-region)
-
-(general-def '(normal insert)
-  :keymaps '(racket-repl-mode-map inferior-python-mode-map)
-  "C-l" 'comint-clear-buffer)
 
 (general-def company-active-map
   "C-w" 'evil-delete-backward-word
