@@ -14,6 +14,8 @@ bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 bspc config automatic_scheme spiral
 bspc single_monocle true
 
+bspc config ignore_ewmh_fullscreen all
+
 # rules
 bspc rule -a "Firefox Developer Edition" desktop='^1'
 bspc rule -a mpv state=floating
