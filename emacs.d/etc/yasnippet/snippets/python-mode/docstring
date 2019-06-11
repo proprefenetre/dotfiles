@@ -1,0 +1,7 @@
+# key: ds
+# name: docstring
+# --
+"""
+$1
+"""
+$0

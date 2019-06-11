@@ -139,7 +139,7 @@
         org-log-done nil
         org-startup-indented t)
 
-  (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "|"
+  (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
                             (sequence "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
@@ -152,6 +152,7 @@
           ("GOOGLE" . "cyan")
           ("AFSPRAAK" . "magenta")
           ("CANCELED" . "red")
+          ("IDEE" . "orange")
           ("NB". "orange"))))
 
 (use-package evil
@@ -408,7 +409,7 @@
 ;; leader key
 (general-override-mode)
 
-(general-def '(normal visual emacs) override
+(general-def '(normal visual emacs treemacs) override
   :prefix ","
   :non-normal-prefix "M-,"
   "b" 'mode-line-other-buffer
