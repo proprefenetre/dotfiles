@@ -3,8 +3,7 @@
 id=$(xdotool search --limit 1 --name "scratchmacs")
 
 if [ -z "$id" ]; then
-    emax --frame-parameters='(quote (name . "scratchmacs"))' \
-         "/home/niels/org/todo.org" &
+    emax --frame-parameters='(quote (name . "scratchmacs"))' &
     id=$(xdotool search --limit 1 --name "scratchmacs")
 fi
 

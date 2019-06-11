@@ -10,8 +10,8 @@ bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
 bspc config automatic_scheme spiral
 bspc single_monocle true
-# class instance title
-# scratchterm st-256color st
+
+bspc config ignore_ewmh_fullscreen all
 
 # rules
 # remove all rules first

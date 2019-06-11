@@ -21,8 +21,15 @@ redshift &
 hsetroot -fill /home/niels/pics/DE-foto.jpg &
 
 mhead &
+dunst &
 sxhkd -m -1 &
 
-xautolock -time 10 -locker slock &
+xidlehook --not-when-fullscreen \
+          --not-when-audio \
+          --timer normal 600 \
+          'xbacklight -set 5' \
+          'xbacklight -set 70' \
+          --timer primary 30 \
+          'xbacklight -set 70; slock' '' &
 
 exec bspwm

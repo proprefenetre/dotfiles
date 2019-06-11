@@ -100,7 +100,7 @@ macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
 macro index,pager ga "<change-folder>=[Gmail]/Alle berichten<enter>" "Go to all mail"
 macro index,pager gs "<change-folder>=[Gmail]/Met ster<enter>" "Go to starred messages"
 macro index,pager gd "<change-folder>=[Gmail]/Concepten<enter>" "Go to drafts"
-macro index,pager gt "<change-folder>=[Gmail]/Prullenbak<enter>" "Go to drafts"
+macro index,pager gt "<change-folder>=[Gmail]/Prullenbak<enter>" "Go to trash"
 
 bind attach,index gg first-entry
 bind attach,index G last-entry
