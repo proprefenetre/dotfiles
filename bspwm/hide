@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 case "$1" in
     -h|--hide)
         D=$(bspc query -D -d focused --names)

@@ -8,5 +8,7 @@ if [ -z "$id" ]; then
 fi
 
 cur_desk=$(bspc query -D -d focused)
-bspc node "$id" -d "$cur_desk"
+cur_monitor=$(bspc query -M -m focused)
+
+bspc node "$id" -d "$cur_desk" -m "$cur_monitor"
 bspc node "$id" --flag "hidden" -f

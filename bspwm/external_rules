@@ -8,14 +8,12 @@ title=$(xtitle "$wid")
 # Debug
 echo "$(date '+%D %T'): $wid $class $instance $title" >> /tmp/bspc-external-rules
 
-if [ "$instance" = emacs ] ; then
-    echo "                 : $title" >> /tmp/bspc-external-rules
+if [ "$instance" = scratchmacs ] ; then
     case "$title" in
-	scratchmacs)
-	    echo "state=floating"
-	    echo "sticky=on"
-        echo "center=on"
-        echo "rectangle=971x600+199+90"
-	    ;;
+        scratchmacs)
+            echo "state=floating"
+            echo "sticky=on"
+            echo "rectangle=1192x713+364+174"
+        ;;
     esac
 fi
