@@ -80,10 +80,10 @@
 (set-language-environment 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(setq default-input-method "latin-postfix")
 
-(setq-default indent-tabs-mode nil
+(setq-default locale-coding-system 'utf-8
+              default-input-method "latin-postfix"
+              indent-tabs-mode nil
               tab-width 4
               fill-column 80
               scroll-margin 10
@@ -107,7 +107,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (abbrev-mode 1)
 (recentf-mode 1)
 (show-paren-mode 1)
@@ -128,6 +128,8 @@
 (setq latex-run-command "xelatex")
 
 (setq-default tramp-default-method "ssh")
+
+(setq inhibit-startup-screen t)
 
 ;; Packages
 (use-package evil
@@ -258,7 +260,7 @@
   (yas-global-mode 1))
 
 ;;; other packages // what's with the error?
-(require 'packages.el)
+(require 'packages)
 (require 'functions)
 
 ;; keybinding

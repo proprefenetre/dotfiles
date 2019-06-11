@@ -63,6 +63,22 @@
   :config
   (counsel-projectile-mode))
 
+;; (use-package treemacs
+;;   :config
+;;   (treemacs-follow-mode t)
+;;   (treemacs-filewatch-mode t)
+;;   (treemacs-fringe-indicator-mode t)
+;;   (pcase (cons (not (null (executable-find "git")))
+;;                (not (null (executable-find "python3"))))
+;;     (`(t . t)
+;;      (treemacs-git-mode 'deferred))
+;;     (`(t . _)
+;;      (treemacs-git-mode 'simple))))
+
+;; (use-package treemacs-evil)
+;; (use-package treemacs-projectile)
+;; (use-package treemacs-magit)
+
 ;; Science stuff
 (use-package poly-markdown)
 
@@ -203,5 +219,5 @@
 ;; Racket
 (use-package racket-mode)
 
-(provide 'packages.el)
+(provide 'packages)
 ;;; packages.el ends here
