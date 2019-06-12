@@ -426,7 +426,7 @@
          (load-file user-init-file)
          (message "buffer reloaded"))
   "s" 'magit-status
-  "t" 'treemacs
+  "t" 'treemacs-select-window
   "w" 'ace-window
   )
                                         ; C-c binds
@@ -469,7 +469,8 @@
   "t 1" 'treemacs-delete-other-windows
   "t B" 'treemacs-bookmark
   "t C-t" 'treemacs-find-file
-  "t M-t" 'treemacs-find-tag)
+  "t M-t" 'treemacs-find-tag
+  "C-b" 'counsel-ibuffer)
 
 (general-def
   "M-/" 'hippie-expand

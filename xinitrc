@@ -22,6 +22,8 @@ redshift &
 mhead &
 hsetroot -full /home/niels/Downloads/spruiten.jpg &
 
+remind -z -k'notify-send -a "Reminder" %s &' /home/niels/.reminders &
+
 dunst &
 
 setxkbmap -model pc104 \
