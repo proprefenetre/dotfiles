@@ -122,7 +122,7 @@
         initial-scratch-message "")
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
-        org-agenda-files '("~/org/todo.org" "~/org/notes.org")
+        org-agenda-files '("~/org/todo.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
@@ -207,6 +207,7 @@
   (add-hook 'org-mode-hook 'evil-org-mode))
 
 (use-package evil-magit
+  :demand t
   :after '(evil magit)
   :config
   (setq evil-magit-state 'normal))
@@ -272,10 +273,10 @@
 (use-package shackle
   :demand t
   :config
-  (setq shackle-rules '((compilation-mode :noselect t)
-                        ("*Flycheck error messages*" :noselect t :align 'below
+  (setq shackle-rules '(("*Flycheck error messages*" :noselect t :align 'below
                          :ignore t)
-                        ("*Python*" :noselect t :size .25 :align :'below)))
+                        ("*Python*" :noselect t :size .25 :align :'below)
+                        ("COMMIT_EDITMSG" :select t)))
   (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
@@ -375,7 +376,10 @@
 (use-package anaconda-mode
   :init
   (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
+  :config
+  (add-hook 'anaconda-mode-hook (lambda ()
+                                  (set (make-local-variable 'compile-command) "pytest -v"))))
 
 (use-package company-anaconda
   :init
