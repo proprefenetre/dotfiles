@@ -14,5 +14,3 @@ polybar int &
 if [[ "$ext_status" = "connected" ]]; then
     polybar ext &
 fi
-
-echo "Bars launched..."

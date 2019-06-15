@@ -60,7 +60,7 @@ mod4 + {_,shift} + r
 #
 
 # set the window state
-mod4 + {t,shift + t,s,f}
+mod4 + s ; {t,shift + t,s,f}
     bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
