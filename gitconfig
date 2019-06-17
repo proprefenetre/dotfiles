@@ -6,9 +6,16 @@
     default = simple
 [core]
     excludesfile = ~/.gitignore-global
-    editor = vim
+    editor = emax
 [alias]
     lola = log --graph --decorate --oneline --abbrev-commit --all
     lol = log --graph --decorate --oneline --abbrev-commit
     st = status
 
+[url "https://aur.archlinux.org/"]
+insteadOf = "aur:"
+[url "ssh://aur@aur.archlinux.org/"]
+pushInsteadOf = "aur:"
+
+[url "ssh://git@github.com:proprefenetre/"]
+insteadOf = "pfn:"

@@ -1,12 +1,4 @@
-# medicijnen
-REM AT 08:00 +10 *5 MSG dexamfetamine 10mg %1
-REM AT 12:00 +10 *5 MSG dexamfetamine 10mg %1 
-REM AT 16:00 +10 *5 MSG dexamfetamine 10mg %1 
-
-fset _bed(x) choose(x, -15, 5, 5, 5, 0)
-REM AT 22:00 SCHED _bed MSG tijd om te stoppen %1
-
-
-# afspraken
-REM 04 Nov 2016 AT 14:00 +60 *5 MSG Meeting met Crit %1
-REM 11 Nov 2016 AT 10:00 +60 *5 MSG Meeting met Else %1
+# -*- mode: Conf -*-
+REM Mon Tue Wed Thu Fri AT 11:00 +15 MSG Daily over %1
+REM Mon Tue Wed Thu Fri AT 12:30 MSG Lunch!
+REM Mon Tue Wed Thu Fri AT 17:30 +30 *15 MSG Uren schrijven! (Naar de trein over %1)

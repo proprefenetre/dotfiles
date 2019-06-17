@@ -1,0 +1,15 @@
+[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/emacs --fg-daemon=EMAX
+ExecStartPost=/usr/bin/notify-send -a "Emax" "Started"
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+ExecStopPost=/usr/bin/notify-send -a "Emax" "Stopped"
+Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
