@@ -25,5 +25,6 @@ bspc desktop ^1 --layout monocle
 
 # scripts
 /home/niels/dotfiles/bspwm/pblaunch &
+nm-applet &
 /home/niels/dotfiles/bspwm/scratchmacs &
 /home/niels/dotfiles/bspwm/scratchterm &
