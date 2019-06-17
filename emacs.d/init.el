@@ -50,7 +50,6 @@
 (fringe-mode '(8 . 8))
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
-(desktop-save-mode)
 
 (setq-default locale-coding-system 'utf-8
               default-input-method "latin-postfix"
@@ -112,8 +111,6 @@
 (use-package org
   :ensure org-plus-contrib
   :pin org
-  :demand t
-  :commands (org-capture)
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
@@ -143,7 +140,6 @@
                                   "DONE(d)")
                             (sequence "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
-
   (setq org-todo-keyword-faces
         '(("TODO" . "yellow")
           ("BEZIG" . "SpringGreen")
@@ -153,7 +149,9 @@
           ("AFSPRAAK" . "magenta")
           ("CANCELED" . "red")
           ("IDEE" . "orange")
-          ("NB". "orange"))))
+          ("NB". "orange")))
+
+  )
 
 (use-package evil
   :demand t
@@ -212,9 +210,6 @@
   :config
   (setq evil-magit-state 'normal))
 
-(use-package general
-  :demand t)
-
 (use-package key-chord
   :demand t
   :config (key-chord-mode 1))
@@ -225,6 +220,116 @@
 
 (use-package smex
   :demand t)
+
+(use-package general
+  :demand t
+  :config
+  (general-evil-setup)
+
+  ;; movement, pasting
+  (general-mmap
+    "j"   'evil-next-visual-line
+    "k"   'evil-previous-visual-line
+    "C-e" 'evil-end-of-line
+    "[ p" 'evil-paste-before
+    "] p" 'evil-paste-after
+    "M-s" 'avy-goto-word-1)
+
+  ;; chords
+  (general-def
+    :keymaps 'evil-insert-state-map
+    (general-chord "jj") 'evil-normal-state
+    (general-chord "ww") 'evil-window-next)
+
+  ;; leader key
+  (general-override-mode)
+
+  (general-def '(normal visual emacs treemacs) override
+    :prefix ","
+    :non-normal-prefix "M-,"
+    "b" 'mode-line-other-buffer
+    "d" 'dired-jump
+    "e" 'eval-last-sexp
+    "i" '(lambda () (interactive)
+           (find-file user-init-file))
+    "o" 'olivetti-mode
+    "p" 'counsel-yank-pop
+    "q" 'kill-buffer-and-window
+    "r" '(lambda () (interactive)
+           (revert-buffer :ignore-auto :noconfirm))
+    "R" '(lambda () (interactive)
+           (load-file user-init-file)
+           (message "buffer reloaded"))
+    "s" 'magit-status
+    "t" 'treemacs-select-window
+    "w" 'ace-window)
+
+  (general-def org-mode-map
+    :prefix "C-c"
+    "a"   'org-agenda-list
+    "C-a" 'org-archive-subtree
+    "r"   'org-refile)                          ; C-c binds
+
+  (general-def
+    :prefix "C-c"
+    "b"   'counsel-bookmark
+    "c"   'compile
+    ;; "d"
+    "C-d" 'dired-jump-other-window
+    ;; "e"
+    "f"   'ffap-other-window
+    ;; "g" "h"
+    "i"   'ibuffer
+    ;; "j"
+    "k"   'counsel-ag
+    "l"   'org-store-link
+    "L"   '(lambda () (interactive)
+             (load-file buffer-file-name))
+    ;; "m" "n" "o"
+    "p"   'projectile-command-map
+    ;; "q"
+    "R"   '(lambda () (interactive)
+             (load-file user-init-file))
+    "s"   'cycle-ispell-languages
+    ;; "t"   'treemacs
+    ;; "u"
+    ;; "v"
+    "w"   'ace-window
+    ;;"x"
+    "C-l" 'comint-clear-buffer
+    )
+
+  (general-def
+    :prefix "C-x"
+    "ESC ESC" nil
+    "t t" 'treemacs
+    "t 0" 'treemacs-select-window
+    "t 1" 'treemacs-delete-other-windows
+    "t B" 'treemacs-bookmark
+    "t C-t" 'treemacs-find-file
+    "t M-t" 'treemacs-find-tag
+    "C-b" 'counsel-ibuffer)
+
+  (general-def
+    "M-/" 'hippie-expand
+    "C-)" 'sp-forward-slurp-sexp
+    "M-s" 'avy-goto-word-1)
+
+  (general-def 'visual
+    ")" 'er/expand-region)
+
+  (general-def company-active-map
+    "C-w" 'evil-delete-backward-word
+    "TAB" 'company-select-next
+    "<tab>" 'company-select-next
+    "<backtab>" 'company-select-previous
+    "RET" nil)
+
+  (general-def 'insert yas-keymap
+    "TAB" 'yas-next-field-or-maybe-expand
+    "<tab>" 'yas-next-field-or-maybe-expand
+    "<backtab>" 'yas-prev)
+  )
 
 (use-package ivy
   :demand t
@@ -393,108 +498,6 @@
 
 ;;; keybinding
 (setq tab-always-indent t)
-
-(general-evil-setup)
-
-;; movement, pasting
-(general-mmap
-  "j"   'evil-next-visual-line
-  "k"   'evil-previous-visual-line
-  "C-e" 'evil-end-of-line
-  "[ p" 'evil-paste-before
-  "] p" 'evil-paste-after)
-
-;; chords
-(general-def
-  :keymaps 'evil-insert-state-map
-  (general-chord "jj") 'evil-normal-state
-  (general-chord "ww") 'evil-window-next)
-
-;; leader key
-(general-override-mode)
-
-(general-def '(normal visual emacs treemacs) override
-  :prefix ","
-  :non-normal-prefix "M-,"
-  "b" 'mode-line-other-buffer
-  "d" 'dired-jump
-  "e" 'eval-last-sexp
-  "i" '(lambda () (interactive)
-         (find-file user-init-file))
-  "o" 'olivetti-mode
-  "p" 'counsel-yank-pop
-  "q" 'kill-buffer-and-window
-  "r" '(lambda () (interactive)
-         (revert-buffer :ignore-auto :noconfirm))
-  "R" '(lambda () (interactive)
-         (load-file user-init-file)
-         (message "buffer reloaded"))
-  "s" 'magit-status
-  "t" 'treemacs-select-window
-  "w" 'ace-window
-  )
-                                        ; C-c binds
-(general-def
-  :prefix "C-c"
-  "a"   'org-agenda
-  "b"   'counsel-bookmark
-  "c"   'compile
-  ;; "d"
-  "C-d" 'dired-jump-other-window
-  ;; "e"
-  "f"   'ffap-other-window
-  ;; "g" "h"
-  "i"   'ibuffer
-  ;; "j"
-  "k"   'counsel-ag
-  "l"   'org-store-link
-  "L"   '(lambda () (interactive)
-           (load-file buffer-file-name))
-  ;; "m" "n" "o"
-  "p"   'projectile-command-map
-  ;; "q"
-  "r"   'org-refile
-  "R"   '(lambda () (interactive)
-           (load-file user-init-file))
-  "s"   'cycle-ispell-languages
-  ;; "t"   'treemacs
-  ;; "u"
-  ;; "v"
-  "w"   'ace-window
-  ;;"x"
-  "C-l" 'comint-clear-buffer
-  )
-
-(general-def
-  :prefix "C-x"
-  "ESC ESC" nil
-  "t t" 'treemacs
-  "t 0" 'treemacs-select-window
-  "t 1" 'treemacs-delete-other-windows
-  "t B" 'treemacs-bookmark
-  "t C-t" 'treemacs-find-file
-  "t M-t" 'treemacs-find-tag
-  "C-b" 'counsel-ibuffer)
-
-(general-def
-  "M-/" 'hippie-expand
-  "C-)" 'sp-forward-slurp-sexp
-  "M-s" 'avy-goto-word-1)
-
-(general-def 'visual
-  ")" 'er/expand-region)
-
-(general-def company-active-map
-  "C-w" 'evil-delete-backward-word
-  "TAB" 'company-select-next
-  "<tab>" 'company-select-next
-  "<backtab>" 'company-select-previous
-  "RET" nil)
-
-(general-def 'insert yas-keymap
-  "TAB" 'yas-next-field-or-maybe-expand
-  "<tab>" 'yas-next-field-or-maybe-expand
-  "<backtab>" 'yas-prev)
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
