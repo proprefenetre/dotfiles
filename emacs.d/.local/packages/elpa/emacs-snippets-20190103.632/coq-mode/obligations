@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: Obligations
-# key: obls
-# --
-Obligations $1.
-$2
-Qed.

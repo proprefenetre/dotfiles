@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: Chapter
-# key: chp
-# --
-Chapter $1 : $2.
