@@ -31,7 +31,9 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(set-face-attribute 'default nil :font "Hack 11")
+;; (set-face-attribute 'default nil :font "Hack 10")
+(set-face-attribute 'default nil :font "FantasqueSansMono Nerd Font Mono 10")
+
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 

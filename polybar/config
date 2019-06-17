@@ -46,11 +46,12 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = Hack:pixelsize=10;1
-font-1 = FontAwesome:pixelsize=10;1
+font-0 = Hack Nerd Font Mono:size=10;1
+; font-0 = FantasqueSansMono Nerd Font Mono:style=Regular:size=11;1
+; font-1 = FontAwesome:pixelsize=10;1
 
 tray-position = right
-tray-padding = 2
+tray-padding = 1
 separator = "|"
 
 wm-restack = bspwm
@@ -117,7 +118,7 @@ card = intel_backlight
 type = internal/cpu
 interval = 2
 
-format =  <label>
+format = <label>
 
 label = %percentage:2%%
 
@@ -193,35 +194,17 @@ battery = BAT0
 adapter = ADP0
 full-at = 98
 
-format-charging =  <label-charging>
-; format-charging-underline = #ffb52a
+format-charging = <label-charging>
+label-charging =  %percentage%%
 
-format-discharging =  <label-discharging>
-; format-discharging-underline = ${self.format-charging-underline}
+format-discharging = <label-discharging>
+label-discharging =  %percentage%%
 
-format-full =  <label-full>
+format-full = <label-full>
+label-full = 
+
 ; format-full-prefix-foreground = ${colors.foreground-alt}
 ; format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-0 =
-ramp-capacity-1 =
-ramp-capacity-2 =
-
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 =
-animation-charging-1 =
-animation-charging-2 =
-
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 =
-animation-discharging-1 =
-animation-discharging-2 =
-
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
 
 [module/temperature]
 type = internal/temperature
