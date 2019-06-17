@@ -151,6 +151,20 @@
           ("IDEE" . "orange")
           ("NB". "orange")))
 
+  (defun org-keyword-backend (command &optional arg &rest ignored)
+    (interactive (list 'interactive))
+    (cl-case command
+      (interactive (company-begin-backend 'org-keyword-backend))
+      (prefix (and (eq major-mode 'org-mode)
+                   (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
+                         t)))
+      (candidates (mapcar #'upcase
+                          (cl-remove-if-not
+                           (lambda (c) (string-prefix-p arg c))
+                           (pcomplete-completions))))
+      (ignore-case t)
+      (duplicates t)))
+  (add-to-list 'company-backends 'org-keyword-backend)
   )
 
 (use-package evil
@@ -250,6 +264,7 @@
     "b" 'mode-line-other-buffer
     "d" 'dired-jump
     "e" 'eval-last-sexp
+    "g" 'evil-commentary-yank-line
     "i" '(lambda () (interactive)
            (find-file user-init-file))
     "o" 'olivetti-mode
@@ -318,17 +333,17 @@
   (general-def 'visual
     ")" 'er/expand-region)
 
-  (general-def company-active-map
-    "C-w" 'evil-delete-backward-word
-    "TAB" 'company-select-next
-    "<tab>" 'company-select-next
-    "<backtab>" 'company-select-previous
-    "RET" nil)
+  ;; (general-def company-active-map
+  ;;   "C-w" 'evil-delete-backward-word
+  ;;   "TAB" 'company-select-next
+  ;;   "<tab>" 'company-select-next
+  ;;   "<backtab>" 'company-select-previous
+  ;;   "RET" nil)
 
-  (general-def 'insert yas-keymap
-    "TAB" 'yas-next-field-or-maybe-expand
-    "<tab>" 'yas-next-field-or-maybe-expand
-    "<backtab>" 'yas-prev)
+  ;; (general-def 'insert yas-keymap
+  ;;   "TAB" 'yas-next-field-or-maybe-expand
+  ;;   "<tab>" 'yas-next-field-or-maybe-expand
+  ;;   "<backtab>" 'yas-prev)
   )
 
 (use-package ivy
@@ -348,7 +363,7 @@
   (setq company-idle-delay 0
         company-selection-wrap-around t
         company-require-match 'never)
-  (add-to-list 'company-frontends 'company-tng-frontend)
+  ;; (add-to-list 'company-frontends 'company-tng-frontend)
   (global-company-mode))
 
 (use-package prescient
