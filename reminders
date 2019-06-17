@@ -1,4 +1,4 @@
 # -*- mode: Conf -*-
 REM Mon Tue Wed Thu Fri AT 11:00 +15 MSG Daily over %1
 REM Mon Tue Wed Thu Fri AT 12:30 MSG Lunch!
-REM Mon Tue Wed Thu Fri AT 17:30 +30 *15 MSG Uren schrijven! (Naar de trein over %1)
+REM Mon Tue Wed Thu Fri AT 17:15 +30 *15 MSG Uren schrijven! (Naar de trein over %1)
