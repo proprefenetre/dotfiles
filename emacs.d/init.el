@@ -44,7 +44,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 (recentf-mode 1)
 (show-paren-mode 1)
 (fringe-mode '(8 . 8))

@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#! /usr/local/bin/bash
 
 # gnu coreutils
 # alias ls='gls --color=always'
