@@ -29,5 +29,5 @@ shopt -s histappend
 # see .bash_profile for environment variables
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-source /usr/share/fzf/completion.bash
-source /usr/share/fzf/key-bindings.bash
+#source /usr/share/fzf/completion.bash
+#source /usr/share/fzf/key-bindings.bash

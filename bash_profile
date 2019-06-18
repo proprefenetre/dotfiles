@@ -12,7 +12,7 @@ export PROMPT_COMMAND='history -a'
 export CM_SELECTIONS=clipboard
 export EDITOR='emax'
 export ALTERNATE_EDITOR=""
-export PATH="${PATH}:$HOME/bin:$HOME/.poetry/bin"
+export PATH="${PATH}:$HOME/bin:$HOME/.poetry/bin/:$(brew --prefix)/opt/coreutils/libexec/gnubin"
 export BROWSER='firefox-developer-edition'
 export LESS='-R'
 export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
@@ -27,3 +27,5 @@ export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+export PATH="$HOME/.poetry/bin:$PATH"

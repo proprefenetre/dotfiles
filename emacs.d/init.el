@@ -82,9 +82,9 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
-(setq ispell-silently-savep t
-      ispell-dictionary "dutch"
-      ispell-extra-args '("-a" "utf-8"))
+;; (setq ispell-silently-savep t
+;;       ispell-dictionary "dutch"
+;;       ispell-extra-args '("-a" "utf-8"))
 
 ;; Packages
 (setq custom-safe-themes t)
@@ -165,7 +165,7 @@
       (ignore-case t)
       (duplicates t)))
   (add-to-list 'company-backends 'org-keyword-backend))
-  
+
 
 (use-package evil
   :demand t
@@ -221,12 +221,6 @@
 (use-package evil-magit
   :after '(evil magit)
   :demand t
-  :config
-  (setq evil-magit-state 'normal))
-
-(use-package general
-  :demand t
-  :after '(evil magit)
   :config
   (setq evil-magit-state 'normal))
 
@@ -339,17 +333,20 @@
   (general-def 'visual
     ")" 'er/expand-region)
 
-  ;; (general-def company-active-map
-  ;;   "C-w" 'evil-delete-backward-word
-  ;;   "TAB" 'company-select-next
-  ;;   "<tab>" 'company-select-next
-  ;;   "<backtab>" 'company-select-previous
-  ;;   "RET" nil)
-
-  ;; (general-def 'insert yas-keymap
-  ;;   "TAB" 'yas-next-field-or-maybe-expand
-  ;;   "<tab>" 'yas-next-field-or-maybe-expand
-  ;;   "<backtab>" 'yas-prev)
+  (general-def company-active-map
+    ;;   "C-w" 'evil-delete-backward-word
+    ;;   "TAB" 'company-select-next
+    ;;   "<tab>" 'company-select-next
+    ;;   "<backtab>" 'company-select-previous
+    ;;   "RET" nil)
+    "C-n"  'company-select-next
+    "C-p"  'company-select-previous
+    "<tab>"  'company-complete-common-or-cycle
+    ;; (general-def 'insert yas-keymap
+    ;;   "TAB" 'yas-next-field-or-maybe-expand
+    ;;   "<tab>" 'yas-next-field-or-maybe-expand
+    ;;   "<backtab>" 'yas-prev)
+    )
   )
 
 (use-package ivy
@@ -369,7 +366,6 @@
   (setq company-idle-delay 0
         company-selection-wrap-around t
         company-require-match 'never)
-  ;; (add-to-list 'company-frontends 'company-tng-frontend)
   (global-company-mode))
 
 (use-package prescient
@@ -453,232 +449,67 @@
   :config
   (counsel-projectile-mode))
 
-(use-package treemacs
-  :demand t
-  :config
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple))))
-
-(use-package treemacs-evil
-  :demand t)
-
-(use-package treemacs-projectile
-  :demand t)
-
-(use-package treemacs-magit)
-
-(use-package olivetti
-  :config (setq-default olivetti-body-width 90))
-
-(use-package eyebrowse
-  :demand t
-  :config
-  (setq eyebrowse-new-workspace t
-        eyebrowse-wrap-around t
-        eyebrowse-switch-back-and-forth t)
-  (eyebrowse-setup-opinionated-keys)
-  (general-def 'motion
-    "gc" 'evil-commentary)
-  (eyebrowse-mode))
-
-(use-package flycheck
-  :delight " Fly"
-  :commands (projectile-switch-project)
-  :config
-  (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-  (setq flycheck-flake8rc "~/.flake8"))
-
 ;; Python
-(setq python-shell-interpreter "/usr/bin/python")
-(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
-
-(use-package anaconda-mode
-  :init
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
-
-(use-package company-anaconda
-  :init
-  (add-to-list 'company-backends 'company-anaconda))
-
-(use-package ace-window
-  :demand t
-  :config
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
-        aw-scope 'frame))
-
-;;; keybinding
-(setq tab-always-indent t)
-
-(general-evil-setup)
-
-;; movement, pasting
-(general-mmap
-  "j"   'evil-next-visual-line
-  "k"   'evil-previous-visual-line
-  "C-e" 'evil-end-of-line
-  "[ p" 'evil-paste-before
-  "] p" 'evil-paste-after)
-
-;; chords
-(general-def
-  :keymaps 'evil-insert-state-map
-  (general-chord "jj") 'evil-normal-state
-  (general-chord "ww") 'evil-window-next)
-
-;; leader key
-(general-override-mode)
-
-(general-def '(normal visual emacs treemacs) override
-  :prefix ","
-  :non-normal-prefix "M-,"
-  "b" 'mode-line-other-buffer
-  "d" 'dired-jump
-  "e" 'eval-last-sexp
-  "i" '(lambda () (interactive)
-         (find-file user-init-file))
-  "o" 'olivetti-mode
-  "p" 'counsel-yank-pop
-  "q" 'kill-buffer-and-window
-  "r" '(lambda () (interactive)
-         (revert-buffer :ignore-auto :noconfirm))
-  "R" '(lambda () (interactive)
-         (load-file user-init-file)
-         (message "buffer reloaded"))
-  "s" 'magit-status
-  "t" 'treemacs
-  "w" 'ace-window
-  )
-                                        ; C-c binds
-(general-def
-  :prefix "C-c"
-  "a"   'org-agenda
-  "b"   'counsel-bookmark
-  "c"   'compile
-  ;; "d"
-  "C-d" 'dired-jump-other-window
-  ;; "e"
-  "f"   'ffap-other-window
-  ;; "g" "h"
-  "i"   'ibuffer
-  ;; "j"
-  "k"   'counsel-ag
-  "l"   'org-store-link
-  "L"   '(lambda () (interactive)
-           (load-file buffer-file-name))
-  ;; "m" "n" "o"
-  "p"   'projectile-command-map
-  ;; "q"
-  "r"   'org-refile
-  "R"   '(lambda () (interactive)
-           (load-file user-init-file))
-  "s"   'cycle-ispell-languages
-  ;; "t"   'treemacs
-  ;; "u"
-  ;; "v"
-  "w"   'ace-window
-  ;;"x"
-  "C-l" 'comint-clear-buffer
-  )
-
-(general-def
-  :prefix "C-x"
-  "ESC ESC" nil
-  "t t" 'treemacs
-  "t 0" 'treemacs-select-window
-  "t 1" 'treemacs-delete-other-windows
-  "t B" 'treemacs-bookmark
-  "t C-t" 'treemacs-find-file
-  "t M-t" 'treemacs-find-tag)
-
-(general-def
-  "M-/" 'hippie-expand
-  "C-)" 'sp-forward-slurp-sexp
-  "M-s" 'avy-goto-word-1)
-
-(general-def 'visual
-  ")" 'er/expand-region)
-
-(use-package counsel-projectile
-  :demand t
-  :config
-  (counsel-projectile-mode))
-
-(use-package treemacs
-  :demand t
-  :config
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple))))
-
-(use-package treemacs-evil
-  :demand t)
-
-(use-package treemacs-projectile
-  :demand t)
-
-(use-package treemacs-magit)
-
-(use-package olivetti
-  :config (setq-default olivetti-body-width 90))
-
-(use-package eyebrowse
-  :demand t
-  :config
-  (setq eyebrowse-new-workspace t
-        eyebrowse-wrap-around t
-        eyebrowse-switch-back-and-forth t)
-  (eyebrowse-setup-opinionated-keys)
-  (general-def 'motion
-    "gc" 'evil-commentary)
-  (eyebrowse-mode))
-
-(use-package flycheck
-  :delight " Fly"
-  :commands (projectile-switch-project)
-  :config
-  (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-  (setq flycheck-flake8rc "~/.flake8"))
-
-;; Python
-(setq python-shell-interpreter "/usr/bin/python")
-(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
+(setq python-shell-interpreter "/usr/local/bin/ipython"
+      python-shell-interpreter-args "--simple-prompt")
 
 (use-package anaconda-mode
   :init
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
-  :config
+
   (add-hook 'anaconda-mode-hook (lambda ()
                                   (set (make-local-variable 'compile-command) "pytest -v"))))
 
-(general-def 'insert yas-keymap
-  "TAB" 'yas-next-field-or-maybe-expand
-  "<tab>" 'yas-next-field-or-maybe-expand
-  "<backtab>" 'yas-prev)
-
 (use-package company-anaconda
-  :init
-  (add-to-list 'company-backends 'company-anaconda))
+:init
+(add-to-list 'company-backends 'company-anaconda))
 
 (use-package ace-window
   :demand t
   :config
   (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
         aw-scope 'frame))
+
+(use-package treemacs
+  :demand t
+  :config
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+  (pcase (cons (not (null (executable-find "git")))
+               (not (null (executable-find "python3"))))
+    (`(t . t)
+     (treemacs-git-mode 'deferred))
+    (`(t . _)
+     (treemacs-git-mode 'simple))))
+
+(use-package treemacs-evil
+  :demand t)
+
+(use-package treemacs-projectile
+  :demand t)
+
+(use-package treemacs-magit)
+
+(use-package eyebrowse
+  :demand t
+  :config
+  (setq eyebrowse-new-workspace t
+        eyebrowse-wrap-around t
+        eyebrowse-switch-back-and-forth t)
+  (eyebrowse-setup-opinionated-keys)
+  (general-def 'motion
+    "gc" 'evil-commentary)
+  (eyebrowse-mode))
+
+(use-package flycheck
+  :delight " Fly"
+  :commands (projectile-switch-project)
+  :config
+  (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
+  (setq flycheck-flake8rc "~/.flake8"))
+
 
 ;;; keybinding
 (setq tab-always-indent t)
@@ -708,7 +539,7 @@
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
   (rainbow-delimiters-mode 1)
-  (flyspell-mode 1)
+  ;; (flyspell-mode 1)
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
