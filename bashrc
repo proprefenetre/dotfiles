@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /usr/local/bin/bash
 #
 # ~/.bashrc
 #
@@ -26,8 +26,20 @@ shopt -s histappend
 # shellcheck disable=SC1091
 [[ $PS1 && -f "/usr/share/bash-completion/bash_completion" ]] && .  "/usr/share/bash-completion/bash_completion"
 
-# see .bash_profile for environment variables
+# environment variables
+export HISTSIZE=50000
+export HISTFILESIZE=50000
+export PROMPT_COMMAND='history -a'
+export CM_SELECTIONS=clipboard
+export EDITOR='vim'
+export PATH="/usr/local/bin:/usr/local/sbin:$(brew --prefix)/opt/coreutils/libexec/gnubin:$HOME/bin:$HOME/.poetry/bin/:${PATH}"
+export BROWSER='firefox-developer-edition'
+export LESS='-R'
+export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
 
+
+# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-#source /usr/share/fzf/completion.bash
-#source /usr/share/fzf/key-bindings.bash
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"

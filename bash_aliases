@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/local/bin/bash
 
 # gnu coreutils
-alias ls='gls --color-always'
-alias mv='gmv'
-alias cp='gcp -v'
-alias dd='gdd status=progress'
-alias du='gdu'
+# alias ls='gls --color=always'
+# alias mv='gmv'
+# alias cp='gcp -v'
+# alias dd='gdd status=progress'
+# alias du='gdu'
 
 # spelling
 alias amke='make'
@@ -42,4 +42,3 @@ alias trtunnel='ssh -L 9091:localhost:9091 laptop'
 alias vex="xev | sed -n -e 's/.*(\(keysym .\+\)).*/\1/p'"
 alias vignore='curl https://www.gitignore.io/api/vim -o .gitignore'
 alias v='vim'
-

@@ -222,7 +222,8 @@
   :after '(evil magit)
   :demand t
   :config
-  (setq evil-magit-state 'normal))
+  (setq evil-magit-state 'normal)
+  (evil-magit-init))
 
 (use-package key-chord
   :demand t
