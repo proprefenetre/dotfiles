@@ -1,7 +1,7 @@
 #! /usr/local/bin/bash
 
 # gnu coreutils
-# alias ls='gls --color=always'
+alias ls='ls --color=always'
 # alias mv='gmv'
 # alias cp='gcp -v'
 # alias dd='gdd status=progress'
@@ -18,6 +18,7 @@ alias bc='bc ~/dotfiles/funcs.bc -l'
 alias cal='cal -3w --color=always'
 alias cc='gcc -Wall -Wextra -pedantic -g -std=c11'
 alias cignore='curl https://www.gitignore.io/api/vim -o .gitignore'
+alias d='docker'
 alias df='df -h'
 alias dnf='sudo dnf'
 alias ducks='gdu -cksh * | sort -hr | head -n 15'

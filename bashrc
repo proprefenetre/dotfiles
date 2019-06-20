@@ -3,7 +3,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-PS1="\h \[\e[1;32m\]\w \$\[\e[0m\] "
+PS1="\[\e[1;32m\]\w \$\[\e[0m\] "
 
 # shellcheck disable=SC2046
 eval $(keychain --eval --agents ssh,gpg id_rsa)
@@ -15,6 +15,7 @@ shopt -s histappend
 
 # aliases
 [[ -h "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
+[[ -f "/usr/local/etc/bash_completion" ]] && . "/usr/local/etc/bash_completion"
 
 # environment variables
 export HISTSIZE=50000
