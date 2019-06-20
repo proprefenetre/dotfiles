@@ -8,10 +8,55 @@ syntax enable
 
 " plugins
 " =======
-call plug#begin('~/.vim/plugged')
+" install plugin manager
+
+" concat paths: s:vim_config_dir . 'string'
+let s:vim_config_dir = expand('~/.config/nvim')
+let s:vim_plug_script = s:vim_config_dir . '/autoload/plug.vim'
+let s:vim_plug_home = s:vim_config_dir . '/plugged'
+
+if !filereadable(s:vim_plug_script)
+  exe '!curl -fL https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim --create-dirs -o' shellescape(s:vim_plug_script)
+  autocmd VimEnter * PlugInstall --sync
+endif
+
+"if empty(glob(s:vim_config_dir . 'autoload/plug.vim'))
+"  silent !curl -fLo s:vim_config_dir . 'autoload/plug.vim' --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
+
+call plug#begin(s:vim_plug_home)
+Plug 'tpope/vim-eunuch' " SudoWrite &c
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " lsp completion
+ 
 call plug#end()
+
+" plugin configs
+" ==============
+
+" coc - python
+" ------------
+
+call coc#add_extension('coc-python')
+let g:coc_filetypes += ['python']
+call coc#config('pyls.plugins.pycodestyle.ignore', ['E501'])
+call coc#config('python', {
+\ 'autocomplete': { 'showAdvancedMembers': v:false },
+\ 'formatting': { 'provider': 'black' },
+\ 'linting': {
+\   'pylintEnabled': v:false,
+\   'flake8Enabled': v:true,
+\   'flake8Args': ['--ignore', 'E501'],
+\   },
+\ })
+
 
 " General
 " =======

@@ -8,10 +8,36 @@ syntax enable
 
 " plugins
 " =======
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.nvim/plugged')
+Plug 'tpope/vim-eunuch' " SudoWrite &c
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " lsp
+ 
 call plug#end()
+
+" plugin configs
+" ==============
+
+" coc - python
+" ------------
+
+call coc#add_extension('coc-python')
+call coc#config('pyls.plugins.pycodestyle.ignore', ['E501'])
+call coc#config('python', {
+\ 'autocomplete': { 'showAdvancedMembers': v:false },
+\ 'formatting': { 'provider': 'black' },
+\ 'linting': {
+\   'pylintEnabled': v:false,
+\   'flake8Enabled': v:true,
+\   'flake8Args': ['--ignore', 'E501'],
+\   },
+\ })
+
 
 " General
 " =======
