@@ -31,7 +31,8 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(set-face-attribute 'default nil :font "Hack 11")
+;; (set-face-attribute 'default nil :font "Hack 13")
+(set-face-attribute 'default nil :font "Fantasque Sans Mono 13")
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -41,13 +42,17 @@
 (set-default-coding-systems 'utf-8)
 
 ;; builtins
+(setq default-frame-alist
+      '((width . 120)
+        (height . 38)))
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode 1)
+(fringe-mode '(8 . 8))
 (recentf-mode 1)
 (show-paren-mode 1)
-(fringe-mode '(8 . 8))
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
 
@@ -93,9 +98,9 @@
 
 (use-package doom-themes
   :init
-  (load-theme 'doom-vibrant t)
+  (load-theme 'doom-one t)
   :config
-  ;; (setq-default doom-neotree-file-icons t)
+  ;; (setq doom-challenger-deep-brighter-comments t)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (doom-themes-org-config))
@@ -115,8 +120,10 @@
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
+
   (setq initial-major-mode 'org-mode
         initial-scratch-message "")
+  (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
         org-agenda-files '("~/org/todo.org")
@@ -164,7 +171,8 @@
                            (pcomplete-completions))))
       (ignore-case t)
       (duplicates t)))
-  (add-to-list 'company-backends 'org-keyword-backend))
+  (add-to-list 'company-backends 'org-keyword-backend)
+  )
 
 
 (use-package evil
@@ -219,11 +227,9 @@
   (add-hook 'org-mode-hook 'evil-org-mode))
 
 (use-package evil-magit
-  :after '(evil magit)
   :demand t
   :config
-  (setq evil-magit-state 'normal)
-  (evil-magit-init))
+  (setq evil-magit-state 'normal))
 
 (use-package key-chord
   :demand t
@@ -335,18 +341,10 @@
     ")" 'er/expand-region)
 
   (general-def company-active-map
-    ;;   "C-w" 'evil-delete-backward-word
-    ;;   "TAB" 'company-select-next
-    ;;   "<tab>" 'company-select-next
-    ;;   "<backtab>" 'company-select-previous
-    ;;   "RET" nil)
+    "C-w" 'evil-delete-backward-word
     "C-n"  'company-select-next
     "C-p"  'company-select-previous
     "<tab>"  'company-complete-common-or-cycle
-    ;; (general-def 'insert yas-keymap
-    ;;   "TAB" 'yas-next-field-or-maybe-expand
-    ;;   "<tab>" 'yas-next-field-or-maybe-expand
-    ;;   "<backtab>" 'yas-prev)
     )
   )
 
@@ -365,8 +363,17 @@
   :demand t
   :config
   (setq company-idle-delay 0
+        company-echo-delay 0
+        company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-require-match 'never)
+  (setq company-backends
+        '((company-files
+           company-keywords
+           company-capf
+           company-yasnippet)
+          (company-abbrev company-dabbrev)
+          ))
   (global-company-mode))
 
 (use-package prescient
@@ -412,11 +419,14 @@
 (use-package smartparens
   :demand t
   :config
+  (require 'smartparens-config)
+  (sp-local-pair 'org-mode "=" "=")
+  (sp-local-pair 'org-mode "+" "+")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   (sp-local-pair 'org-mode "<" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
   (electric-pair-mode 0)
-  (require 'smartparens-config))
+  )
 
 (use-package rainbow-mode)
 
@@ -452,19 +462,22 @@
 
 ;; Python
 (setq python-shell-interpreter "/usr/local/bin/ipython"
-      python-shell-interpreter-args "--simple-prompt")
+      python-shell-interpreter-args "--simple-prompt -i")
+
+(use-package blacken)
 
 (use-package anaconda-mode
   :init
   (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'blacken-mode)
   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
-
   (add-hook 'anaconda-mode-hook (lambda ()
-                                  (set (make-local-variable 'compile-command) "pytest -v"))))
+                                  (set (make-local-variable 'compile-command)
+                                       "pytest -v"))))
 
 (use-package company-anaconda
 :init
-(add-to-list 'company-backends 'company-anaconda))
+(add-to-list 'company-backends 'company-anaconda :with 'company-capf))
 
 (use-package ace-window
   :demand t
@@ -511,7 +524,11 @@
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (setq flycheck-flake8rc "~/.flake8"))
 
+(use-package dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
+(use-package docker-tramp)
 ;;; keybinding
 (setq tab-always-indent t)
 
