@@ -27,6 +27,6 @@ emacs.d/var/
 emacs.d/etc/custom.el
 .#*
 
-nvim/
+nvim/*
 !nvim/init.vim
 

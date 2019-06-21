@@ -150,7 +150,7 @@
   (setq org-todo-keyword-faces
         '(("TODO" . "yellow")
           ("BEZIG" . "SpringGreen")
-          ("AFWACHTEN" . "SpringGreen" )
+          ("AFWACHTEN" . "OliveDrab" )
           ("READ" . "cyan")
           ("GOOGLE" . "cyan")
           ("AFSPRAAK" . "magenta")
@@ -422,8 +422,8 @@
   (require 'smartparens-config)
   (sp-local-pair 'org-mode "=" "=")
   (sp-local-pair 'org-mode "+" "+")
+  (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  (sp-local-pair 'org-mode "<" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
   (electric-pair-mode 0)
   )
@@ -461,23 +461,39 @@
   (counsel-projectile-mode))
 
 ;; Python
-(setq python-shell-interpreter "/usr/local/bin/ipython"
-      python-shell-interpreter-args "--simple-prompt -i")
 
-(use-package blacken)
+(use-package python
+  :ensure nil
+  :mode ("\\.py" . python-mode)
+  :config
+  (setq python-shell-interpreter "/usr/local/bin/ipython"
+        python-shell-interpreter-args "--simple-prompt -i")
+  (setq python-indent-offset 4))
+
+;; (use-package elpy
+;;   :init
+;;   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+;;   :custom
+;;   (elpy-rpc-backend "jedi"))
+
+;; (use-package company-jedi
+;;   :init
+;;   (defun enable-jedi()
+;;     (setq-local company-backends
+;;                 (append '(company-jedi) company-backends)))
+;;   (with-eval-after-load 'company
+;;     (add-hook 'python-mode-hook 'enable-jedi)))
 
 (use-package anaconda-mode
   :init
   (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'blacken-mode)
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
-  (add-hook 'anaconda-mode-hook (lambda ()
-                                  (set (make-local-variable 'compile-command)
-                                       "pytest -v"))))
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
-:init
-(add-to-list 'company-backends 'company-anaconda :with 'company-capf))
+  :init
+  (add-to-list 'company-backends 'company-anaconda))
+
+(use-package pyvenv)
 
 (use-package ace-window
   :demand t
@@ -504,7 +520,8 @@
 (use-package treemacs-projectile
   :demand t)
 
-(use-package treemacs-magit)
+(use-package treemacs-magit
+  :demand t)
 
 (use-package eyebrowse
   :demand t

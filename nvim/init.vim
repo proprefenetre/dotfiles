@@ -1,53 +1,19 @@
 " vimrc -- Sinterklaas 2018 iteration 
 " For terminal use only (though not for murder)
-" Preamble
-" ========
+
+" General
+" =======
 set nocompatible
 filetype plugin indent on
 syntax enable
 
-" plugins
-" =======
-call plug#begin('~/.nvim/plugged')
-Plug 'tpope/vim-eunuch' " SudoWrite &c
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " lsp
- 
-call plug#end()
-
-" plugin configs
-" ==============
-
-" coc - python
-" ------------
-
-call coc#add_extension('coc-python')
-call coc#config('pyls.plugins.pycodestyle.ignore', ['E501'])
-call coc#config('python', {
-\ 'autocomplete': { 'showAdvancedMembers': v:false },
-\ 'formatting': { 'provider': 'black' },
-\ 'linting': {
-\   'pylintEnabled': v:false,
-\   'flake8Enabled': v:true,
-\   'flake8Args': ['--ignore', 'E501'],
-\   },
-\ })
-
-
-" General
-" =======
-" hi clear SignColumn	
+if (has("termguicolors"))
+     set termguicolors
+endif
 
 set backspace=indent,eol,start
 set mouse=a
-
 set encoding=utf-8
-
 set number
 set showcmd
 set wildmenu
@@ -55,24 +21,25 @@ set wildmode=longest:list,full
 set concealcursor=c
 set showmatch
 set scrolloff=999
-set textwidth=80
+set textwidth=119
 set cc=+1               
 set fo+=j
 set splitright
 
 " folds
 " -----
+set foldenable
 set foldmethod=manual
 set foldnestmax=10
 
 " statusline
 " ----------
-"set laststatus=2
+set laststatus=2
 "set statusline=
-"set statusline+=%M\ 
+"set statusline+=%m\ 
 "set statusline+=%<%f\ 
-"set statusline+=[%(%R\,\ %)%Y\,\ %{(&fenc!=''?&fenc:&enc)}]
-"set statusline+=\ %=%-14.(%l,%c%V%)\ %P
+"set statusline+=[%(%r\,\ %)%y\,\ %{(&fenc!=''?&fenc:&enc)}]
+"set statusline+=\ %=%-14.(%l,%c%v%)\ %p
 
 " auto-anything
 " -------------
@@ -93,7 +60,7 @@ set gdefault
 
 " general style
 " -------------
-set tabstop=8
+set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
@@ -102,11 +69,48 @@ set formatprg=par\ -w80q
 
 " swp/backup files
 " ================
-set backupdir=./.backup//,~/.vim/backup//,/tmp//
-set directory=./.swap//,~/.vim/swap//,/tmp//
-set undodir=./.vim/undo//,/tmp//
+set backupdir=~/.config/nvim/backup//,/tmp//
+set directory=~/.config/nvim/swap//,/tmp//
+set undodir=./.config/nvim/undo//,/tmp//
 
-" Functions
+" plugins
+" =======
+if empty(glob('/Users/niels/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo /Users/niels/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.config/nvim/plugged')
+Plug 'jacoborus/tender.vim'
+Plug 'tomasr/molokai'
+Plug 'joshdick/onedark.vim'
+
+Plug 'tpope/vim-eunuch' " SudoWrite &c
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/rainbow_parentheses.vim'
+
+Plug 'sheerun/vim-polyglot'
+
+Plug 'sirver/ultisnips'
+ 
+call plug#end()
+
+" plugin configs
+" ==============
+
+colorscheme tender
+
+" Rainbow Parentheses
+" -------------------
+autocmd BufNewFile,BufRead * :RainbowParentheses
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']]
+
+" functions
 " =========
 
 " fill line with character(s) 
@@ -132,7 +136,7 @@ function! ToggleHideAll()
         let g:toggle_tabline=0
         let g:hide_all=0
         set number
-        hi LineNr guifg=#BCBCBC
+        hi linenr guifg=#bcbcbc
         set numberwidth=4
         set cc=80
         set showmode
@@ -234,13 +238,7 @@ vnoremap <leader>y "+y
 
 " editing vimrc
 nnoremap <leader>i :e $MYVIMRC<cr>
-nnoremap <C-c>r: source $MYVIMRC<cr>
-
-" highlight information
-map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '>
-            \ trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" .
-            \ synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" .
-            \ " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<cr>
+nnoremap <C-c>r :source $MYVIMRC<cr>
 
 " 'run' mapping
 nnoremap <leader>r :call MapR()<cr>
@@ -258,7 +256,3 @@ call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
 call CommandAlias("Sx", ":SudoWrite<cr> :q<cr>")
-
-" write as root
-command! Sw :SudoWrite
-command! Se :SudoEdit
