@@ -25,6 +25,7 @@ set textwidth=119
 set cc=+1               
 set fo+=j
 set splitright
+set clipboard=unnamedplus
 
 " folds
 " -----
@@ -35,6 +36,7 @@ set foldnestmax=10
 " statusline
 " ----------
 set laststatus=2
+set ruler
 "set statusline=
 "set statusline+=%m\ 
 "set statusline+=%<%f\ 
@@ -58,8 +60,6 @@ set incsearch
 
 set gdefault
 
-" general style
-" -------------
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -73,44 +73,99 @@ set backupdir=~/.config/nvim/backup//,/tmp//
 set directory=~/.config/nvim/swap//,/tmp//
 set undodir=./.config/nvim/undo//,/tmp//
 
+let mapleader = ","
+
 " plugins
 " =======
-if empty(glob('/Users/niels/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo /Users/niels/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 call plug#begin('~/.config/nvim/plugged')
+
+" language server
+" ---------------
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+\ }
+
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_hasSnippetSupport = 1
+let g:LanguageClient_useFloatingHover = 1
+" \ 'python': ['/Users/niels/.pyenv/shims/pyls', '-vv', '--log-file', '~/.pyls.log'], 
+let g:LanguageClient_serverCommands = {
+  \ 'python': ['/usr/local/bin/pyls', '-vv', '--log-file', '~/.pyls.log'], 
+\ }
+let g:LanguageClient_settingsPath = "/Users/niels/.config/nvim/settings.json"
+
+nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>lwd :call
+  \ LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>lrn :call LanguageClient#textDocument_rename()<CR>
+
+Plug 'ncm2/ncm2'        " completion engine
+Plug 'roxma/nvim-yarp'  " needed for ncm2
+Plug 'ncm2/ncm2-path'   " complete filesystem paths
+Plug 'ncm2/ncm2-ultisnips'  " autocompletion support
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=menuone,noinsert,noselect
+
+" Snippets
+" --------
+Plug 'SirVer/ultisnips'     " snippet engine
+Plug 'honza/vim-snippets'   " default snippets
+
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+" ExpandTrigger default conflicts with pum movement
+let g:UltiSnipsExpandTrigger = '\<Plug>(placeholder)'
+let g:UltiSnipsJumpForwardTrigger  = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+" Colorscheme
+" -----------
 Plug 'jacoborus/tender.vim'
 Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 
+" The Holy See
+" ------------
 Plug 'tpope/vim-eunuch' " SudoWrite &c
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+nnoremap <leader>ff  :Files<CR>
+nnoremap <leader>fb  :Buffers<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+\ }
+
 Plug 'junegunn/rainbow_parentheses.vim'
-
-Plug 'sheerun/vim-polyglot'
-
-Plug 'sirver/ultisnips'
- 
-call plug#end()
-
-" plugin configs
-" ==============
-
-colorscheme tender
-
-" Rainbow Parentheses
-" -------------------
 autocmd BufNewFile,BufRead * :RainbowParentheses
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']]
 
-" functions
+" NERDTree
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+nnoremap <leader>t :NERDTreeFocus<cr>
+" nnoremap <leader>tq :NERDTreeClose<cr>
+
+
+" better highlighting
+" -------------------
+Plug 'sheerun/vim-polyglot'
+ 
+call plug#end()
+
+" Colorscheme
+" ===========
+colorscheme tender
+
+" Functions
 " =========
 
 " fill line with character(s) 
@@ -195,12 +250,20 @@ function! MapR()
     endif
 endfunction
 
+" Autocommands
+" ============
+
+" reload vimrc
+" ------------
+augroup myvimrc
+    au!
+    au BufWritePost init.vim so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
 " Mappings
 " ========
 
-let mapleader = ","
-
 " navigation
+" ----------
 map j gj
 map k gk
 
@@ -216,6 +279,9 @@ nmap <C-d> <C-w><C-h>
 nmap <C-h> <C-w><C-j>
 nmap <C-t> <C-w><C-k>
 nmap <C-n> <C-w><C-l>
+inoremap ww <C-o>:wincmd w<cr>
+
+nnoremap <leader>b :bp<cr>
 
 " replace
 noremap <leader>gr :%s/\<<C-r><C-w>\>/
@@ -224,9 +290,6 @@ vnoremap <leader>lr y:s/<C-r>"/
 "
 "Remove all trailing whitespace
 nnoremap <leader>1 :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
-" word count
-nnoremap <leader>2 :!wc -w % <bar> cut -d\  -f1<cr>
 
 " formatting
 nnoremap <leader>3 vapgq
@@ -256,3 +319,11 @@ call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
 call CommandAlias("Sx", ":SudoWrite<cr> :q<cr>")
+
+" clear highlights
+nnoremap <silent> <leader>h :nohls<CR>
+
+" pop-up menu navigation
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+

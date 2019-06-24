@@ -20,7 +20,7 @@ Host server
 
 Host thuis
     User niels
-    Hostname 80.114.152.77
+    Hostname 80.114.152.163
     Port 26455
     
 Host alarmpi

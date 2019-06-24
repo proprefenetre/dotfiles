@@ -55,12 +55,13 @@
 (show-paren-mode 1)
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
+(global-display-line-numbers-mode)
 
 (setq-default locale-coding-system 'utf-8
               default-input-method "latin-postfix"
               indent-tabs-mode nil
               tab-width 4
-              fill-column 80
+              fill-column 120
               scroll-margin 10
               scroll-conservatively most-positive-fixnum
               auto-fill-function 'do-auto-fill
@@ -77,7 +78,8 @@
               tramp-default-method "ssh"
               abbrev-mode t
               save-abbrevs 'silent
-              desktop-restore-frames nil)
+              desktop-restore-frames nil
+              inhibit-startup-screen t)
 
 
 (dolist (table abbrev-table-name-list)
@@ -90,6 +92,9 @@
 ;; (setq ispell-silently-savep t
 ;;       ispell-dictionary "dutch"
 ;;       ispell-extra-args '("-a" "utf-8"))
+
+;; (if (string-equal "darwin" (symbol-name system-type))
+;;     (setenv "PATH" (concat "/usr/local/bin:/usr/local/sbin:" (getenv "PATH"))))
 
 ;; Packages
 (setq custom-safe-themes t)
@@ -187,8 +192,7 @@
   (eval-after-load 'evil-ex
     '(evil-ex-define-cmd "W" 'evil-write))
   (evil-set-initial-state 'treemacs-mode 'normal)
-  (setq evil-emacs-state-modes nil
-        evil-insert-state-modes nil
+  (setq evil-insert-state-modes nil
         evil-motion-state-modes nil
         evil-search-wrap t
         evil-regexp-search t
@@ -283,7 +287,7 @@
            (load-file user-init-file)
            (message "buffer reloaded"))
     "s" 'magit-status
-    "t" 'treemacs-select-window
+    "t" 'treemacs
     "w" 'ace-window)
 
   (general-def org-mode-map
@@ -426,9 +430,12 @@
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
   (electric-pair-mode 0)
-  )
+  (smartparens-global-mode))
 
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :demand t
+  :config
+  (rainbow-mode 1))
 
 (use-package aggressive-indent
   :demand t
@@ -460,15 +467,49 @@
   :config
   (counsel-projectile-mode))
 
+
 ;; Python
+
+;; (use-package eglot
+;;   :demand t
+;;   :config
+;;   (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
+;;   (add-to-list 'eglot-server-programs '(python-mode . ("/usr/local/bin/pyls")))
+;;   (add-hook 'python-mode-hook 'eglot-ensure))
+
+;; (use-package lsp-mode
+;;   :commands (lsp)
+;;   :config
+;;   (add-hook 'python-mode-hook 'lsp)
+;;   )
+
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode
+;;   :config
+;;   (setq lsp-ui-doc-enable nil
+;;         lsp-ui-peek-enable nil
+;;         lsp-ui-sideline-enable t
+;;         lsp-ui-imenu-enable t
+;;         lsp-ui-flycheck-enable t)
+;;   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+;; (use-package company-lsp
+;;   :config
+;;   (add-to-list 'company-backends '(company-lsp company-yasnippet)))
 
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
   :config
+  (flymake-mode-off)
+  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
+        flycheck-flake8rc "~/.config/flake8")
   (setq python-shell-interpreter "/usr/local/bin/ipython"
-        python-shell-interpreter-args "--simple-prompt -i")
-  (setq python-indent-offset 4))
+        python-shell-interpreter-args "--simple-prompt")
+  (setq python-indent-offset 4)
+  (flycheck-mode))
+
+(use-package pyvenv)
 
 ;; (use-package elpy
 ;;   :init
@@ -478,10 +519,7 @@
 
 ;; (use-package company-jedi
 ;;   :init
-;;   (defun enable-jedi()
-;;     (setq-local company-backends
-;;                 (append '(company-jedi) company-backends)))
-;;   (with-eval-after-load 'company
+;;   (add-to-list 'company-backends 'company-jedi)
 ;;     (add-hook 'python-mode-hook 'enable-jedi)))
 
 (use-package anaconda-mode
@@ -493,13 +531,12 @@
   :init
   (add-to-list 'company-backends 'company-anaconda))
 
-(use-package pyvenv)
 
 (use-package ace-window
   :demand t
   :config
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
-        aw-scope 'frame))
+  ;; setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
+  (setq aw-scope 'frame))
 
 (use-package treemacs
   :demand t
@@ -507,12 +544,17 @@
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple))))
+  (setq treemacs-width 28
+        treemacs-python-executable "/usr/local/bin/python")
+  (treemacs-git-mode 'deferred)
+
+  ;; (pcase (cons (not (null (executable-find "git")))
+  ;;              (not (null (executable-find "/usr/local/bin/python3"))))
+  ;;   (`(t . t)
+  ;;    (treemacs-git-mode 'deferred))
+  ;;   (`(t . _)
+  ;;    (treemacs-git-mode 'simple))))
+  )
 
 (use-package treemacs-evil
   :demand t)
@@ -539,7 +581,7 @@
   :commands (projectile-switch-project)
   :config
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-  (setq flycheck-flake8rc "~/.flake8"))
+  (global-flycheck-mode))
 
 (use-package dockerfile-mode
   :config
@@ -561,12 +603,9 @@
   "Load 'prog-mode' minor modes."
   (eldoc-mode 1)
   (auto-fill-mode 1)
-  (rainbow-delimiters-mode 1)
-  (rainbow-mode 1)
-  (flycheck-mode 1)
   (outline-minor-mode 1)
-  (display-line-numbers-mode 1)
-  (smartparens-mode 1))
+  (smartparens-mode 1)
+  (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
@@ -578,4 +617,5 @@
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
+(message (getenv "PATH"))
 ;;; init.el ends here

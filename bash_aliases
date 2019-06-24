@@ -1,11 +1,11 @@
 #! /usr/local/bin/bash
 
 # gnu coreutils
-alias ls='ls --color=always'
-# alias mv='gmv'
-# alias cp='gcp -v'
-# alias dd='gdd status=progress'
-# alias du='gdu'
+alias ls='gls --color=always'
+alias mv='gmv'
+alias cp='gcp -v'
+alias dd='gdd status=progress'
+alias du='gdu'
 
 # spelling
 alias amke='make'
