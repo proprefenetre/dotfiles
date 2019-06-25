@@ -259,6 +259,12 @@ augroup myvimrc
     au!
     au BufWritePost init.vim so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
+
+augroup rainbows
+    au!
+    au FileType python,bash RainbowParentheses
+augroup END
+
 " Mappings
 " ========
 

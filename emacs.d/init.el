@@ -125,7 +125,7 @@
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
-
+  (symbol-overlay-mode -1)
   (setq initial-major-mode 'org-mode
         initial-scratch-message "")
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
@@ -147,6 +147,10 @@
         org-pretty-entities t
         org-log-done nil
         org-startup-indented t)
+
+  (setq org-capture-templates
+        '(("c" "Capture" entry (file+headline "~/org/todo.org" "Inbox")
+           "* %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
@@ -199,7 +203,8 @@
         evil-complete-next-func 'hippie-expand
         evil-vsplit-window-right t
         evil-split-window-below t
-        evil-cross-lines t)
+        evil-cross-lines t
+        evil-ex-substitute-global t)
   (evil-mode 1))
 
 (use-package evil-collection
@@ -299,7 +304,8 @@
   (general-def
     :prefix "C-c"
     "b"   'counsel-bookmark
-    "c"   'compile
+    "c"   '(lambda () (interactive)
+             (org-capture nil "c"))
     ;; "d"
     "C-d" 'dired-jump-other-window
     ;; "e"
@@ -410,7 +416,8 @@
   (setq shackle-rules '(("*Flycheck error messages*" :noselect t :align 'below
                          :ignore t)
                         ("*Python*" :noselect t :size .25 :align :'below)
-                        ("COMMIT_EDITMSG" :select t)))
+                        ("COMMIT_EDITMSG" :select t)
+                        (magit-status-mode :regexp t :same t :inhibit-window-quit t)))
   (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
@@ -482,21 +489,6 @@
 ;;   :config
 ;;   (add-hook 'python-mode-hook 'lsp)
 ;;   )
-
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode
-;;   :config
-;;   (setq lsp-ui-doc-enable nil
-;;         lsp-ui-peek-enable nil
-;;         lsp-ui-sideline-enable t
-;;         lsp-ui-imenu-enable t
-;;         lsp-ui-flycheck-enable t)
-;;   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-
-;; (use-package company-lsp
-;;   :config
-;;   (add-to-list 'company-backends '(company-lsp company-yasnippet)))
-
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
@@ -508,6 +500,12 @@
         python-shell-interpreter-args "--simple-prompt")
   (setq python-indent-offset 4)
   (flycheck-mode))
+
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top)
+  (add-hook 'python-mode-hook 'highlight-indent-guides-mode))
 
 (use-package pyvenv)
 
@@ -547,13 +545,6 @@
   (setq treemacs-width 28
         treemacs-python-executable "/usr/local/bin/python")
   (treemacs-git-mode 'deferred)
-
-  ;; (pcase (cons (not (null (executable-find "git")))
-  ;;              (not (null (executable-find "/usr/local/bin/python3"))))
-  ;;   (`(t . t)
-  ;;    (treemacs-git-mode 'deferred))
-  ;;   (`(t . _)
-  ;;    (treemacs-git-mode 'simple))))
   )
 
 (use-package treemacs-evil
@@ -588,8 +579,12 @@
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 (use-package docker-tramp)
-;;; keybinding
-(setq tab-always-indent t)
+
+(use-package symbol-overlay
+  :demand t
+  :config
+  (symbol-overlay-mode))
+
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
