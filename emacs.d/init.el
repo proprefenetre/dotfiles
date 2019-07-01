@@ -75,12 +75,11 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              tramp-default-method "ssh"
+              ;; tramp-default-method "ssh"
               abbrev-mode t
               save-abbrevs 'silent
               desktop-restore-frames nil
               inhibit-startup-screen t)
-
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -89,34 +88,31 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
-;; (setq ispell-silently-savep t
-;;       ispell-dictionary "dutch"
-;;       ispell-extra-args '("-a" "utf-8"))
-
-;; (if (string-equal "darwin" (symbol-name system-type))
-;;     (setenv "PATH" (concat "/usr/local/bin:/usr/local/sbin:" (getenv "PATH"))))
-
 ;; Packages
-(setq custom-safe-themes t)
-
 (use-package all-the-icons)
+
+(setq custom-safe-themes t)
 
 (use-package doom-themes
   :init
   (load-theme 'doom-one t)
   :config
-  ;; (setq doom-challenger-deep-brighter-comments t)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (doom-themes-org-config))
 
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
-  :config
-  ;; doom-modeline-height 11
-  ;; doom-modeline-bar-width 3
-  (setq column-number-mode t
-        doom-modeline-icon t))
+;; (use-package doom-modeline
+;;   :hook (after-init . doom-modeline-mode)
+;;   :config
+;;   ;; doom-modeline-height 11
+;;   ;; doom-modeline-bar-width 3
+;;   (setq column-number-mode t
+;;         doom-modeline-icon t))
+
+(use-package mood-line
+  :init
+  (mood-line-mode))
+
 
 (use-package org
   :ensure org-plus-contrib
@@ -125,17 +121,16 @@
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
-  (symbol-overlay-mode -1)
   (setq initial-major-mode 'org-mode
         initial-scratch-message "")
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
-  (setq org-directory "~/org"
-        org-default-notes-file "~/org/todo.org"
-        org-agenda-files '("~/org/todo.org")
+  (setq org-directory "~/Dropbox/org"
+        org-default-notes-file "~/Dropbox/org/todo.org"
+        org-agenda-files '("~/Dropbox/org/todo.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
-        org-archive-location "~/org/archief::datetree/"
+        org-archive-location "~/Dropbox/org/archief::datetree/"
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
@@ -149,7 +144,7 @@
         org-startup-indented t)
 
   (setq org-capture-templates
-        '(("c" "Capture" entry (file+headline "~/org/todo.org" "Inbox")
+        '(("c" "Capture" entry (file+headline "~/Dropbox/org/todo.org" "Inbox")
            "* %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
@@ -180,9 +175,7 @@
                            (pcomplete-completions))))
       (ignore-case t)
       (duplicates t)))
-  (add-to-list 'company-backends 'org-keyword-backend)
-  )
-
+  (add-to-list 'company-backends 'org-keyword-backend))
 
 (use-package evil
   :demand t
@@ -192,10 +185,8 @@
         evil-want-Y-yank-to-eol t
         evil-want-C-w-delete t)
   :config
-  (add-to-list 'desktop-locals-to-save 'evil-markers-alist)
   (eval-after-load 'evil-ex
     '(evil-ex-define-cmd "W" 'evil-write))
-  (evil-set-initial-state 'treemacs-mode 'normal)
   (setq evil-insert-state-modes nil
         evil-motion-state-modes nil
         evil-search-wrap t
@@ -228,6 +219,13 @@
   :config
   (global-evil-surround-mode))
 
+(use-package evil-embrace
+  :after evil
+  :demand t
+  :config
+  (add-hook 'python-mode-hook (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
+  (evil-embrace-enable-evil-surround-integration))
+
 (use-package evil-org
   :after org
   :demand t
@@ -255,15 +253,18 @@
   :demand t
   :config
   (general-evil-setup)
+  (general-override-mode)
 
   ;; movement, pasting
   (general-mmap
     "j"   'evil-next-visual-line
     "k"   'evil-previous-visual-line
     "C-e" 'evil-end-of-line
+    "x" 'avy-goto-word-1
     "[ p" 'evil-paste-before
     "] p" 'evil-paste-after
-    "M-s" 'avy-goto-word-1)
+    "] f" 'flycheck-next-error
+    "[ f" 'flycheck-previous-error)
 
   ;; chords
   (general-def
@@ -271,9 +272,12 @@
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
-  ;; leader key
-  (general-override-mode)
+  (general-def
+    :keymaps 'evil-normal-state-map
+    "s" nil
+    "S" nil)
 
+  ;; leader key
   (general-def '(normal visual emacs treemacs) override
     :prefix ","
     :non-normal-prefix "M-,"
@@ -281,18 +285,20 @@
     "d" 'dired-jump
     "e" 'eval-last-sexp
     "g" 'evil-commentary-yank-line
+    "f" 'flycheck-list-errors
     "i" '(lambda () (interactive)
            (find-file user-init-file))
     "o" 'olivetti-mode
     "p" 'counsel-yank-pop
-    "q" 'kill-buffer-and-window
+    "q" 'kill-this-buffer
     "r" '(lambda () (interactive)
            (revert-buffer :ignore-auto :noconfirm))
     "R" '(lambda () (interactive)
            (load-file user-init-file)
            (message "buffer reloaded"))
+    "n" 'symbol-overlay-rename
     "s" 'magit-status
-    "t" 'treemacs
+    "t" 'treemacs-select-window
     "w" 'ace-window)
 
   (general-def org-mode-map
@@ -322,8 +328,8 @@
     ;; "q"
     "R"   '(lambda () (interactive)
              (load-file user-init-file))
-    "s"   'cycle-ispell-languages
-    ;; "t"   'treemacs
+    "s"   'counsel-rg
+    "t"   'treemacs
     ;; "u"
     ;; "v"
     "w"   'ace-window
@@ -345,16 +351,20 @@
   (general-def
     "M-/" 'hippie-expand
     "C-)" 'sp-forward-slurp-sexp
-    "M-s" 'avy-goto-word-1)
+    "C-(" 'sp-add-to-previous-sexp
+    "M-s" 'avy-goto-word-1
+    )
+
 
   (general-def 'visual
     ")" 'er/expand-region)
 
   (general-def company-active-map
     "C-w" 'evil-delete-backward-word
-    "C-n"  'company-select-next
-    "C-p"  'company-select-previous
-    "<tab>"  'company-complete-common-or-cycle
+    "C-n"  '(lambda () (interactive) (company-complete-common-or-cycle 1))
+    "C-p"  '(lambda () (interactive) (company-complete-common-or-cycle -1))
+    "<tab>"  'company-complete
+    "<esc>" 'company-cancel
     )
   )
 
@@ -474,68 +484,6 @@
   :config
   (counsel-projectile-mode))
 
-
-;; Python
-
-;; (use-package eglot
-;;   :demand t
-;;   :config
-;;   (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
-;;   (add-to-list 'eglot-server-programs '(python-mode . ("/usr/local/bin/pyls")))
-;;   (add-hook 'python-mode-hook 'eglot-ensure))
-
-;; (use-package lsp-mode
-;;   :commands (lsp)
-;;   :config
-;;   (add-hook 'python-mode-hook 'lsp)
-;;   )
-(use-package python
-  :ensure nil
-  :mode ("\\.py" . python-mode)
-  :config
-  (flymake-mode-off)
-  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
-        flycheck-flake8rc "~/.config/flake8")
-  (setq python-shell-interpreter "/usr/local/bin/ipython"
-        python-shell-interpreter-args "--simple-prompt")
-  (setq python-indent-offset 4)
-  (flycheck-mode))
-
-(use-package highlight-indent-guides
-  :config
-  (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'top)
-  (add-hook 'python-mode-hook 'highlight-indent-guides-mode))
-
-(use-package pyvenv)
-
-;; (use-package elpy
-;;   :init
-;;   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-;;   :custom
-;;   (elpy-rpc-backend "jedi"))
-
-;; (use-package company-jedi
-;;   :init
-;;   (add-to-list 'company-backends 'company-jedi)
-;;     (add-hook 'python-mode-hook 'enable-jedi)))
-
-(use-package anaconda-mode
-  :init
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
-
-(use-package company-anaconda
-  :init
-  (add-to-list 'company-backends 'company-anaconda))
-
-
-(use-package ace-window
-  :demand t
-  :config
-  ;; setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
-  (setq aw-scope 'frame))
-
 (use-package treemacs
   :demand t
   :config
@@ -543,9 +491,9 @@
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
   (setq treemacs-width 28
+        treemacs-no-png-images t
         treemacs-python-executable "/usr/local/bin/python")
-  (treemacs-git-mode 'deferred)
-  )
+  (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil
   :demand t)
@@ -574,22 +522,61 @@
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (global-flycheck-mode))
 
-(use-package dockerfile-mode
+;; Python
+(use-package python
+  :ensure nil
+  :mode ("\\.py" . python-mode)
   :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
+        flycheck-flake8rc "~/.config/flake8")
+  (setq python-shell-interpreter "/usr/local/bin/ipython"
+        python-shell-interpreter-args "--simple-prompt")
+  (setq python-indent-offset 4)
+  (flycheck-mode))
+
+(use-package anaconda-mode
+  :init
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+
+(use-package company-anaconda
+  :init
+  (add-to-list 'company-backends 'company-anaconda))
+
+(use-package symbol-overlay
+  :config
+  (add-hook 'python-mode-hook 'symbol-overlay-mode))
+
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top)
+  (add-hook 'python-mode-hook 'highlight-indent-guides-mode))
+
+(use-package auto-virtualenv
+  :demand t
+  :config
+  (add-hook 'window-configuration-change-hook 'auto-virtualenv-set-virtualenv)
+  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv))
+
+(use-package ace-window
+  :demand t
+  :config
+  (setq aw-scope 'frame))
+
+(use-package dockerfile-mode
+  :mode ("Dockerfile\\'" . dockerfile-mode))
 
 (use-package docker-tramp)
 
-(use-package symbol-overlay
-  :demand t
-  :config
-  (symbol-overlay-mode))
-
+(use-package fish-mode
+  :mode ("\\.fish" . fish-mode))
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
 
+;; hooks
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -598,8 +585,6 @@
   "Load 'prog-mode' minor modes."
   (eldoc-mode 1)
   (auto-fill-mode 1)
-  (outline-minor-mode 1)
-  (smartparens-mode 1)
   (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
@@ -608,7 +593,6 @@
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
   (rainbow-delimiters-mode 1)
-  ;; (flyspell-mode 1)
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 

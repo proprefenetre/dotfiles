@@ -15,6 +15,7 @@ shopt -s histappend
 
 # aliases
 [[ -h "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
+
 [[ -f "/usr/local/etc/bash_completion" ]] && . "/usr/local/etc/bash_completion"
 
 # environment variables
@@ -24,8 +25,6 @@ export PROMPT_COMMAND='history -a'
 export CM_SELECTIONS=clipboard
 export EDITOR='nvim'
 export PATH="/usr/local/bin:/usr/local/sbin:$HOME/bin:$HOME/.poetry/bin/:${PATH}"
-# export PATH="/usr/local/bin:/usr/local/sbin:$(brew --prefix)/opt/coreutils/libexec/gnubin:$HOME/bin:$HOME/.poetry/bin/:${PATH}"
-# export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$HOME/bin:$HOME/.poetry/bin/:${PATH}"
 export BROWSER='firefox-developer-edition'
 export LESS='-R'
 export LESSOPEN='| /usr/bin/source-highlight-esc.sh %s'
@@ -39,7 +38,6 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
 # pyenv
-# added to /etc/paths
-# export PATH="/Users/niels/.pyenv/bin:$PATH"
+# export PATH="$HOME/.pyenv/bin:$PATH"
 # eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
