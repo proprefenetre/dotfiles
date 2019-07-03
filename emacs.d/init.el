@@ -32,7 +32,41 @@
 (load custom-file)
 
 ;; (set-face-attribute 'default nil :font "Hack 13")
-(set-face-attribute 'default nil :font "Fantasque Sans Mono 13")
+
+
+(when (window-system)
+  (set-face-attribute 'default nil :font "Fira Code Retina 14"))
+;; fix ligatures
+(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+               (36 . ".\\(?:>\\)")
+               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+               (48 . ".\\(?:x[a-zA-Z]\\)")
+               (58 . ".\\(?:::\\|[:=]\\)")
+               (59 . ".\\(?:;;\\|;\\)")
+               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+               (91 . ".\\(?:]\\)")
+               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+               (94 . ".\\(?:=\\)")
+               (119 . ".\\(?:ww\\)")
+               (123 . ".\\(?:-\\)")
+               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+               )
+             ))
+  (dolist (char-regexp alist)
+    (set-char-table-range composition-function-table (car char-regexp)
+                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -57,8 +91,7 @@
 (global-auto-revert-mode 1)
 (global-display-line-numbers-mode)
 
-(setq-default locale-coding-system 'utf-8
-              default-input-method "latin-postfix"
+(setq-default default-input-method "latin-postfix"
               indent-tabs-mode nil
               tab-width 4
               fill-column 120
@@ -144,8 +177,8 @@
         org-startup-indented t)
 
   (setq org-capture-templates
-        '(("c" "Capture" entry (file+headline "~/Dropbox/org/todo.org" "Inbox")
-           "* %?\n")))
+        '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
+           "* TODO %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
@@ -442,7 +475,6 @@
   :config
   (require 'smartparens-config)
   (sp-local-pair 'org-mode "=" "=")
-  (sp-local-pair 'org-mode "+" "+")
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
@@ -571,6 +603,14 @@
 
 (use-package fish-mode
   :mode ("\\.fish" . fish-mode))
+
+(use-package yaml-mode
+  :mode
+  ("\\.yml" . yaml-mode)
+  ("\\.yaml" . yaml-mode)
+  :config
+  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
