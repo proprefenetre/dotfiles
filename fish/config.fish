@@ -1,6 +1,7 @@
 #! /usr/local/bin/fish
 
 set PATH /usr/local/bin /usr/local/sbin /Users/niels/.poetry/bin/ $PATH
+# /usr/bin /usr/sbin /bin /sbin
 
 set EDITOR "nvim"
 set BROWSER "firefox-developer-edition"
@@ -12,3 +13,5 @@ set FZF_CTRL_T_OPTS "--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} 
 set FZF_ALT_C_OPTS  "--preview 'tree -C {} | head -200'"
 
 set LANG "en_US.UTF-8"
+
+eval (keychain --eval --agents ssh,gpg --inherit any id_rsa)

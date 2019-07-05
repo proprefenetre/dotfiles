@@ -6,7 +6,7 @@
 PS1="\[\e[1;32m\]\w \$\[\e[0m\] "
 
 # shellcheck disable=SC2046
-eval $(keychain --eval --agents ssh,gpg id_rsa)
+# eval $(keychain --eval --agents ssh,gpg id_rsa)
 
 # shopt
 shopt -s checkwinsize
@@ -36,8 +36,3 @@ export LANG=en_US.UTF-8
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-
-# pyenv
-# export PATH="$HOME/.pyenv/bin:$PATH"
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"

@@ -1,5 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export GPG_AGENT_INFO:/Users/niels/\x2egnupg/S\x2egpg\x2dagent\x3a825\x3a1
+SETUVAR --export SSH_AUTH_SOCK:/private/tmp/com\x2eapple\x2elaunchd\x2eF7bUpGSPc4/Listeners
 SETUVAR __fish_init_2_3_0:\x1d
 SETUVAR __fish_init_3_x:\x1d
 SETUVAR _fish_abbr_nv:nvim

@@ -23,6 +23,15 @@
   (package-install 'use-package))
 (require 'use-package)
 
+(use-package exec-path-from-shell
+  :demand t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    ;; (exec-path-from-shell-copy-envs
+    ;;  '("PATH"))
+    (message (getenv "PATH"))))
+
 (use-package no-littering
   :demand t
   :config
@@ -31,41 +40,42 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-;; (set-face-attribute 'default nil :font "Hack 13")
 
+(set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
 
-(when (window-system)
-  (set-face-attribute 'default nil :font "Fira Code Retina 14"))
-;; fix ligatures
-(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-               (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-               (36 . ".\\(?:>\\)")
-               (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-               (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-               (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-               (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-               (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-               (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-               (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-               (48 . ".\\(?:x[a-zA-Z]\\)")
-               (58 . ".\\(?:::\\|[:=]\\)")
-               (59 . ".\\(?:;;\\|;\\)")
-               (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-               (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-               (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-               (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-               (91 . ".\\(?:]\\)")
-               (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-               (94 . ".\\(?:=\\)")
-               (119 . ".\\(?:ww\\)")
-               (123 . ".\\(?:-\\)")
-               (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-               (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-               )
-             ))
-  (dolist (char-regexp alist)
-    (set-char-table-range composition-function-table (car char-regexp)
-                          `([,(cdr char-regexp) 0 font-shape-gstring]))))
+;; This ligature method clashes with org-mode's fontification
+;; (when (window-system)
+;;   (set-face-attribute 'default nil :font "Fira Code Retina 14"))
+
+;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+;;                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+;;                (36 . ".\\(?:>\\)")
+;;                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+;;                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+;;                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+;;                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+;;                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+;;                (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+;;                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+;;                (48 . ".\\(?:x[a-zA-Z]\\)")
+;;                (58 . ".\\(?:::\\|[:=]\\)")
+;;                (59 . ".\\(?:;;\\|;\\)")
+;;                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+;;                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+;;                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+;;                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+;;                (91 . ".\\(?:]\\)")
+;;                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+;;                (94 . ".\\(?:=\\)")
+;;                (119 . ".\\(?:ww\\)")
+;;                (123 . ".\\(?:-\\)")
+;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+;;                )
+;;              ))
+;;   (dolist (char-regexp alist)
+;;     (set-char-table-range composition-function-table (car char-regexp)
+;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
@@ -159,7 +169,7 @@
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~/Dropbox/org"
         org-default-notes-file "~/Dropbox/org/todo.org"
-        org-agenda-files '("~/Dropbox/org/todo.org")
+        org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/inbox.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
@@ -182,10 +192,11 @@
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
-                            (sequence "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
+                            (sequence "FIX(f)" "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
   (setq org-todo-keyword-faces
         '(("TODO" . "yellow")
+          ("FIX" . "red")
           ("BEZIG" . "SpringGreen")
           ("AFWACHTEN" . "OliveDrab" )
           ("READ" . "cyan")
@@ -293,7 +304,7 @@
     "j"   'evil-next-visual-line
     "k"   'evil-previous-visual-line
     "C-e" 'evil-end-of-line
-    "x" 'avy-goto-word-1
+    "x" 'evil-avy-goto-char
     "[ p" 'evil-paste-before
     "] p" 'evil-paste-after
     "] f" 'flycheck-next-error
@@ -332,7 +343,7 @@
     "n" 'symbol-overlay-rename
     "s" 'magit-status
     "t" 'treemacs-select-window
-    "w" 'ace-window)
+    "w" 'evil-window-mru)
 
   (general-def org-mode-map
     :prefix "C-c"
@@ -576,10 +587,12 @@
   (add-to-list 'company-backends 'company-anaconda))
 
 (use-package symbol-overlay
+  :demand t
   :config
   (add-hook 'python-mode-hook 'symbol-overlay-mode))
 
 (use-package highlight-indent-guides
+  :demand t
   :config
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top)
@@ -612,6 +625,9 @@
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
 
+(use-package hydra
+  :demand t)
+
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
@@ -635,6 +651,4 @@
   (rainbow-delimiters-mode 1)
   (electric-pair-mode 1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
-
-(message (getenv "PATH"))
-;;; init.el ends here
+;;; Init.el ends here
