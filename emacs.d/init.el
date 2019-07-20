@@ -1,9 +1,8 @@
 ;;; init.el -- a fresh shart
+
 ;;; Commentary:
 ;;; Code:
-
 (require 'package)
-
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -28,8 +27,7 @@
   :init
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)
-    ;; (exec-path-from-shell-copy-envs
-    ;;  '("PATH"))
+    (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig")
     (message (getenv "PATH"))))
 
 (use-package no-littering
@@ -42,41 +40,6 @@
 
 
 (set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
-
-;; This ligature method clashes with org-mode's fontification
-;; (when (window-system)
-;;   (set-face-attribute 'default nil :font "Fira Code Retina 14"))
-
-;; (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-;;                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-;;                (36 . ".\\(?:>\\)")
-;;                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-;;                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-;;                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-;;                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-;;                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-;;                (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-;;                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-;;                (48 . ".\\(?:x[a-zA-Z]\\)")
-;;                (58 . ".\\(?:::\\|[:=]\\)")
-;;                (59 . ".\\(?:;;\\|;\\)")
-;;                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-;;                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-;;                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-;;                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-;;                (91 . ".\\(?:]\\)")
-;;                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-;;                (94 . ".\\(?:=\\)")
-;;                (119 . ".\\(?:ww\\)")
-;;                (123 . ".\\(?:-\\)")
-;;                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-;;                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
-;;                )
-;;              ))
-;;   (dolist (char-regexp alist)
-;;     (set-char-table-range composition-function-table (car char-regexp)
-;;                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
 (set-face-attribute 'line-number nil :background 'unspecified)
 (set-face-attribute 'fringe nil :inherit 'line-number)
 
@@ -96,18 +59,18 @@
 (menu-bar-mode 1)
 (fringe-mode '(8 . 8))
 (recentf-mode 1)
-(show-paren-mode 1)
 (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
 (global-display-line-numbers-mode)
+(global-eldoc-mode)
 
 (setq-default default-input-method "latin-postfix"
+              initial-scratch-message ""
               indent-tabs-mode nil
               tab-width 4
               fill-column 120
               scroll-margin 10
               scroll-conservatively most-positive-fixnum
-              auto-fill-function 'do-auto-fill
               confirm-kill-emacs 'yes-or-no-p
               x-select-enable-clipboard t
               vc-follow-symlinks t
@@ -122,7 +85,9 @@
               abbrev-mode t
               save-abbrevs 'silent
               desktop-restore-frames nil
-              inhibit-startup-screen t)
+              inhibit-startup-screen t
+              auto-fill-function 'do-auto-fill
+              auto-fill-mode -1)
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -139,23 +104,20 @@
 (use-package doom-themes
   :init
   (load-theme 'doom-one t)
+  (setq doom-one-brighter-comments t)
   :config
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (doom-themes-org-config))
 
-;; (use-package doom-modeline
-;;   :hook (after-init . doom-modeline-mode)
-;;   :config
-;;   ;; doom-modeline-height 11
-;;   ;; doom-modeline-bar-width 3
-;;   (setq column-number-mode t
-;;         doom-modeline-icon t))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  ;; doom-modeline-height 11
+  ;; doom-modeline-bar-width 3
+  (setq column-number-mode t
+        doom-modeline-icon t))
 
-(use-package mood-line
-  :init
-  (mood-line-mode))
-
+;; (use-package mood-line
+;;   :hook (after-init . mood-line-mode))
 
 (use-package org
   :ensure org-plus-contrib
@@ -164,8 +126,8 @@
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
-  (setq initial-major-mode 'org-mode
-        initial-scratch-message "")
+  (rainbow-delimiters-mode 1)
+  (display-line-numbers-mode -1)
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~/Dropbox/org"
         org-default-notes-file "~/Dropbox/org/todo.org"
@@ -177,7 +139,7 @@
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
-        org-M-RET-may-split-line '((default . nil))
+        ;; org-M-RET-may-split-line '((default . nil))
         org-return-follows-link t
         org-reverse-note-order t
         org-outline-path-complete-in-steps nil
@@ -186,17 +148,19 @@
         org-log-done nil
         org-startup-indented t)
 
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+
   (setq org-capture-templates
         '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
            "* TODO %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
-                            (sequence "FIX(f)" "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
+                            (sequence "FIXME(f)" "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
   (setq org-todo-keyword-faces
         '(("TODO" . "yellow")
-          ("FIX" . "red")
+          ("FIXME" . "red")
           ("BEZIG" . "SpringGreen")
           ("AFWACHTEN" . "OliveDrab" )
           ("READ" . "cyan")
@@ -304,11 +268,11 @@
     "j"   'evil-next-visual-line
     "k"   'evil-previous-visual-line
     "C-e" 'evil-end-of-line
-    "x" 'evil-avy-goto-char
     "[ p" 'evil-paste-before
     "] p" 'evil-paste-after
     "] f" 'flycheck-next-error
-    "[ f" 'flycheck-previous-error)
+    "[ f" 'flycheck-previous-error
+    "`"   'evil-avy-goto-char)
 
   ;; chords
   (general-def
@@ -316,16 +280,15 @@
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
-  (general-def
-    :keymaps 'evil-normal-state-map
-    "s" nil
-    "S" nil)
-
   ;; leader key
-  (general-def '(normal visual emacs treemacs) override
-    :prefix ","
-    :non-normal-prefix "M-,"
+  (general-create-definer evil-leader
+    :prefix ",")
+
+  (evil-leader
+    :states '(normal visual emacs treemacs)
+    :keymaps 'override
     "b" 'mode-line-other-buffer
+    "c" 'capitalize-dwim
     "d" 'dired-jump
     "e" 'eval-last-sexp
     "g" 'evil-commentary-yank-line
@@ -349,7 +312,8 @@
     :prefix "C-c"
     "a"   'org-agenda-list
     "C-a" 'org-archive-subtree
-    "r"   'org-refile)                          ; C-c binds
+    "r"   'org-refile
+    "!"   'org-time-stamp-inactive)                          ; C-c binds
 
   (general-def
     :prefix "C-c"
@@ -383,7 +347,7 @@
 
   (general-def
     :prefix "C-x"
-    "ESC ESC" nil
+    "ESC ESC" 'keyboard-quit
     "t t" 'treemacs
     "t 0" 'treemacs-select-window
     "t 1" 'treemacs-delete-other-windows
@@ -396,8 +360,7 @@
     "M-/" 'hippie-expand
     "C-)" 'sp-forward-slurp-sexp
     "C-(" 'sp-add-to-previous-sexp
-    "M-s" 'avy-goto-word-1
-    )
+    "M-s" 'avy-goto-word-1)
 
 
   (general-def 'visual
@@ -407,9 +370,8 @@
     "C-w" 'evil-delete-backward-word
     "C-n"  '(lambda () (interactive) (company-complete-common-or-cycle 1))
     "C-p"  '(lambda () (interactive) (company-complete-common-or-cycle -1))
-    "<tab>"  'company-complete
-    "<esc>" 'company-cancel
-    )
+    "<tab>" 'company-complete
+    "<esc>" 'company-cancel)
   )
 
 (use-package ivy
@@ -432,12 +394,11 @@
         company-selection-wrap-around t
         company-require-match 'never)
   (setq company-backends
-        '((company-files
-           company-keywords
-           company-capf
-           company-yasnippet)
-          (company-abbrev company-dabbrev)
-          ))
+        '((company-capf
+           company-yasnippet
+           company-files
+           company-keywords)
+          (company-abbrev company-dabbrev)))
   (global-company-mode))
 
 (use-package prescient
@@ -489,7 +450,8 @@
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
-  (electric-pair-mode 0)
+  (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
+  (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)
   (smartparens-global-mode))
 
 (use-package rainbow-mode
@@ -500,8 +462,10 @@
 (use-package aggressive-indent
   :demand t
   :config
-  (global-aggressive-indent-mode 1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
+  (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode)
+  )
 
 (use-package yasnippet
   :demand t
@@ -562,6 +526,7 @@
   :delight " Fly"
   :commands (projectile-switch-project)
   :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (global-flycheck-mode))
 
@@ -574,7 +539,7 @@
         flycheck-flake8rc "~/.config/flake8")
   (setq python-shell-interpreter "/usr/local/bin/ipython"
         python-shell-interpreter-args "--simple-prompt")
-  (setq python-indent-offset 4)
+  (setq-default python-indent-offset 4)
   (flycheck-mode))
 
 (use-package anaconda-mode
@@ -584,11 +549,17 @@
 
 (use-package company-anaconda
   :init
-  (add-to-list 'company-backends 'company-anaconda))
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends)
+                   '((company-anaconda company-dabbrev-code company-yasnippet)))))
+  )
 
 (use-package symbol-overlay
   :demand t
   :config
+  (setq symbol-overlay-displayed-window t)
+  (add-hook 'python-mode-hook 'symbol-overlay-toggle-in-scope)
   (add-hook 'python-mode-hook 'symbol-overlay-mode))
 
 (use-package highlight-indent-guides
@@ -628,6 +599,22 @@
 (use-package hydra
   :demand t)
 
+(use-package markdown-mode
+  :mode
+  ("\\.md" . markdown-mode)
+  ("\\.mdpp" . markdown-mode))
+
+(use-package olivetti
+  :config
+  (setq olivetti-body-width 120))
+
+(use-package ediff
+  :ensure nil
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-multiframe))
+
+(use-package pdf-tools)
+
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
@@ -639,8 +626,6 @@
 
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
-  (eldoc-mode 1)
-  (auto-fill-mode 1)
   (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
@@ -648,7 +633,7 @@
   "Load 'text-mode' hooks."
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
-  (rainbow-delimiters-mode 1)
-  (electric-pair-mode 1))
+  (rainbow-delimiters-mode -1)
+  (aggressive-indent-mode -1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 ;;; Init.el ends here

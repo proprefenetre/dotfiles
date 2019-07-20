@@ -14,4 +14,5 @@ set FZF_ALT_C_OPTS  "--preview 'tree -C {} | head -200'"
 
 set LANG "en_US.UTF-8"
 
-eval (keychain --eval --agents ssh,gpg --inherit any id_rsa)
+# Very annoying in Emacs
+# eval (keychain --eval --agents ssh,gpg --inherit any id_rsa)
