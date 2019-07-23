@@ -20,6 +20,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (require 'use-package)
 
 (use-package exec-path-from-shell
@@ -297,7 +298,7 @@
            (find-file user-init-file))
     "o" 'olivetti-mode
     "p" 'counsel-yank-pop
-    "q" 'kill-this-buffer
+    "q" 'evil-window-delete
     "r" '(lambda () (interactive)
            (revert-buffer :ignore-auto :noconfirm))
     "R" '(lambda () (interactive)
@@ -539,8 +540,7 @@
         flycheck-flake8rc "~/.config/flake8")
   (setq python-shell-interpreter "/usr/local/bin/ipython"
         python-shell-interpreter-args "--simple-prompt")
-  (setq-default python-indent-offset 4)
-  (flycheck-mode))
+  (setq-default python-indent-offset 4))
 
 (use-package anaconda-mode
   :init
@@ -595,6 +595,13 @@
   :config
   (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
   (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
+
+(use-package json-mode
+  :mode
+  ("\\.json" . json-mode)
+  :config
+  (add-hook 'json-mode-hook 'display-line-numbers-mode)
+  (ada-hook 'json-mode-hook 'delete-trailing-whitespace))
 
 (use-package hydra
   :demand t)
