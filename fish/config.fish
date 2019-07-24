@@ -1,6 +1,6 @@
 #! /usr/local/bin/fish
 
-set PATH /usr/local/bin /usr/local/sbin /Users/niels/.poetry/bin/ $PATH
+set PATH /usr/local/bin /usr/local/sbin /Users/niels/.cargo/bin /Users/niels/.poetry/bin/ $PATH
 # /usr/bin /usr/sbin /bin /sbin
 
 set EDITOR "nvim"

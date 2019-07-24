@@ -2,6 +2,9 @@
 
 ;;; Commentary:
 ;;; Code:
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
@@ -233,6 +236,9 @@
   :demand t
   :config
   (add-hook 'python-mode-hook (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
+  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "_" "_")))
+  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
+  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-org
@@ -281,6 +287,10 @@
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
+  (general-def
+    :keymaps 'evil-normal-state-map
+    (general-chord "ib") 'ibuffer)
+
   ;; leader key
   (general-create-definer evil-leader
     :prefix ",")
@@ -288,7 +298,8 @@
   (evil-leader
     :states '(normal visual emacs treemacs)
     :keymaps 'override
-    "b" 'mode-line-other-buffer
+    ;; "b" 'mode-line-other-buffer
+    "b" 'frog-jump-buffer
     "c" 'capitalize-dwim
     "d" 'dired-jump
     "e" 'eval-last-sexp
@@ -307,7 +318,7 @@
     "n" 'symbol-overlay-rename
     "s" 'magit-status
     "t" 'treemacs-select-window
-    "w" 'evil-window-mru)
+    "w" 'ace-window)
 
   (general-def org-mode-map
     :prefix "C-c"
@@ -349,13 +360,13 @@
   (general-def
     :prefix "C-x"
     "ESC ESC" 'keyboard-quit
-    "t t" 'treemacs
-    "t 0" 'treemacs-select-window
-    "t 1" 'treemacs-delete-other-windows
-    "t B" 'treemacs-bookmark
-    "t C-t" 'treemacs-find-file
-    "t M-t" 'treemacs-find-tag
-    "C-b" 'counsel-ibuffer)
+    "C-b" 'counsel-ibuffer
+    "2" '(lambda () (interactive)
+           (split-window-below)
+           (other-window 1))
+    "3" '(lambda () (interactive)
+           (split-window-right)
+           (other-window 1)))
 
   (general-def
     "M-/" 'hippie-expand
@@ -369,8 +380,8 @@
 
   (general-def company-active-map
     "C-w" 'evil-delete-backward-word
-    "C-n"  '(lambda () (interactive) (company-complete-common-or-cycle 1))
-    "C-p"  '(lambda () (interactive) (company-complete-common-or-cycle -1))
+    "C-n"  'company-select-next
+    "C-p"  'company-select-next
     "<tab>" 'company-complete
     "<esc>" 'company-cancel)
   )
@@ -401,6 +412,10 @@
            company-keywords)
           (company-abbrev company-dabbrev)))
   (global-company-mode))
+
+(use-package company-posframe
+  :init
+  (add-hook 'company-mode-hook 'company-posframe-mode))
 
 (use-package prescient
   :demand t
@@ -622,6 +637,17 @@
 
 (use-package pdf-tools)
 
+(use-package posframe)
+
+(use-package frog-jump-buffer)
+
+(use-package highlight-numbers)
+
+(use-package highlight-operators)
+
+(use-package highlight-escape-sequences)
+
+
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
@@ -633,14 +659,19 @@
 
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
-  (rainbow-delimiters-mode 1))
+ (highlight-numbers-mode)
+ (highlight-operators-mode)
+ (hes-mode)
+ (rainbow-delimiters-mode 1))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
-  (rainbow-delimiters-mode -1)
   (aggressive-indent-mode -1))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
+
+(setq gc-cons-threshold 20000000
+      gc-cons-percentage 0.1)
 ;;; Init.el ends here
