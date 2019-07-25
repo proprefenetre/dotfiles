@@ -238,9 +238,6 @@
          (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
          (org-mode (lambda () (embrace-add-pair ?a "*" "*")))
          (org-mode (lambda () (embrace-add-pair ?a "**" "**"))))
-  ;; (add-hook 'python-mode-hook (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
-  ;; (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "_" "_")))
-  ;; (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-org
@@ -249,7 +246,6 @@
   :hook (org-mode . evil-org-mode)
   :config
   (setq evil-org-set-key-theme '(textobjects insert navigation))
-  ;; (add-hook 'org-mode-hook 'evil-org-mode)
   )
 
 (use-package evil-magit
@@ -417,11 +413,6 @@
           (company-abbrev company-dabbrev)))
   (global-company-mode))
 
-;; (use-package company-posframe
-;;   :hook company-mode
-;;   ;; (add-hook 'company-mode-hook 'company-posframe-mode)
-;;   )
-
 (use-package prescient
   :demand t
   :config
@@ -575,10 +566,6 @@
 
 (use-package company-anaconda
   :hook (python-mode . (lambda () (add-to-list 'company-backends 'company-anaconda)))
-  :init
-  ;; (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-anaconda)))
-  ;; :config
-  ;; (add-to-list 'company-backends 'company-anaconda)
  )
 
 (use-package symbol-overlay
@@ -586,8 +573,6 @@
   :hook (python-mode . symbol-overlay-mode)
   :config
   (setq symbol-overlay-displayed-window t)
-  ;; (add-hook 'python-mode-hook 'symbol-overlay-toggle-in-scope)
-  ;; (add-hook 'python-mode-hook 'symbol-overlay-mode))
   )
 
 (use-package highlight-indent-guides
@@ -595,17 +580,11 @@
   :hook (python-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'top)
-  ;; (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
-  )
+        highlight-indent-guides-responsive 'top))
 
 (use-package auto-virtualenv
   :demand t
-  :hook ((python-mode window-configuration-change) . auto-virtualenv-set-virtualenv)
-  ;; :config
-  ;; (add-hook 'window-configuration-change-hook 'auto-virtualenv-set-virtualenv)
-  ;; (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-  )
+  :hook ((python-mode window-configuration-change) . auto-virtualenv-set-virtualenv))
 
 (use-package ace-window
   :demand t
@@ -618,37 +597,21 @@
 (use-package docker-tramp)
 
 (use-package fish-mode
-  :mode ("\\.fish\\'" . fish-mode))
+  :mode "\\.fish\\'")
 
 (use-package yaml-mode
-  :mode
-  ("\\.yml\\'" . yaml-mode)
-  ("\\.yaml\\'" . yaml-mode)
-  :hook ((yaml-mode . display-line-numbers-mode)
-         (yaml-mode . delete-trailing-whitespace))
-  ;; :config
-  ;; (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
-  ;; (add-hook 'yaml-mode-hook 'delete-trailing-whitespace)
-  )
-
+  :mode ("\\.yml\\'" "\\.yaml\\'")
+  :hook (yaml-mode . display-line-numbers-mode))
 
 (use-package json-mode
-  :mode
-  ("\\.json\\'" . json-mode)
-  :hook ((json-mode . display-line-numbers-mode)
-         (json-mode . delete-trailing-whitespace))
-  ;; :config
-  ;; (add-hook 'json-mode-hook 'display-line-numbers-mode)
-  ;; (add-hook 'json-mode-hook 'delete-trailing-whitespace)
-  )
+  :mode "\\.json\\'"
+  :hook (json-mode . display-line-numbers-mode))
 
 (use-package hydra
   :demand t)
 
 (use-package markdown-mode
-  :mode
-  ("\\.md" . markdown-mode)
-  ("\\.mdpp\\'" . markdown-mode))
+  :mode ("\\.md" "\\.mdpp\\'"))
 
 (use-package olivetti
   :config
@@ -664,7 +627,9 @@
 
 ;; (use-package posframe)
 
-(use-package frog-jump-buffer)
+(use-package frog-jump-buffer
+  :config
+  (setq frog-menu-avy-keys avy-keys))
 
 (use-package highlight-numbers)
 
@@ -673,7 +638,7 @@
 (use-package highlight-escape-sequences)
 
 (use-package rust-mode
-  :mode ("\\.rs\\'". rust-mode)
+  :mode "\\.rs\\'"
   :config
   (setq rust-format-on-save t))
 
