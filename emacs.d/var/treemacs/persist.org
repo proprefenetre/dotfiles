@@ -8,3 +8,5 @@
  - path :: /Users/niels/projects/Exercism
 ** pfn-dvorak
  - path :: /Users/niels/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
+** text_repo
+ - path :: /Users/niels/projects/text_repo

@@ -1,6 +1,7 @@
-; ;;init.el -- not so fresh anymore!
-;;; Commentary:
+; ;;init.el
+;;; Commentary: this beast keeps getting longer.
 ;;; Code:
+
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
@@ -107,7 +108,7 @@
   :init
   (load-theme 'doom-one t)
   :config
-  (setq doom-one-brighter-comments t)
+  (setq doom-one-brighter-comments nil)
   (doom-themes-org-config))
 
 
@@ -671,14 +672,18 @@
   "Load 'prog-mode' minor modes."
  (highlight-numbers-mode)
  (hes-mode)
- (rainbow-delimiters-mode 1))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
+ (rainbow-delimiters-mode 1)
+ (rainbow-mode)
+ (hs-minor-mode))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
-  (aggressive-indent-mode -1))
+  (aggressive-indent-mode -1)
+  (hs-minor-mode)
+  (rainbow-delimiters-mode))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
 (setq gc-cons-threshold 20000000
