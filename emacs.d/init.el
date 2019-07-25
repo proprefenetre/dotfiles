@@ -61,11 +61,12 @@
 (tooltip-mode -1)
 (menu-bar-mode 1)
 (fringe-mode '(8 . 8))
-(recentf-mode 1)
-;; (global-hl-line-mode 1)
-(global-auto-revert-mode 1)
+(recentf-mode)
+(global-hl-line-mode)
+(global-auto-revert-mode)
 (global-display-line-numbers-mode)
 (global-eldoc-mode)
+(global-prettify-symbols-mode)
 
 (setq-default default-input-method "latin-postfix"
               initial-scratch-message ""
