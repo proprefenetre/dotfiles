@@ -1,5 +1,4 @@
-;;; init.el -- a fresh shart
-
+; ;;init.el -- not so fresh anymore!
 ;;; Commentary:
 ;;; Code:
 (setq gc-cons-threshold 402653184
@@ -42,10 +41,9 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-
 (set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
-(set-face-attribute 'line-number nil :background 'unspecified)
-(set-face-attribute 'fringe nil :inherit 'line-number)
+;; (set-face-attribute 'line-number nil :background 'unspecified)
+;; (set-face-attribute 'fringe nil :inherit 'line-number)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -63,7 +61,7 @@
 (menu-bar-mode 1)
 (fringe-mode '(8 . 8))
 (recentf-mode 1)
-(global-hl-line-mode 1)
+;; (global-hl-line-mode 1)
 (global-auto-revert-mode 1)
 (global-display-line-numbers-mode)
 (global-eldoc-mode)
@@ -108,9 +106,10 @@
 (use-package doom-themes
   :init
   (load-theme 'doom-one t)
-  (setq doom-one-brighter-comments t)
   :config
+  (setq doom-one-brighter-comments t)
   (doom-themes-org-config))
+
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -234,19 +233,24 @@
 (use-package evil-embrace
   :after evil
   :demand t
-  :config
-  (add-hook 'python-mode-hook (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
-  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "_" "_")))
-  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
-  (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
+  :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
+         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
+         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
+         (org-mode (lambda () (embrace-add-pair ?a "*" "*")))
+         (org-mode (lambda () (embrace-add-pair ?a "**" "**"))))
+  ;; (add-hook 'python-mode-hook (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
+  ;; (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "_" "_")))
+  ;; (add-hook 'org-mode-hook (lambda () (embrace-add-pair ?a "*" "*")))
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-org
   :after org
   :demand t
+  :hook (org-mode . evil-org-mode)
   :config
   (setq evil-org-set-key-theme '(textobjects insert navigation))
-  (add-hook 'org-mode-hook 'evil-org-mode))
+  ;; (add-hook 'org-mode-hook 'evil-org-mode)
+  )
 
 (use-package evil-magit
   :demand t
@@ -413,9 +417,10 @@
           (company-abbrev company-dabbrev)))
   (global-company-mode))
 
-(use-package company-posframe
-  :init
-  (add-hook 'company-mode-hook 'company-posframe-mode))
+;; (use-package company-posframe
+;;   :hook company-mode
+;;   ;; (add-hook 'company-mode-hook 'company-posframe-mode)
+;;   )
 
 (use-package prescient
   :demand t
@@ -439,7 +444,11 @@
 
 (use-package expand-region)
 
-(use-package avy)
+(use-package avy
+  :config
+  (setq avy-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
+        avy-style 'pre
+        avy-all-windows nil))
 
 (use-package shackle
   :demand t
@@ -550,45 +559,53 @@
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
-  :config
+  :init
   (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
         flycheck-flake8rc "~/.config/flake8")
   (setq python-shell-interpreter "/usr/local/bin/ipython"
-        python-shell-interpreter-args "--simple-prompt")
+        python-shell-interpreter-args "--simple-prompt -i")
   (setq-default python-indent-offset 4))
 
 (use-package anaconda-mode
+  :demand t
+  :hook python-mode
   :init
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
+  )
 
 (use-package company-anaconda
+  :hook (python-mode . (lambda () (add-to-list 'company-backends 'company-anaconda)))
   :init
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (set (make-local-variable 'company-backends)
-                   '((company-anaconda company-dabbrev-code company-yasnippet)))))
-  )
+  ;; (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-anaconda)))
+  ;; :config
+  ;; (add-to-list 'company-backends 'company-anaconda)
+ )
 
 (use-package symbol-overlay
   :demand t
+  :hook (python-mode . symbol-overlay-mode)
   :config
   (setq symbol-overlay-displayed-window t)
-  (add-hook 'python-mode-hook 'symbol-overlay-toggle-in-scope)
-  (add-hook 'python-mode-hook 'symbol-overlay-mode))
+  ;; (add-hook 'python-mode-hook 'symbol-overlay-toggle-in-scope)
+  ;; (add-hook 'python-mode-hook 'symbol-overlay-mode))
+  )
 
 (use-package highlight-indent-guides
   :demand t
+  :hook (python-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top)
-  (add-hook 'python-mode-hook 'highlight-indent-guides-mode))
+  ;; (add-hook 'python-mode-hook 'highlight-indent-guides-mode)
+  )
 
 (use-package auto-virtualenv
   :demand t
-  :config
-  (add-hook 'window-configuration-change-hook 'auto-virtualenv-set-virtualenv)
-  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv))
+  :hook ((python-mode window-configuration-change) . auto-virtualenv-set-virtualenv)
+  ;; :config
+  ;; (add-hook 'window-configuration-change-hook 'auto-virtualenv-set-virtualenv)
+  ;; (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+  )
 
 (use-package ace-window
   :demand t
@@ -601,22 +618,29 @@
 (use-package docker-tramp)
 
 (use-package fish-mode
-  :mode ("\\.fish" . fish-mode))
+  :mode ("\\.fish\\'" . fish-mode))
 
 (use-package yaml-mode
   :mode
-  ("\\.yml" . yaml-mode)
-  ("\\.yaml" . yaml-mode)
-  :config
-  (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
-  (add-hook 'yaml-mode-hook 'delete-trailing-whitespace))
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode)
+  :hook ((yaml-mode . display-line-numbers-mode)
+         (yaml-mode . delete-trailing-whitespace))
+  ;; :config
+  ;; (add-hook 'yaml-mode-hook 'display-line-numbers-mode)
+  ;; (add-hook 'yaml-mode-hook 'delete-trailing-whitespace)
+  )
+
 
 (use-package json-mode
   :mode
-  ("\\.json" . json-mode)
-  :config
-  (add-hook 'json-mode-hook 'display-line-numbers-mode)
-  (ada-hook 'json-mode-hook 'delete-trailing-whitespace))
+  ("\\.json\\'" . json-mode)
+  :hook ((json-mode . display-line-numbers-mode)
+         (json-mode . delete-trailing-whitespace))
+  ;; :config
+  ;; (add-hook 'json-mode-hook 'display-line-numbers-mode)
+  ;; (add-hook 'json-mode-hook 'delete-trailing-whitespace)
+  )
 
 (use-package hydra
   :demand t)
@@ -624,11 +648,12 @@
 (use-package markdown-mode
   :mode
   ("\\.md" . markdown-mode)
-  ("\\.mdpp" . markdown-mode))
+  ("\\.mdpp\\'" . markdown-mode))
 
 (use-package olivetti
   :config
-  (setq olivetti-body-width 120))
+  (setq olivetti-body-width 120)
+  (display-line-numbers-mode -1))
 
 (use-package ediff
   :ensure nil
@@ -637,7 +662,7 @@
 
 (use-package pdf-tools)
 
-(use-package posframe)
+;; (use-package posframe)
 
 (use-package frog-jump-buffer)
 
@@ -647,6 +672,26 @@
 
 (use-package highlight-escape-sequences)
 
+(use-package rust-mode
+  :mode ("\\.rs\\'". rust-mode)
+  :config
+  (setq rust-format-on-save t))
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package racer
+  :hook ((rust-mode . racer-mode)
+         (racer-mode . company-mode))
+  ;; :init
+  ;; (add-hook 'rust-mode-hook 'racer-mode)
+  ;; (add-hook 'racer-mode-hook 'company-mode)
+  )
+
+(use-package flycheck-rust
+  :hook (flycheck-mode . flycheck-rust-setup))
+
+(use-package toml-mode)
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
@@ -660,7 +705,6 @@
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
  (highlight-numbers-mode)
- (highlight-operators-mode)
  (hes-mode)
  (rainbow-delimiters-mode 1))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)

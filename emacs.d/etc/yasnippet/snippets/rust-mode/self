@@ -2,4 +2,4 @@
 # name: self
 # key: .
 # --
-self.$1
+self.$0
