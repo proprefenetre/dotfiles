@@ -1,0 +1,10 @@
+* Default Workspace
+** org
+ - path :: /Users/niels/org
+* Projects
+** keymapper
+ - path :: /Users/niels/projects/python-keymapper
+** Exercism
+ - path :: /Users/niels/projects/Exercism
+** pfn-dvorak
+ - path :: /Users/niels/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
