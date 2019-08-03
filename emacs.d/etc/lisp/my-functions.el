@@ -89,5 +89,16 @@ Repeated invocations toggle between the two most recently open buffers."
                (get-buffer-create "*compilation*"))
               (message "No Compilation Errors!")))))
 
+
+(defun pfn-get-face (pos)
+  "Get the font faces at POS.
+Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
+  (interactive "d")
+  (remq nil
+        (list
+         (get-char-property pos 'read-face-name)
+         (get-char-property pos 'face)
+         (message "%s" (plist-get (text-properties-at pos) 'face)))))
+
 (provide 'my-functions)
 ;;; functions.el ends here

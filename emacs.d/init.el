@@ -1,4 +1,4 @@
-; ;;init.el
+;;; init.el
 ;;; Commentary: this beast keeps getting longer.
 ;;; Code:
 
@@ -54,7 +54,9 @@
 ;; builtins
 (setq default-frame-alist
       '((width . 120)
-        (height . 38)))
+        (height . 38)
+        (top . 253)
+        (left . 470)))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -127,12 +129,15 @@
 (use-package org
   :ensure org-plus-contrib
   :pin org
+  :hook ((org-mode . (lambda () (display-line-numbers-mode -1)))
+         (org-mode . (lambda ()
+                       (set (make-local-variable 'company-backends)
+                            (add-to-list 'company-backends 'org-keyword-backend)))))
+
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
-  (rainbow-delimiters-mode 1)
-  (display-line-numbers-mode -1)
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~/Dropbox/org"
         org-default-notes-file "~/Dropbox/org/todo.org"
@@ -152,8 +157,6 @@
         org-pretty-entities t
         org-log-done nil
         org-startup-indented t)
-
-  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
 
   (setq org-capture-templates
         '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
@@ -182,13 +185,70 @@
       (prefix (and (eq major-mode 'org-mode)
                    (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
                          t)))
-      (candidates (mapcar #'upcase
+      (candidates (mapcar 'downcase
                           (cl-remove-if-not
                            (lambda (c) (string-prefix-p arg c))
                            (pcomplete-completions))))
       (ignore-case t)
       (duplicates t)))
-  (add-to-list 'company-backends 'org-keyword-backend))
+
+  ;; (add-to-list 'company-backends 'org-keyword-backend)
+
+  ;; Latex stuff
+  (require 'ox-latex)
+  (add-to-list 'org-latex-default-packages-alist '("" "fontspec" t ("xelatex")))
+
+  (setq org-latex-compiler "xelatex")
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  (setq org-latex-minted-options '(("breaklines" "true")
+                                   ("frame" "lines")))
+
+  (add-to-list 'org-latex-classes
+               '("pfn-article"
+                 "\\documentclass[11pt,a4paper]{article}
+[DEFAULT-PACKAGES]
+\\usepackage{fullpage}
+\\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\\setmonofont{Hack}
+\\usepackage[hyperref,x11names]{xcolor}
+\\usepackage[parfill]{parskip}
+\\usepackage{float}
+\\usepackage{needspace}
+\\usepackage{minted}
+\\usepackage{etoolbox}
+
+\\preto\\verbatim{\\topsep=5pt \\partopsep=5pt}
+\\preto\\minted{\\needspace{4\\baselineskip}}
+\\makeatletter \\renewcommand{\\fps@listing}{htp} \\makeatother
+\\newcommand{\\sectionbreak}{\\clearpage}
+\\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue}
+\\AtBeginEnvironment{quote}{\\itshape}
+\\frenchspacing
+
+[EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; (require 'ob-shell)
+  (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
+                                                           (dot . t)
+                                                           (shell . t)
+                                                           (python . t)))
+
+  (defun pfn-confirm-lang (lang body)
+    (not (member t (mapcar (lambda (l) (string= lang l)) '("ditaa" "dot")))))
+
+  (setq org-confirm-babel-evaluate 'pfn-confirm-lang))
 
 (use-package evil
   :demand t
@@ -327,7 +387,11 @@
     "a"   'org-agenda-list
     "C-a" 'org-archive-subtree
     "r"   'org-refile
-    "!"   'org-time-stamp-inactive)                          ; C-c binds
+    "!"   'org-time-stamp-inactive)
+
+  (general-def org-mode-map
+    :states 'normal
+    "<return>" 'org-return)
 
   (general-def
     :prefix "C-c"
@@ -371,10 +435,13 @@
            (other-window 1)))
 
   (general-def
+    "M-x" 'counsel-M-x
     "M-/" 'hippie-expand
     "C-)" 'sp-forward-slurp-sexp
     "C-(" 'sp-add-to-previous-sexp
-    "M-s" 'avy-goto-word-1)
+    "M-s" 'avy-goto-word-1
+    "C-S-s" 'evil-search-forward
+    "C-s" 'swiper)
 
 
   (general-def 'visual
@@ -384,9 +451,11 @@
     "C-w" 'evil-delete-backward-word
     "C-n"  'company-select-next
     "C-p"  'company-select-next
-    "<tab>" 'company-complete
+    "<tab>" 'company-complete-common
     "<esc>" 'company-cancel)
-  )
+
+  (general-def rust-mode-map
+    "C-c <tab>" 'rust-format-buffer))
 
 (use-package ivy
   :demand t
@@ -408,11 +477,15 @@
         company-selection-wrap-around t
         company-require-match 'never)
   (setq company-backends
-        '((company-capf
+        '((company-files
            company-yasnippet
-           company-files
+           company-capf
            company-keywords)
           (company-abbrev company-dabbrev)))
+;; add buffer-local company-backends using this hook:
+;; (lambda ()
+;;   (set (make-local-variable 'company-backends)
+;;         (add-to-list 'company-backends 'company-elisp)))
   (global-company-mode))
 
 (use-package prescient
@@ -458,7 +531,13 @@
   :demand t)
 
 (use-package rainbow-delimiters
-  :demand t)
+  :demand t
+  :config
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :foreground 'unspecified
+                      :background 'unspecified
+                      :inverse-video nil
+                      :weight 'normal))
 
 (use-package smartparens
   :demand t
@@ -467,7 +546,7 @@
   (sp-local-pair 'org-mode "=" "=")
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
+  (add-to-list 'sp-sexp-suffix (list 'rust-mode 'regexp ";"))
   (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
   (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)
   (smartparens-global-mode))
@@ -541,7 +620,6 @@
   (eyebrowse-mode))
 
 (use-package flycheck
-  :delight " Fly"
   :commands (projectile-switch-project)
   :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -560,22 +638,21 @@
   (setq-default python-indent-offset 4))
 
 (use-package anaconda-mode
-  :demand t
   :hook python-mode
+  :demand t
   :init
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode)
-  )
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
-  :hook (python-mode . (lambda () (add-to-list 'company-backends 'company-anaconda)))
- )
+  :hook (python-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
 
 (use-package symbol-overlay
   :demand t
   :hook (python-mode . symbol-overlay-mode)
   :config
-  (setq symbol-overlay-displayed-window t)
-  )
+  (setq symbol-overlay-displayed-window t))
 
 (use-package highlight-indent-guides
   :demand t
@@ -586,7 +663,8 @@
 
 (use-package auto-virtualenv
   :demand t
-  :hook ((python-mode window-configuration-change) . auto-virtualenv-set-virtualenv))
+  :hook ((python-mode . auto-virtualenv-set-virtualenv)
+         (window-configuration-change . auto-virtualenv-set-virtualenv)))
 
 (use-package ace-window
   :demand t
@@ -625,7 +703,13 @@
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-multiframe))
 
-(use-package pdf-tools)
+(use-package pdf-tools
+  :pin manual
+  :mode "\\.pdf\\'"
+  :config
+  (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
 ;; (use-package posframe)
 
@@ -647,18 +731,28 @@
 (use-package cargo
   :hook (rust-mode . cargo-minor-mode))
 
-(use-package racer
-  :hook ((rust-mode . racer-mode)
-         (racer-mode . company-mode))
-  ;; :init
-  ;; (add-hook 'rust-mode-hook 'racer-mode)
-  ;; (add-hook 'racer-mode-hook 'company-mode)
-  )
+(use-package company-racer
+  :hook (rust-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends 'company-racer))))
+  :config
+  (unless (getenv "RUST_SRC_PATH")
+    (setenv "RUST_SRC_PATH" (expand-file-name "/Users/niels/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"))))
 
 (use-package flycheck-rust
-  :hook (flycheck-mode . flycheck-rust-setup))
+  :hook (rust-mode . flycheck-rust-setup))
 
-(use-package toml-mode)
+(use-package toml-mode
+  :mode "\\.toml\\'")
+
+(use-package persistent-scratch
+  :hook (emacs-startup . persistent-scratch-restore)
+  :config
+  (persistent-scratch-setup-default))
+
+(use-package feature-mode
+  :mode "\\.feature\\'")
+
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
@@ -667,7 +761,7 @@
 ;; hooks
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
-(add-hook 'before-save-hook 'whitespace-cleanup)
+;; (add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."

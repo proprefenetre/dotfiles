@@ -30,3 +30,5 @@ emacs.d/etc/custom.el
 nvim/*
 !nvim/init.vim
 
+.DS_Store
+emacs.d/lossage
