@@ -20,3 +20,5 @@
  - path :: /Users/niels/projects/BDD
 ** textrepo
  - path :: /Users/niels/projects/textrepo
+** wnt
+ - path :: /Users/niels/projects/wnt

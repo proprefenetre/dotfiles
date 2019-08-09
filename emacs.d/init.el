@@ -223,7 +223,8 @@
 \\usepackage{needspace}
 \\usepackage{minted}
 \\usepackage{etoolbox}
-
+\\usepackage{titlesec}
+[PACKAGES]
 \\preto\\verbatim{\\topsep=5pt \\partopsep=5pt}
 \\preto\\minted{\\needspace{4\\baselineskip}}
 \\makeatletter \\renewcommand{\\fps@listing}{htp} \\makeatother
@@ -231,7 +232,6 @@
 \\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue}
 \\AtBeginEnvironment{quote}{\\itshape}
 \\frenchspacing
-
 [EXTRA]"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -332,28 +332,7 @@
   (general-evil-setup)
   (general-override-mode)
 
-  ;; movement, pasting
-  (general-mmap
-    "j"   'evil-next-visual-line
-    "k"   'evil-previous-visual-line
-    "C-e" 'evil-end-of-line
-    "[ p" 'evil-paste-before
-    "] p" 'evil-paste-after
-    "] f" 'flycheck-next-error
-    "[ f" 'flycheck-previous-error
-    "`"   'evil-avy-goto-char)
-
-  ;; chords
-  (general-def
-    :keymaps 'evil-insert-state-map
-    (general-chord "jj") 'evil-normal-state
-    (general-chord "ww") 'evil-window-next)
-
-  (general-def
-    :keymaps 'evil-normal-state-map
-    (general-chord "ib") 'ibuffer)
-
-  ;; leader key
+  ;; general keybindings
   (general-create-definer evil-leader
     :prefix ",")
 
@@ -381,17 +360,6 @@
     "s" 'magit-status
     "t" 'treemacs-select-window
     "w" 'ace-window)
-
-  (general-def org-mode-map
-    :prefix "C-c"
-    "a"   'org-agenda-list
-    "C-a" 'org-archive-subtree
-    "r"   'org-refile
-    "!"   'org-time-stamp-inactive)
-
-  (general-def org-mode-map
-    :states 'normal
-    "<return>" 'org-return)
 
   (general-def
     :prefix "C-c"
@@ -443,10 +411,30 @@
     "C-S-s" 'evil-search-forward
     "C-s" 'swiper)
 
+  (general-mmap
+    "j"   'evil-next-visual-line
+    "k"   'evil-previous-visual-line
+    "C-e" 'evil-end-of-line
+    "[ p" 'evil-paste-before
+    "] p" 'evil-paste-after
+    "] f" 'flycheck-next-error
+    "[ f" 'flycheck-previous-error
+    "`"   'evil-avy-goto-char)
 
-  (general-def 'visual
+  (general-imap
+    ;; :keymaps 'evil-insert-state-map
+    (general-chord "jj") 'evil-normal-state
+    (general-chord "ww") 'evil-window-next)
+
+  (general-nmap
+    ;; :keymaps 'evil-normal-state-map
+    (general-chord "ib") 'ibuffer)
+
+  (general-vmap
+    ;; :keymaps 'evil-visual-state-map
     ")" 'er/expand-region)
 
+  ;; package specific
   (general-def company-active-map
     "C-w" 'evil-delete-backward-word
     "C-n"  'company-select-next
@@ -455,7 +443,18 @@
     "<esc>" 'company-cancel)
 
   (general-def rust-mode-map
-    "C-c <tab>" 'rust-format-buffer))
+    "C-c <tab>" 'rust-format-buffer)
+
+  (general-def org-mode-map
+    :prefix "C-c"
+    "a"   'org-agenda-list
+    "C-a" 'org-archive-subtree
+    "r"   'org-refile
+    "!"   'org-time-stamp-inactive)
+
+  (general-def org-mode-map
+    :states 'normal
+    "<return>" 'org-return))
 
 (use-package ivy
   :demand t
@@ -476,12 +475,12 @@
         company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-require-match 'never)
-  (setq company-backends
-        '((company-files
-           company-yasnippet
-           company-capf
-           company-keywords)
-          (company-abbrev company-dabbrev)))
+  ;; (setq company-backends
+  ;;       '((company-files
+  ;;          company-yasnippet
+  ;;          company-capf
+  ;;          company-keywords)
+  ;;         (company-abbrev company-dabbrev)))
 ;; add buffer-local company-backends using this hook:
 ;; (lambda ()
 ;;   (set (make-local-variable 'company-backends)
@@ -661,10 +660,10 @@
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top))
 
-(use-package auto-virtualenv
-  :demand t
-  :hook ((python-mode . auto-virtualenv-set-virtualenv)
-         (window-configuration-change . auto-virtualenv-set-virtualenv)))
+;; (use-package auto-virtualenv
+;;   :demand t
+;;   :hook ((python-mode . auto-virtualenv-set-virtualenv)
+;;          (window-configuration-change . auto-virtualenv-set-virtualenv)))
 
 (use-package ace-window
   :demand t
@@ -691,7 +690,11 @@
   :demand t)
 
 (use-package markdown-mode
-  :mode ("\\.md" "\\.mdpp\\'"))
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.spec\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
 
 (use-package olivetti
   :config
