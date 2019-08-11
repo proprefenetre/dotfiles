@@ -1,9 +1,11 @@
-;;; init.el -- a fresh shart
-;;; Commentary:
+;;; init.el
+;;; Commentary: this beast keeps getting longer.
 ;;; Code:
 
-(require 'package)
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
 
+(require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -21,7 +23,16 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (require 'use-package)
+
+(use-package exec-path-from-shell
+  :demand t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig")
+    (message (getenv "PATH"))))
 
 (use-package no-littering
   :demand t
@@ -31,11 +42,9 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-;; (set-face-attribute 'default nil :font "Hack 10")
-(set-face-attribute 'default nil :font "FantasqueSansMono Nerd Font Mono 10")
-
-(set-face-attribute 'line-number nil :background 'unspecified)
-(set-face-attribute 'fringe nil :inherit 'line-number)
+(set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
+;; (set-face-attribute 'line-number nil :background 'unspecified)
+;; (set-face-attribute 'fringe nil :inherit 'line-number)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -43,25 +52,31 @@
 (set-default-coding-systems 'utf-8)
 
 ;; builtins
+(setq default-frame-alist
+      '((width . 120)
+        (height . 38)
+        (top . 253)
+        (left . 470)))
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode -1)
-(recentf-mode 1)
-(show-paren-mode 1)
+(menu-bar-mode 1)
 (fringe-mode '(8 . 8))
-(global-hl-line-mode 1)
-(global-auto-revert-mode 1)
-(desktop-save-mode)
+(recentf-mode)
+(global-hl-line-mode)
+(global-auto-revert-mode)
+(global-display-line-numbers-mode)
+(global-eldoc-mode)
+(global-prettify-symbols-mode)
 
-(setq-default locale-coding-system 'utf-8
-              default-input-method "latin-postfix"
+(setq-default default-input-method "latin-postfix"
+              initial-scratch-message ""
               indent-tabs-mode nil
               tab-width 4
-              fill-column 80
+              fill-column 120
               scroll-margin 10
               scroll-conservatively most-positive-fixnum
-              auto-fill-function 'do-auto-fill
               confirm-kill-emacs 'yes-or-no-p
               x-select-enable-clipboard t
               vc-follow-symlinks t
@@ -72,11 +87,13 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              tramp-default-method "ssh"
+              ;; tramp-default-method "ssh"
               abbrev-mode t
               save-abbrevs 'silent
-              desktop-restore-frames nil)
-
+              desktop-restore-frames nil
+              inhibit-startup-screen t
+              auto-fill-function 'do-auto-fill
+              auto-fill-mode -1)
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -85,23 +102,18 @@
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
-(setq ispell-silently-savep t
-      ispell-dictionary "dutch"
-      ispell-extra-args '("-a" "utf-8"))
-
 ;; Packages
-(setq custom-safe-themes t)
-
 (use-package all-the-icons)
+
+(setq custom-safe-themes t)
 
 (use-package doom-themes
   :init
-  (load-theme 'doom-vibrant t)
+  (load-theme 'doom-one t)
   :config
-  ;; (setq-default doom-neotree-file-icons t)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (setq doom-one-brighter-comments nil)
   (doom-themes-org-config))
+
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -111,28 +123,33 @@
   (setq column-number-mode t
         doom-modeline-icon t))
 
+;; (use-package mood-line
+;;   :hook (after-init . mood-line-mode))
+
 (use-package org
   :ensure org-plus-contrib
   :pin org
-  :demand t
-  :commands (org-capture)
+  :hook ((org-mode . (lambda () (display-line-numbers-mode -1)))
+         (org-mode . (lambda ()
+                       (set (make-local-variable 'company-backends)
+                            (add-to-list 'company-backends 'org-keyword-backend)))))
+
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
-  (setq initial-major-mode 'org-mode
-        initial-scratch-message "")
-  (setq org-directory "~/org"
-        org-default-notes-file "~/org/todo.org"
-        org-agenda-files '("~/org/todo.org" "~/org/notes.org")
+  (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
+  (setq org-directory "~/Dropbox/org"
+        org-default-notes-file "~/Dropbox/org/todo.org"
+        org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/inbox.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
-        org-archive-location "~/org/archief::datetree/"
+        org-archive-location "~/Dropbox/org/archief::datetree/"
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
-        org-M-RET-may-split-line '((default . nil))
+        ;; org-M-RET-may-split-line '((default . nil))
         org-return-follows-link t
         org-reverse-note-order t
         org-outline-path-complete-in-steps nil
@@ -141,21 +158,95 @@
         org-log-done nil
         org-startup-indented t)
 
+  (setq org-capture-templates
+        '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
+           "* TODO %?\n")))
+
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
                                   "DONE(d)")
-                            (sequence "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
-
+                            (sequence "FIXME(f)" "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
   (setq org-todo-keyword-faces
         '(("TODO" . "yellow")
+          ("FIXME" . "red")
           ("BEZIG" . "SpringGreen")
-          ("AFWACHTEN" . "SpringGreen" )
+          ("AFWACHTEN" . "OliveDrab" )
           ("READ" . "cyan")
           ("GOOGLE" . "cyan")
           ("AFSPRAAK" . "magenta")
           ("CANCELED" . "red")
           ("IDEE" . "orange")
-          ("NB". "orange"))))
+          ("NB". "orange")))
+
+  (defun org-keyword-backend (command &optional arg &rest ignored)
+    (interactive (list 'interactive))
+    (cl-case command
+      (interactive (company-begin-backend 'org-keyword-backend))
+      (prefix (and (eq major-mode 'org-mode)
+                   (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
+                         t)))
+      (candidates (mapcar 'downcase
+                          (cl-remove-if-not
+                           (lambda (c) (string-prefix-p arg c))
+                           (pcomplete-completions))))
+      (ignore-case t)
+      (duplicates t)))
+
+  ;; Latex stuff
+  (require 'ox-latex)
+  (add-to-list 'org-latex-default-packages-alist '("" "fontspec" t ("xelatex")))
+
+  (setq org-latex-compiler "xelatex")
+  (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  (setq org-latex-minted-options '(("breaklines" "true")
+                                   ("frame" "lines")))
+
+  (add-to-list 'org-latex-classes
+               '("pfn-article"
+                 "\\documentclass[11pt,a4paper]{article}
+[DEFAULT-PACKAGES]
+\\usepackage{fullpage}
+\\setmainfont[Mapping=tex-text]{DejaVu Serif}
+\\setsansfont[Mapping=tex-text]{DejaVu Sans}
+\\setmonofont{Hack}
+\\usepackage[hyperref,x11names]{xcolor}
+\\usepackage[parfill]{parskip}
+\\usepackage{float}
+\\usepackage{needspace}
+\\usepackage{minted}
+\\usepackage{etoolbox}
+
+\\preto\\verbatim{\\topsep=5pt \\partopsep=5pt}
+\\preto\\minted{\\needspace{4\\baselineskip}}
+\\makeatletter \\renewcommand{\\fps@listing}{htp} \\makeatother
+\\newcommand{\\sectionbreak}{\\clearpage}
+\\hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue}
+\\AtBeginEnvironment{quote}{\\itshape}
+\\frenchspacing
+
+[EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; (require 'ob-shell)
+  (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
+                                                           (dot . t)
+                                                           (shell . t)
+                                                           (python . t)))
+
+  (defun pfn-confirm-lang (lang body)
+    (not (member t (mapcar (lambda (l) (string= lang l)) '("ditaa" "dot")))))
+
+  (setq org-confirm-babel-evaluate 'pfn-confirm-lang))
 
 (use-package evil
   :demand t
@@ -165,19 +256,17 @@
         evil-want-Y-yank-to-eol t
         evil-want-C-w-delete t)
   :config
-  (add-to-list 'desktop-locals-to-save 'evil-markers-alist)
   (eval-after-load 'evil-ex
     '(evil-ex-define-cmd "W" 'evil-write))
-  (evil-set-initial-state 'treemacs-mode 'normal)
-  (setq evil-emacs-state-modes nil
-        evil-insert-state-modes nil
+  (setq evil-insert-state-modes nil
         evil-motion-state-modes nil
         evil-search-wrap t
         evil-regexp-search t
         evil-complete-next-func 'hippie-expand
         evil-vsplit-window-right t
         evil-split-window-below t
-        evil-cross-lines t)
+        evil-cross-lines t
+        evil-ex-substitute-global t)
   (evil-mode 1))
 
 (use-package evil-collection
@@ -201,20 +290,28 @@
   :config
   (global-evil-surround-mode))
 
+(use-package evil-embrace
+  :after evil
+  :demand t
+  :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
+         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
+         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
+         (org-mode (lambda () (embrace-add-pair ?a "*" "*")))
+         (org-mode (lambda () (embrace-add-pair ?a "**" "**"))))
+  (evil-embrace-enable-evil-surround-integration))
+
 (use-package evil-org
   :after org
   :demand t
+  :hook (org-mode . evil-org-mode)
   :config
   (setq evil-org-set-key-theme '(textobjects insert navigation))
-  (add-hook 'org-mode-hook 'evil-org-mode))
+  )
 
 (use-package evil-magit
-  :after '(evil magit)
+  :demand t
   :config
   (setq evil-magit-state 'normal))
-
-(use-package general
-  :demand t)
 
 (use-package key-chord
   :demand t
@@ -226,6 +323,137 @@
 
 (use-package smex
   :demand t)
+
+(use-package general
+  :demand t
+  :config
+  (general-evil-setup)
+  (general-override-mode)
+
+  ;; movement, pasting
+  (general-mmap
+    "j"   'evil-next-visual-line
+    "k"   'evil-previous-visual-line
+    "C-e" 'evil-end-of-line
+    "[ p" 'evil-paste-before
+    "] p" 'evil-paste-after
+    "] f" 'flycheck-next-error
+    "[ f" 'flycheck-previous-error
+    "`"   'evil-avy-goto-char)
+
+  ;; chords
+  (general-def
+    :keymaps 'evil-insert-state-map
+    (general-chord "jj") 'evil-normal-state
+    (general-chord "ww") 'evil-window-next)
+
+  (general-def
+    :keymaps 'evil-normal-state-map
+    (general-chord "ib") 'ibuffer)
+
+  ;; leader key
+  (general-create-definer evil-leader
+    :prefix ",")
+
+  (evil-leader
+    :states '(normal visual emacs treemacs)
+    :keymaps 'override
+    ;; "b" 'mode-line-other-buffer
+    "b" 'frog-jump-buffer
+    "c" 'capitalize-dwim
+    "d" 'dired-jump
+    "e" 'eval-last-sexp
+    "g" 'evil-commentary-yank-line
+    "f" 'flycheck-list-errors
+    "i" '(lambda () (interactive)
+           (find-file user-init-file))
+    "o" 'olivetti-mode
+    "p" 'counsel-yank-pop
+    "q" 'evil-window-delete
+    "r" '(lambda () (interactive)
+           (revert-buffer :ignore-auto :noconfirm))
+    "R" '(lambda () (interactive)
+           (load-file user-init-file)
+           (message "buffer reloaded"))
+    "n" 'symbol-overlay-rename
+    "s" 'magit-status
+    "t" 'treemacs-select-window
+    "w" 'ace-window)
+
+  (general-def org-mode-map
+    :prefix "C-c"
+    "a"   'org-agenda-list
+    "C-a" 'org-archive-subtree
+    "r"   'org-refile
+    "!"   'org-time-stamp-inactive)
+
+  (general-def org-mode-map
+    :states 'normal
+    "<return>" 'org-return)
+
+  (general-def
+    :prefix "C-c"
+    "b"   'counsel-bookmark
+    "c"   '(lambda () (interactive)
+             (org-capture nil "c"))
+    ;; "d"
+    "C-d" 'dired-jump-other-window
+    ;; "e"
+    "f"   'ffap-other-window
+    ;; "g" "h"
+    "i"   'ibuffer
+    ;; "j"
+    "k"   'counsel-ag
+    "l"   'org-store-link
+    "L"   '(lambda () (interactive)
+             (load-file buffer-file-name))
+    ;; "m" "n" "o"
+    "p"   'projectile-command-map
+    ;; "q"
+    "R"   '(lambda () (interactive)
+             (load-file user-init-file))
+    "s"   'counsel-rg
+    "t"   'treemacs
+    ;; "u"
+    ;; "v"
+    "w"   'ace-window
+    ;;"x"
+    "C-l" 'comint-clear-buffer
+    )
+
+  (general-def
+    :prefix "C-x"
+    "ESC ESC" 'keyboard-quit
+    "C-b" 'counsel-ibuffer
+    "2" '(lambda () (interactive)
+           (split-window-below)
+           (other-window 1))
+    "3" '(lambda () (interactive)
+           (split-window-right)
+           (other-window 1)))
+
+  (general-def
+    "M-x" 'counsel-M-x
+    "M-/" 'hippie-expand
+    "C-)" 'sp-forward-slurp-sexp
+    "C-(" 'sp-add-to-previous-sexp
+    "M-s" 'avy-goto-word-1
+    "C-S-s" 'evil-search-forward
+    "C-s" 'swiper)
+
+
+  (general-def 'visual
+    ")" 'er/expand-region)
+
+  (general-def company-active-map
+    "C-w" 'evil-delete-backward-word
+    "C-n"  'company-select-next
+    "C-p"  'company-select-next
+    "<tab>" 'company-complete-common
+    "<esc>" 'company-cancel)
+
+  (general-def rust-mode-map
+    "C-c <tab>" 'rust-format-buffer))
 
 (use-package ivy
   :demand t
@@ -242,9 +470,20 @@
   :demand t
   :config
   (setq company-idle-delay 0
+        company-echo-delay 0
+        company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-require-match 'never)
-  (add-to-list 'company-frontends 'company-tng-frontend)
+  (setq company-backends
+        '((company-files
+           company-yasnippet
+           company-capf
+           company-keywords)
+          (company-abbrev company-dabbrev)))
+;; add buffer-local company-backends using this hook:
+;; (lambda ()
+;;   (set (make-local-variable 'company-backends)
+;;         (add-to-list 'company-backends 'company-elisp)))
   (global-company-mode))
 
 (use-package prescient
@@ -269,15 +508,20 @@
 
 (use-package expand-region)
 
-(use-package avy)
+(use-package avy
+  :config
+  (setq avy-keys '(?a ?o ?e ?u ?i ?d ?h ?t ?n)
+        avy-style 'pre
+        avy-all-windows nil))
 
 (use-package shackle
   :demand t
   :config
-  (setq shackle-rules '((compilation-mode :noselect t)
-                        ("*Flycheck error messages*" :noselect t :align 'below
+  (setq shackle-rules '(("*Flycheck error messages*" :noselect t :align 'below
                          :ignore t)
-                        ("*Python*" :noselect t :size .25 :align :'below)))
+                        ("*Python*" :noselect t :size .25 :align :'below)
+                        ("COMMIT_EDITMSG" :select t)
+                        (magit-status-mode :regexp t :same t :inhibit-window-quit t)))
   (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
@@ -285,24 +529,38 @@
   :demand t)
 
 (use-package rainbow-delimiters
-  :demand t)
+  :demand t
+  :config
+  (set-face-attribute 'rainbow-delimiters-unmatched-face nil
+                      :foreground 'unspecified
+                      :background 'unspecified
+                      :inverse-video nil
+                      :weight 'normal))
 
 (use-package smartparens
   :demand t
   :config
+  (require 'smartparens-config)
+  (sp-local-pair 'org-mode "=" "=")
+  (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  (sp-local-pair 'org-mode "<" nil :actions nil)
-  (add-to-list 'sp-sexp-suffix (list #'rust-mode 'regexp ";"))
-  (electric-pair-mode 0)
-  (require 'smartparens-config))
+  (add-to-list 'sp-sexp-suffix (list 'rust-mode 'regexp ";"))
+  (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
+  (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)
+  (smartparens-global-mode))
 
-(use-package rainbow-mode)
+(use-package rainbow-mode
+  :demand t
+  :config
+  (rainbow-mode 1))
 
 (use-package aggressive-indent
   :demand t
   :config
-  (global-aggressive-indent-mode 1)
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode))
+  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
+  (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode)
+  )
 
 (use-package yasnippet
   :demand t
@@ -334,12 +592,10 @@
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
-  (pcase (cons (not (null (executable-find "git")))
-               (not (null (executable-find "python3"))))
-    (`(t . t)
-     (treemacs-git-mode 'deferred))
-    (`(t . _)
-     (treemacs-git-mode 'simple))))
+  (setq treemacs-width 28
+        treemacs-no-png-images t
+        treemacs-python-executable "/usr/local/bin/python")
+  (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil
   :demand t)
@@ -347,10 +603,8 @@
 (use-package treemacs-projectile
   :demand t)
 
-(use-package treemacs-magit)
-
-(use-package olivetti
-  :config (setq-default olivetti-body-width 90))
+(use-package treemacs-magit
+  :demand t)
 
 (use-package eyebrowse
   :demand t
@@ -364,162 +618,166 @@
   (eyebrowse-mode))
 
 (use-package flycheck
-  :delight " Fly"
   :commands (projectile-switch-project)
   :config
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
-  (setq flycheck-flake8rc "~/.flake8"))
+  (global-flycheck-mode))
 
 ;; Python
-(setq python-shell-interpreter "/usr/bin/python")
-(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
+(use-package python
+  :ensure nil
+  :mode ("\\.py" . python-mode)
+  :init
+  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
+        flycheck-flake8rc "~/.config/flake8")
+  (setq python-shell-interpreter "/usr/local/bin/ipython"
+        python-shell-interpreter-args "--simple-prompt -i")
+  (setq-default python-indent-offset 4))
 
 (use-package anaconda-mode
+  :hook python-mode
+  :demand t
   :init
-  (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
-  :init
-  (add-to-list 'company-backends 'company-anaconda))
+  :hook (python-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
+
+(use-package symbol-overlay
+  :demand t
+  :hook (python-mode . symbol-overlay-mode)
+  :config
+  (setq symbol-overlay-displayed-window t))
+
+(use-package highlight-indent-guides
+  :demand t
+  :hook (python-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top))
+
+(use-package auto-virtualenv
+  :demand t
+  :hook ((python-mode . auto-virtualenv-set-virtualenv)
+         (window-configuration-change . auto-virtualenv-set-virtualenv)))
 
 (use-package ace-window
   :demand t
   :config
-  (setq aw-keys '(?a ?o ?e ?u ?i ?d ?t ?n ?s)
-        aw-scope 'frame))
+  (setq aw-scope 'frame))
 
-;;; keybinding
-(setq tab-always-indent t)
+(use-package dockerfile-mode
+  :mode ("Dockerfile\\'" . dockerfile-mode))
 
-(general-evil-setup)
+(use-package docker-tramp)
 
-;; movement, pasting
-(general-mmap
-  "j"   'evil-next-visual-line
-  "k"   'evil-previous-visual-line
-  "C-e" 'evil-end-of-line
-  "[ p" 'evil-paste-before
-  "] p" 'evil-paste-after)
+(use-package fish-mode
+  :mode "\\.fish\\'")
 
-;; chords
-(general-def
-  :keymaps 'evil-insert-state-map
-  (general-chord "jj") 'evil-normal-state
-  (general-chord "ww") 'evil-window-next)
+(use-package yaml-mode
+  :mode ("\\.yml\\'" "\\.yaml\\'")
+  :hook (yaml-mode . display-line-numbers-mode))
 
-;; leader key
-(general-override-mode)
+(use-package json-mode
+  :mode "\\.json\\'"
+  :hook (json-mode . display-line-numbers-mode))
 
-(general-def '(normal visual emacs treemacs) override
-  :prefix ","
-  :non-normal-prefix "M-,"
-  "b" 'mode-line-other-buffer
-  "d" 'dired-jump
-  "e" 'eval-last-sexp
-  "i" '(lambda () (interactive)
-         (find-file user-init-file))
-  "o" 'olivetti-mode
-  "p" 'counsel-yank-pop
-  "q" 'kill-buffer-and-window
-  "r" '(lambda () (interactive)
-         (revert-buffer :ignore-auto :noconfirm))
-  "R" '(lambda () (interactive)
-         (load-file user-init-file)
-         (message "buffer reloaded"))
-  "s" 'magit-status
-  "t" 'treemacs
-  "w" 'ace-window
-  )
-                                        ; C-c binds
-(general-def
-  :prefix "C-c"
-  "a"   'org-agenda
-  "b"   'counsel-bookmark
-  "c"   'compile
-  ;; "d"
-  "C-d" 'dired-jump-other-window
-  ;; "e"
-  "f"   'ffap-other-window
-  ;; "g" "h"
-  "i"   'ibuffer
-  ;; "j"
-  "k"   'counsel-ag
-  "l"   'org-store-link
-  "L"   '(lambda () (interactive)
-           (load-file buffer-file-name))
-  ;; "m" "n" "o"
-  "p"   'projectile-command-map
-  ;; "q"
-  "r"   'org-refile
-  "R"   '(lambda () (interactive)
-           (load-file user-init-file))
-  "s"   'cycle-ispell-languages
-  ;; "t"   'treemacs
-  ;; "u"
-  ;; "v"
-  "w"   'ace-window
-  ;;"x"
-  "C-l" 'comint-clear-buffer
-  )
+(use-package hydra
+  :demand t)
 
-(general-def
-  :prefix "C-x"
-  "ESC ESC" nil
-  "t t" 'treemacs
-  "t 0" 'treemacs-select-window
-  "t 1" 'treemacs-delete-other-windows
-  "t B" 'treemacs-bookmark
-  "t C-t" 'treemacs-find-file
-  "t M-t" 'treemacs-find-tag)
+(use-package markdown-mode
+  :mode ("\\.md" "\\.mdpp\\'"))
 
-(general-def
-  "M-/" 'hippie-expand
-  "C-)" 'sp-forward-slurp-sexp
-  "M-s" 'avy-goto-word-1)
+(use-package olivetti
+  :config
+  (setq olivetti-body-width 120)
+  (display-line-numbers-mode -1))
 
-(general-def 'visual
-  ")" 'er/expand-region)
+(use-package ediff
+  :ensure nil
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-multiframe))
 
-(general-def company-active-map
-  "C-w" 'evil-delete-backward-word
-  "TAB" 'company-select-next
-  "<tab>" 'company-select-next
-  "<backtab>" 'company-select-previous
-  "RET" nil)
+(use-package pdf-tools
+  :pin manual
+  :mode "\\.pdf\\'"
+  :config
+  (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
-(general-def 'insert yas-keymap
-  "TAB" 'yas-next-field-or-maybe-expand
-  "<tab>" 'yas-next-field-or-maybe-expand
-  "<backtab>" 'yas-prev)
+(use-package frog-jump-buffer
+  :config
+  (setq frog-menu-avy-keys avy-keys))
+
+(use-package highlight-numbers)
+
+(use-package highlight-operators)
+
+(use-package highlight-escape-sequences)
+
+(use-package rust-mode
+  :mode "\\.rs\\'"
+  :config
+  (setq rust-format-on-save t))
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+(use-package company-racer
+  :hook (rust-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends 'company-racer))))
+  :config
+  (unless (getenv "RUST_SRC_PATH")
+    (setenv "RUST_SRC_PATH"
+            (expand-file-name "/Users/niels/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"))))
+
+(use-package flycheck-rust
+  :hook (rust-mode . flycheck-rust-setup))
+
+(use-package toml-mode
+  :mode "\\.toml\\'")
+
+(use-package persistent-scratch
+  :hook (emacs-startup . persistent-scratch-restore)
+  :config
+  (persistent-scratch-setup-default))
+
+(use-package feature-mode
+  :mode "\\.feature\\'")
+
 
 ;;; other stuff
 (add-to-list 'load-path "~/.emacs.d/etc/lisp/")
 (require 'my-functions)
 
+;; hooks
 (add-hook 'focus-out-hook 'garbage-collect)
 (add-hook 'sh-mode-hook 'aggressive-indent-mode)
-(add-hook 'before-save-hook 'whitespace-cleanup)
+;; (add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defun pfn-setup-prog-mode ()
   "Load 'prog-mode' minor modes."
-  (eldoc-mode 1)
-  (auto-fill-mode 1)
-  (rainbow-delimiters-mode 1)
-  (rainbow-mode 1)
-  (flycheck-mode 1)
-  (outline-minor-mode 1)
-  (display-line-numbers-mode 1)
-  (smartparens-mode 1))
+ (highlight-numbers-mode)
+ (hes-mode)
+ (rainbow-delimiters-mode 1)
+ (rainbow-mode)
+ (hs-minor-mode))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()
   "Load 'text-mode' hooks."
   (delete-trailing-whitespace)
   (turn-on-auto-fill)
-  (rainbow-delimiters-mode 1)
-  (flyspell-mode 1)
-  (electric-pair-mode 1))
+  (aggressive-indent-mode -1)
+  (hs-minor-mode)
+  (rainbow-delimiters-mode))
 (add-hook 'text-mode-hook 'pfn-setup-text-mode)
 
-;;; init.el ends here
+(setq gc-cons-threshold 20000000
+      gc-cons-percentage 0.1)
+;;; Init.el ends here

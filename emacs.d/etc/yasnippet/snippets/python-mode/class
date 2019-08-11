@@ -1,0 +1,7 @@
+# key: class
+# name: class
+# --
+class $1:
+      def __init__(self${2:, $3}):
+          $4
+      $0

@@ -1,0 +1,50 @@
+# -*- mode: Conf -*-
+
+[global]
+    monitor = 0
+    geometry = "330x8-5-320"
+    indicate_hidden = yes
+    transparency = 0
+    separator_height = 2
+    padding = 8
+    horizontal_padding = 8
+    font = "Hack Regular 10"
+    allow_markup = yes
+    format = "<b>%a\n</b>\n<span fgcolor="#ffffff">%s %b</span>"
+    sort = yes
+    alignment = left
+    bounce_freq = 0
+    show_age_threshold = 60
+    word_wrap = yes
+    ignore_newline = no
+    idle_threshold = 0
+    sticky_history = yes
+    line_height = 0
+    separator_color = "#585858"
+    startup_notification = false
+
+[frame]
+    width = 1
+    color = "#383838"
+
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+
+[urgency_low]
+    background = "#1c1c1c"
+    foreground = "#2DE1FC"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1c1c1c"
+    foreground = "#06D6A0"
+    timeout = 20
+
+[urgency_critical]
+    background = "#1c1c1c"
+    foreground = "#EF476F"
+    timeout = 0
+

@@ -1,4 +1,14 @@
 # -*- mode: Conf -*-
+
+# Chord chains: multiple chords separated by a semicolon. A colon can be used
+# to indicate that the chord chain should stay active (e.g. for resizing)
+# If a command starts with a semicolon, it will be executed synchronously,
+# otherwise asynchronously. The Escape key can be used to abort a chord chain.
+
+# @[keysym]: command will be run on key release events
+# ~[keysym]: captured events will be replayed for the other clients.
+# _:  an empty sequence element.
+
 #
 # wm independent hotkeys
 #
@@ -25,19 +35,22 @@ mod3 + 1
 mod3 + 2
     emax
 
+# trackball precision mode
+button3 + mod3
+    ~/dotfiles/sxhkd/precision-mode.sh;
+
 # scratchterm
-control + shift + mod1 + mod4 + u
+mod3 + u
     ~/dotfiles/bspwm/scratchterm
 
-control + shift + mod1 + mod4 + e
-    ~/dotfiles/bspwm/scratchmacs
+# mod3 + e
+#     ~/dotfiles/bspwm/scratchmacs
 
-mod4 + {_,shift +}a
-     ~/bin/win-hide
-    # /home/niels/dotfiles/bspwm/hide {--hide,--retrieve}
+mod4 + a
+    ~/dotfiles/sxhkd/win-hide.sh
 
 # quit/restart bspwm
-mod1 + mod4 + {q,r}
+mod3 + {q,r}
     bspc {quit,wm -r}
 
 # close and kill

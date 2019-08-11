@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: Tab-ref
-# key: Tab
+# name: tab-ref
+# key: tab
 # --
-Table \@ref(tab:$1)
+table \@ref(tab:$1)
