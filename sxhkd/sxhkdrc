@@ -11,25 +11,30 @@ mod4 + shift + Return
     /home/niels/bin/emax
 
 # program launcher
-mod4 + @space ; {1,2,3,space,r,l,s}
-     {firefox-developer-edition,emax,okular,dmenu_run -l 5,bspc desktop --rename $(rofi -lines 1 -dmenu -input /dev/null -p "New name"),slock,systemctl suspend}
+mod4 + space
+     dmenu_run -l 5
 
 # MAKE SXHKD reload its configuration files:
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
-mod4 + l
-     slock
+# control + shift + mod1 + mod4 + 1
+mod3 + 1
+    firefox-developer-edition
+
+mod3 + 2
+    emax
 
 # scratchterm
-mod4 + u
+control + shift + mod1 + mod4 + u
     ~/dotfiles/bspwm/scratchterm
 
-mod4 + e
+control + shift + mod1 + mod4 + e
     ~/dotfiles/bspwm/scratchmacs
 
 mod4 + {_,shift +}a
-    /home/niels/dotfiles/bspwm/hide {--hide,--retrieve}
+     ~/bin/win-hide
+    # /home/niels/dotfiles/bspwm/hide {--hide,--retrieve}
 
 # quit/restart bspwm
 mod1 + mod4 + {q,r}
@@ -59,7 +64,7 @@ mod4 + {_,shift} + r
 # state/flags
 #
 
-# set the window state
+# set window mode
 mod4 + s ; {t,shift + t,s,f}
     bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
@@ -149,8 +154,8 @@ mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
      corner -{ul,ll,ur,lr,u,d,l,r,c}
 
 # volume 🗈
-{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
-    amixer set Master {1%+,1%-,toggle}
+# {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+#     amixer set Master {1%+,1%-,toggle}
 
-{XF86MonBrightnessUp,XF86MonBrightnessDown}
-    xbacklight  {+,-} 1
+# {XF86MonBrightnessUp,XF86MonBrightnessDown}
+#     xbacklight  {+,-} 1

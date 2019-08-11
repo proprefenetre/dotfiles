@@ -1,0 +1,10 @@
+! Map right control to mod3/hyper
+clear control
+clear mod3
+clear mod4
+
+keycode 105 = Hyper_R
+
+add control = Control_L
+add mod3 = Hyper_L Hyper_R
+add mod4 = Super_L Super_R Super_L
