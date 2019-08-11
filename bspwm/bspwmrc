@@ -11,7 +11,7 @@ bspc config gapless_monocle      true
 
 bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
 
-bspc config automatic_scheme spiral
+bspc config automatic_scheme longest_side
 bspc single_monocle true
 
 bspc config ignore_ewmh_fullscreen all
@@ -26,6 +26,7 @@ bspc rule -a Zathura state=tiled
 bspc desktop ^1 --layout monocle
 
 # scripts
+sxhkd -m -1 &
 /home/niels/dotfiles/bspwm/pblaunch &
 nm-applet &
 /home/niels/dotfiles/bspwm/scratchmacs &
