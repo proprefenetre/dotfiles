@@ -629,7 +629,7 @@
 
   (global-flycheck-mode))
 
-;; Python
+;; Python mode
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
@@ -650,6 +650,7 @@
   :hook (python-mode . (pfn-add-company-backend 'company-anaconda))
   ;; (python-mode . (lambda ()
   ;;                        (set (make-local-variable 'company-backends)
+ 
   )
 
 (use-package symbol-overlay
