@@ -407,8 +407,7 @@
     "M-/" 'hippie-expand
     "C-)" 'sp-forward-slurp-sexp
     "C-(" 'sp-add-to-previous-sexp
-    "M-s" 'avy-goto-word-1
-    "C-S-s" 'evil-search-forward
+    "C-s-s" 'query-replace
     "C-s" 'swiper)
 
   (general-mmap
@@ -417,22 +416,26 @@
     "C-e" 'evil-end-of-line
     "[ p" 'evil-paste-before
     "] p" 'evil-paste-after
-    "] f" 'flycheck-next-error
-    "[ f" 'flycheck-previous-error
-    "`"   'evil-avy-goto-char)
+    "`"   'evil-avy-goto-char
+    "C-b" 'mode-line-other-buffer)
 
-  (general-imap
-    ;; :keymaps 'evil-insert-state-map
+  (general-def
+    :keymaps 'evil-insert-state-map
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
-  (general-nmap
-    ;; :keymaps 'evil-normal-state-map
-    (general-chord "ib") 'ibuffer)
+  (general-def
+    :keymaps 'evil-normal-state-map
+    (general-chord "bi") 'ibuffer
+    "s-q" 'kill-this-buffer)
 
-  (general-vmap
-    ;; :keymaps 'evil-visual-state-map
+  (general-def
+    :keymaps 'evil-visual-state-map
     ")" 'er/expand-region)
+
+  (general-def 'goto-map
+    "f" 'avy-goto-char
+    "t" 'avy-goto-word-1)
 
   ;; package specific
   (general-def company-active-map
@@ -454,7 +457,7 @@
 
   (general-def org-mode-map
     :states 'normal
-    "<return>" 'org-return))
+    "<return>" 'org-return))
 
 (use-package ivy
   :demand t
@@ -575,6 +578,7 @@
         yas-wrap-around-region t
         yas-indent-line 'auto
         yas-also-auto-indent-first-line t)
+  (add-to-list 'company-backends 'company-yasnippet)
   (yas-global-mode 1))
 
 (use-package projectile
@@ -621,8 +625,8 @@
 (use-package flycheck
   :commands (projectile-switch-project)
   :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
+  ;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  ;; (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
   (global-flycheck-mode))
 
 ;; Python
@@ -636,16 +640,16 @@
         python-shell-interpreter-args "--simple-prompt -i")
   (setq-default python-indent-offset 4))
 
-(use-package anaconda-mode
-  :hook python-mode
-  :demand t
-  :init
-  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+;; (use-package anaconda-mode
+;;   :hook python-mode
+;;   :demand t
+;;   :init
+;;   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
-(use-package company-anaconda
-  :hook (python-mode . (lambda ()
-                         (set (make-local-variable 'company-backends)
-                              (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
+;; (use-package company-anaconda
+;;   :hook (python-mode . (lambda ()
+;;                          (set (make-local-variable 'company-backends)
+;;                               (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
 
 (use-package symbol-overlay
   :demand t
@@ -754,7 +758,37 @@
   (persistent-scratch-setup-default))
 
 (use-package feature-mode
+  ;; Cucumber/gherkin mode
   :mode "\\.feature\\'")
+
+;; (use-package double-mode
+;;   ;; werkt alleen met interpuncties geloof ik, en het is makkelijker met
+;;   ;; input method
+;;   :ensure nil
+;;   :config
+;;   (setq double-map '((?\; ";" "æ")
+;;                      (?\' "'" "\370")
+;;                      (?\[ "[" "\345")
+;;                      (?\: ":" "\306")
+;;                      (?\" "\"" "\330")
+;;                      (?\{ "{" "\305")
+;;                      (?\e "e" "\233"))))
+
+;; kan het niet laten:
+(use-package lsp-mode
+  :hook (python-mode . lsp)
+  :commands lsp)
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :commands lsp-ui-mode)
+
+
+(use-package company-lsp
+  :hook (lsp-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends '(company-lsp)))))
+  :commands company-lsp)
 
 
 ;;; other stuff
