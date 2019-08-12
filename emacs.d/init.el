@@ -358,7 +358,8 @@
            (message "buffer reloaded"))
     "n" 'symbol-overlay-rename
     "s" 'magit-status
-    "t" 'treemacs-select-window
+    ;; "t" 'treemacs-select-window
+    "t" 'neotree-toggle
     "w" 'ace-window)
 
   (general-def
@@ -478,16 +479,12 @@
         company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-require-match 'never)
-  ;; (setq company-backends
-  ;;       '((company-files
-  ;;          company-yasnippet
-  ;;          company-capf
-  ;;          company-keywords)
-  ;;         (company-abbrev company-dabbrev)))
-;; add buffer-local company-backends using this hook:
-;; (lambda ()
-;;   (set (make-local-variable 'company-backends)
-;;         (add-to-list 'company-backends 'company-elisp)))
+  (setq company-backends
+        '((company-files
+           company-yasnippet
+           company-capf
+           company-keywords)
+          (company-abbrev company-dabbrev)))
   (global-company-mode))
 
 (use-package prescient
@@ -523,7 +520,8 @@
   :config
   (setq shackle-rules '(("*Flycheck error messages*" :noselect t :align 'below
                          :ignore t)
-                        ("*Python*" :noselect t :size .25 :align :'below)
+                        ("*Python*" :noselect t :size .25 :align 'below)
+                        ;; ("*NeoTree*" :size .25 :align 'left)
                         ("COMMIT_EDITMSG" :select t)
                         (magit-status-mode :regexp t :same t :inhibit-window-quit t)))
   (setq shackle-default-rule '(:select t :align 'below))
@@ -563,8 +561,7 @@
   :config
   (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
   (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode)
-  )
+  (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode))
 
 (use-package yasnippet
   :demand t
@@ -597,7 +594,8 @@
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
-  (setq treemacs-width 28
+  (setq treemacs-width 25
+        treemacs-position 'right
         treemacs-no-png-images t
         treemacs-python-executable "/usr/local/bin/python")
   (treemacs-git-mode 'deferred))
@@ -624,9 +622,11 @@
 
 (use-package flycheck
   :commands (projectile-switch-project)
+  :hook (python-mode . flycheck-mode)
   :config
   ;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   ;; (setq flycheck-check-syntax-automatically '(save idle-change new-line mode-enabled))
+
   (global-flycheck-mode))
 
 ;; Python
@@ -640,20 +640,19 @@
         python-shell-interpreter-args "--simple-prompt -i")
   (setq-default python-indent-offset 4))
 
-;; (use-package anaconda-mode
-;;   :hook python-mode
-;;   :demand t
-;;   :init
-;;   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
+(use-package anaconda-mode
+  :hook python-mode
+  :demand t
+  :init
+  (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
-;; (use-package company-anaconda
-;;   :hook (python-mode . (lambda ()
-;;                          (set (make-local-variable 'company-backends)
-;;                               (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
+(use-package company-anaconda
+  :hook (python-mode . (lambda ()
+                         (set (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
 
 (use-package symbol-overlay
   :demand t
-  :hook (python-mode . symbol-overlay-mode)
   :config
   (setq symbol-overlay-displayed-window t))
 
@@ -663,11 +662,6 @@
   :config
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top))
-
-;; (use-package auto-virtualenv
-;;   :demand t
-;;   :hook ((python-mode . auto-virtualenv-set-virtualenv)
-;;          (window-configuration-change . auto-virtualenv-set-virtualenv)))
 
 (use-package ace-window
   :demand t
@@ -718,15 +712,7 @@
   (setq-default pdf-view-display-size 'fit-page)
   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
-;; (use-package posframe)
-
-(use-package frog-jump-buffer
-  :config
-  (setq frog-menu-avy-keys avy-keys))
-
 (use-package highlight-numbers)
-
-(use-package highlight-operators)
 
 (use-package highlight-escape-sequences)
 
@@ -761,43 +747,13 @@
   ;; Cucumber/gherkin mode
   :mode "\\.feature\\'")
 
-;; (use-package double-mode
-;;   ;; werkt alleen met interpuncties geloof ik, en het is makkelijker met
-;;   ;; input method
-;;   :ensure nil
-;;   :config
-;;   (setq double-map '((?\; ";" "æ")
-;;                      (?\' "'" "\370")
-;;                      (?\[ "[" "\345")
-;;                      (?\: ":" "\306")
-;;                      (?\" "\"" "\330")
-;;                      (?\{ "{" "\305")
-;;                      (?\e "e" "\233"))))
+(use-package realgud)
 
-;; kan het niet laten:
-(use-package lsp-mode
-  :hook (python-mode . lsp)
-  :commands lsp)
+(use-package neotree
+  :config
+  (setq neo-window-position 'left))
 
-(use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode)
-  :commands lsp-ui-mode)
-
-
-(use-package company-lsp
-  :hook (lsp-mode . (lambda ()
-                         (set (make-local-variable 'company-backends)
-                              (add-to-list 'company-backends '(company-lsp)))))
-  :commands company-lsp)
-
-
-;;; other stuff
-(add-to-list 'load-path "~/.emacs.d/etc/lisp/")
-(require 'my-functions)
-
-;; hooks
 (add-hook 'focus-out-hook 'garbage-collect)
-(add-hook 'sh-mode-hook 'aggressive-indent-mode)
 ;; (add-hook 'before-save-hook 'whitespace-cleanup)
 
 (defun pfn-setup-prog-mode ()
@@ -806,7 +762,9 @@
  (hes-mode)
  (rainbow-delimiters-mode 1)
  (rainbow-mode)
- (hs-minor-mode))    ;; highlight escape sequences (rainbow-delimiters-mode 1))
+ (hs-minor-mode)
+ (flymake-mode -1)
+ (aggressive-indent-mode))    ;; highlight escape sequences
 (add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
 
 (defun pfn-setup-text-mode ()

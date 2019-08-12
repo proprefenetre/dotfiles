@@ -1,24 +1,24 @@
 * Default Workspace
 ** org
- - path :: /Users/niels/org
+ - path :: ~/org
 ** .config
- - path :: /Users/niels/.config
+ - path :: ~/.config
 * Projects
 ** keymapper
- - path :: /Users/niels/projects/python-keymapper
+ - path :: ~/projects/python-keymapper
 ** Exercism
- - path :: /Users/niels/projects/Exercism
+ - path :: ~/projects/Exercism
 ** pfn-dvorak
- - path :: /Users/niels/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
+ - path :: ~/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
 ** rust-caesar
- - path :: /Users/niels/projects/rust-caesar
+ - path :: ~/projects/rust-caesar
 ** textstats
- - path :: /Users/niels/projects/textstats
+ - path :: ~/projects/textstats
 ** TEIDocument
- - path :: /Users/niels/projects/TEIDocument
+ - path :: ~/projects/TEIDocument
 ** BDD
- - path :: /Users/niels/projects/BDD
+ - path :: ~/projects/BDD
 ** textrepo
- - path :: /Users/niels/projects/textrepo
+ - path :: ~/projects/textrepo
 ** wnt
- - path :: /Users/niels/projects/wnt
+ - path :: ~/projects/wnt
