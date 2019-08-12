@@ -647,9 +647,10 @@
   (add-hook 'anaconda-mode-hook 'anaconda-eldoc-mode))
 
 (use-package company-anaconda
-  :hook (python-mode . (lambda ()
-                         (set (make-local-variable 'company-backends)
-                              (add-to-list 'company-backends '(company-anaconda company-yasnippet))))))
+  :hook (python-mode . (pfn-add-company-backend 'company-anaconda))
+  ;; (python-mode . (lambda ()
+  ;;                        (set (make-local-variable 'company-backends)
+  )
 
 (use-package symbol-overlay
   :demand t

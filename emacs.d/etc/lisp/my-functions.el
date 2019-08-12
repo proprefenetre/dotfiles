@@ -100,5 +100,9 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
          (get-char-property pos 'face)
          (message "%s" (plist-get (text-properties-at pos) 'face)))))
 
+(defun pfn-add-company-backend (backend)
+  (set (make-local-variable 'company-backends)
+       add-to-list 'company-backends backend))
+
 (provide 'my-functions)
 ;;; functions.el ends here
