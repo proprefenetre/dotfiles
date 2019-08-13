@@ -3,6 +3,8 @@
  - path :: ~/org
 ** .config
  - path :: ~/.config
+** dotfiles
+ - path :: ~/dotfiles
 * Projects
 ** keymapper
  - path :: ~/projects/python-keymapper
@@ -22,3 +24,5 @@
  - path :: ~/projects/textrepo
 ** wnt
  - path :: ~/projects/wnt
+** annoteren
+ - path :: ~/projects/annoteren
