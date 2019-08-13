@@ -1,7 +1,6 @@
-;;; functions.el -- transform word or region
+;;; functions.el --- my own lips
 ;;; commentary:
 ;;; code:
-
 (use-package s)
 
 (require 's)
@@ -11,7 +10,7 @@
   (setq lang-ring (make-ring (length langs)))
   (dolist (elem langs) (ring-insert lang-ring elem)))
 
-(defun cycle-ispell-languages ()
+(defun pfn-cycle-ispell-languages ()
   "Default documentation."
   (interactive)
   (let ((lang (ring-ref lang-ring -1)))
@@ -79,17 +78,6 @@ Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-(setq compilation-finish-functions
-      (lambda (buf str)
-        (if (null (string-match ".*exited abnormally.*" str))
-                                        ; no errors, make the compilation window go away in a few seconds
-            (progn
-              (run-at-time
-               "2 sec" nil 'delete-windows-on
-               (get-buffer-create "*compilation*"))
-              (message "No Compilation Errors!")))))
-
-
 (defun pfn-get-face (pos)
   "Get the font faces at POS.
 Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
@@ -100,5 +88,5 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
          (get-char-property pos 'face)
          (message "%s" (plist-get (text-properties-at pos) 'face)))))
 
-(provide 'my-functions)
-;;; functions.el ends here
+(provide 'pfn-functions)
+;;; pfn-functions.el ends here
