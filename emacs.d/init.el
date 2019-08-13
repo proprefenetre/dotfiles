@@ -47,8 +47,6 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 (load custom-file)
 
-(add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
-
 (set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -103,6 +101,9 @@
 (put 'narrow-to-region 'disabled nil)             ; Enable narrowing
 
 ;; Packages
+
+(add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
+
 (require 'pfn-functions)
 (require 'pfn-completion)
 (require 'pfn-evil)
@@ -150,7 +151,7 @@
     :prefix ",")
 
   (evil-leader
-    :states '(normal visual emacs treemacs)
+    :states '(normal visual emacs)
     :keymaps 'override
     ;; "b" '
     "c" 'capitalize-dwim
@@ -165,9 +166,6 @@
     "q" 'evil-window-delete
     "r" '(lambda () (interactive)
            (revert-buffer :ignore-auto :noconfirm))
-    "R" '(lambda () (interactive)
-           (load-file user-init-file)
-           (message "buffer reloaded"))
     "n" 'symbol-overlay-rename
     "s" 'magit-status
     "t" 'treemacs-select-window
@@ -187,30 +185,27 @@
     ;; "j"
     "k"   'counsel-ag
     "l"   'org-store-link
-    "L"   '(lambda () (interactive)
-             (load-file buffer-file-name))
     ;; "m" "n" "o"
     "p"   'projectile-command-map
     ;; "q"
     "R"   '(lambda () (interactive)
-             (load-file user-init-file))
+             (load-file buffer-file-name))
     "s"   'counsel-rg
     "t"   'treemacs
     ;; "u"
     ;; "v"
     "w"   'ace-window
     ;;"x"
-    "C-l" 'comint-clear-buffer
-    )
+    "C-l" 'comint-clear-buffer)
 
   (general-def
     :prefix "C-x"
     "ESC ESC" 'keyboard-quit
     "C-b" 'counsel-ibuffer
-    "2" '(lambda () (interactive)
+    "2" '(lambda () (interactive) 
            (split-window-below)
            (other-window 1))
-    "3" '(lambda () (interactive)
+    "3" '(lambda () (interactive) 
            (split-window-right)
            (other-window 1)))
 
@@ -358,7 +353,8 @@
   :demand t
   :config
   (dolist (mode '(html-mode python-mode dockerfile-mode))
-    (add-to-list 'aggressive-indent-excluded-modes mode)))
+    (add-to-list 'aggressive-indent-excluded-modes mode))
+  (global-aggressive-indent-mode))
 
 (use-package yasnippet
   :demand t
@@ -372,6 +368,7 @@
         yas-wrap-around-region t
         yas-indent-line 'auto
         yas-also-auto-indent-first-line t)
+  ;; (add-to-list 'company-backends 'company-yasnippet)
   (yas-global-mode 1))
 
 (use-package projectile
@@ -479,9 +476,8 @@
 (use-package pdf-tools
   :pin manual
   :mode "\\.pdf\\'"
-  :init
-  (pdf-tools-install)
   :config
+  (pdf-tools-install)
   (setq-default pdf-view-display-size 'fit-page)
   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
@@ -513,8 +509,7 @@
                 highlight-numbers-mode
                 rainbow-delimiters-mode
                 display-line-numbers-mode
-                flycheck-mode
-                aggressive-indent-mode))
+                flycheck-mode))
   (add-hook 'prog-mode-hook hook))
 
 ;; text-mode hooks

@@ -1,6 +1,6 @@
 #! /usr/local/bin/fish
 
-set PATH /usr/local/bin /usr/local/sbin /Users/niels/.cargo/bin /Users/niels/.poetry/bin/ $PATH
+set PATH /usr/local/bin /usr/local/sbin /Users/niels/.cargo/bin /Users/niels/.poetry/bin/ /Users/niels/.cask/bin $PATH
 # /usr/bin /usr/sbin /bin /sbin
 
 set EDITOR "nvim"
@@ -15,6 +15,7 @@ set FZF_ALT_C_OPTS  "--preview 'tree -C {} | head -200'"
 set LANG "en_US.UTF-8"
 
 set RUST_SRC_PATH "(rustc --print sysroot)/lib/rustlib/src/rust/src"
+set PKG_CONFIG_PATH /usr/local/opt/libffi/lib/pkgconfig /usr/local/opt/zlib/lib/pkgconfig /usr/local/lib/pkgconfig /opt/X11/lib/pkgconfig
 
 # Very annoying in Emacs
 # eval (keychain --eval --agents ssh,gpg --inherit any id_rsa)

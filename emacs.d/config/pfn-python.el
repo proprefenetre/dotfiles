@@ -1,6 +1,7 @@
 ;;; pfn-python.el --- python setup
 ;;; Commentary:
 ;;; Code:
+
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
@@ -16,11 +17,10 @@
   :hook ((python-mode . anaconda-mode)
          (python-mode . anaconda-eldoc-mode)))
 
-
 (use-package company-anaconda
-  :commands (company-anaconda)
   :hook (python-mode . (lambda ()
-                         (jojo/company-push-backend-local '(company-anaconda :wth company-capf)))))
+                         (pfn-add-company-backend-local
+                          '(company-anaconda :with company-yasnippet)))))
 
 (provide 'pfn-python)
 ;;; pfn-python.el ends here
