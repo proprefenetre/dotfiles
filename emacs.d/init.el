@@ -6,12 +6,13 @@
       gc-cons-percentage 0.6)
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("org" . "https://orgmode.org/elpa/"))
+
+
+(dolist (archive '(("elpa" . "https://elpa.gnu.org/packages/")
+                   ("melpa" . "https://melpa.org/packages/")
+                   ("melpa-stable" . "https://stable.melpa.org/packages/")
+                   ("org" . "https://orgmode.org/elpa/")))
+  (add-to-list 'package-archives archive))
 
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -43,8 +44,6 @@
 (load custom-file)
 
 (set-face-attribute 'default nil :font "Fantasque Sans Mono 15")
-;; (set-face-attribute 'line-number nil :background 'unspecified)
-;; (set-face-attribute 'fringe nil :inherit 'line-number)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -105,15 +104,13 @@
 ;; Packages
 (use-package all-the-icons)
 
-(setq custom-safe-themes t)
-
 (use-package doom-themes
   :init
+  (setq custom-safe-themes t)
   (load-theme 'doom-one t)
   :config
   (setq doom-one-brighter-comments nil)
   (doom-themes-org-config))
-
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
@@ -122,9 +119,6 @@
   ;; doom-modeline-bar-width 3
   (setq column-number-mode t
         doom-modeline-icon t))
-
-;; (use-package mood-line
-;;   :hook (after-init . mood-line-mode))
 
 (use-package org
   :ensure org-plus-contrib
@@ -149,7 +143,6 @@
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
-        ;; org-M-RET-may-split-line '((default . nil))
         org-return-follows-link t
         org-reverse-note-order t
         org-outline-path-complete-in-steps nil
@@ -191,8 +184,6 @@
                            (pcomplete-completions))))
       (ignore-case t)
       (duplicates t)))
-
-  ;; (add-to-list 'company-backends 'org-keyword-backend)
 
   ;; Latex stuff
   (require 'ox-latex)
@@ -296,9 +287,8 @@
   :after evil
   :demand t
   :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
-         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
-         (org-mode (lambda () (embrace-add-pair ?a "_" "_")))
-         (org-mode (lambda () (embrace-add-pair ?a "*" "*")))
+         (org-mode (lambda () (embrace-add-pair ?_ "_" "_")))
+         (org-mode (lambda () (embrace-add-pair ?* "*" "*")))
          (org-mode (lambda () (embrace-add-pair ?a "**" "**"))))
   (evil-embrace-enable-evil-surround-integration))
 
@@ -307,8 +297,7 @@
   :demand t
   :hook (org-mode . evil-org-mode)
   :config
-  (setq evil-org-set-key-theme '(textobjects insert navigation))
-  )
+  (setq evil-org-set-key-theme '(textobjects insert navigation)))
 
 (use-package evil-magit
   :demand t
@@ -358,8 +347,7 @@
            (message "buffer reloaded"))
     "n" 'symbol-overlay-rename
     "s" 'magit-status
-    ;; "t" 'treemacs-select-window
-    "t" 'neotree-toggle
+    "t" 'treemacs-select-window
     "w" 'ace-window)
 
   (general-def
@@ -521,7 +509,6 @@
   (setq shackle-rules '(("*Flycheck error messages*" :noselect t :align 'below
                          :ignore t)
                         ("*Python*" :noselect t :size .25 :align 'below)
-                        ;; ("*NeoTree*" :size .25 :align 'left)
                         ("COMMIT_EDITMSG" :select t)
                         (magit-status-mode :regexp t :same t :inhibit-window-quit t)))
   (setq shackle-default-rule '(:select t :align 'below))
@@ -556,12 +543,16 @@
   :config
   (rainbow-mode 1))
 
+
 (use-package aggressive-indent
   :demand t
   :config
-  (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
-  (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode))
+  (dolist (mode '(html-mode python-mode dockerfile-mode)
+                (add-to-list 'aggressive-indent-excluded-modes mode)))
+  ;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  ;; (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
+  ;; (add-to-list 'aggressive-indent-excluded-modes 'dockerfile-mode)
+  )
 
 (use-package yasnippet
   :demand t
@@ -749,32 +740,21 @@
 
 (use-package realgud)
 
-(use-package neotree
-  :config
-  (setq neo-window-position 'left))
-
 (add-hook 'focus-out-hook 'garbage-collect)
-;; (add-hook 'before-save-hook 'whitespace-cleanup)
 
-(defun pfn-setup-prog-mode ()
-  "Load 'prog-mode' minor modes."
- (highlight-numbers-mode)
- (hes-mode)
- (rainbow-delimiters-mode 1)
- (rainbow-mode)
- (hs-minor-mode)
- (flymake-mode -1)
- (aggressive-indent-mode))    ;; highlight escape sequences
-(add-hook 'prog-mode-hook 'pfn-setup-prog-mode)
+(dolist (hook '(highlight-numbers-mode
+                hes-mode
+                rainbow-delimiters-mode
+                rainbow-mode
+                hs-minor-mode
+                aggressive-indent-mode))
+  (add-hook 'prog-mode-hook hook))
 
-(defun pfn-setup-text-mode ()
-  "Load 'text-mode' hooks."
-  (delete-trailing-whitespace)
-  (turn-on-auto-fill)
-  (aggressive-indent-mode -1)
-  (hs-minor-mode)
-  (rainbow-delimiters-mode))
-(add-hook 'text-mode-hook 'pfn-setup-text-mode)
+(dolist (hook '(delete-trailing-whitespace
+                turn-on-auto-fill
+                hs-minor-mode
+                rainbow-delimiters-mode))
+  (add-hook 'text-mode-hook hook))
 
 (setq gc-cons-threshold 20000000
       gc-cons-percentage 0.1)
