@@ -479,8 +479,9 @@
 (use-package pdf-tools
   :pin manual
   :mode "\\.pdf\\'"
-  :config
+  :init
   (pdf-tools-install)
+  :config
   (setq-default pdf-view-display-size 'fit-page)
   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
