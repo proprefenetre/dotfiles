@@ -6,27 +6,22 @@
   :ensure org-plus-contrib
   :pin org
   :hook (org-mode . (lambda () (pfn-add-company-backend-local '(org-keyword-backend :with company-yasnippet))))
-
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
-
   :config
-  (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
-
   (cond ((pfn-macosp)
          (setq org-directory "~/Dropbox/org"))
         ((pfn-linuxp)
          (setq org-directory "~/org")))
 
-  (setq org-files '("todo.org" "notes.org" "inbox.org"))
+  (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
 
   (setq org-default-notes-file (expand-file-name "inbox.org" org-directory))
 
-  (let (agenda-files) 
-    (dolist (file org-files agenda-files)
-      (setq agenda-files (cons (expand-file-name file org-directory) agenda-files)))
-    (setq org-agenda-files agenda-files))
+  (setq org-files '("todo.org" "notes.org" "inbox.org"))
+  (dolist (file org-files)
+    (setq org-agenda-files (cons (expand-file-name file org-directory) org-agenda-files)))
 
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
@@ -43,9 +38,9 @@
         org-log-done nil
         org-startup-indented t)
 
+  (setq inbox (expand-file-name "inbox.org" org-directory))
   (setq org-capture-templates
-        '(("c" "Capture" entry (file (expand-file-name "inbox.org" org-directory))
-           "* TODO %?\n")))
+        '(("c" "Capture" entry (file inbox) "* TODO %?\n")))
 
   (setq org-todo-keywords '(
                             (type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|" "DONE(d)")

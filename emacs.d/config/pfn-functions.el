@@ -107,5 +107,9 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
 (defun pfn-home-dir ()
   (expand-file-name "~"))
 
+(defun pfn-add-surround-pairs (pairs)
+  (dolist (pair pairs)
+    (push pair evil-surround-pairs-alist)))
+
 (provide 'pfn-functions)
 ;;; pfn-functions.el ends here

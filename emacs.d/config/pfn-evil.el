@@ -46,10 +46,7 @@
 (use-package evil-embrace
   :after evil
   :demand t
-  :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" )))
-         (org-mode (lambda () (embrace-add-pair ?_ "_" "_")))
-         (org-mode (lambda () (embrace-add-pair ?* "*" "*")))
-         (org-mode (lambda () (embrace-add-pair ?a "**" "**"))))
+  :config
   (evil-embrace-enable-evil-surround-integration))
 
 (use-package evil-org

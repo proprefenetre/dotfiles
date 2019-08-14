@@ -140,9 +140,8 @@
 (use-package general
   :demand t
   :config
-  (general-evil-setup)
   (general-override-mode)
-
+  (general-evil-setup)
   ;; general keybindings
   (general-create-definer evil-leader
     :prefix ",")
@@ -172,8 +171,8 @@
     :prefix "C-c"
     "b"   'counsel-bookmark
     "c"   '(lambda () (interactive)
-             (org-capture nil "c"))
-    ;; "d"
+             (org-capture "c"))
+    ;; "D"
     "C-d" 'dired-jump-other-window
     ;; "e"
     "f"   'ffap-other-window
@@ -199,10 +198,10 @@
     :prefix "C-x"
     "ESC ESC" 'keyboard-quit
     "C-b" 'counsel-ibuffer
-    "2" '(lambda () (interactive) 
+    "2" '(lambda () (interactive)
            (split-window-below)
            (other-window 1))
-    "3" '(lambda () (interactive) 
+    "3" '(lambda () (interactive)
            (split-window-right)
            (other-window 1)))
 
@@ -223,18 +222,17 @@
     "`"   'evil-avy-goto-char
     "C-b" 'mode-line-other-buffer)
 
-  (general-def
-    :keymaps 'evil-insert-state-map
+  (general-nmap
+    "s-q" 'kill-this-buffer
+    (general-chord "bi") 'ibuffer
+    "C-," 'embrace-commander)
+
+  (general-imap
+    "<tab>" 'yas-expand
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
-  (general-def
-    :keymaps 'evil-normal-state-map
-    (general-chord "bi") 'ibuffer
-    "s-q" 'kill-this-buffer)
-
-  (general-def
-    :keymaps 'evil-visual-state-map
+  (general-vmap
     ")" 'er/expand-region)
 
   (general-def
@@ -248,7 +246,7 @@
     "C-w" 'evil-delete-backward-word
     "C-n"  'company-select-next
     "C-p"  'company-select-next
-    "<tab>" 'company-complete-common
+    "C-M-i" 'company-complete-common-or-cycle
     "<esc>" 'company-cancel)
 
   (general-def
@@ -349,7 +347,7 @@
 (use-package aggressive-indent
   :demand t
   :config
-  (dolist (mode '(html-mode python-mode dockerfile-mode))
+  (dolist (mode '(html-mode python-mode dockerfile-mode c-mode))
     (add-to-list 'aggressive-indent-excluded-modes mode))
   (global-aggressive-indent-mode))
 
@@ -473,10 +471,11 @@
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package pdf-tools
+  :ensure nil
   :pin manual
   :mode "\\.pdf\\'"
   :config
-  (pdf-tools-install)
+  ;; (pdf-tools-install)
   (setq-default pdf-view-display-size 'fit-page)
   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
@@ -494,6 +493,22 @@
   :mode "\\.feature\\'")
 
 (use-package realgud)
+
+(use-package embrace
+  :demand t
+  :config
+  (defun embrace-org-mode-hook ()
+    (dolist (lst '((?= "=" . "=")
+                   (?~ "~" . "~")
+                   (?/ "/" . "/")
+                   (?* "*" . "*")
+                   (?_ "_" . "_")
+                   (?+ "+" . "+")
+                   (?l "@@latex:" . "@@")))
+      (embrace-add-pair (car lst) (cadr lst) (cddr lst)))
+    (embrace-add-pair-regexp ?# "#\\+BEGIN_.*" "#\\+END_.*" 'embrace-with-org-block
+                             (embrace-build-help "#+BEGIN_*" "#+END") t))
+  (add-hook 'org-mode-hook 'embrace-org-mode-hook))
 
 (add-hook 'focus-out-hook 'garbage-collect)
 
