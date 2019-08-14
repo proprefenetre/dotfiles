@@ -19,7 +19,7 @@
   :hook (rust-mode . (lambda () (pfn-add-company-backend-local '(company-racer :with company-yasnippet))))
   :init
   (unless (getenv "RUST_SRC_PATH")
-    (setenv "RUST_SRC_PATH" (expand-file-name "/Users/niels/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"))))
+    (setenv "RUST_SRC_PATH" "/Users/niels/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src")))
 
 (provide 'pfn-rust)
 ;;; pfn-rust.el ends here

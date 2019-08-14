@@ -6,10 +6,6 @@
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
-
-(let ((default-directory "~/.emacs.d/"))
-  (normal-top-level-add-subdirs-to-load-path))
-
 (require 'package)
 
 (dolist (archive '(("elpa" . "https://elpa.gnu.org/packages/")
@@ -31,13 +27,14 @@
 
 (require 'use-package)
 
-(use-package exec-path-from-shell
-  :demand t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
-    (message (getenv "PATH"))))
+(if (eq system-type 'darwin)
+    (use-package exec-path-from-shell
+      :demand t
+      :init
+      (when (memq window-system '(mac ns x))
+        (exec-path-from-shell-initialize)
+        (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
+        (message (getenv "PATH")))))
 
 (use-package no-littering
   :demand t
@@ -389,8 +386,10 @@
   (treemacs-fringe-indicator-mode t)
   (setq treemacs-width 25
         treemacs-position 'right
-        treemacs-no-png-images t
-        treemacs-python-executable "/usr/local/bin/python")
+        treemacs-no-png-images t)
+  (if (eq system-type 'darwin)
+      (setq treemacs-python-executable "/usr/local/bin/python")
+    (setq treemacs-python-executable "/usr/bin/python"))
   (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil

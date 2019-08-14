@@ -92,5 +92,20 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
   (make-local-variable 'company-backends)
   (add-to-list 'company-backends backend))
 
+(defun pfn-macosp ()
+  (eq system-type 'darwin))
+
+(defun pfn-linuxp ()
+  (eq system-type 'gnu/linux))
+
+(defun pfn-make-bin-path (bin)
+  (cond ((pfn-macosp)
+         (expand-file-name bin "/usr/local/bin"))
+        ((pfn-linuxp)
+         (expand-file-name bin "/usr/bin"))))
+
+(defun pfn-home-dir ()
+  (expand-file-name "~"))
+
 (provide 'pfn-functions)
 ;;; pfn-functions.el ends here

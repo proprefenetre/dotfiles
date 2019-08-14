@@ -6,9 +6,10 @@
   :ensure nil
   :mode ("\\.py" . python-mode)
   :init
-  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
+
+  (setq flycheck-python-flake8-executable (pfn-make-bin-path "flake8")
         flycheck-flake8rc "~/.config/flake8")
-  (setq python-shell-interpreter "/usr/local/bin/ipython"
+  (setq python-shell-interpreter (pfn-make-bin-path "ipython")
         python-shell-interpreter-args "--simple-prompt -i")
   (setq python-indent-offset 4))
 
