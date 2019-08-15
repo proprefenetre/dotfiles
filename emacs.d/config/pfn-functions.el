@@ -90,7 +90,7 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
 
 (defun pfn-add-company-backend-local (backend)
   (make-local-variable 'company-backends)
-  (add-to-list 'company-backends backend))
+  (push backend company-backends))
 
 (defun pfn-macosp ()
   (eq system-type 'darwin))

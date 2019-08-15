@@ -11,7 +11,8 @@
         flycheck-flake8rc "~/.config/flake8")
   (setq python-shell-interpreter (pfn-make-bin-path "ipython")
         python-shell-interpreter-args "--simple-prompt -i")
-  (setq python-indent-offset 4))
+  (setq python-indent-offset 4)
+  (setq yas-indent-line 'fixed))
 
 (use-package anaconda-mode
   :commands (anaconda-eldoc-mode)

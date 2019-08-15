@@ -69,10 +69,26 @@
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (setq org-latex-minted-options '(("frame" "single")))
 
-  (setq org-latex-minted-options '(("breaklines" "true")
-                                   ("frame" "lines")))
+  ;; source blocks
+  (dolist (lang '(("feature" . feature)
+                  ("cucumber" . feature)
+                  ("md" . markdown)))
+    (push lang org-src-lang-modes))
 
+  (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
+                                                           (dot . t)
+                                                           (shell . t)
+                                                           (python . t)))
+
+  (defun pfn-confirm-lang (lang body)
+    (not (member t (mapcar (lambda (l) (string= lang l)) '("ditaa" "dot")))))
+
+  (setq org-confirm-babel-evaluate 'pfn-confirm-lang)
+
+
+  ;; templates
   (add-to-list 'org-latex-classes
                '("pfn-article"
                  "\\documentclass[11pt,a4paper]{article}
@@ -101,18 +117,7 @@
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-  ;; (require 'ob-shell)
-  (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
-                                                           (dot . t)
-                                                           (shell . t)
-                                                           (python . t)))
-
-  (defun pfn-confirm-lang (lang body)
-    (not (member t (mapcar (lambda (l) (string= lang l)) '("ditaa" "dot")))))
-
-  (setq org-confirm-babel-evaluate 'pfn-confirm-lang))
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
 (provide 'pfn-org)
 ;;; pfn-org.el ends here

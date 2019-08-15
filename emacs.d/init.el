@@ -105,6 +105,7 @@
 (require 'pfn-completion)
 (require 'pfn-evil)
 (require 'pfn-org)
+(require 'pfn-elips)
 (require 'pfn-python)
 (require 'pfn-rust)
 
@@ -228,7 +229,7 @@
     "C-," 'embrace-commander)
 
   (general-imap
-    "<tab>" 'yas-expand
+    "<tab>" 'indent-for-tab-command
     (general-chord "jj") 'evil-normal-state
     (general-chord "ww") 'evil-window-next)
 
@@ -259,11 +260,12 @@
     "a"   'org-agenda-list
     "C-a" 'org-archive-subtree
     "r"   'org-refile
-    "!"   'org-time-stamp-inactive)
+    "!"   'org-time-stamp-inactive
+    "l p" 'org-latex-export-to-pdf
+    "l l" 'org-latex-export-as-latex)
 
   (general-def
     :keymaps 'org-mode-map
-    :states 'normal
     "<return>" 'org-return)
 
   (general-def
@@ -473,7 +475,7 @@
 (use-package pdf-tools
   :ensure nil
   :pin manual
-  :mode "\\.pdf\\'"
+  :mode ("\\.pdf\\'" . pdf-view-mode)
   :config
   ;; (pdf-tools-install)
   (setq-default pdf-view-display-size 'fit-page)

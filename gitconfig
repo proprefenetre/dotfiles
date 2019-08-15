@@ -8,6 +8,6 @@
     excludesfile = ~/.gitignore-global
     editor = vim
 [alias]
-    lola = log --graph --decorate --oneline --abbrev-commit --all
     lol = log --graph --decorate --oneline --abbrev-commit
+    ls = branch --list
     st = status

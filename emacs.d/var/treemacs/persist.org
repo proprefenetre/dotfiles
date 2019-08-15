@@ -5,6 +5,8 @@
  - path :: ~/.config
 ** dotfiles
  - path :: ~/dotfiles
+** pfn-dvorak
+ - path :: ~/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
 * Projects
 ** keymapper
  - path :: ~/projects/python-keymapper
