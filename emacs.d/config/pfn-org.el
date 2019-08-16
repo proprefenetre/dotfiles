@@ -5,7 +5,7 @@
 (use-package org
   :ensure org-plus-contrib
   :pin org
-  :hook (org-mode . (lambda () (pfn-add-company-backend-local '(org-keyword-backend :with company-yasnippet))))
+  :hook (org-mode . (lambda () (pfn-add-company-backend-local '(org-keyword-backend :with company-yasnippet company-dict))))
   :init
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))

@@ -29,6 +29,7 @@
   :after company
   :demand t
   :config
+  (setq company-dict-enable-fuzzy t)
   (setq company-dict-dir (concat user-emacs-directory "dict/")))
 
 (defun org-keyword-backend (command &optional arg &rest ignored)
