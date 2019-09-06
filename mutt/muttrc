@@ -1,4 +1,4 @@
-# vim: ft=muttrc
+# -*- conf-mode -*-
 
 # Folder hooks
 folder-hook 'nielseigenraam' 'source ~/.mutt/default.muttrc'

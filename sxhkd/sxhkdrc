@@ -28,29 +28,32 @@ mod4 + space
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
-# control + shift + mod1 + mod4 + 1
-mod3 + 1
+control + shift + mod1 + mod4 + 1
+# mod3 + 1
     firefox-developer-edition
 
-mod3 + 2
+control + shift + mod1 + mod4 + 2
+# mod3 + 2
     emax
 
 # trackball precision mode
-button3 + mod3
-    ~/dotfiles/sxhkd/precision-mode.sh;
+button3 + shift + control
+    ~/dotfiles/bspwm/precision-mode.sh
 
 # scratchterm
-mod3 + u
+# mod3 + u
+control + shift + mod1 + mod4 + u
     ~/dotfiles/bspwm/scratchterm
 
 # mod3 + e
 #     ~/dotfiles/bspwm/scratchmacs
 
 mod4 + a
-    ~/dotfiles/sxhkd/win-hide.sh
+    ~/dotfiles/bspwm/win-hide.sh
 
 # quit/restart bspwm
-mod3 + {q,r}
+# mod3 + {q,r}
+control + shift + mod1 + mod4 + {q,r}
     bspc {quit,wm -r}
 
 # close and kill
