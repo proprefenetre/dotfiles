@@ -3,11 +3,11 @@
 ;;; Code:
 (use-package org
   :ensure org-plus-contrib
-  :pin org
-  :hook (org-mode . (jojo/company-push-backend-local 'org-keyword-backend))
-  :init
-  (require 'cl)
-  (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+  :mode ("\\.org\\'" . org-mode)
+  ;; :hook (org-mode . (jojo/company-push-backend-local 'org-keyword-backend))
+  ;; :init
+  ;; (require 'cl)
+  ;; (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~//org"

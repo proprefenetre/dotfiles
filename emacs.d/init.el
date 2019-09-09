@@ -94,6 +94,7 @@
 (require 'pfn-org)
 (require 'pfn-python)
 (require 'pfn-rust)
+(require 'pfn-stats)
 
 (use-package all-the-icons)
 
