@@ -17,8 +17,16 @@
 mod4 + Return
     urxvt
 
-control + shift + mod1 + mod4 + Return
-     urxvt
+# emacsclient
+mod4 + shift + Return
+    emax
+
+mod3 + 2
+    emax
+
+# browser
+mod3 + 1
+    firefox-developer-edition
 
 # program launcher
 mod4 + space
@@ -28,39 +36,27 @@ mod4 + space
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
-control + shift + mod1 + mod4 + 1
-# mod3 + 1
-    firefox-developer-edition
-
-mod4 + shift + Return
-    emax
-
-control + shift + mod1 + mod4 + 2
-# mod3 + 2
-    emax
-
 # trackball precision mode
 button3 + shift + control
-    ~/dotfiles/bspwm/precision-mode.sh
+    precision-mode
 
+mod3 + m
+    precision-mode
+   
 # scratchterm
-# mod3 + u
-control + shift + mod1 + mod4 + u
+mod3 + u
     ~/dotfiles/bspwm/scratchterm
 
+# hide window
 mod4 + a
     ~/dotfiles/bspwm/win-hide.sh
 
 # toggle keyboard layout
-control + shift + mod1 + mod4 + k
+mod3 + k
     keeb -t
 
-control + shift + mod1 + mod4 + m
-    precision-mode
-   
 # quit/restart bspwm
-# mod3 + {q,r}
-control + shift + mod1 + mod4 + {q,r}
+mod3 + {q,r}
     bspc {quit,wm -r}
 
 # close and kill

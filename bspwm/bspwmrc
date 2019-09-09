@@ -17,7 +17,7 @@ bspc config ignore_ewmh_fullscreen all
 # rules
 bspc rule -a "Firefox Developer Edition" desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=529x330+557+133
+bspc rule -a "URxvt:scratchterm" sticky=on state=floating hidden=on center=on rectangle=1109x690+405+195
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 

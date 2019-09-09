@@ -31,19 +31,13 @@
   :config
   (setq company-dict-dir (concat user-emacs-directory "dict/")))
 
-(defun org-keyword-backend (command &optional arg &rest ignored)
-  (interactive (list 'interactive))
-  (cl-case command
-    (interactive (company-begin-backend 'org-keyword-backend))
-    (prefix (and (eq major-mode 'org-mode)
-                 (cons (company-grab-line "^#\\+\\(\\w*\\)" 1)
-                       t)))
-    (candidates (mapcar 'downcase
-                        (cl-remove-if-not
-                         (lambda (c) (string-prefix-p arg c))
-                         (pcomplete-completions))))
-    (ignore-case t)
-    (duplicates t)))
+(require 'compdef)
+
+(compdef
+ :modes 'org-mode
+ :company '(company-files company-capf company-keywords company-dict
+                          (company-abbrev company-dabbrev company-dabbrev-code))
+ :capf 'pcomplete-completions-at-point)
 
 (provide 'pfn-completion)
 ;;; pfn-completion ends here
