@@ -1,9 +1,9 @@
 ! fonts
-#define regular         xft:Hack-Regular:pixelsize=13
+#define regular         xft:Hack-Regular:pixelsize=15
 #define dzen_regular    xft:Hack-Regular:pixelsize=10
-#define bold            xft:Hack-Bold:pixelsize=13
-#define italic          xft:Hack-Italic:pixelsize=13
-#define bold_italic     xft:Hack-BoldItalic:pixelsize=13
+#define bold            xft:Hack-Bold:pixelsize=15
+#define italic          xft:Hack-Italic:pixelsize=15
+#define bold_italic     xft:Hack-BoldItalic:pixelsize=15
 
 ! colors
 #define white                #f0f0f0

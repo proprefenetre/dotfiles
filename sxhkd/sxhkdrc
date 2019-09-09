@@ -15,10 +15,10 @@
 
 # terminal emulator
 mod4 + Return
-    st
+    urxvt
 
-mod4 + shift + Return
-    /home/niels/bin/emax
+control + shift + mod1 + mod4 + Return
+     urxvt
 
 # program launcher
 mod4 + space
@@ -31,6 +31,9 @@ mod4 + Escape
 control + shift + mod1 + mod4 + 1
 # mod3 + 1
     firefox-developer-edition
+
+mod4 + shift + Return
+    emax
 
 control + shift + mod1 + mod4 + 2
 # mod3 + 2
@@ -45,12 +48,16 @@ button3 + shift + control
 control + shift + mod1 + mod4 + u
     ~/dotfiles/bspwm/scratchterm
 
-# mod3 + e
-#     ~/dotfiles/bspwm/scratchmacs
-
 mod4 + a
     ~/dotfiles/bspwm/win-hide.sh
 
+# toggle keyboard layout
+control + shift + mod1 + mod4 + k
+    keeb -t
+
+control + shift + mod1 + mod4 + m
+    precision-mode
+   
 # quit/restart bspwm
 # mod3 + {q,r}
 control + shift + mod1 + mod4 + {q,r}
@@ -170,8 +177,8 @@ mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
      corner -{ul,ll,ur,lr,u,d,l,r,c}
 
 # volume 🗈
-# {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
-#     amixer set Master {1%+,1%-,toggle}
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    amixer set Master {1%+,1%-,toggle}
 
-# {XF86MonBrightnessUp,XF86MonBrightnessDown}
-#     xbacklight  {+,-} 1
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+    xbacklight  {+,-} 1

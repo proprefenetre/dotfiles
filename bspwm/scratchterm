@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-id=$(xdotool search --class scratchterm)
+id=$(xdotool search --classname scratchterm)
 
 if [ -z "$id" ]; then
-    st -c scratchterm
-    id=$(xdotool search --class scratchterm)
+    urxvt -name scratchterm
+    id=$(xdotool search --classname scratchterm)
 fi
 
 cur_monitor=$(bspc query -M -m focused)
