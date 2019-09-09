@@ -10,13 +10,13 @@
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
-  (setq org-directory "~/Dropbox/org"
-        org-default-notes-file "~/Dropbox/org/todo.org"
-        org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/inbox.org")
+  (setq org-directory "~//org"
+        org-default-notes-file "~//org/todo.org"
+        org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
-        org-archive-location "~/Dropbox/org/archief::datetree/"
+        org-archive-location "~//org/archief::datetree/"
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
@@ -29,7 +29,7 @@
         org-startup-indented t)
 
   (setq org-capture-templates
-        '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
+        '(("c" "Capture" entry (file "~//org/inbox.org")
            "* TODO %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
