@@ -25,7 +25,8 @@ bspc desktop ^1 --layout monocle
 
 # scripts
 sxhkd -m -1 &
-~/dotfiles/bspwm/pblaunch &
+pblaunch &
 nm-applet &
-~/dotfiles/bspwm/scratchterm &
-~/dotfiles/bspwm/mouse-accel.sh &
+scratchterm &
+mouse-accel.sh &
+firefox-developer-edition &
