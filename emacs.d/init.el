@@ -51,6 +51,8 @@
 (menu-bar-mode -1)
 (fringe-mode '(8 . 8))
 (recentf-mode)
+(auto-fill-mode -1)
+(abbrev-mode 1)
 
 (setq-default default-input-method "latin-postfix"
               initial-scratch-message ""
@@ -69,13 +71,13 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              ;; tramp-default-method "ssh"
-              abbrev-mode t
+              tramp-default-method "ssh"
               save-abbrevs 'silent
               desktop-restore-frames nil
               inhibit-startup-screen t
               auto-fill-function 'do-auto-fill
-              auto-fill-mode -1)
+              browse-url-firefox-program "firefox-developer-edition"
+              browse-url-browser-function 'browse-url-firefox)
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -168,13 +170,13 @@
     ;; "g" "h"
     "i"   'ibuffer
     ;; "j"
-    "k"   'counsel-ag
+    "k"   'counsel-rg
     "l"   'org-store-link
     ;; "m" "n" "o"
     "p"   'projectile-command-map
     ;; "q"
     "R"   '(lambda () (interactive)
-             (load-file 'buffer-file-name))
+             (revert-buffer :ignore-auto :noconfirm))
     "s"   'counsel-rg
     "t"   'treemacs
     ;; "u"

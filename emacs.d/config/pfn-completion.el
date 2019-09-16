@@ -1,6 +1,5 @@
 ;;; pfn-completion.el --- setup company-mode
 ;;; Commentary:
-;;; code borrowed from https://github.com/jojojames/.dotfiles/blob/master/emacs/.emacs.d/config/jojo-autocomplete.el
 ;;; Code:
 
 (use-package company
@@ -35,8 +34,8 @@
 
 (compdef
  :modes 'org-mode
- :company '(company-files company-capf company-keywords company-dict
-                          (company-abbrev company-dabbrev company-dabbrev-code))
+ :company '(company-yasnippet company-files company-capf company-keywords company-dict
+                              (company-abbrev company-dabbrev company-dabbrev-code))
  :capf 'pcomplete-completions-at-point)
 
 (provide 'pfn-completion)

@@ -22,5 +22,7 @@
                          (pfn-add-company-backend-local
                           '(company-anaconda :with company-yasnippet)))))
 
+(use-package ein)
+
 (provide 'pfn-python)
 ;;; pfn-python.el ends here
