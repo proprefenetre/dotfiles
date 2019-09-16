@@ -25,7 +25,5 @@ shopt -s histappend
 # bash completion
 # shellcheck disable=SC1091
 [[ $PS1 && -f "/usr/share/bash-completion/bash_completion" ]] && .  "/usr/share/bash-completion/bash_completion"
-
-# see .bash_profile for environment variables
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[[ $PS1 && -f "/usr/share/fzf/key-bindings.bash" ]] && . "/usr/share/fzf/key-bindings.bash"
+[[ $PS1 && -f "/usr/share/fzf/completion.bash" ]] && . "/usr/share/fzf/completion.bash"

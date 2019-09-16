@@ -13,6 +13,7 @@
 # wm independent hotkeys
 #
 
+## Super
 # terminal emulator
 mod4 + Return
     urxvt
@@ -20,13 +21,6 @@ mod4 + Return
 # emacsclient
 mod4 + shift + Return
     emax
-
-mod3 + 2
-    emax
-
-# browser
-mod3 + 1
-    firefox-developer-edition
 
 # program launcher
 mod4 + space
@@ -36,28 +30,47 @@ mod4 + space
 mod4 + Escape
     pkill -USR1 -x sxhkd
 
-# trackball precision mode
+# hide window
+mod4 + a
+    win-hide.sh
+
+## Mouse buttons
 button3 + shift + control
     precision-mode
 
-mod3 + m
-    precision-mode
-   
-# scratchterm
-mod3 + u
-    ~/dotfiles/bspwm/scratchterm
+## Hyper 
+mod3 + 2
+    emax
 
-# hide window
-mod4 + a
-    ~/dotfiles/bspwm/win-hide.sh
+# browser
+mod3 + 1
+    firefox-developer-edition
 
 # toggle keyboard layout
 mod3 + k
     keeb -t
 
+mod3 + l
+    lock
 # quit/restart bspwm
+mod3 + m
+    macros.sh
+
+mod3 + p
+    password-manager.sh
+
 mod3 + {q,r}
     bspc {quit,wm -r}
+
+mod3 + t
+    touchpad-toggle
+
+# scratchterm
+mod3 + u
+    scratchterm
+
+
+## window stuff 
 
 # close and kill
 mod4 + {_,shift + }c
@@ -84,8 +97,8 @@ mod4 + {_,shift} + r
 #
 
 # set window mode
-mod4 + s ; {t,shift + t,s,f}
-    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+mod4 + s ; {t,shift + t,f}
+    bspc node -t {tiled,floating,fullscreen}
 
 # set the node flags
 mod4 + ctrl + {m,x,y,z}

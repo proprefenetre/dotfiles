@@ -22,12 +22,12 @@ redshift &
 mhead &
 dunst &
 
-# xidlehook --not-when-fullscreen \
-#           --not-when-audio \
-#           --timer normal 600 \
-#           'xbacklight -set 5' \
-#           'xbacklight -set 70' \
-#           --timer primary 30 \
-#           'xbacklight -set 70; slock' '' &
- 
+xidlehook --not-when-fullscreen \
+          --not-when-audio \
+          --timer normal 180 \
+          'xbacklight -set 5' \
+          'xbacklight -set 50' \
+          --timer primary 300 \
+          'xbacklight -set 50; lock' '' &
+
 exec bspwm
