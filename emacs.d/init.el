@@ -170,7 +170,7 @@
     ;; "g" "h"
     "i"   'ibuffer
     ;; "j"
-    "k"   'counsel-rg
+    "k"   'counsel-ag
     "l"   'org-store-link
     ;; "m" "n" "o"
     "p"   'projectile-command-map
