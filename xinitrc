@@ -15,22 +15,19 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
-mount drijf &
-
 unclutter &
 redshift &
-hsetroot -fill /home/niels/pics/DE-foto.jpg &
+# hsetroot -fill 
 
 mhead &
 dunst &
 
 xidlehook --not-when-fullscreen \
           --not-when-audio \
-          --timer normal 600 \
+          --timer normal 180 \
           'xbacklight -set 5' \
-          'xbacklight -set 70' \
-          --timer primary 30 \
-          'xbacklight -set 70; slock' '' &
+          'xbacklight -set 50' \
+          --timer primary 300 \
+          'xbacklight -set 50; lock' '' &
 
 exec bspwm
-# exec herbstluftwm --locked

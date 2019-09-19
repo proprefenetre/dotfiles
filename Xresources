@@ -1,9 +1,9 @@
 ! fonts
-#define regular         xft:Hack-Regular:pixelsize=13
+#define regular         xft:Hack-Regular:pixelsize=15
 #define dzen_regular    xft:Hack-Regular:pixelsize=10
-#define bold            xft:Hack-Bold:pixelsize=13
-#define italic          xft:Hack-Italic:pixelsize=13
-#define bold_italic     xft:Hack-BoldItalic:pixelsize=13
+#define bold            xft:Hack-Bold:pixelsize=15
+#define italic          xft:Hack-Italic:pixelsize=15
+#define bold_italic     xft:Hack-BoldItalic:pixelsize=15
 
 ! colors
 #define white                #f0f0f0
@@ -46,7 +46,7 @@ URxvt*cursorBlink: true
 URxvt*scrollBar: false
 
 URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
-URxvt.url-select.launcher:  chromium
+URxvt.url-select.launcher:  firefox-developer-edition
 URxvt.url-select.underline: true
 URxvt.keysym.M-u:           perl:url-select:select_next
 URxvt.keysym.M-Escape:      perl:keyboard-select:activate

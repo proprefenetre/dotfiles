@@ -6,7 +6,6 @@
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
-
 (let ((default-directory "~/.emacs.d/"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -31,14 +30,6 @@
 
 (require 'use-package)
 
-(use-package exec-path-from-shell
-  :demand t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
-    (message (getenv "PATH"))))
-
 (use-package no-littering
   :demand t
   :config
@@ -54,19 +45,14 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
-;; builtins
-(setq default-frame-alist
-      '((width . 120)
-        (height . 38)
-        (top . 253)
-        (left . 470)))
-
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (fringe-mode '(8 . 8))
 (recentf-mode)
+(auto-fill-mode -1)
+(abbrev-mode 1)
 
 (setq-default default-input-method "latin-postfix"
               initial-scratch-message ""
@@ -85,13 +71,13 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              ;; tramp-default-method "ssh"
-              abbrev-mode t
+              tramp-default-method "ssh"
               save-abbrevs 'silent
               desktop-restore-frames nil
               inhibit-startup-screen t
               auto-fill-function 'do-auto-fill
-              auto-fill-mode -1)
+              browse-url-firefox-program "firefox-developer-edition"
+              browse-url-browser-function 'browse-url-firefox)
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -110,6 +96,7 @@
 (require 'pfn-org)
 (require 'pfn-python)
 (require 'pfn-rust)
+(require 'pfn-stats)
 
 (use-package all-the-icons)
 
@@ -189,7 +176,7 @@
     "p"   'projectile-command-map
     ;; "q"
     "R"   '(lambda () (interactive)
-             (load-file buffer-file-name))
+             (revert-buffer :ignore-auto :noconfirm))
     "s"   'counsel-rg
     "t"   'treemacs
     ;; "u"
@@ -473,13 +460,13 @@
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
-(use-package pdf-tools
-  :pin manual
-  :mode "\\.pdf\\'"
-  :config
-  (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
+;; (use-package pdf-tools
+;;   :pin manual
+;;   :mode "\\.pdf\\'"
+;;   :config
+;;   (pdf-tools-install)
+;;   (setq-default pdf-view-display-size 'fit-page)
+;;   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
 (use-package highlight-numbers)
 

@@ -3,20 +3,21 @@
 ;;; Code:
 (use-package org
   :ensure org-plus-contrib
-  :pin org
-  :hook (org-mode . (jojo/company-push-backend-local 'org-keyword-backend))
-  :init
-  (require 'cl)
-  (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+  :mode ("\\.org\\'" . org-mode)
+  :commands org-capture
+  ;; :hook (org-mode . (jojo/company-push-backend-local 'org-keyword-backend))
+  ;; :init
+  ;; (require 'cl)
+  ;; (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
-  (setq org-directory "~/Dropbox/org"
-        org-default-notes-file "~/Dropbox/org/todo.org"
-        org-agenda-files '("~/Dropbox/org/todo.org" "~/Dropbox/org/notes.org" "~/Dropbox/org/inbox.org")
+  (setq org-directory "~/org"
+        org-default-notes-file "~/org/todo.org"
+        org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org")
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
-        org-archive-location "~/Dropbox/org/archief::datetree/"
+        org-archive-location "~/org/archief::datetree/"
         org-cycle-separator-lines -1
         org-blank-before-new-entry '((heading . nil)
                                      (plain-list-item . nil))
@@ -29,7 +30,7 @@
         org-startup-indented t)
 
   (setq org-capture-templates
-        '(("c" "Capture" entry (file "~/Dropbox/org/inbox.org")
+        '(("c" "Capture" entry (file "~//org/inbox.org")
            "* TODO %?\n")))
 
   (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
@@ -49,6 +50,8 @@
           ("NB". "orange")))
 
   ;; Latex stuff
+  (setq org-use-sub-superscripts nil)
+
   (require 'ox-latex)
   (add-to-list 'org-latex-default-packages-alist '("" "fontspec" t ("xelatex")))
 
@@ -94,7 +97,8 @@
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
   ;; (require 'ob-shell)
-  (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
+  (org-babel-do-load-languages 'org-babel-load-languages '((ein . t)
+                                                           (ditaa . t)
                                                            (dot . t)
                                                            (shell . t)
                                                            (python . t)))
