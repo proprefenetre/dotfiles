@@ -38,6 +38,7 @@ dzen2.foreground: Molokai_white
 dzen2.background: Molokai_black
 
 ! urxvt
+URxvt*termName: rxvt-unicode
 URxvt*LoginShell: true
 
 URxvt*cursorUnderline: true
