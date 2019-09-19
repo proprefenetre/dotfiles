@@ -67,7 +67,7 @@ monitor = ${env:MONITOR:eDP1}
 
 modules-left = workspaces
 modules-center = xwindow
-modules-right = xbacklight alsa cpu battery date
+modules-right = xbacklight cpu alsa battery date
 
 [bar/ext]
 inherit = bar/general
@@ -127,14 +127,14 @@ label-empty-padding = 1
 [module/xbacklight]
 type = internal/xbacklight
 
-format = br:<label>
+format = br: <label>
 label = %percentage%%
 
 [module/cpu]
 type = internal/cpu
 interval = 2
 
-format = cpu:<label>
+format = cpu: <label>
 label = %percentage%%
 
 [module/memory]
@@ -192,13 +192,13 @@ label = %date% %time%
 [module/alsa]
 type = internal/alsa
 
-format-volume = vol:<label-volume>
+format-volume = vol: <label-volume>
 label-volume = %percentage%%
 label-volume-foreground = ${root.foreground}
 
-format-muted = vol:0%
+format-muted = vol: 0% (m)
 ; format-muted-foreground = ${colors.foreground-alt}
-; label-muted = %percentage%%
+label-muted = %percentage%%
 
 [module/battery]
 type = internal/battery
@@ -206,10 +206,10 @@ battery = BAT0
 adapter = ADP0
 full-at = 98
 
-format-charging = bat:<label-charging>
+format-charging = bat: <label-charging>
 label-charging = %percentage%% (c)
 
-format-discharging = bat:<label-discharging>
+format-discharging = bat: <label-discharging>
 label-discharging = %percentage%% (d)
 
 format-full = bat:<label-full>
