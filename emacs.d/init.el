@@ -204,10 +204,10 @@
     :prefix "C-x"
     "ESC ESC" 'keyboard-quit
     "C-b" 'counsel-ibuffer
-    "2" '(lambda () (interactive) 
+    "2" '(lambda () (interactive)
            (split-window-below)
            (other-window 1))
-    "3" '(lambda () (interactive) 
+    "3" '(lambda () (interactive)
            (split-window-right)
            (other-window 1)))
 
@@ -492,6 +492,8 @@
 
 (use-package highlight-escape-sequences)
 
+(use-package hl-todo)
+
 (use-package persistent-scratch
   :hook (emacs-startup . persistent-scratch-restore)
   :config
@@ -505,6 +507,7 @@
 
 (add-hook 'focus-out-hook 'garbage-collect)
 
+(global-hl-todo-mode)
 (global-hl-line-mode)
 (global-auto-revert-mode)
 (global-eldoc-mode)
