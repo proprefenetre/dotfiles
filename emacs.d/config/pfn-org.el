@@ -2,13 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 (use-package org
+  :demand t
   :ensure org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :commands org-capture
-  ;; :hook (org-mode . (jojo/company-push-backend-local 'org-keyword-backend))
-  ;; :init
-  ;; (require 'cl)
-  ;; (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
   (setq org-directory "~/org"

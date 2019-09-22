@@ -116,6 +116,17 @@
   (setq column-number-mode t
         doom-modeline-icon t))
 
+(use-package centaur-tabs
+  :demand
+  :config
+  (setq centaur-tabs-cycle-scope 'tabs)
+  (setq centaur-tabs-style "alternate"
+	    centaur-tabs-height 21 
+	    centaur-tabs-set-icons nil
+	    centaur-tabs-set-modified-marker t
+	    centaur-tabs-set-bar nil)
+  (centaur-tabs-mode t))
+
 (use-package key-chord
   :demand t
   :config (key-chord-mode 1))
@@ -222,6 +233,11 @@
     :keymaps 'evil-normal-state-map
     (general-chord "bi") 'ibuffer
     "s-q" 'kill-this-buffer)
+
+  (general-def
+    :keymaps 'evil-motion-state-map
+    "gt" 'centaur-tabs-forward
+    "gT" 'centaur-tabs-backward)
 
   (general-def
     :keymaps 'evil-visual-state-map
@@ -377,7 +393,7 @@
   (setq treemacs-width 25
         treemacs-position 'right
         treemacs-no-png-images t
-        treemacs-python-executable "/usr/local/bin/python")
+        treemacs-python-executable "/opt/anaconda/bin/python")
   (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil

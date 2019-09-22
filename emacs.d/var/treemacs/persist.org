@@ -5,24 +5,6 @@
  - path :: ~/.config
 ** dotfiles
  - path :: ~/dotfiles
-* Projects
-** keymapper
- - path :: ~/projects/python-keymapper
-** Exercism
- - path :: ~/projects/Exercism
-** pfn-dvorak
- - path :: ~/projects/qmk_firmware/keyboards/ergodox_ez/keymaps/pfn-dvorak
-** rust-caesar
- - path :: ~/projects/rust-caesar
-** textstats
- - path :: ~/projects/textstats
-** TEIDocument
- - path :: ~/projects/TEIDocument
-** BDD
- - path :: ~/projects/BDD
-** textrepo
- - path :: ~/projects/textrepo
-** wnt
- - path :: ~/projects/wnt
-** annoteren
- - path :: ~/projects/annoteren
+* Repos
+** simple-frontend
+ - path :: ~/projects/repos/simple-frontend
