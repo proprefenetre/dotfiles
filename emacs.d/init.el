@@ -121,7 +121,7 @@
   :config
   (setq centaur-tabs-cycle-scope 'tabs)
   (setq centaur-tabs-style "alternate"
-	    centaur-tabs-height 21 
+	    centaur-tabs-height 21
 	    centaur-tabs-set-icons nil
 	    centaur-tabs-set-modified-marker t
 	    centaur-tabs-set-bar nil)
@@ -130,6 +130,10 @@
 (use-package key-chord
   :demand t
   :config (key-chord-mode 1))
+
+(use-package dumb-jump
+  :ensure t
+  :config (setq dumb-jump-selector 'ivy))
 
 (use-package which-key
   :demand t
