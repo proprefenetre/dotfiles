@@ -117,14 +117,38 @@
         doom-modeline-icon t))
 
 (use-package centaur-tabs
-  :demand
+  :demand t
+  :init 
+  (defun pfn-hide-tab (x)
+    "Do no to show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       (get-file-buffer name)
+       ;; Current window is not dedicated window.
+       (window-dedicated-p (selected-window))
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*epc" name)
+       (string-prefix-p "*helm" name)
+       (string-prefix-p "*Compile-Log*" name)
+       (string-prefix-p "*lsp" name)
+       (string-prefix-p "*company" name)
+       (string-prefix-p "*Flycheck" name)
+       (string-prefix-p "*tramp" name)
+
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+	        (not (file-name-extension name)))
+       )))
   :config
-  (setq centaur-tabs-cycle-scope 'tabs)
-  (setq centaur-tabs-style "alternate"
-	    centaur-tabs-height 21
-	    centaur-tabs-set-icons nil
-	    centaur-tabs-set-modified-marker t
-	    centaur-tabs-set-bar nil)
+  (setq centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-style "alternate"
+        centaur-tabs-height 21
+        centaur-tabs-set-icons nil
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker "*"
+        centaur-tabs-set-bar nil
+        centaur-tabs-hide-tab-function 'pfn-hide-tab)
+  
   (centaur-tabs-mode t))
 
 (use-package key-chord
@@ -181,7 +205,7 @@
     ;; "d"
     "C-d" 'dired-jump-other-window
     ;; "e"
-    "f"   'ffap-other-window
+    "f"   'ffap
     ;; "g" "h"
     "i"   'ibuffer
     ;; "j"
@@ -236,10 +260,7 @@
   (general-def
     :keymaps 'evil-normal-state-map
     (general-chord "bi") 'ibuffer
-    "s-q" 'kill-this-buffer)
-
-  (general-def
-    :keymaps 'evil-motion-state-map
+    "s-q" 'kill-this-buffer
     "gt" 'centaur-tabs-forward
     "gT" 'centaur-tabs-backward)
 
@@ -250,7 +271,8 @@
   (general-def
     :keymaps 'goto-map
     "f" 'avy-goto-char
-    "t" 'avy-goto-word-1)
+    "t" 'avy-goto-word-1
+    "<tab>" 'centaur-tabs-counsel-switch-group)
 
   ;; package specific
   (general-def

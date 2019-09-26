@@ -8,3 +8,5 @@
 * Repos
 ** simple-frontend
  - path :: ~/projects/repos/simple-frontend
+** julius
+ - path :: ~/projects/repos/julius
