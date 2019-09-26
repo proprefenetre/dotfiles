@@ -8,9 +8,11 @@
   :commands org-capture
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
+  (message "Applying org settings")
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
-        org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org")
+        ;; org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org")
+        org-agenda-files (list org-directory)
         org-refile-targets '((org-agenda-files :maxlevel . 3))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
@@ -27,11 +29,10 @@
         org-startup-indented t)
 
   (setq org-capture-templates
-        '(("c" "Capture" entry (file "~//org/inbox.org")
+        '(("c" "Capture" entry (file "~/org/inbox.org")
            "* TODO %?\n")))
 
-  (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|"
-                                  "DONE(d)")
+  (setq org-todo-keywords '((type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|" "DONE(d)")
                             (sequence "FIXME(f)" "TODO(t)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
   (setq org-todo-keyword-faces
@@ -98,7 +99,12 @@
                                                            (ditaa . t)
                                                            (dot . t)
                                                            (shell . t)
-                                                           (python . t)))
+                                                           (python . t)
+                                                           ))
+
+
+  (setq org-latex-create-formula-image-program 'dvipng)
+
 
   (defun pfn-confirm-lang (lang body)
     (not (member t (mapcar (lambda (l) (string= lang l)) '("ditaa" "dot")))))
