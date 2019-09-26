@@ -63,7 +63,7 @@ mod3 + {q,r}
     bspc {quit,wm -r}
 
 mod3 + t
-    touchpad-toggle
+    toggle-touchpad
 
 # scratchterm
 mod3 + u

@@ -24,7 +24,7 @@ bspc rule -a Zathura state=tiled
 bspc desktop ^1 --layout monocle
 
 # scripts
-# sxhkd -m -1 &
+sxhkd -m -1 &
 pblaunch &
 nm-applet &
 scratchterm &

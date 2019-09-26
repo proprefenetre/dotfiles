@@ -28,6 +28,6 @@ xidlehook --not-when-fullscreen \
           'xbacklight -set 5' \
           'xbacklight -set 50' \
           --timer primary 300 \
-          'xbacklight -set 50; lock' '' &
+          'xset dpms force off; lock' 'xbacklight -set 50' &
 
 exec bspwm
