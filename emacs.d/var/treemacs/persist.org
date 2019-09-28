@@ -10,3 +10,5 @@
  - path :: ~/projects/repos/simple-frontend
 ** julius
  - path :: ~/projects/repos/julius
+** qmk_firmware
+ - path :: ~/projects/repos/qmk_firmware
