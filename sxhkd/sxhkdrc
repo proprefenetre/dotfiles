@@ -39,34 +39,35 @@ button3 + shift + control
     precision-mode
 
 ## Hyper 
-mod3 + 2
-    emax
 
 # browser
-mod3 + 1
+control + shift + mod1 + mod4 + 1
     firefox-developer-edition
 
-# toggle keyboard layout
-mod3 + k
-    keeb -t
+control + shift + mod1 + mod4 + 2
+    emax
 
-mod3 + l
+# toggle keyboard layout
+control + shift + mod1 + mod4 + k ; {t,d,q}
+    keeb {-t,-d,-q}
+
+control + shift + mod1 + mod4 + l
     lock
-# quit/restart bspwm
-mod3 + m
+
+control + shift + mod1 + mod4 + m
     macros.sh
 
-mod3 + p
+control + shift + mod1 + mod4 + p
     password-manager.sh
 
-mod3 + {q,r}
+control + shift + mod1 + mod4 + {q,r}
     bspc {quit,wm -r}
 
-mod3 + t
+control + shift + mod1 + mod4 + t
     toggle-touchpad
 
 # scratchterm
-mod3 + u
+control + shift + mod1 + mod4 + u
     scratchterm
 
 
@@ -120,9 +121,6 @@ mod4 + {p,b,comma,period}
 mod4 + {_,shift + }Tab
     bspc node -f {next,prev}.local
 
-mod4 + {_,shift + }F1
-    bspc desktop -f {next,prev}.local
-
 # focus the last desktop
 mod4 + grave
     bspc desktop -f last.local
@@ -130,7 +128,6 @@ mod4 + grave
 ## focus other monitor
 mod4 + apostrophe
      bspc monitor -f last
-
 
 # focus the older or newer node in the focus history
 mod4 + {o,i}
@@ -185,9 +182,9 @@ mod4 + {Left,Down,Up,Right}
 mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
      corner -{ul,ll,ur,lr,u,d,l,r,c}
 
-# volume 🗈
+# volume 
 {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
     amixer set Master {1%+,1%-,toggle}
 
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
-    xbacklight  {+,-} 1
+    xbacklight  {+,-} 5

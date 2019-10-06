@@ -12,3 +12,5 @@
  - path :: ~/projects/repos/julius
 ** qmk_firmware
  - path :: ~/projects/repos/qmk_firmware
+** exercism
+ - path :: ~/projects/exercism

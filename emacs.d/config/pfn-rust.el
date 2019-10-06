@@ -16,7 +16,7 @@
   :mode "\\.toml\\'")
 
 (use-package company-racer
-  :hook (rust-mode . (lambda () (pfn-add-company-backend-local '(company-racer :with company-yasnippet)))))
+  :hook (rust-mode . (lambda () (pfn-add-company-backend-local '(company-racer company-yasnippet)))))
 
-  (provide 'pfn-rust)
+(provide 'pfn-rust)
 ;;; pfn-rust.el ends here
