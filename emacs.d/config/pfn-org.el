@@ -8,12 +8,12 @@
   :commands org-capture
   :config
   (set-face-attribute 'org-level-1 nil :height 1.0 :box nil)
+  (setq org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org"))
+  (setq org-refile-targets '((nil :maxlevel . 3) (org-agenda-files :maxlevel . 3)))
   (setq org-directory "~/org"
         org-default-notes-file "~/org/todo.org"
-        ;; org-agenda-files '("~/org/todo.org" "~/org/notes.org" "~/org/inbox.org")
-        org-agenda-files (append
-                          (file-expand-wildcards "~/org/*.org"))
-        org-refile-targets '((nil :maxlevel . 3) (org-agenda-files :maxlevel . 3))
+        ;; org-agenda-files (append
+        ;;                   (file-expand-wildcards "~/org/*.org"))
         org-refile-allow-creating-parent-nodes t
         org-refile-use-outline-path 'file
         org-archive-location "~/org/archief::datetree/"
@@ -45,7 +45,7 @@
         '(("TODO" . "yellow")
           ("FIXME" . "red")
           ("BEZIG" . "SpringGreen")
-          ("AFWACHTEN" . "OliveDrab" )
+          ("AFWACHTEN" . "SpringGreen" )
           ("READ" . "cyan")
           ("GOOGLE" . "cyan")
           ("AFSPRAAK" . "magenta")

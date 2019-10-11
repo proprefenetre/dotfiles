@@ -108,6 +108,9 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
      (string-prefix-p "*Flycheck" name)
      (string-prefix-p "*tramp" name)
      (string-prefix-p "*Ediff" name)
+     (string-prefix-p "*anaconda" name)
+     (string-prefix-p "*Quail" name)
+     (string-prefix-p "*WoMan" name)
      ;; Is not magit buffer.
      (and (string-prefix-p "magit" name)
 	      (not (file-name-extension name)))

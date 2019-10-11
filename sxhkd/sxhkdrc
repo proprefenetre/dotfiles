@@ -41,33 +41,32 @@ button3 + shift + control
 ## Hyper 
 
 # browser
-control + shift + mod1 + mod4 + 1
+mod3 + 1
     firefox-developer-edition
 
-control + shift + mod1 + mod4 + 2
+mod3 + 2
     emax
 
 # toggle keyboard layout
-control + shift + mod1 + mod4 + k ; {t,d,q}
+mod3 + k ; {t,d,q}
     keeb {-t,-d,-q}
 
-control + shift + mod1 + mod4 + l
+mod3 + l
     lock
 
-control + shift + mod1 + mod4 + m
+mod3 + m
     macros.sh
 
-control + shift + mod1 + mod4 + p
+mod3 + p
     password-manager.sh
-
-control + shift + mod1 + mod4 + {q,r}
+mod3 + {q,r}
     bspc {quit,wm -r}
 
-control + shift + mod1 + mod4 + t
+mod3 + t
     toggle-touchpad
 
 # scratchterm
-control + shift + mod1 + mod4 + u
+mod3 + u
     scratchterm
 
 
