@@ -9,7 +9,7 @@
 (use-package company-anaconda
   :hook (python-mode . (lambda ()
                          (pfn-add-company-backend-local
-                          '(company-anaconda :with company-yasnippet)))))
+                          '(company-anaconda company-yasnippet)))))
 
 (use-package python
   :ensure nil
@@ -20,7 +20,7 @@
   (setq python-shell-interpreter "/opt/anaconda/bin/ipython"
         python-shell-interpreter-args "--simple-prompt -i")
   (setq python-indent-offset 4)
-  :config
+  ;; :config
   ;; (compdef
   ;;  :modes 'python-mode
   ;;  :company '((company-anaconda :with company-yasnippet)
@@ -33,6 +33,8 @@
   )
 
 ;; (use-package ein)
+
+(use-package blacken)
 
 (provide 'pfn-python)
 ;;; pfn-python.el ends here

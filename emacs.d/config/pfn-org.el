@@ -35,7 +35,7 @@
 
   (setq org-capture-templates
         '(("c" "Capture" entry (file "~/org/inbox.org")
-           "* TODO %?\n")))
+           "* %?\n")))
 
   (setq org-todo-keywords '((sequence "TODO" "|" "DONE")
                             (type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|" "DONE(d)")

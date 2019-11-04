@@ -76,7 +76,8 @@
     "C-)" 'sp-forward-slurp-sexp
     "C-(" 'sp-add-to-previous-sexp
     "C-s-s" 'query-replace
-    "C-s" 'swiper)
+    "C-s" 'swiper
+    "C-," 'embrace-commander)
 
   (general-mmap
     "j"   'evil-next-visual-line
@@ -110,6 +111,10 @@
     "<tab>" 'centaur-tabs-counsel-switch-group
     "g" 'dumb-jump-hydra/body)
 
+  (general-def
+    :keymaps 'evil-window-map
+    "C-w" 'ace-window)
+
   ;; mode specific
   (general-def
     :keymaps 'company-active-map
@@ -138,9 +143,18 @@
     "<return>" 'org-return)
 
   (general-def
+    :keymaps 'org-mode-map
+    "C-," 'embrace-commander)
+
+  (general-def
     :keymaps 'treemacs-mode-map
     :states 'treemacs
-    "C-w s" 'treemacs-switch-workspace))
+    "<up>" 'treemacs-switch-workspace)
+
+  (general-def
+    :keymaps 'python-mode-map
+    :states 'normal
+    "=" 'blacken-buffer))
 
 (provide 'pfn-keys)
 ;;; pfn-keys.el ends here
