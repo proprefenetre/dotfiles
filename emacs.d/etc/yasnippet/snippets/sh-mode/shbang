@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: shbang
+# key: #!
+# --
+#! /usr/${1:bin/env} ${2:bash}
