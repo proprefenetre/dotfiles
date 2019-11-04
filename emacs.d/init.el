@@ -214,6 +214,7 @@
   (sp-local-pair 'org-mode "=" "=")
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  (sp-local-pair 'rust-mode "'" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list 'rust-mode 'regexp ";"))
   (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
   (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)
@@ -374,6 +375,11 @@
   :mode "\\.feature\\'")
 
 (use-package realgud)
+
+(use-package embrace
+  :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))))
+  :config
+  (add-hook 'org-mode-hook 'embrace-org-mode-hook))
 
 (add-hook 'focus-out-hook 'garbage-collect)
 
