@@ -52,7 +52,6 @@ alias steam32='WINEARCH=win32 WINEPREFIX=~/win32 wine ~/win32/drive_c/Program\ F
 alias trea='tree -apugCL 1'
 alias tree='tree -C'
 alias trtunnel='ssh -L 9091:localhost:9091 laptop'
-alias vignore='curl https://www.gitignore.io/api/vim -o .gitignore'
 alias v='vim'
 alias zath='zathura --fork'
 alias startx='exec startx'
