@@ -11,7 +11,8 @@
         company-selection-wrap-around t
         company-require-match 'never)
   (setq company-backends
-        '(company-files
+        '(company-yasnippet
+          company-files
           company-capf
           company-keywords
           company-dict

@@ -13,7 +13,7 @@
   (evil-leader
     :states '(normal visual emacs)
     :keymaps 'override
-    ;; "b" '
+    "b" 'ibuffer
     "c" 'capitalize-dwim
     "d" 'dired-jump
     "e" 'eval-last-sexp

@@ -377,8 +377,8 @@
 (use-package realgud)
 
 (use-package embrace
-  :hook ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))))
   :config
+  ;; ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))))
   (add-hook 'org-mode-hook 'embrace-org-mode-hook))
 
 (add-hook 'focus-out-hook 'garbage-collect)

@@ -14,3 +14,5 @@
  - path :: ~/projects/repos/qmk_firmware
 ** exercism
  - path :: ~/projects/exercism
+** clinius
+ - path :: ~/projects/repos/clinius

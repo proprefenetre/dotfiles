@@ -19,8 +19,10 @@ unclutter &
 redshift &
 # hsetroot -fill 
 
-mhead &
+mhead -i &
+keeb -q &
 dunst &
+
 
 xidlehook --not-when-fullscreen \
           --not-when-audio \

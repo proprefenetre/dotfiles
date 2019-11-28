@@ -28,7 +28,7 @@ mod4 + space
 
 # MAKE SXHKD reload its configuration files:
 mod4 + Escape
-    pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd && echo "$(date) - reload config" >> ~/files/sxhkd_log
 
 # hide window
 mod4 + a
@@ -119,10 +119,6 @@ mod4 + {p,b,comma,period}
 # focus the next/previous node in the current desktop
 mod4 + {_,shift + }Tab
     bspc node -f {next,prev}.local
-
-# focus the last desktop
-mod4 + grave
-    bspc desktop -f last.local
 
 ## focus other monitor
 mod4 + apostrophe

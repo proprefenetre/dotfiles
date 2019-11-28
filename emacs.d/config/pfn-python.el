@@ -9,30 +9,17 @@
 (use-package company-anaconda
   :hook (python-mode . (lambda ()
                          (pfn-add-company-backend-local
-                          '(company-anaconda company-yasnippet)))))
+                          'company-anaconda))))
 
 (use-package python
   :ensure nil
   :mode ("\\.py" . python-mode)
   :init
-  (setq flycheck-python-flake8-executable "/usr/local/bin/flake8"
+  (setq flycheck-python-flake8-executable "/usr/bin/flake8"
         flycheck-flake8rc "~/.config/flake8")
-  (setq python-shell-interpreter "/opt/anaconda/bin/ipython"
+  (setq python-shell-interpreter "/usr/bin/ipython"
         python-shell-interpreter-args "--simple-prompt -i")
-  (setq python-indent-offset 4)
-  ;; :config
-  ;; (compdef
-  ;;  :modes 'python-mode
-  ;;  :company '((company-anaconda :with company-yasnippet)
-  ;;             company-files
-  ;;             company-capf
-  ;;             company-keywords
-  ;;             company-dict
-  ;;             (company-abbrev company-dabbrev company-dabbrev-code))
-  ;;  :capf '(anaconda-mode-complete))
-  )
-
-;; (use-package ein)
+  (setq python-indent-offset 4))
 
 (use-package blacken)
 
