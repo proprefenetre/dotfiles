@@ -115,5 +115,6 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
      (and (string-prefix-p "magit" name)
 	      (not (file-name-extension name)))
      )))
+
 (provide 'pfn-functions)
 ;;; pfn-functions.el ends here

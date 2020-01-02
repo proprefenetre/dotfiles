@@ -21,6 +21,7 @@ redshift &
 
 mhead -i &
 keeb -q &
+rat.sh &
 dunst &
 
 

@@ -264,11 +264,11 @@
   :config
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
+  (treemacs-fringe-indicator-mode nil)
   (setq treemacs-width 25
         treemacs-position 'right
         treemacs-no-png-images t
-        treemacs-python-executable "/opt/anaconda/bin/python")
+        treemacs-python-executable "/usr/bin/python")
   (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil
@@ -295,12 +295,12 @@
   :commands (projectile-switch-project)
   :config
   (setq flycheck-idle-change-delay 2)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint python-pycompile)))
 
-(use-package symbol-overlay
-  :demand t
-  :config
-  (setq symbol-overlay-displayed-window t))
+;; (use-package symbol-overlay
+;;   :demand t
+;;   :config
+;;   (setq symbol-overlay-displayed-window t))
 
 (use-package highlight-indent-guides
   :demand t

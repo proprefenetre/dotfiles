@@ -16,3 +16,7 @@
  - path :: ~/projects/exercism
 ** clinius
  - path :: ~/projects/repos/clinius
+** adventofcode
+ - path :: ~/projects/repos/adventofcode
+** parsing
+ - path :: ~/projects/repos/parsing

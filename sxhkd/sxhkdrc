@@ -35,7 +35,8 @@ mod4 + a
     win-hide.sh
 
 ## Mouse buttons
-button3 + shift + control
+# button3 + shift + control
+button6 + shift
     precision-mode
 
 ## Hyper 
