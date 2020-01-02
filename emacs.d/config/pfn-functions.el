@@ -92,5 +92,29 @@ Source: https://gist.github.com/Wilfred/f7d61b7cdf9fdbb1d11c."
   (make-local-variable 'company-backends)
   (add-to-list 'company-backends backend))
 
+(defun pfn-hide-tab (x)
+  "Do no to show buffer X in tabs."
+  (let ((name (format "%s" x)))
+    (or
+     (get-file-buffer name)
+     ;; Current window is not dedicated window.
+     (window-dedicated-p (selected-window))
+     ;; Buffer name not match below blacklist.
+     (string-prefix-p "archief" name)
+     (string-prefix-p "*epc" name)
+     (string-prefix-p "*Compile-Log*" name)
+     (string-prefix-p "*lsp" name)
+     (string-prefix-p "*company" name)
+     (string-prefix-p "*Flycheck" name)
+     (string-prefix-p "*tramp" name)
+     (string-prefix-p "*Ediff" name)
+     (string-prefix-p "*anaconda" name)
+     (string-prefix-p "*Quail" name)
+     (string-prefix-p "*WoMan" name)
+     ;; Is not magit buffer.
+     (and (string-prefix-p "magit" name)
+	      (not (file-name-extension name)))
+     )))
+
 (provide 'pfn-functions)
 ;;; pfn-functions.el ends here

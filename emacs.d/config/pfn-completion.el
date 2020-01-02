@@ -11,7 +11,8 @@
         company-selection-wrap-around t
         company-require-match 'never)
   (setq company-backends
-        '(company-files
+        '(company-yasnippet
+          company-files
           company-capf
           company-keywords
           company-dict
@@ -30,13 +31,14 @@
   :config
   (setq company-dict-dir (concat user-emacs-directory "dict/")))
 
-(require 'compdef)
-
-(compdef
- :modes 'org-mode
- :company '(company-yasnippet company-files company-capf company-keywords company-dict
-                              (company-abbrev company-dabbrev company-dabbrev-code))
- :capf 'pcomplete-completions-at-point)
+;; (use-package compdef
+;;   :after company
+;;   :demand t
+;; (compdef
+;;  :modes '(emacs-lisp-mode lisp-interaction-mode ielm-mode)
+;;  :company '(company-capf company-yasnippet company-files company-keywords company-dict
+;;                          (company-abbrev company-dabbrev company-dabbrev-code)))
+;; )
 
 (provide 'pfn-completion)
 ;;; pfn-completion ends here

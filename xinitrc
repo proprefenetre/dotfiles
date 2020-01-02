@@ -19,8 +19,11 @@ unclutter &
 redshift &
 # hsetroot -fill 
 
-mhead &
+mhead -i &
+keeb -q &
+rat.sh &
 dunst &
+
 
 xidlehook --not-when-fullscreen \
           --not-when-audio \
@@ -28,6 +31,6 @@ xidlehook --not-when-fullscreen \
           'xbacklight -set 5' \
           'xbacklight -set 50' \
           --timer primary 300 \
-          'xbacklight -set 50; lock' '' &
+          'xset dpms force off; lock' 'xbacklight -set 50' &
 
 exec bspwm

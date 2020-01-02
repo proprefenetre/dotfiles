@@ -8,11 +8,11 @@ syntax enable
 
 " plugins
 " =======
-call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'w0rp/ale'
-
-call plug#end()
+" call plug#begin('~/.vim/plugged')
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'w0rp/ale'
+" 
+" call plug#end()
 
 " General
 " =======

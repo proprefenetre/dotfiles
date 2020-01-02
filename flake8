@@ -1,0 +1,4 @@
+# -*- mode: Conf -*-
+
+[flake8]
+max_line_length = 120

@@ -2,6 +2,6 @@
 # name: example
 # key: <e
 # --
-#+BEGIN_EXAMPLE
-$1
-#+END_EXAMPLE
+#+begin_example $1
+$2
+#+end_example

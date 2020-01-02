@@ -1,3 +1,5 @@
+# -*- mode: conf -*-
+
 [global]
     ### Display ###
 
@@ -86,7 +88,7 @@
 
     ### Text ###
 
-    font = Monospace 8
+    font = Monospace 10
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -126,7 +128,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>\n%b"
+    format = "%a\n<b>%s</b>\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
@@ -135,7 +137,7 @@
     # Show age of message if message is older than show_age_threshold
     # seconds.
     # Set to -1 to disable.
-    show_age_threshold = 60
+    show_age_threshold = -1
 
     # Split notifications into multiple lines if they don't fit into
     # geometry.
@@ -284,7 +286,7 @@
 [urgency_normal]
     background = "#285577"
     foreground = "#ffffff"
-    timeout = 10
+    timeout = 30
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
