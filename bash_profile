@@ -25,3 +25,5 @@ export npm_config_prefix=~/.node_modules
 
 # fzf
 export FZF_DEFAULT_COMMAND='fd --type f'
+
+export PATH="$HOME/.poetry/bin:$PATH"
