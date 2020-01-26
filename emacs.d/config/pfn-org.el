@@ -27,11 +27,11 @@
         org-pretty-entities t
         org-log-done nil
         org-startup-indented t)
-  (compdef
-   :modes 'org-mode
-   :company '(company-yasnippet company-files company-capf company-keywords company-dict
-                                (company-abbrev company-dabbrev-code))
-   :capf 'pcomplete-completions-at-point)
+  ;; (compdef
+  ;;  :modes 'org-mode
+  ;;  :company '(company-yasnippet company-files company-capf company-keywords company-dict
+  ;;                               (company-abbrev company-dabbrev-code))
+  ;;  :capf 'pcomplete-completions-at-point)
 
   (setq org-capture-templates
         '(("c" "Capture" entry (file "~/org/inbox.org")
@@ -104,7 +104,8 @@
   (org-babel-do-load-languages 'org-babel-load-languages '((ditaa . t)
                                                            (dot . t)
                                                            (shell . t)
-                                                           (python . t)))
+                                                           (python . t)
+                                                           (R . t)))
 
 
   (setq org-latex-create-formula-image-program 'dvipng)

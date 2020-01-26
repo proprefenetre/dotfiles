@@ -1,5 +1,6 @@
-" vimrc -- Sinterklaas 2018 iteration 
+" vimrc -- January 2019 
 " For terminal use only (though not for murder)
+
 " Preamble
 " ========
 set nocompatible
@@ -8,20 +9,102 @@ syntax enable
 
 " plugins
 " =======
-" call plug#begin('~/.vim/plugged')
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'w0rp/ale'
-" 
-" call plug#end()
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'junegunn/fzf.vim'
+Plug '/usr/bin/fzf'
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+Plug 'junegunn/rainbow_parentheses.vim'
+
+Plug 'sheerun/vim-polyglot'
+
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'unblevable/quick-scope'
+let g:qs_enable=0
+
+" Plug 'sirver/ultisnips'
+
+" Plug 'dense-analysis/ale'
+" let g:ale_linters = {'python': ['flake8']}
+
+Plug 'natebosch/vim-lsc'
+let g:lsc_server_commands = {'python': 'pyls'}
+" Use all the defaults (recommended):
+let g:lsc_auto_map = v:true
+
+" Apply the defaults with a few overrides:
+let g:lsc_auto_map = {'defaults': v:true, 'FindReferences': '<leader>r'}
+
+" Setting a value to a blank string leaves that command unmapped:
+let g:lsc_auto_map = {'defaults': v:true, 'FindImplementations': ''}
+
+" ... or set only the commands you want mapped without defaults.
+" Complete default mappings are:
+let g:lsc_auto_map = {
+    \ 'GoToDefinition': '<C-]>',
+    \ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
+    \ 'FindReferences': 'gr',
+    \ 'NextReference': '<C-n>',
+    \ 'PreviousReference': '<C-p>',
+    \ 'FindImplementations': 'gI',
+    \ 'FindCodeActions': 'ga',
+    \ 'Rename': 'gR',
+    \ 'ShowHover': v:true,
+    \ 'DocumentSymbol': 'go',
+    \ 'WorkspaceSymbol': 'gS',
+    \ 'SignatureHelp': 'gm',
+    \ 'Completion': 'completefunc',
+    \}
+
+Plug 'yggdroot/indentline'
+
+Plug 'tomasr/molokai'
+
+Plug 'easymotion/vim-easymotion' 
+let g:EasyMotion_smartcase = 1
+
+Plug 'justinmk/vim-dirvish'
+call plug#end()
 
 " General
 " =======
-hi clear SignColumn	
 
 set backspace=indent,eol,start
 set mouse=a
 
 set encoding=utf-8
+
+set t_Co=256
+colorscheme molokai
+highlight clear LineNr
+highlight clear SignColumn
+
+if has('gui_running')
+    let g:molokai_original = 1
+    set guifont=Fantasque\ Sans\ Mono\ 15
+    set guioptions-=e
+    set guioptions-=m
+    set guioptions-=r
+    set guioptions-=L
+    set guioptions-=T
+endif
 
 set number
 set showcmd
@@ -51,7 +134,7 @@ set statusline+=\ %=%-14.(%l,%c%V%)\ %P
 
 " auto-anything
 " -------------
-set autochdir
+set noautochdir
 set autowriteall
 set autoread
 set autoindent
@@ -73,13 +156,14 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-set formatprg=par\ -w80q
+" set formatprg=par\ -w80q
 
 " swp/backup files
 " ================
 set backupdir=./.backup//,~/.vim/backup//,/tmp//
 set directory=./.swap//,~/.vim/swap//,/tmp//
 set undodir=./.vim/undo//,/tmp//
+
 
 " Functions
 " =========
@@ -169,18 +253,38 @@ endfunction
 " Mappings
 " ========
 
-let mapleader = ","
+let mapleader = ";"
+
+nnoremap , ;
 
 " navigation
 map j gj
 map k gk
 
-nnoremap <leader>q :wq<cr>
+nnoremap <C-a> 0
+nnoremap <C-e> $
 
 inoremap jj <esc>
 
+" Easymotion
+nmap s <Plug>(easymotion-s)
+
+"" JK motions: Line motions
+map <leader>j <Plug>(easymotion-j)
+map <leader>k <Plug>(easymotion-k)
+
+"" Replace search with easymotion n-char 
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+"" command line keys
+cnoremap <c-a> <Home>
+
+nnoremap <c-x>f :FZF<cr>
+
 " windows 'n splits
-nnoremap <c-w><c-v> :vne<cr>
+nnoremap <c-x>3 :vne<cr>
+nnoremap <c-x>2 :new<cr>
 nnoremap <c-w><c-t> :tabedit<cr>
 
 nmap <C-d> <C-w><C-h>
@@ -196,36 +300,17 @@ vnoremap <leader>lr y:s/<C-r>"/
 "Remove all trailing whitespace
 nnoremap <leader>1 :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
-" word count
-nnoremap <leader>2 :!wc -w % <bar> cut -d\  -f1<cr>
-
-" formatting
-nnoremap <leader>3 vapgq
-vnoremap <leader>3 gq
-
 " copy pasta
 nnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
 " editing vimrc
 nnoremap <leader>i :e $MYVIMRC<cr>
-nnoremap <C-c>r: source $MYVIMRC<cr>
-
-" highlight information
-map <F3> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '>
-            \ trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" .
-            \ synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" .
-            \ " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<cr>
-
-" 'run' mapping
-nnoremap <leader>r :call MapR()<cr>
+" nnoremap <leader>r :source $MYVIMRC<cr>
 
 " hide statusline, linenumbers etc.
 nnoremap <silent> <leader><s-h> :call ToggleHideAll()<cr>
 nnoremap <silent> <leader><s-t> :call ToggleTabline()<cr>
-
-" command line keys
-cnoremap <c-a> <Home>
 
 " aliases
 call CommandAlias("reindent", ":!indent -kr %")
@@ -233,6 +318,8 @@ call CommandAlias("W", "w")
 call CommandAlias("Q","q")
 call CommandAlias("Wq","wq")
 call CommandAlias("Sx", ":SudoWrite<cr> :q<cr>")
+
+nnoremap <leader>q :q<cr>
 
 " write as root
 command! Sw :SudoWrite

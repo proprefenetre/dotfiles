@@ -20,3 +20,15 @@
  - path :: ~/projects/repos/adventofcode
 ** parsing
  - path :: ~/projects/repos/parsing
+** textservices
+ - path :: ~/projects/repos/textservices
+** uu-data_science
+ - path :: ~/projects/uu-data_science
+** thesis
+ - path :: ~/projects/repos/thesis
+** icmcis2020
+ - path :: ~/projects/icmcis2020
+** twitter_analysis
+ - path :: ~/projects/repos/twitter_analysis
+** utils
+ - path :: ~/projects/repos/utils

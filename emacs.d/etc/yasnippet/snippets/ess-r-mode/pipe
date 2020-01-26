@@ -1,4 +1,4 @@
-# key: >
+# key: |
 # name: pipe
 # expand-env: ((yas-indent-line 'fixed))
 # --

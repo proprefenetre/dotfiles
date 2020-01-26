@@ -2,6 +2,17 @@
 ;;; Commentary:
 ;;; Code:
 
+(use-package eglot
+  :hook ((python-mode . eglot-ensure)
+         (python-mode . (eglot-workspace-configuration
+                         .
+                         ((pyls.configurationSources . ["flake8"] ))))
+         (ess-r-mode . eglot-ensure))
+  :config
+  (setq eglot-put-doc-in-help-buffer t
+        eglot-auto-display-help-buffer nil
+        eglot-ignored-server-capabilities :documentHighlightProvider))
+
 (use-package company
   :demand t
   :config
@@ -11,25 +22,18 @@
         company-selection-wrap-around t
         company-require-match 'never)
   (setq company-backends
-        '(company-yasnippet
-          company-files
+        '(company-files
+          company-yasnippet
           company-capf
           company-keywords
-          company-dict
           (company-abbrev company-dabbrev company-dabbrev-code)))
   (global-company-mode))
 
-  (use-package company-prescient
-    :after prescient
-    :demand t
-    :config
-    (company-prescient-mode 1))
-
-(use-package company-dict
-  :after company
+(use-package company-prescient
+  :after prescient
   :demand t
   :config
-  (setq company-dict-dir (concat user-emacs-directory "dict/")))
+  (company-prescient-mode 1))
 
 ;; (use-package compdef
 ;;   :after company

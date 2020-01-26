@@ -125,31 +125,18 @@
   (ediff-mode . centaur-tabs-local-mode)
   (org-agenda-mode . centaur-tabs-local-mode)
   :config
-  (setq centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-style "alternate"
+  (setq centaur-tabs-style "alternate"
         centaur-tabs-height 21
         centaur-tabs-set-icons nil
         centaur-tabs-set-modified-marker t
         centaur-tabs-modified-marker "*"
         centaur-tabs-set-bar nil
+        centaur-tabs-cycle-scope 'tabs
         centaur-tabs-hide-tab-function 'pfn-hide-tab)
   (centaur-tabs-mode t))
 
-(use-package key-chord
-  :demand t
-  :config (key-chord-mode 1))
-
-(use-package dumb-jump
-  :ensure t
-  :config (setq dumb-jump-selector 'ivy))
-
-(use-package which-key
-  :demand t
-  :config (which-key-mode 1))
-
-(use-package smex
+(use-package magit
   :demand t)
-
 
 (use-package ivy
   :demand t
@@ -195,8 +182,9 @@
   (setq shackle-default-rule '(:select t :align 'below))
   (shackle-mode 1))
 
-(use-package magit
-  :demand t)
+(use-package dumb-jump
+  :ensure t
+  :config (setq dumb-jump-selector 'ivy))
 
 (use-package rainbow-delimiters
   :demand t
@@ -244,7 +232,6 @@
         yas-wrap-around-region t
         yas-indent-line 'auto
         yas-also-auto-indent-first-line t)
-  ;; (add-to-list 'company-backends 'company-yasnippet)
   (yas-global-mode 1))
 
 (use-package projectile
@@ -297,10 +284,10 @@
   (setq flycheck-idle-change-delay 2)
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint python-pycompile)))
 
-;; (use-package symbol-overlay
-;;   :demand t
-;;   :config
-;;   (setq symbol-overlay-displayed-window t))
+(use-package symbol-overlay
+  :demand t
+  :config
+  (setq symbol-overlay-displayed-window t))
 
 (use-package highlight-indent-guides
   :demand t
@@ -332,8 +319,6 @@
   :config
   (display-line-numbers-mode))
 
-(use-package hydra)
-
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -350,14 +335,6 @@
   :ensure nil
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
-
-;; (use-package pdf-tools
-;;   :pin manual
-;;   :mode "\\.pdf\\'"
-;;   :config
-;;   (pdf-tools-install)
-;;   (setq-default pdf-view-display-size 'fit-page)
-;;   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
 (use-package highlight-numbers)
 
@@ -378,7 +355,6 @@
 
 (use-package embrace
   :config
-  ;; ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))))
   (add-hook 'org-mode-hook 'embrace-org-mode-hook))
 
 (add-hook 'focus-out-hook 'garbage-collect)
@@ -395,7 +371,7 @@
                 highlight-numbers-mode
                 rainbow-delimiters-mode
                 display-line-numbers-mode
-                flycheck-mode))
+                flymake-mode))
   (add-hook 'prog-mode-hook hook))
 
 ;; text-mode hooks
@@ -408,4 +384,5 @@
 
 (setq gc-cons-threshold 20000000
       gc-cons-percentage 0.1)
+
 ;;; Init.el ends here

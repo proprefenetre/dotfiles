@@ -1,6 +1,20 @@
 ;;; pfn-keys.el --- bindings using General.el
 ;;; Commentary:
 ;;; Code:
+
+(use-package key-chord
+  :demand t
+  :config (key-chord-mode 1))
+
+(use-package which-key
+  :demand t
+  :config (which-key-mode 1))
+
+(use-package smex
+  :demand t)
+
+(use-package hydra)
+
 (use-package general
   :demand t
   :config
@@ -16,7 +30,7 @@
     "b" 'ibuffer
     "c" 'capitalize-dwim
     "d" 'dired-jump
-    "e" 'eval-last-sexp
+    ;; "e" 'eval-last-sexp
     "g" 'evil-commentary-yank-line
     "f" 'ffap
     "i" '(lambda () (interactive)
@@ -39,7 +53,7 @@
     ;; "d"
     "C-d" 'dired-jump-other-window
     ;; "e"
-    "f"   'flycheck-list-errors
+    "f"   'flymake-show-diagnostics-buffer
     ;; "g" "h"
     "i"   'ibuffer
     ;; "j"
@@ -75,7 +89,6 @@
     "M-/" 'hippie-expand
     "C-)" 'sp-forward-slurp-sexp
     "C-(" 'sp-add-to-previous-sexp
-    "C-s-s" 'query-replace
     "C-s" 'swiper
     "C-," 'embrace-commander)
 
@@ -90,8 +103,7 @@
 
   (general-def
     :keymaps 'evil-insert-state-map
-    (general-chord "jj") 'evil-normal-state
-    (general-chord "ww") 'evil-window-next)
+    (general-chord "jj") 'evil-normal-state)
 
   (general-def
     :keymaps 'evil-normal-state-map
@@ -109,7 +121,9 @@
     "f" 'avy-goto-char
     "t" 'avy-goto-word-1
     "<tab>" 'centaur-tabs-counsel-switch-group
-    "g" 'dumb-jump-hydra/body)
+    "g" 'dumb-jump-hydra/body
+    "n" 'flymake-goto-next-error
+    "p" 'flymake-goto-prev-error)
 
   (general-def
     :keymaps 'evil-window-map
