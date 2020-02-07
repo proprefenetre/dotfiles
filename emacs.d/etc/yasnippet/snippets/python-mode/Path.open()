@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Path.open()
+# key: .o
+# --
+.open(${1:"r"})$0

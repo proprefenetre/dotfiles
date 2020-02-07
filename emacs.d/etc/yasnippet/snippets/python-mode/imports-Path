@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: imports-Path
+# key: plib
+# --
+from pathlib import Path

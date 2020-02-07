@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: listcomp
+# key: lc
+# --
+[$1 for $1 in $2]

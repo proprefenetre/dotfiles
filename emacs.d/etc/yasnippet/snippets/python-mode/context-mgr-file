@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: context-mgr-file
+# key: wf
+# expand-env: ((yas-indent-line 'fixed))
+# --
+with open($1, "$2") as f:
+    $3
