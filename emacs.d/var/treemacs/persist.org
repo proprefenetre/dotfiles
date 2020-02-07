@@ -26,9 +26,13 @@
  - path :: ~/projects/uu-data_science
 ** thesis
  - path :: ~/projects/repos/thesis
-** icmcis2020
- - path :: ~/projects/icmcis2020
 ** twitter_analysis
  - path :: ~/projects/repos/twitter_analysis
 ** utils
  - path :: ~/projects/repos/utils
+** icmcis
+ - path :: ~/projects/icmcis
+** brat-docker
+ - path :: ~/projects/repos/brat-docker
+** easylabel
+ - path :: ~/projects/repos/easylabel

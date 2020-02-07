@@ -2,7 +2,9 @@
 ;;; commentary:
 ;;; code:
 
+(add-hook 'ess-r-mode-hook 'eglot-ensure)
 (use-package ess)
+
 
 (use-package poly-markdown)
 (use-package poly-R)

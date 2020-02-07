@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: key-val
+# key: ,
+# --
+"$1": "$2",
+$0

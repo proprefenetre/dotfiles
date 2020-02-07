@@ -2,36 +2,40 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package anaconda-mode
-;;   :commands (anaconda-eldoc-mode)
-;;   :hook ((python-mode . anaconda-mode)
-;;          (python-mode . anaconda-eldoc-mode)))
+(defun embrace-python-mode-hook ()
+  "Embrace-add-pair for Python-mode."
+  (dolist (lst '((?~ "\"\"\"" . "\"\"\"")
+                 (?p "Path(" . ")")
+                 (?f "{" . ":}")))
+    (embrace-add-pair (car lst) (cadr lst) (cddr lst))))
 
-;; (use-package company-anaconda
-;;   :hook (python-mode . (lambda ()
-;;                          (pfn-add-company-backend-local
-;;                           'company-anaconda))))
 
 (use-package python-mode
   :ensure nil
   :mode "\\.py\\'"
+  :company '(company-capf company-yasnippet company-files company-dabbrev-code)
+  :capf eglot-completion-at-point
   :config
-  ;; eglot uses flymake
-  ;; (setq flycheck-python-flake8-executable "/usr/bin/flake8"
-  ;;       flycheck-flake8rc "~/.config/flake8")
-  (setq python-flymake-command '("flake8" "-"))
   (setq python-shell-interpreter "/usr/bin/ipython"
         python-shell-interpreter-args "--simple-prompt -i")
-  (setq python-indent-offset 4)
+  (setq python-indent-offset 4))
 
-  (eglot-workspace-configuration
-   .
-   ((pyls.configurationSources . ["flake8"] )))
-  (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))
+(defun pfn-auto-activate-venv ()
+  (f-traverse-upwards
+   (lambda (path)
+     (let ((v-path (f-expand ".venv" path)))
+       (if (f-exists? v-path)
+           (progn
+             (message "Found .venv at %s" v-path)
+             (pyvenv-activate v-path)
+             t)
+         nil))) 
+   default-directory))
 
-(use-package pyvenv)
-
-(use-package blacken)
+(use-package pyvenv
+  :ensure t
+  :hook ((python-mode . pyvenv-mode)
+         (python-mode . pfn-auto-activate-venv)))
 
 (provide 'pfn-python)
 ;;; pfn-python.el ends here

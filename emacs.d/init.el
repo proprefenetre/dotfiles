@@ -1,6 +1,10 @@
+;;; -*- lexical-binding: t -*-
+
 ;;; init.el --- Emacs config, longer by the day
 ;;; Commentary:
 ;;; Code:
+
+(setq-default lexical-binding t)
 
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
@@ -14,7 +18,6 @@
 
 (dolist (archive '(("elpa" . "https://elpa.gnu.org/packages/")
                    ("melpa" . "https://melpa.org/packages/")
-                   ("melpa-stable" . "https://stable.melpa.org/packages/")
                    ("org" . "https://orgmode.org/elpa/")))
   (add-to-list 'package-archives archive))
 
@@ -111,13 +114,13 @@
   (setq doom-one-brighter-comments nil)
   (doom-themes-org-config))
 
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
-  :config
-  ;; doom-modeline-height 11
-  ;; doom-modeline-bar-width 3
-  (setq column-number-mode t
-        doom-modeline-icon t))
+; (use-package doom-modeline
+;   :hook (after-init . doom-modeline-mode)
+;   :config
+;   ;; doom-modeline-height 11
+;   ;; doom-modeline-bar-width 3
+;   (setq column-number-mode t
+;         doom-modeline-icon t))
 
 (use-package centaur-tabs
   :demand t
@@ -132,7 +135,8 @@
         centaur-tabs-modified-marker "*"
         centaur-tabs-set-bar nil
         centaur-tabs-cycle-scope 'tabs
-        centaur-tabs-hide-tab-function 'pfn-hide-tab)
+        ;; centaur-tabs-hide-tab-function 'pfn-hide-tab
+        )
   (centaur-tabs-mode t))
 
 (use-package magit
@@ -232,6 +236,8 @@
         yas-wrap-around-region t
         yas-indent-line 'auto
         yas-also-auto-indent-first-line t)
+  (add-hook 'python-mode-hook
+            '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
   (yas-global-mode 1))
 
 (use-package projectile
@@ -354,8 +360,15 @@
 (use-package realgud)
 
 (use-package embrace
+  :demand t
+  :init
   :config
-  (add-hook 'org-mode-hook 'embrace-org-mode-hook))
+  (add-hook 'org-mode-hook 'embrace-org-mode-hook)
+  (add-hook 'python-mode-hook 'embrace-python-mode-hook))
+
+(use-package vimish-fold
+  :config
+  (vimish-fold-global-mode 1))
 
 (add-hook 'focus-out-hook 'garbage-collect)
 
@@ -370,8 +383,7 @@
                 hs-minor-mode
                 highlight-numbers-mode
                 rainbow-delimiters-mode
-                display-line-numbers-mode
-                flymake-mode))
+                display-line-numbers-mode))
   (add-hook 'prog-mode-hook hook))
 
 ;; text-mode hooks

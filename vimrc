@@ -7,6 +7,11 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
+set backspace=indent,eol,start
+set mouse=a
+
+set t_Co=256
+
 " plugins
 " =======
 
@@ -49,33 +54,11 @@ let g:lsc_server_commands = {'python': 'pyls'}
 " Use all the defaults (recommended):
 let g:lsc_auto_map = v:true
 
-" Apply the defaults with a few overrides:
-let g:lsc_auto_map = {'defaults': v:true, 'FindReferences': '<leader>r'}
-
-" Setting a value to a blank string leaves that command unmapped:
-let g:lsc_auto_map = {'defaults': v:true, 'FindImplementations': ''}
-
-" ... or set only the commands you want mapped without defaults.
-" Complete default mappings are:
-let g:lsc_auto_map = {
-    \ 'GoToDefinition': '<C-]>',
-    \ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
-    \ 'FindReferences': 'gr',
-    \ 'NextReference': '<C-n>',
-    \ 'PreviousReference': '<C-p>',
-    \ 'FindImplementations': 'gI',
-    \ 'FindCodeActions': 'ga',
-    \ 'Rename': 'gR',
-    \ 'ShowHover': v:true,
-    \ 'DocumentSymbol': 'go',
-    \ 'WorkspaceSymbol': 'gS',
-    \ 'SignatureHelp': 'gm',
-    \ 'Completion': 'completefunc',
-    \}
-
 Plug 'yggdroot/indentline'
 
 Plug 'tomasr/molokai'
+
+Plug 'sjl/badwolf/'
 
 Plug 'easymotion/vim-easymotion' 
 let g:EasyMotion_smartcase = 1
@@ -86,26 +69,14 @@ call plug#end()
 " General
 " =======
 
-set backspace=indent,eol,start
-set mouse=a
-
-set encoding=utf-8
-
-set t_Co=256
 colorscheme molokai
+let g:rehash256 = 1
+
 highlight clear LineNr
 highlight clear SignColumn
 
-if has('gui_running')
-    let g:molokai_original = 1
-    set guifont=Fantasque\ Sans\ Mono\ 15
-    set guioptions-=e
-    set guioptions-=m
-    set guioptions-=r
-    set guioptions-=L
-    set guioptions-=T
-endif
-
+set encoding=utf-8
+set hidden
 set number
 set showcmd
 set wildmenu
@@ -160,10 +131,9 @@ set expandtab
 
 " swp/backup files
 " ================
-set backupdir=./.backup//,~/.vim/backup//,/tmp//
-set directory=./.swap//,~/.vim/swap//,/tmp//
-set undodir=./.vim/undo//,/tmp//
-
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+set undodir=$HOME/.vim/undo//
 
 " Functions
 " =========
@@ -273,14 +243,11 @@ nmap s <Plug>(easymotion-s)
 map <leader>j <Plug>(easymotion-j)
 map <leader>k <Plug>(easymotion-k)
 
-"" Replace search with easymotion n-char 
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-
 "" command line keys
 cnoremap <c-a> <Home>
 
-nnoremap <c-x>f :FZF<cr>
+nnoremap <c-x>f :Dirvish<cr>
+nnoremap <c-x>b :Buffers<cr>
 
 " windows 'n splits
 nnoremap <c-x>3 :vne<cr>

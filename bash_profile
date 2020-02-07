@@ -5,6 +5,8 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+export TERM="xterm-256color"
+
 # environment
 export HISTSIZE=50000
 export HISTFILESIZE=50000

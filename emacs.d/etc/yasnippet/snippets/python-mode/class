@@ -1,7 +1,9 @@
-# key: class
+# -*- mode: snippet -*-
 # name: class
+# key: cls
+# expand-env: ((yas-indent-line 'fixed))
 # --
 class $1:
-      def __init__(self${2:, $3}):
-          $4
-      $0
+    def __init__(self${2:, $3}):
+        $4
+    $0

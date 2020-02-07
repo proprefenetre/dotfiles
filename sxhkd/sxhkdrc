@@ -39,6 +39,10 @@ mod4 + a
 button6 + shift
     precision-mode
 
+# screenshot
+Print
+     screenshots.sh
+
 ## Hyper 
 
 # browser
@@ -60,6 +64,7 @@ mod3 + m
 
 mod3 + p
     password-manager.sh
+
 mod3 + {q,r}
     bspc {quit,wm -r}
 

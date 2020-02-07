@@ -64,6 +64,8 @@
   :config
   (setq evil-magit-state 'normal))
 
+(use-package evil-vimish-fold
+  :demand t)
 
 (provide 'pfn-evil)
 ;;; pfn-evil.el ends here
