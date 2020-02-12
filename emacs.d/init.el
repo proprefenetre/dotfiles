@@ -114,13 +114,15 @@
   (setq doom-one-brighter-comments nil)
   (doom-themes-org-config))
 
-; (use-package doom-modeline
-;   :hook (after-init . doom-modeline-mode)
-;   :config
-;   ;; doom-modeline-height 11
-;   ;; doom-modeline-bar-width 3
-;   (setq column-number-mode t
-;         doom-modeline-icon t))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  ;; doom-modeline-height 11
+  ;; doom-modeline-bar-width 3
+  (setq column-number-mode t)
+  (setq doom-modeline-icon t)
+  (setq doom-modeline-buffer-file-name-style 'relative-to-project)
+  )
 
 (use-package centaur-tabs
   :demand t
@@ -361,10 +363,11 @@
 
 (use-package embrace
   :demand t
-  :init
-  :config
-  (add-hook 'org-mode-hook 'embrace-org-mode-hook)
-  (add-hook 'python-mode-hook 'embrace-python-mode-hook))
+  :hook ((org-mode . embrace-org-mode-hook)
+         (python-mode . embrace-python-mode-hook)))
+;; :config
+;; (add-hook 'org-mode-hook 'embrace-org-mode-hook)
+;; (add-hook 'python-mode-hook 'embrace-python-mode-hook))
 
 (use-package vimish-fold
   :config
@@ -388,7 +391,6 @@
 
 ;; text-mode hooks
 (dolist (hook '(hes-mode
-                hs-minor-mode
                 rainbow-delimiters-mode
                 delete-trailing-whitespace
                 turn-on-auto-fill))
