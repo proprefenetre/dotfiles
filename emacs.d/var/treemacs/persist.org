@@ -1,21 +1,16 @@
-* Default Workspace
+* Default Workspaces
 ** org
  - path :: ~/org
 ** .config
  - path :: ~/.config
 ** dotfiles
  - path :: ~/dotfiles
-* Repos
-** simple-frontend
- - path :: ~/projects/repos/simple-frontend
 ** julius
  - path :: ~/projects/repos/julius
 ** qmk_firmware
  - path :: ~/projects/repos/qmk_firmware
 ** exercism
  - path :: ~/projects/exercism
-** clinius
- - path :: ~/projects/repos/clinius
 ** adventofcode
  - path :: ~/projects/repos/adventofcode
 ** parsing
