@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: dataclass
+# key: dcls
+# --
+@dataclass
+class $1:
+      """$2"""
+      $3: $4

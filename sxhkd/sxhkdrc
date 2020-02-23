@@ -53,8 +53,8 @@ mod3 + 2
     emax
 
 # toggle keyboard layout
-mod3 + k ; {t,d,q}
-    keeb {-t,-d,-q}
+mod3 + k 
+    keeb -t
 
 mod3 + l
     lock

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: method
-# key: mth
+# key: defm
 # --
-def ${1:method}(self${2:, $3}):
-    $0
+def $1(self${2:, $3}) -> $4:
+    $5

@@ -3,7 +3,6 @@
 # key: def
 # expand-env: ((yas-indent-line 'fixed))
 # --
-def $1($2):
-    """ $3 """
-    $4
-$0
+def $1($2) -> $3:
+    """ $4 """
+    $5

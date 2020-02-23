@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: typing-ignore
+# key: ign
+# --
+# type: ignore
