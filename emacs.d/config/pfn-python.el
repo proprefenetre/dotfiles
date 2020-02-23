@@ -10,6 +10,7 @@
     (embrace-add-pair (car lst) (cadr lst) (cddr lst))))
 
 (defun pfn-auto-activate-venv ()
+  (interactive)
   (f-traverse-upwards
    (lambda (path)
      (let ((v-path (f-expand ".venv" path)))
@@ -18,7 +19,7 @@
              (message "Found .venv at %s" v-path)
              (pyvenv-activate v-path)
              t)
-         nil))) 
+         nil)))
    default-directory))
 
 (use-package python-mode
@@ -33,8 +34,7 @@
 
 (use-package pyvenv
   :ensure t
-  :hook ((python-mode . pyvenv-mode)
-         (python-mode . pfn-auto-activate-venv)))
+  :hook ((python-mode . pyvenv-mode)))
 
 (provide 'pfn-python)
 ;;; pfn-python.el ends here

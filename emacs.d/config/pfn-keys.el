@@ -25,7 +25,7 @@
     :prefix ",")
 
   (evil-leader
-    :states '(normal visual emacs)
+    :states '(normal visual emacs treemacs)
     :keymaps 'override
     "b" 'ibuffer
     "c" 'capitalize-dwim
@@ -108,13 +108,15 @@
   (general-def
     :keymaps 'evil-normal-state-map
     (general-chord "bi") 'ibuffer
+    (general-chord "tt") 'treemacs
     "s-q" 'kill-this-buffer
     "gt" 'centaur-tabs-forward
     "gT" 'centaur-tabs-backward)
 
   (general-def
     :keymaps 'evil-visual-state-map
-    ")" 'er/expand-region)
+    ")" 'er/expand-region
+    "(" 'er/contract-region)
 
   (general-def
     :keymaps 'goto-map
@@ -134,8 +136,8 @@
     :keymaps 'company-active-map
     "C-w" 'evil-delete-backward-word
     "C-n"  'company-select-next
-    "C-p"  'company-select-next
-    "<tab>" 'company-complete-common
+    "C-p"  'company-select-previous
+    "<tab>" 'company-complete-common-or-cycle
     "<esc>" 'company-cancel)
 
   (general-def
@@ -147,7 +149,7 @@
     :prefix "C-c"
     "a"   'org-agenda-list
     "C-a" 'org-archive-subtree
-    "r"   'org-refile
+    "r"   'org-hydra/body
     "!"   'org-time-stamp-inactive
     )
 
@@ -164,11 +166,6 @@
     :keymaps 'treemacs-mode-map
     :states 'treemacs
     "<up>" 'treemacs-switch-workspace)
-
-  (general-def
-    :keymaps 'python-mode-map
-    :states 'normal
-    "=" 'blacken-buffer))
 
 (provide 'pfn-keys)
 ;;; pfn-keys.el ends here

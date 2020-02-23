@@ -124,12 +124,16 @@
   (setq doom-modeline-buffer-file-name-style 'relative-to-project)
   )
 
+(defun pfn-centaur-tabs-ignore-modes ()
+  (dolist (hook '(ediff-mode-hook
+                  inferior-ess-mode-hook
+                  org-agenda-mode-hook))
+    (add-hook hook 'centaur-tabs-local-mode)))
+
 (use-package centaur-tabs
   :demand t
-  :hook
-  (ediff-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
   :config
+  (pfn-centaur-tabs-ignore-modes)
   (setq centaur-tabs-style "alternate"
         centaur-tabs-height 21
         centaur-tabs-set-icons nil
@@ -201,6 +205,15 @@
                       :inverse-video nil
                       :weight 'normal))
 
+
+(defun bb-sp-pair-newline-and-indent (&rest _)
+  "Create an empty line between two delimiters.
+https://www.reddit.com/r/emacs/comments/f6vnya/how_to_add_a_newline_between_parentheses_brackets/fi7jsvx/. "
+  (save-excursion
+    (newline)
+    (indent-according-to-mode))
+  (indent-according-to-mode))
+
 (use-package smartparens
   :demand t
   :config
@@ -209,6 +222,11 @@
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
   (sp-local-pair 'rust-mode "'" nil :actions nil)
+  (sp-local-pair
+   '(c-mode rust-mode lua-mode python-mode)
+   "{" nil :post-handlers
+   '(:add
+     (bb-sp-pair-newline-and-indent "RET")))
   (add-to-list 'sp-sexp-suffix (list 'rust-mode 'regexp ";"))
   (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
   (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)

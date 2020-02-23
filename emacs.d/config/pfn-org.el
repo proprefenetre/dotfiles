@@ -38,7 +38,7 @@
            "* %?\n")))
 
   (setq org-todo-keywords '((sequence "TODO" "|" "DONE")
-                            (type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "|" "DONE(d)")
+                            (type "AFSPRAAK(a)" "GOOGLE(g)" "READ(r)" "NB(n)" "IDEE(i)" "WATCH(W)" "|" "DONE(d)")
                             (sequence "FIXME(f)" "STARTED(s)" "AFWACHTEN(w)" "BEZIG(b)" "|" "DONE(d)" "CANCELED(c)")))
 
   (setq org-todo-keyword-faces
@@ -47,6 +47,7 @@
           ("BEZIG" . "SpringGreen")
           ("AFWACHTEN" . "SpringGreen" )
           ("READ" . "cyan")
+          ("WATCH" . "cyan")
           ("GOOGLE" . "cyan")
           ("AFSPRAAK" . "magenta")
           ("CANCELED" . "red")
