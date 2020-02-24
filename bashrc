@@ -7,7 +7,9 @@
 
 [[ $- != *i* ]] && return
 
-[[ -n "$SSH_TTY" ]] && PS1="\[\e[1;35m\](SSH) \h \[\e[0m\]\w \$ " || PS1="\h \[\e[1;32m\]\w \$\[\e[0m\] "
+source "/usr/share/git/completion/git-prompt.sh"
+
+[[ -n "$SSH_TTY" ]] && PS1="\[\e[1;35m\](SSH) \h \[\e[0m\]\w \$ " || PS1="\h \[\e[1;32m\]\w \[\e[0m\]\$(__git_ps1 '(%s)') \[\e[1;32m\]\$\[\e[0m\] "
 
 
 # shellcheck disable=SC2046
