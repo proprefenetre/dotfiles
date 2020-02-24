@@ -165,7 +165,7 @@
   (general-def
     :keymaps 'treemacs-mode-map
     :states 'treemacs
-    "<up>" 'treemacs-switch-workspace)
+    "<up>" 'treemacs-switch-workspace))
 
 (provide 'pfn-keys)
 ;;; pfn-keys.el ends here
