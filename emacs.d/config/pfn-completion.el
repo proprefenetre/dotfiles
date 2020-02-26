@@ -25,10 +25,11 @@
 (use-package eglot
   :demand t
   :commands (eglot-ensure eglot-server)
-  :hook ((python-mode . eglot-ensure))
+  :hook ((python-mode . eglot-ensure)
+         (rust-mode . eglot-ensure))
   :config
-  (setq eglot-put-doc-in-help-buffer t
-        eglot-auto-display-help-buffer nil
+  (setq eglot-put-doc-in-help-buffer nil
+        eglot-auto-display-help-buffer t
         eglot-ignored-server-capabilities :documentHighlightProvider))
 
 (use-package company
@@ -57,12 +58,11 @@
   :after company
   :demand t
   :config
-
   (compdef
    :modes 'org-mode
    :company '(company-dabbrev company-capf)
-   :capf 'pcomplete-completions-at-point))
-
+   :capf 'pcomplete-completions-at-point)
+  )
 
 (provide 'pfn-completion)
 ;;; pfn-completion ends here
