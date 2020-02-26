@@ -25,7 +25,7 @@
     :prefix ",")
 
   (evil-leader
-    :states '(normal visual emacs treemacs)
+    :states '(normal visual emacs)
     :keymaps 'override
     "b" 'ibuffer
     "c" 'capitalize-dwim
@@ -55,9 +55,9 @@
     ;; "e"
     "f"   'flymake-show-diagnostics-buffer
     ;; "g" "h"
-    "i"   'ibuffer
+    "i"   'frequent-files/body
     ;; "j"
-    "k"   'counsel-ag
+    ;; "k"   'counsel-ag
     "l"   'org-store-link
     ;; "m" "n" "o"
     "p"   'projectile-command-map
@@ -159,13 +159,11 @@
     "<return>" 'org-return)
 
   (general-def
-    :keymaps 'org-mode-map
-    "C-," 'embrace-commander)
-
-  (general-def
     :keymaps 'treemacs-mode-map
     :states 'treemacs
-    "<up>" 'treemacs-switch-workspace))
+    "<up>" 'treemacs-switch-workspace
+    "<down>" 'treemacs-edit-workspaces
+    (general-chord ",t") 'ace-window))
 
 (provide 'pfn-keys)
 ;;; pfn-keys.el ends here
