@@ -13,11 +13,17 @@
   ("l" dumb-jump-quick-look "Quick look")
   ("b" dumb-jump-back "Back"))
 
-(defhydra org-hydra (:color blue :columns 1)
+(defhydra org-hydra (:color blue :columns 2)
   ("a" org-archive-subtree "Archive")
   ("r" org-refile "Refile"))
 
-;; (defhydra )
-  (provide 'pfn-hydras)
+(defhydra frequent-files (:color blue :columns 3)
+  ("i" (find-file "/home/eigenraam/.emacs.d/init.el") "init.el")
+  ("k" (find-file "/home/eigenraam/.emacs.d/config/pfn-keys.el") "pfn-keys.el")
+  ("k" (find-file "/home/eigenraam/.emacs.d/config/pfn-python.el") "pfn-python.el")
+  ("t" (find-file "/home/eigenraam/org/todo.org") "todo.org")
+  ("b" (find-file "/home/eigenraam/org/inbox.org") "inbox.org"))
+
+(provide 'pfn-hydras)
 
 ;;; pfn-hydras.el ends here
