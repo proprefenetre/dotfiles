@@ -31,3 +31,5 @@
  - path :: ~/projects/repos/brat-docker
 ** easylabel
  - path :: ~/projects/repos/easylabel
+** rust_utils
+ - path :: ~/projects/repos/rust_utils
