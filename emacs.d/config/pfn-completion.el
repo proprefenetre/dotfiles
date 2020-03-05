@@ -58,6 +58,7 @@
   :after company
   :demand t
   :config
+
   (compdef
    :modes 'org-mode
    :company '(company-dabbrev company-capf)

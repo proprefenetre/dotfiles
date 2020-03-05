@@ -25,7 +25,7 @@
 (use-package python-mode
   :ensure nil
   :mode "\\.py\\'"
-  ;; :company '(company-capf company-yasnippet company-files company-dabbrev-code)
+  ;; :company '(company-yasnippet company-files company-dabbrev-code)
   ;; :capf eglot-completion-at-point
   :config
   (setq python-shell-interpreter "/usr/bin/ipython"

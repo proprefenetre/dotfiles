@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: hydras
+# key: defhydra
+# --
+(defhydra ${1:name} (:color $2 :columns $3)
+    ("${4:key}" ${5:function} ${6:repr}))

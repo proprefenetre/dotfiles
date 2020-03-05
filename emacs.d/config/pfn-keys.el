@@ -52,14 +52,16 @@
              (org-capture nil "c"))
     ;; "d"
     "C-d" 'dired-jump-other-window
-    ;; "e"
-    "f"   'flymake-show-diagnostics-buffer
+    "e"   'eglot-hydra/body
+    "f"   'flymake-hydra/body
     ;; "g" "h"
     "i"   'frequent-files/body
     ;; "j"
     ;; "k"   'counsel-ag
     "l"   'org-store-link
-    ;; "m" "n" "o"
+    ;; "m"
+    "n"  'company-complete
+    ;; "o"
     "p"   'projectile-command-map
     ;; "q"
     "R"   '(lambda () (interactive)
@@ -81,7 +83,8 @@
            (other-window 1))
     "3" '(lambda () (interactive)
            (split-window-right)
-           (other-window 1)))
+           (other-window 1))
+    "s" 'smerge-hydra/body)
 
   (general-def
     "<menu>" 'counsel-M-x
@@ -163,7 +166,11 @@
     :states 'treemacs
     "<up>" 'treemacs-switch-workspace
     "<down>" 'treemacs-edit-workspaces
-    (general-chord ",t") 'ace-window))
+    (general-chord ",t") 'ace-window)
+
+  )
+
+
 
 (provide 'pfn-keys)
 ;;; pfn-keys.el ends here
