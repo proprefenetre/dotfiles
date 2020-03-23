@@ -294,7 +294,8 @@
     background = "#900000"
     foreground = "#ffffff"
     frame_color = "#ff0000"
-    timeout = 0
+    geometry = "47x9+745+807"
+    timeout = 120
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
 

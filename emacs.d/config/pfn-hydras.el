@@ -23,7 +23,9 @@
   ("p" (find-file "/home/eigenraam/.emacs.d/config/pfn-python.el") "pfn-python.el")
   ("h" (find-file "/home/eigenraam/.emacs.d/config/pfn-hydras.el") "pfn-hydras.el")
   ("t" (find-file "/home/eigenraam/org/todo.org") "todo.org")
-  ("b" (find-file "/home/eigenraam/org/inbox.org") "inbox.org"))
+  ("b" (find-file "/home/eigenraam/org/inbox.org") "inbox.org")
+  ("n" (find-file "/home/eigenraam/org/notes.org") "notes.org")
+  )
 
 (defhydra smerge-hydra (:color red :columns 2)
   ("m" smerge-keep-mine "keep mine")
@@ -40,5 +42,6 @@
   ("n" flymake-goto-next-error "next")
   ("p" flymake-goto-prev-error "prev")
   ("b" flymake-show-diagnostics-buffer "prev"))
+
 (provide 'pfn-hydras)
 ;;; pfn-hydras.el ends here

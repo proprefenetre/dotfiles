@@ -1,6 +1,12 @@
 ;;; pfn-completion.el --- Eglot & company configuration
 ;;; Commentary:
 ;;; Code:
+(defun pfn-eglot-activate ()
+    "Start language server."
+  (interactive)
+  (eglot-ensure)
+  (message "Eglot started"))
+
 (defun pfn-eglot-python-setup () 
   (interactive)
   (setq eglot-workspace-configuration
@@ -25,8 +31,6 @@
 (use-package eglot
   :demand t
   :commands (eglot-ensure eglot-server)
-  :hook ((python-mode . eglot-ensure)
-         (rust-mode . eglot-ensure))
   :config
   (setq eglot-put-doc-in-help-buffer nil
         eglot-auto-display-help-buffer t
@@ -49,10 +53,10 @@
   (global-company-mode 1))
 
 (use-package company-prescient
-:after prescient
-:demand t
-:config
-(company-prescient-mode 1))
+  :after prescient
+  :demand t
+  :config
+  (company-prescient-mode 1))
 
 (use-package compdef
   :after company
