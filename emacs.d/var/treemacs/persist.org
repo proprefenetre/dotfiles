@@ -8,7 +8,7 @@
 ** julius
  - path :: ~/projects/repos/julius
 ** qmk_firmware
- - path :: ~/projects/repos/qmk_firmware
+ - path :: ~/projects/keyboard/qmk_firmware/keyboards/ergodox_ez/keymaps/proprefenetre
 ** exercism
  - path :: ~/projects/exercism
 ** adventofcode

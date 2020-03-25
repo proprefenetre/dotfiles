@@ -20,10 +20,9 @@ redshift &
 # hsetroot -fill 
 
 mhead -i &
-keeb -q &
+keeb -d &
 rat.sh &
 dunst &
-
 
 xidlehook --not-when-fullscreen \
           --not-when-audio \

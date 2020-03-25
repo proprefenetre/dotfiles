@@ -9,6 +9,8 @@
 # ~[keysym]: captured events will be replayed for the other clients.
 # _:  an empty sequence element.
 
+# mod3 = hyper
+# mod4 = super
 #
 # wm independent hotkeys
 #
@@ -27,21 +29,24 @@ mod4 + space
      dmenu_run -l 5
 
 # MAKE SXHKD reload its configuration files:
-mod4 + Escape
-    pkill -USR1 -x sxhkd && echo "$(date) - reload config" >> ~/files/sxhkd_log
+alt + Escape
+    pkill -USR1 -x sxhkd && echo "$(date) - reload config" >> ~/.config/sxhkd/log
+    # pkill -USR1 -x sxhkd
+    # pkill -USR1 -x sxhkd && echo "$(date) - reload config" >> ~/.config/sxhkd/log && notify-send "sxhkd" "reloaded config"
+    # /home/eigenraam/bin/bspwm-reload-sxhkd.sh
 
 # hide window
 mod4 + a
-    win-hide.sh
+    bspwm-hide-window.sh
 
 ## Mouse buttons
 # button3 + shift + control
 button6 + shift
-    precision-mode
+    trackball-precision-mode.sh
 
 # screenshot
 Print
-     screenshots.sh
+     bspwm-screenshots.sh
 
 ## Hyper 
 
@@ -53,7 +58,7 @@ mod3 + 2
     emax
 
 # toggle keyboard layout
-mod3 + 3
+mod3 + k
      keeb -t
 
 mod3 + l
@@ -65,11 +70,11 @@ mod3 + m
 mod3 + p
     password-manager.sh
 
-mod3 + {q,r}
-    bspc {quit,wm -r}
+mod3 + k
+    bspc quit
 
 mod3 + t
-    toggle-touchpad
+    toggle-touchpad.sh
 
 # scratchterm
 mod3 + u
@@ -106,6 +111,10 @@ mod4 + {_,shift} + r
 mod4 + s ; {t,shift + t,f}
     bspc node -t {tiled,floating,fullscreen}
 
+# toggle fullscreen
+mod4 + f
+     bspwm-toggle-fullscreen.sh
+
 # set the node flags
 mod4 + ctrl + {m,x,y,z}
     bspc node -g {marked,locked,sticky,private}
@@ -115,8 +124,12 @@ mod4 + ctrl + {m,x,y,z}
 #
 
 # focus the node in the given direction
-mod4 + {_,shift + }{d,h,t,n}
-    bspc node --{focus,swap} {west,south,north,east}
+mod4 + {d,h,t,n}
+    bspc node --focus {west,south,north,east}
+
+# swap current node with the node in the given direction
+mod4 + shift + {d,h,t,n}
+    bspc node --swap {west,south,north,east}
 
 # focus the node for the given path jump
 mod4 + {p,b,comma,period}
@@ -181,7 +194,7 @@ mod4 + {Left,Down,Up,Right}
 
 # center
 mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
-     corner -{ul,ll,ur,lr,u,d,l,r,c}
+     bspwm-corner.sh -{ul,ll,ur,lr,u,d,l,r,c}
 
 # volume 
 {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
