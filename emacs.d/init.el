@@ -134,6 +134,7 @@
   :demand t
   :config
   (pfn-centaur-tabs-ignore-modes)
+  (centaur-tabs-group-by-projectile-project)
   (setq centaur-tabs-style "alternate"
         centaur-tabs-height 21
         centaur-tabs-set-icons nil

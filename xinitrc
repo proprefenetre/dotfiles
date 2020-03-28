@@ -15,6 +15,8 @@ xset +fp /usr/share/fonts/local
 xset fp rehash
 xset m 1 0
 
+mount drijf &
+
 unclutter &
 redshift &
 # hsetroot -fill 
@@ -23,6 +25,7 @@ mhead -i &
 keeb -d &
 rat.sh &
 dunst &
+battery-warning &
 
 xidlehook --not-when-fullscreen \
           --not-when-audio \

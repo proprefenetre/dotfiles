@@ -34,3 +34,5 @@ emacs.d/emacs.el
 emacs.d/var/
 emacs.d/etc/custom.el
 .#*
+
+sxhkd/log
