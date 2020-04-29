@@ -19,7 +19,7 @@ mount drijf &
 
 unclutter &
 redshift &
-# hsetroot -fill 
+hsetroot -cover ~/files/pics/falgsc.png &
 
 mhead -i &
 keeb -d &

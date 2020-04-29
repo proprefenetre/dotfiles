@@ -186,7 +186,7 @@ date-alt = " %Y-%m-%d"
 time = "%H:%M "
 time-alt = %H:%M:%S
 
-format: <label>
+format = <label>
 label = %date% %time%
 
 [module/alsa]
