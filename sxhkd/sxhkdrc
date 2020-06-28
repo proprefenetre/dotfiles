@@ -13,12 +13,14 @@
 # wm independent hotkeys
 #
 
+## Super
 # terminal emulator
 mod4 + Return
-    st
+    urxvt
 
+# emacsclient
 mod4 + shift + Return
-    /home/niels/bin/emax
+    emax
 
 # program launcher
 mod4 + space
@@ -26,35 +28,50 @@ mod4 + space
 
 # MAKE SXHKD reload its configuration files:
 mod4 + Escape
-    pkill -USR1 -x sxhkd
+    pkill -USR1 -x sxhkd && echo "$(date) - reload config" >> ~/files/sxhkd_log
 
+# hide window
+mod4 + a
+    win-hide.sh
+
+## Mouse buttons
+# button3 + shift + control
+button6 + shift
+    precision-mode
+
+## Hyper 
+
+# browser
 mod3 + 1
-# mod3 + 1
     firefox-developer-edition
 
 mod3 + 2
-# mod3 + 2
     emax
 
-# trackball precision mode
-button3 + shift + control
-    ~/dotfiles/bspwm/precision-mode.sh
+# toggle keyboard layout
+mod3 + k ; {t,d,q}
+    keeb {-t,-d,-q}
 
-# scratchterm
-# mod3 + u
-mod3 + u
-    ~/dotfiles/bspwm/scratchterm
+mod3 + l
+    lock
 
-# mod3 + e
-#     ~/dotfiles/bspwm/scratchmacs
+mod3 + m
+    macros.sh
 
-mod4 + a
-    ~/dotfiles/bspwm/win-hide.sh
-
-# quit/restart bspwm
-# mod3 + {q,r}
+mod3 + p
+    password-manager.sh
 mod3 + {q,r}
     bspc {quit,wm -r}
+
+mod3 + t
+    toggle-touchpad
+
+# scratchterm
+mod3 + u
+    scratchterm
+
+
+## window stuff 
 
 # close and kill
 mod4 + {_,shift + }c
@@ -81,8 +98,8 @@ mod4 + {_,shift} + r
 #
 
 # set window mode
-mod4 + s ; {t,shift + t,s,f}
-    bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+mod4 + s ; {t,shift + t,f}
+    bspc node -t {tiled,floating,fullscreen}
 
 # set the node flags
 mod4 + ctrl + {m,x,y,z}
@@ -104,17 +121,9 @@ mod4 + {p,b,comma,period}
 mod4 + {_,shift + }Tab
     bspc node -f {next,prev}.local
 
-mod4 + {_,shift + }F1
-    bspc desktop -f {next,prev}.local
-
-# focus the last desktop
-mod4 + grave
-    bspc desktop -f last.local
-
 ## focus other monitor
 mod4 + apostrophe
      bspc monitor -f last
-
 
 # focus the older or newer node in the focus history
 mod4 + {o,i}
@@ -169,9 +178,9 @@ mod4 + {Left,Down,Up,Right}
 mod4 + semicolon; {a,o,e,u,shift + a,shift + o,shift + e,shift + u,semicolon}
      corner -{ul,ll,ur,lr,u,d,l,r,c}
 
-# volume 🗈
-# {XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
-#     amixer set Master {1%+,1%-,toggle}
+# volume 
+{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
+    amixer set Master {1%+,1%-,toggle}
 
-# {XF86MonBrightnessUp,XF86MonBrightnessDown}
-#     xbacklight  {+,-} 1
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+    xbacklight  {+,-} 5

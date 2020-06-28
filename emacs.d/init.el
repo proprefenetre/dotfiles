@@ -1,11 +1,11 @@
-;;; init.el --- guess what
+;;; init.el --- Emacs config, longer by the day
 ;;; Commentary:
-;;; this beast keeps getting longer.
 ;;; Code:
 
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6)
 
+(setq async-bytecomp-allowed-packages '(async magit))
 
 (let ((default-directory "~/.emacs.d/"))
   (normal-top-level-add-subdirs-to-load-path))
@@ -31,14 +31,6 @@
 
 (require 'use-package)
 
-(use-package exec-path-from-shell
-  :demand t
-  :init
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)
-    (setenv "PKG_CONFIG_PATH" "/usr/local/opt/libffi/lib/pkgconfig:/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
-    (message (getenv "PATH"))))
-
 (use-package no-littering
   :demand t
   :config
@@ -54,19 +46,14 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
-;; builtins
-(setq default-frame-alist
-      '((width . 120)
-        (height . 38)
-        (top . 253)
-        (left . 470)))
-
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(menu-bar-mode 1)
+(menu-bar-mode -1)
 (fringe-mode '(8 . 8))
 (recentf-mode)
+(auto-fill-mode -1)
+(abbrev-mode 1)
 
 (setq-default default-input-method "latin-postfix"
               initial-scratch-message ""
@@ -85,13 +72,13 @@
               bookmark-default-file "~/.emacs.d/var/bookmarks"
               TeX-engine 'xelatex
               latex-run-command "xelatex"
-              ;; tramp-default-method "ssh"
-              abbrev-mode t
+              tramp-default-method "ssh"
               save-abbrevs 'silent
               desktop-restore-frames nil
               inhibit-startup-screen t
               auto-fill-function 'do-auto-fill
-              auto-fill-mode -1)
+              browse-url-firefox-program "firefox-developer-edition"
+              browse-url-browser-function 'browse-url-firefox)
 
 (dolist (table abbrev-table-name-list)
   (abbrev-table-put (symbol-value table) :case-fixed t))
@@ -110,6 +97,9 @@
 (require 'pfn-org)
 (require 'pfn-python)
 (require 'pfn-rust)
+(require 'pfn-stats)
+(require 'pfn-hydras)
+(require 'pfn-keys)
 
 (use-package all-the-icons)
 
@@ -129,9 +119,29 @@
   (setq column-number-mode t
         doom-modeline-icon t))
 
+(use-package centaur-tabs
+  :demand t
+  :hook
+  (ediff-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  :config
+  (setq centaur-tabs-cycle-scope 'tabs
+        centaur-tabs-style "alternate"
+        centaur-tabs-height 21
+        centaur-tabs-set-icons nil
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-modified-marker "*"
+        centaur-tabs-set-bar nil
+        centaur-tabs-hide-tab-function 'pfn-hide-tab)
+  (centaur-tabs-mode t))
+
 (use-package key-chord
   :demand t
   :config (key-chord-mode 1))
+
+(use-package dumb-jump
+  :ensure t
+  :config (setq dumb-jump-selector 'ivy))
 
 (use-package which-key
   :demand t
@@ -140,141 +150,6 @@
 (use-package smex
   :demand t)
 
-(use-package general
-  :demand t
-  :config
-  (general-evil-setup)
-  (general-override-mode)
-
-  ;; general keybindings
-  (general-create-definer evil-leader
-    :prefix ",")
-
-  (evil-leader
-    :states '(normal visual emacs)
-    :keymaps 'override
-    ;; "b" '
-    "c" 'capitalize-dwim
-    "d" 'dired-jump
-    "e" 'eval-last-sexp
-    "g" 'evil-commentary-yank-line
-    "f" 'flycheck-list-errors
-    "i" '(lambda () (interactive)
-           (find-file user-init-file))
-    "o" 'olivetti-mode
-    "p" 'counsel-yank-pop
-    "q" 'evil-window-delete
-    "r" '(lambda () (interactive)
-           (revert-buffer :ignore-auto :noconfirm))
-    "n" 'symbol-overlay-rename
-    "s" 'magit-status
-    "t" 'treemacs-select-window
-    "w" 'ace-window)
-
-  (general-def
-    :prefix "C-c"
-    "b"   'counsel-bookmark
-    "c"   '(lambda () (interactive)
-             (org-capture nil "c"))
-    ;; "d"
-    "C-d" 'dired-jump-other-window
-    ;; "e"
-    "f"   'ffap-other-window
-    ;; "g" "h"
-    "i"   'ibuffer
-    ;; "j"
-    "k"   'counsel-ag
-    "l"   'org-store-link
-    ;; "m" "n" "o"
-    "p"   'projectile-command-map
-    ;; "q"
-    "R"   '(lambda () (interactive)
-             (load-file buffer-file-name))
-    "s"   'counsel-rg
-    "t"   'treemacs
-    ;; "u"
-    ;; "v"
-    "w"   'ace-window
-    ;;"x"
-    "C-l" 'comint-clear-buffer)
-
-  (general-def
-    :prefix "C-x"
-    "ESC ESC" 'keyboard-quit
-    "C-b" 'counsel-ibuffer
-    "2" '(lambda () (interactive) 
-           (split-window-below)
-           (other-window 1))
-    "3" '(lambda () (interactive) 
-           (split-window-right)
-           (other-window 1)))
-
-  (general-def
-    "M-x" 'counsel-M-x
-    "M-/" 'hippie-expand
-    "C-)" 'sp-forward-slurp-sexp
-    "C-(" 'sp-add-to-previous-sexp
-    "C-s-s" 'query-replace
-    "C-s" 'swiper)
-
-  (general-mmap
-    "j"   'evil-next-visual-line
-    "k"   'evil-previous-visual-line
-    "C-e" 'evil-end-of-line
-    "[ p" 'evil-paste-before
-    "] p" 'evil-paste-after
-    "`"   'evil-avy-goto-char
-    "C-b" 'mode-line-other-buffer)
-
-  (general-def
-    :keymaps 'evil-insert-state-map
-    (general-chord "jj") 'evil-normal-state
-    (general-chord "ww") 'evil-window-next)
-
-  (general-def
-    :keymaps 'evil-normal-state-map
-    (general-chord "bi") 'ibuffer
-    "s-q" 'kill-this-buffer)
-
-  (general-def
-    :keymaps 'evil-visual-state-map
-    ")" 'er/expand-region)
-
-  (general-def
-    :keymaps 'goto-map
-    "f" 'avy-goto-char
-    "t" 'avy-goto-word-1)
-
-  ;; package specific
-  (general-def
-    :keymaps 'company-active-map
-    "C-w" 'evil-delete-backward-word
-    "C-n"  'company-select-next
-    "C-p"  'company-select-next
-    "<tab>" 'company-complete-common
-    "<esc>" 'company-cancel)
-
-  (general-def
-    :keymaps 'rust-mode-map
-    "C-c <tab>" 'rust-format-buffer)
-
-  (general-def
-    :keymaps 'org-mode-map
-    :prefix "C-c"
-    "a"   'org-agenda-list
-    "C-a" 'org-archive-subtree
-    "r"   'org-refile
-    "!"   'org-time-stamp-inactive)
-
-  (general-def
-    :keymaps 'org-mode-map
-    :states 'normal
-    "<return>" 'org-return)
-
-  (general-def
-    :keymaps 'treemacs-mode-map
-    :states 'treemacs
-    "C-w s" 'treemacs-switch-workspace))
 
 (use-package ivy
   :demand t
@@ -339,6 +214,7 @@
   (sp-local-pair 'org-mode "=" "=")
   (sp-local-pair 'org-mode "/" "/")
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  (sp-local-pair 'rust-mode "'" nil :actions nil)
   (add-to-list 'sp-sexp-suffix (list 'rust-mode 'regexp ";"))
   (set-face-attribute 'sp-show-pair-match-face nil :foreground "#51afef")
   (set-face-attribute 'sp-show-pair-mismatch-face nil :weight 'unspecified :foreground 'unspecified :background 'unspecified)
@@ -374,6 +250,8 @@
 (use-package projectile
   :demand t
   :config
+  (setq projectile-sort-order 'recently-active
+        projectile-completion-system 'ivy)
   (projectile-mode))
 
 (use-package counsel-projectile
@@ -386,11 +264,11 @@
   :config
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
+  (treemacs-fringe-indicator-mode nil)
   (setq treemacs-width 25
         treemacs-position 'right
         treemacs-no-png-images t
-        treemacs-python-executable "/usr/local/bin/python")
+        treemacs-python-executable "/usr/bin/python")
   (treemacs-git-mode 'deferred))
 
 (use-package treemacs-evil
@@ -417,12 +295,12 @@
   :commands (projectile-switch-project)
   :config
   (setq flycheck-idle-change-delay 2)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint python-pycompile)))
 
-(use-package symbol-overlay
-  :demand t
-  :config
-  (setq symbol-overlay-displayed-window t))
+;; (use-package symbol-overlay
+;;   :demand t
+;;   :config
+;;   (setq symbol-overlay-displayed-window t))
 
 (use-package highlight-indent-guides
   :demand t
@@ -473,17 +351,19 @@
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain))
 
-(use-package pdf-tools
-  :pin manual
-  :mode "\\.pdf\\'"
-  :config
-  (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
-  (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
+;; (use-package pdf-tools
+;;   :pin manual
+;;   :mode "\\.pdf\\'"
+;;   :config
+;;   (pdf-tools-install)
+;;   (setq-default pdf-view-display-size 'fit-page)
+;;   (add-hook 'pdf-view-mode-hook '(blink-cursor-mode -1)))
 
 (use-package highlight-numbers)
 
 (use-package highlight-escape-sequences)
+
+(use-package hl-todo)
 
 (use-package persistent-scratch
   :hook (emacs-startup . persistent-scratch-restore)
@@ -496,8 +376,14 @@
 
 (use-package realgud)
 
+(use-package embrace
+  :config
+  ;; ((python-mode . (lambda () (embrace-add-pair ?a "\"\"\"" "\"\"\"" ))))
+  (add-hook 'org-mode-hook 'embrace-org-mode-hook))
+
 (add-hook 'focus-out-hook 'garbage-collect)
 
+(global-hl-todo-mode)
 (global-hl-line-mode)
 (global-auto-revert-mode)
 (global-eldoc-mode)

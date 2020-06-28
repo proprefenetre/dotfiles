@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: closure
+# key: |
+# --
+|$1| $2

@@ -3,15 +3,13 @@
 # config
 bspc config border_width         1
 bspc config window_gap           3
-# bspc config top_padding          21
-
+bspc config top_padding          21
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-bspc config external_rules_command "/home/niels/dotfiles/bspwm/external_rules"
+bspc config external_rules_command "~/dotfiles/bspwm/external_rules"
 
-bspc config automatic_scheme longest_side
 bspc single_monocle true
 
 bspc config ignore_ewmh_fullscreen all
@@ -19,7 +17,7 @@ bspc config ignore_ewmh_fullscreen all
 # rules
 bspc rule -a "Firefox Developer Edition" desktop='^1'
 bspc rule -a mpv state=floating
-bspc rule -a scratchterm sticky=on state=floating hidden=on center=on rectangle=529x330+557+133
+bspc rule -a "URxvt:scratchterm" sticky=on state=floating hidden=on center=on rectangle=1109x690+405+195
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 
@@ -27,7 +25,8 @@ bspc desktop ^1 --layout monocle
 
 # scripts
 sxhkd -m -1 &
-/home/niels/dotfiles/bspwm/pblaunch &
+pblaunch &
 nm-applet &
-/home/niels/dotfiles/bspwm/scratchterm &
-/home/niels/dotfiles/bspwm/mouse-accel.sh &
+scratchterm &
+mouse-accel.sh &
+firefox-developer-edition &

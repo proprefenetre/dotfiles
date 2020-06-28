@@ -1,0 +1,10 @@
+# key: bp
+# name: boilerplate
+# --
+;;; ${1:`(file-name-nondirectory (buffer-file-name))`} --- $2
+;;; Commentary:
+;;; $3
+;;; Code:
+$4
+
+;;; $1 ends here

@@ -29,7 +29,7 @@ alert = #bd2c40
 enable-ipc = true
 
 width = 100%
-height = 16
+height = 21
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -46,8 +46,8 @@ padding-right = 0
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = FantasqueSansMono Nerd Font Mono:style=Regular:size=11;1
-font-1 = Hack Nerd Font Mono:size=11;1
+font-0 = Fantasque Sans Mono:style=Regular:size=11;1
+font-1 = Hack:size=11;1
 font-2 = FontAwesome:pixelsize=10;1
 
 tray-position = right
@@ -63,15 +63,15 @@ cursor-scroll = ns-resize
 [bar/int]
 inherit = bar/general
 
-monitor = ${env:MONITOR:LVDS1}
+monitor = ${env:MONITOR:eDP1}
 
-modules-left = ewmh
+modules-left = workspaces
 modules-center = xwindow
-modules-right = xbacklight alsa cpu battery date
+modules-right = xbacklight cpu alsa battery date
 
 [bar/ext]
 inherit = bar/general
-modules-left = ewmh
+modules-left = workspaces
 modules-center = xwindow
 modules-right = battery date
 
@@ -79,7 +79,7 @@ modules-right = battery date
 type = internal/xwindow
 label = %title:0:30:...%
 
-[module/ewmh]
+[module/workspaces]
 type = internal/xworkspaces
 pin-workspaces = true
 format-padding = 0
@@ -102,6 +102,8 @@ label-empty-foreground = ${colors.foreground-alt}
 type = internal/bspwm
 
 pin-workspaces = true
+label-mode = true
+inline-mode = true
 
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
@@ -125,14 +127,14 @@ label-empty-padding = 1
 [module/xbacklight]
 type = internal/xbacklight
 
-format = br:<label>
+format = br: <label>
 label = %percentage%%
 
 [module/cpu]
 type = internal/cpu
 interval = 2
 
-format = cpu:<label>
+format = cpu: <label>
 label = %percentage%%
 
 [module/memory]
@@ -190,13 +192,13 @@ label = %date% %time%
 [module/alsa]
 type = internal/alsa
 
-format-volume = vol:<label-volume>
+format-volume = vol: <label-volume>
 label-volume = %percentage%%
 label-volume-foreground = ${root.foreground}
 
-format-muted = vol:0%
+format-muted = vol: 0% (m)
 ; format-muted-foreground = ${colors.foreground-alt}
-; label-muted = %percentage%%
+label-muted = %percentage%%
 
 [module/battery]
 type = internal/battery
@@ -204,46 +206,17 @@ battery = BAT0
 adapter = ADP0
 full-at = 98
 
-format-charging = bat:<label-charging>
-label-charging = %percentage%%
+format-charging = bat: <label-charging>
+label-charging = %percentage%% (c)
 
-format-discharging = bat:<label-discharging>
-label-discharging = %percentage%%
+format-discharging = bat: <label-discharging>
+label-discharging = %percentage%% (d)
 
 format-full = bat:<label-full>
 label-full = 100%
 
 ; format-full-prefix-foreground = ${colors.foreground-alt}
 ; format-full-underline = ${self.format-charging-underline}
-
-[module/powermenu]
-type = custom/menu
-
-expand-right = true
-
-format-spacing = 1
-
-label-open =
-label-open-foreground = ${colors.secondary}
-label-close = cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
