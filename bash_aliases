@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
 alias amke='make'
 alias bashrc='emacsclient -n -c ~/.bashrc'
